@@ -23,7 +23,7 @@ public class db : MonoBehaviour
 
     void sqlite_prueba()
     {
-        string conn = "URI=file:" + Application.dataPath + "/Plugins/prueba.db"; //Path to database.
+        string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
         IDbConnection dbconn;
         dbconn = (IDbConnection)new SqliteConnection(conn);
         dbconn.Open(); //Open connection to the database.
