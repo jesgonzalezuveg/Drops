@@ -153,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 766346198, guid: 463285ecd6702471a909ba810832bf0e, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 766346198, guid: 463285ecd6702471a909ba810832bf0e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -175,130 +175,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1528090842}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &467665404
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 467665408}
-  - component: {fileID: 467665407}
-  - component: {fileID: 467665406}
-  - component: {fileID: 467665405}
-  - component: {fileID: 467665409}
-  m_Layer: 0
-  m_Name: Cube
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &467665405
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 467665404}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &467665406
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 467665404}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &467665407
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 467665404}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &467665408
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 467665404}
-  m_LocalRotation: {x: 0.09899609, y: 0.29255548, z: 0.3048597, w: 0.90092826}
-  m_LocalPosition: {x: -0.874619, y: -0.77617264, z: 2.5959542}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 35.98, z: 37.39}
---- !u!114 &467665409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 467665404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 467665406}
-          m_MethodName: set_material
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 2100000, guid: 0edec395166a3244592f3532c7ce794c,
-              type: 2}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!1 &562145719
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,6 +206,942 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &703083790
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3483224311629086452, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_Name
+      value: Teclado
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309693765189, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309693765189, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309726858988, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309726858988, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309792260562, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309792260562, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309812349511, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309812349511, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309818765932, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309818765932, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309818998432, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309818998432, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309819924473, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309819924473, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309843400289, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309843400289, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309858404941, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309858404941, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309974618538, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309974618538, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224309991003184, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224309991003184, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310006092305, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310006092305, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310022381992, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310022381992, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310089111115, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310089111115, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310133545069, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310133545069, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310155182552, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310155182552, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310226299976, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310226299976, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310256275257, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310256275257, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310273966180, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310273966180, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310305528648, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310305528648, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310312592305, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310312592305, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310330081293, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310330081293, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310334117505, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310334117505, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310427106154, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310427106154, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310438779124, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310438779124, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310444863100, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310444863100, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310464899625, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310464899625, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310482586086, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310482586086, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310532246787, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310532246787, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DemoLogin
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310545621777, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310545621777, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310575496762, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310575496762, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310686127293, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310686127293, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310740994273, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310740994273, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BtnMinusculas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310747160178, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310747160178, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310840549352, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310840549352, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310848304087, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310848304087, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310879296163, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310879296163, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310984304458, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310984304458, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickTxtUsuario
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224310999149064, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224310999149064, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311021256097, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311021256097, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311032611518, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311032611518, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311046328663, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311046328663, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311064417693, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311064417693, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311108470769, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311108470769, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311123861724, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311123861724, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311129205956, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311129205956, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickTxtPass
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311134027775, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311134027775, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311138646928, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311138646928, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311141003118, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311141003118, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DeleteChar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311145021135, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311145021135, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311195995705, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311195995705, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BtnOtros
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311196087442, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311196087442, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311256911020, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311256911020, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311291032802, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311291032802, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311307492997, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311307492997, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311315633737, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311315633737, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311355935824, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311355935824, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311387057204, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311387057204, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311432086449, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311432086449, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311448533455, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311448533455, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311477837831, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311477837831, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311546306460, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311546306460, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311582752276, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311582752276, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311615664568, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311615664568, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.533
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1581.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 768.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311629086456, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311653364198, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311653364198, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311658646738, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311658646738, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311731097227, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311731097227, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311757016139, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311757016139, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311760525404, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311760525404, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311760590139, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202330524}
+    - target: {fileID: 3483224311760590139, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetKeyboardInput
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3483224311629086453, guid: 2ec6f5961dbec2445a1dd3a38916bf7d, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 2ec6f5961dbec2445a1dd3a38916bf7d, type: 3}
+--- !u!1001 &750175501
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1068807725567070335, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_Name
+      value: KeyboardManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068807725567070329, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1068807725567070328, guid: 76ecd0da4bcc2214fba53bf0fc9f415f, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 76ecd0da4bcc2214fba53bf0fc9f415f, type: 3}
+--- !u!1 &1131979166 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3483224311629086452, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 703083790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1131979167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131979166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739800cd36aba44e9b04ce977e5784bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreReversedGraphics: 1
+  blockingObjects: 0
+  blockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!1 &1202330523 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1068807725567070335, guid: 76ecd0da4bcc2214fba53bf0fc9f415f,
+    type: 3}
+  m_PrefabInstance: {fileID: 750175501}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1202330524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202330523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a59af8e9c9882a945a1cfe2c5993cbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  display: {fileID: 0}
+  passDisplay: {fileID: 0}
+  teclasLetras: {fileID: 0}
+  teclasOtros: {fileID: 0}
+  focusTxtUsuario: 1
 --- !u!1 &1430501659
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,7 +1340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 424718, guid: 5ca80f4596fa44b87912a0592346d260, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 424718, guid: 5ca80f4596fa44b87912a0592346d260, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -654,7 +1466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 498412, guid: 970dd4b9371394fb4890965f608d46fd, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 498412, guid: 970dd4b9371394fb4890965f608d46fd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
