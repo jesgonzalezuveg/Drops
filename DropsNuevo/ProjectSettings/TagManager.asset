@@ -3,26 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - MultiR1
-  - MultiR2
-  - MultiR3
-  - MultiR4
-  - MultiR5
-  - Q1.1
-  - Q1.2
-  - Q1.3
-  - Q1.4
-  - Q3.1
-  - Q3.2
-  - Q3.3
-  - Q3.4
-  - Par1.1
-  - Par1.2
-  - Par2.1
-  - Par2.2
-  - Par3.1
-  - Par3.2
+  tags: []
   layers:
   - Default
   - TransparentFX

@@ -5,43 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Scenes/Drops.unity
-    guid: ee70aa18a2c69f144a0d580c2dd298b5
-  - enabled: 0
-    path: Assets/Scenes/mainScene.unity
-    guid: 48b48290d56b6436a90f062af2d7d8e9
-  - enabled: 0
-    path: Assets/Scenes/Drops2.unity
-    guid: c97d3a5f134294079839bc8b0f968f5e
-  - enabled: 0
-    path: Assets/Scenes/nuevaScenas/oculus.unity
-    guid: dfec100ba68de46009c0d510762bde5a
   - enabled: 1
-    path: Assets/Scenes/nuevaScenas/Login.unity
-    guid: f66039a4b52e64325b9aea848c378dc2
-  - enabled: 1
-    path: Assets/Scenes/nuevaScenas/menuScene.unity
-    guid: 375050b6c95234202b20b016acf0f770
-  - enabled: 1
-    path: Assets/Scenes/nuevaScenas/nCienciasSociales.unity
-    guid: fc610a0a810fe403fae7596f123ab355
-  - enabled: 0
-    path: Assets/Scenes/nuevaScenas/nCienciasNaturales.unity
-    guid: a3d31294097064edd908933088ceee4f
-  - enabled: 0
-    path: Assets/Scenes/nuevaScenas/nIdiomas.unity
-    guid: c9d39398d62354128a29987c57aaaf7c
-  - enabled: 0
-    path: Assets/Scenes/nuevaScenas/nCienciasExactas.unity
-    guid: b48014fe514574d7a89853730838b33e
-  - enabled: 0
-    path: Assets/Scenes/nuevaScenas/nCienciasExperimentales.unity
-    guid: 696e3ba30ce32456eadb04daf960aa00
+    path: Assets/Development/Abraham/test.unity
+    guid: e60e223d3b074c9439e3c3176a3de818
   m_configObjects: {}
