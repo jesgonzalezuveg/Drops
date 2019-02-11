@@ -15,6 +15,8 @@ public class db : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //StartCoroutine(WebServiceCodigo.insertarCodigo("XdKpla"));
+        StartCoroutine(WebServiceCodigo.obtenerCodigo("XdKpla", 1));
         code = generateCode();
         GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
     }
