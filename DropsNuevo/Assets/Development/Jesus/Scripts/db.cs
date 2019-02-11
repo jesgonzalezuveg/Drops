@@ -6,6 +6,8 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 using Random = System.Random;
+using System.Dynamic;
+using Object = System.Object;
 
 public class db : MonoBehaviour
 {
@@ -15,10 +17,11 @@ public class db : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(WebServiceCodigo.insertarCodigo("XdKpla"));
-        StartCoroutine(WebServiceCodigo.obtenerCodigo("XdKpla", 1));
-        code = generateCode();
-        GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
+        sqlite_prueba();
+        //code = generateCode();
+        //StartCoroutine(WebServiceCodigo.obtenerCodigo("XdKpla", 1));
+        //StartCoroutine(WebServiceCodigo.insertarCodigo(code));
+        //GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
     }
 
     // Update is called once per frame
@@ -101,7 +104,6 @@ public class db : MonoBehaviour
         return result;
     }
 
-
     void sqlite_prueba()
     {
         string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
@@ -110,18 +112,47 @@ public class db : MonoBehaviour
         dbconn.Open(); //Open connection to the database.
 
         IDbCommand dbcmd = dbconn.CreateCommand();
-        string sqlQuery = "SELECT * FROM info";
+        string sqlQuery = "SELECT * FROM codigo";
         dbcmd.CommandText = sqlQuery;
         IDataReader reader = dbcmd.ExecuteReader();
-
+        //List<Data> listCodes = new List<Data>();
+        //Debug.Log(reader);
+        dynamic output = new List<dynamic>();
         while (reader.Read())
         {
-            int id = reader.GetInt32(0);
-            string nombre = reader.GetString(1);
-            int edad = reader.GetInt32(2);
+            // Create a new dynamic ExpandoObject
+            dynamic row = new ExpandoObject();
+            Object[] values = new Object[reader.FieldCount];
+            int fieldCount = reader.GetValues(values);
+            for (int i = 0; i < fieldCount; i++) {
+                string name = reader.GetName(i);
+                row.name = reader.GetValue(i);
+            }
 
-            Debug.Log("id= " + id + "  nombre =" + nombre + "  edad =" + edad);
+            output.Add(row);
+
+
+            //Data data = new Data();
+
+            /*data.id = reader.GetInt32(0);
+            data.descripcion = reader.GetString(1);
+            data.status = reader.GetInt32(2);
+            data.fechaRegistro = reader.GetString(3);
+            data.fechaModificacion = reader.GetString(4);
+            listCodes.Add(data);*/
         }
+        Debug.Log(output);
+
+        foreach (var codigo in output) {
+            Debug.Log(codigo.id);
+            Debug.Log(codigo.descripcion);
+            Debug.Log(codigo.status);
+            Debug.Log(codigo.fechaRegistro);
+            Debug.Log(codigo.fechaModificacion);
+        }
+       // return listCodes;*/
+
+
         reader.Close();
         reader = null;
         dbcmd.Dispose();
@@ -129,5 +160,4 @@ public class db : MonoBehaviour
         dbconn.Close();
         dbconn = null;
     }
-
 }
