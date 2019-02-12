@@ -17,13 +17,18 @@ public class db : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //"INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())"
-        //"SELECT * FROM codigo"
-        selectGeneral();
+
+        Debug.Log("Hola Mundo");
+        //string query = "DELETE FROM codigo WHERE id=32;";
+        //string query = "UPDATE codigo SET descripcion = 'test1111', status = 1 WHERE id = 32; ";
+        //string query = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime());";
+        //string query = "SELECT * FROM codigo";
+        //Debug.Log(conexionDB.alterGeneral(query));
+        //Debug.Log(conexionDB.selectGeneral(query));
         //code = generateCode();
         //StartCoroutine(WebServiceCodigo.obtenerCodigo("XdKpla", 1));
         //StartCoroutine(WebServiceCodigo.insertarCodigo(code));
-        //GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
+        GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
     }
 
     // Update is called once per frame
@@ -61,7 +66,7 @@ public class db : MonoBehaviour
 
         var finalString = new String(stringChars);
         string query = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('"+ finalString + "', 0, datetime(), datetime())";
-        var result = alterGeneral(query);
+        var result = conexionDB.alterGeneral(query);
 
         if (result == 1)
         {
@@ -76,82 +81,5 @@ public class db : MonoBehaviour
             Debug.Log(result);
             return "Error al insertar";
         }
-    }
-
-    private IDbConnection crearConexionDB() {
-        string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
-        IDbConnection dbconn;
-        dbconn = (IDbConnection)new SqliteConnection(conn);
-        dbconn.Open(); //Open connection to the database.
-        return dbconn;
-    }
-
-    private IDbCommand crearComandoDB(IDbConnection conexion, string query) {
-        IDbCommand dbcmd = conexion.CreateCommand();
-        //string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())";
-        string sqlQuery = query;
-        dbcmd.CommandText = sqlQuery;
-        return dbcmd;
-    }
-
-    private void cerrarConexionDB(IDbConnection dbconn, IDbCommand dbcmd) {
-        dbcmd.Dispose();
-        dbcmd = null;
-
-        dbconn.Close();
-        dbconn = null;
-    }
-
-    /** Función que sirve para guardar el códifo generado
-    *
-    *@param  chars Lista de caracteres 
-    *@param  stringChars Contenedor de los 8 caracteres que contendra el codigo
-    *@param  random Funcion para elección aleatoria
-    *@param  finalString Código obtentido
-    **/
-    private int alterGeneral(string query) {
-
-        IDbConnection dbconn = crearConexionDB();
-        IDbCommand dbcmd = crearComandoDB(dbconn, query);
-        var result = dbcmd.ExecuteNonQuery();
-
-        cerrarConexionDB(dbconn, dbcmd);
-
-        return result;
-    }
-
-    void selectGeneral() {
-        IDbConnection dbconn = crearConexionDB();
-        string query = "SELECT * FROM catalogoAcciones";
-        IDbCommand dbcmd = crearComandoDB(dbconn, query);
-        IDataReader reader = dbcmd.ExecuteReader();
-        //List<String> firstList = new List<String>();
-        int fieldCount;
-        string json = "";
-        while (reader.Read()) {
-            json = json + "{";
-            //List<String> listToAdd = new List<String>();
-            // Create a new dynamic ExpandoObject
-            Object[] values = new Object[reader.FieldCount];
-            fieldCount = reader.GetValues(values);
-            for (int i = 0; i < fieldCount; i++) {
-                //listToAdd.Add(reader.GetValue(i).ToString());
-                if (i == (fieldCount - 1)) {
-                    json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "'";
-                } else {
-                    json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "', ";
-                }
-            }
-            //firstList.AddRange(listToAdd);
-            json = json + "},";
-        }
-
-        json = json.Remove(json.Length - 1);
-
-
-        reader.Close();
-        reader = null;
-        cerrarConexionDB(dbconn, dbcmd);
-
     }
 }
