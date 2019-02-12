@@ -17,11 +17,14 @@ public class db : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sqlite_prueba();
-        //code = generateCode();
+        //"INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())"
+        //"SELECT * FROM codigo"
+
+        //sqlite_prueba();
+        code = generateCode();
         //StartCoroutine(WebServiceCodigo.obtenerCodigo("XdKpla", 1));
         //StartCoroutine(WebServiceCodigo.insertarCodigo(code));
-        //GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
+        GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
     }
 
     // Update is called once per frame
@@ -65,16 +68,40 @@ public class db : MonoBehaviour
         {
             Debug.Log("Se inserto correctamente");
             Debug.Log(finalString);
+            Debug.Log(result);
             return finalString;
         }
         else
         {
             Debug.Log("Error al insertar");
+            Debug.Log(result);
             return "Error al insertar";
         }
     }
 
+    private IDbConnection crearConexionDB() {
+        string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
+        IDbConnection dbconn;
+        dbconn = (IDbConnection)new SqliteConnection(conn);
+        dbconn.Open(); //Open connection to the database.
+        return dbconn;
+    }
 
+    private IDbCommand crearComandoDB(IDbConnection conexion, string query) {
+        IDbCommand dbcmd = conexion.CreateCommand();
+        //string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())";
+        string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())";
+        dbcmd.CommandText = sqlQuery;
+        return dbcmd;
+    }
+
+    private void cerrarConexionDB(IDbConnection dbconn, IDbCommand dbcmd) {
+        dbcmd.Dispose();
+        dbcmd = null;
+
+        dbconn.Close();
+        dbconn = null;
+    }
 
     /** Función que sirve para guardar el códifo generado
     *
@@ -83,23 +110,13 @@ public class db : MonoBehaviour
     *@param  random Funcion para elección aleatoria
     *@param  finalString Código obtentido
     **/
-    private int saveCode(string code)
-    {
-        string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
-        IDbConnection dbconn;
-        dbconn = (IDbConnection)new SqliteConnection(conn);
-        dbconn.Open(); //Open connection to the database.
+    private int alterGeneral(string query) {
 
-        IDbCommand dbcmd = dbconn.CreateCommand();
-        string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('"+code+ "', 0, datetime(), datetime())";
-        dbcmd.CommandText = sqlQuery;
+        IDbConnection dbconn = crearConexionDB();
+        IDbCommand dbcmd = crearComandoDB(dbconn, query);
         var result = dbcmd.ExecuteNonQuery();
 
-        dbcmd.Dispose();
-        dbcmd = null;
-
-        dbconn.Close();
-        dbconn = null;
+        cerrarConexionDB(dbconn, dbcmd);
 
         return result;
     }
@@ -115,40 +132,29 @@ public class db : MonoBehaviour
         string sqlQuery = "SELECT * FROM codigo";
         dbcmd.CommandText = sqlQuery;
         IDataReader reader = dbcmd.ExecuteReader();
+        //List<String> firstList = new List<String>();
+        int fieldCount;
+        string json= "";
         while (reader.Read())
         {
-            string[,] regiones = new string[,] { { "Argentina", "Brasil", "Peru" }, { "USA", ";Mexico", "Costa Rica" } };
+            json = json + "{";
+            //List<String> listToAdd = new List<String>();
             // Create a new dynamic ExpandoObject
-            dynamic row = new ExpandoObject();
             Object[] values = new Object[reader.FieldCount];
-            int fieldCount = reader.GetValues(values);
+            fieldCount = reader.GetValues(values);
             for (int i = 0; i < fieldCount; i++) {
-                json = json+ '"' +reader.GetName(i)+'"';
-                json = json + ':"';
-                row.id = reader.GetValue(i);
+                //listToAdd.Add(reader.GetValue(i).ToString());
+                if (i==(fieldCount-1)) {
+                    json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "'";
+                } else {
+                    json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "', ";
+                }
             }
-
-
-
-            //Data data = new Data();
-
-            /*data.id = reader.GetInt32(0);
-            data.descripcion = reader.GetString(1);
-            data.status = reader.GetInt32(2);
-            data.fechaRegistro = reader.GetString(3);
-            data.fechaModificacion = reader.GetString(4);
-            listCodes.Add(data);*/
+            //firstList.AddRange(listToAdd);
+            json = json + "},";
         }
-        Debug.Log(output);
 
-        foreach (var codigo in output) {
-            Debug.Log(codigo.id);
-            Debug.Log(codigo.descripcion);
-            Debug.Log(codigo.status);
-            Debug.Log(codigo.fechaRegistro);
-            Debug.Log(codigo.fechaModificacion);
-        }
-       // return listCodes;*/
+        json = json.Remove(json.Length - 1);
 
 
         reader.Close();
