@@ -115,21 +115,19 @@ public class db : MonoBehaviour
         string sqlQuery = "SELECT * FROM codigo";
         dbcmd.CommandText = sqlQuery;
         IDataReader reader = dbcmd.ExecuteReader();
-        //List<Data> listCodes = new List<Data>();
-        //Debug.Log(reader);
-        dynamic output = new List<dynamic>();
         while (reader.Read())
         {
+            string[,] regiones = new string[,] { { "Argentina", "Brasil", "Peru" }, { "USA", ";Mexico", "Costa Rica" } };
             // Create a new dynamic ExpandoObject
             dynamic row = new ExpandoObject();
             Object[] values = new Object[reader.FieldCount];
             int fieldCount = reader.GetValues(values);
             for (int i = 0; i < fieldCount; i++) {
-                string name = reader.GetName(i);
-                row.name = reader.GetValue(i);
+                json = json+ '"' +reader.GetName(i)+'"';
+                json = json + ':"';
+                row.id = reader.GetValue(i);
             }
 
-            output.Add(row);
 
 
             //Data data = new Data();
