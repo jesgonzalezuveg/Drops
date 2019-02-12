@@ -19,12 +19,11 @@ public class db : MonoBehaviour
     {
         //"INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())"
         //"SELECT * FROM codigo"
-
-        //sqlite_prueba();
-        code = generateCode();
+        selectGeneral();
+        //code = generateCode();
         //StartCoroutine(WebServiceCodigo.obtenerCodigo("XdKpla", 1));
         //StartCoroutine(WebServiceCodigo.insertarCodigo(code));
-        GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
+        //GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
     }
 
     // Update is called once per frame
@@ -61,8 +60,8 @@ public class db : MonoBehaviour
         }
 
         var finalString = new String(stringChars);
-
-        var result = saveCode(finalString);
+        string query = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('"+ finalString + "', 0, datetime(), datetime())";
+        var result = alterGeneral(query);
 
         if (result == 1)
         {
@@ -90,7 +89,7 @@ public class db : MonoBehaviour
     private IDbCommand crearComandoDB(IDbConnection conexion, string query) {
         IDbCommand dbcmd = conexion.CreateCommand();
         //string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())";
-        string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())";
+        string sqlQuery = query;
         dbcmd.CommandText = sqlQuery;
         return dbcmd;
     }
@@ -121,22 +120,15 @@ public class db : MonoBehaviour
         return result;
     }
 
-    void sqlite_prueba()
-    {
-        string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
-        IDbConnection dbconn;
-        dbconn = (IDbConnection)new SqliteConnection(conn);
-        dbconn.Open(); //Open connection to the database.
-
-        IDbCommand dbcmd = dbconn.CreateCommand();
-        string sqlQuery = "SELECT * FROM codigo";
-        dbcmd.CommandText = sqlQuery;
+    void selectGeneral() {
+        IDbConnection dbconn = crearConexionDB();
+        string query = "SELECT * FROM catalogoAcciones";
+        IDbCommand dbcmd = crearComandoDB(dbconn, query);
         IDataReader reader = dbcmd.ExecuteReader();
         //List<String> firstList = new List<String>();
         int fieldCount;
-        string json= "";
-        while (reader.Read())
-        {
+        string json = "";
+        while (reader.Read()) {
             json = json + "{";
             //List<String> listToAdd = new List<String>();
             // Create a new dynamic ExpandoObject
@@ -144,7 +136,7 @@ public class db : MonoBehaviour
             fieldCount = reader.GetValues(values);
             for (int i = 0; i < fieldCount; i++) {
                 //listToAdd.Add(reader.GetValue(i).ToString());
-                if (i==(fieldCount-1)) {
+                if (i == (fieldCount - 1)) {
                     json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "'";
                 } else {
                     json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "', ";
@@ -159,9 +151,8 @@ public class db : MonoBehaviour
 
         reader.Close();
         reader = null;
-        dbcmd.Dispose();
-        dbcmd = null;
-        dbconn.Close();
-        dbconn = null;
+        cerrarConexionDB(dbconn, dbcmd);
+
+        return json;
     }
 }
