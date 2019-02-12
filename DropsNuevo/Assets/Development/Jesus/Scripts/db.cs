@@ -115,40 +115,37 @@ public class db : MonoBehaviour
         string sqlQuery = "SELECT * FROM codigo";
         dbcmd.CommandText = sqlQuery;
         IDataReader reader = dbcmd.ExecuteReader();
+        //List<String> firstList = new List<String>();
+        int fieldCount;
+        string json= "";
         while (reader.Read())
         {
-            string[,] regiones = new string[,] { { "Argentina", "Brasil", "Peru" }, { "USA", ";Mexico", "Costa Rica" } };
+            json = json + "{";
+            //List<String> listToAdd = new List<String>();
             // Create a new dynamic ExpandoObject
-            dynamic row = new ExpandoObject();
             Object[] values = new Object[reader.FieldCount];
-            int fieldCount = reader.GetValues(values);
+            fieldCount = reader.GetValues(values);
             for (int i = 0; i < fieldCount; i++) {
-                json = json+ '"' +reader.GetName(i)+'"';
-                json = json + ':"';
-                row.id = reader.GetValue(i);
+                //listToAdd.Add(reader.GetValue(i).ToString());
+                if (i==(fieldCount-1)) {
+                    json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "'";
+                } else {
+                    json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "', ";
+                }
             }
-
-
-
-            //Data data = new Data();
-
-            /*data.id = reader.GetInt32(0);
-            data.descripcion = reader.GetString(1);
-            data.status = reader.GetInt32(2);
-            data.fechaRegistro = reader.GetString(3);
-            data.fechaModificacion = reader.GetString(4);
-            listCodes.Add(data);*/
+            //firstList.AddRange(listToAdd);
+            json = json + "},";
         }
-        Debug.Log(output);
 
-        foreach (var codigo in output) {
-            Debug.Log(codigo.id);
-            Debug.Log(codigo.descripcion);
-            Debug.Log(codigo.status);
-            Debug.Log(codigo.fechaRegistro);
-            Debug.Log(codigo.fechaModificacion);
-        }
-       // return listCodes;*/
+        json = json.Remove(json.Length - 1);
+        Debug.Log(json);
+        /*string[] terms = firstList.ToArray();
+        for (int i=0; i<terms.Length; i++) {
+            Debug.Log(terms[i]);
+            Debug.Log("----------");
+        }*/
+
+
 
 
         reader.Close();
