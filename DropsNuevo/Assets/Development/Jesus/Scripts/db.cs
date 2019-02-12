@@ -17,11 +17,14 @@ public class db : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sqlite_prueba();
-        //code = generateCode();
+        //"INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())"
+        //"SELECT * FROM codigo"
+
+        //sqlite_prueba();
+        code = generateCode();
         //StartCoroutine(WebServiceCodigo.obtenerCodigo("XdKpla", 1));
         //StartCoroutine(WebServiceCodigo.insertarCodigo(code));
-        //GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
+        GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text= code2;
     }
 
     // Update is called once per frame
@@ -65,16 +68,40 @@ public class db : MonoBehaviour
         {
             Debug.Log("Se inserto correctamente");
             Debug.Log(finalString);
+            Debug.Log(result);
             return finalString;
         }
         else
         {
             Debug.Log("Error al insertar");
+            Debug.Log(result);
             return "Error al insertar";
         }
     }
 
+    private IDbConnection crearConexionDB() {
+        string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
+        IDbConnection dbconn;
+        dbconn = (IDbConnection)new SqliteConnection(conn);
+        dbconn.Open(); //Open connection to the database.
+        return dbconn;
+    }
 
+    private IDbCommand crearComandoDB(IDbConnection conexion, string query) {
+        IDbCommand dbcmd = conexion.CreateCommand();
+        //string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())";
+        string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())";
+        dbcmd.CommandText = sqlQuery;
+        return dbcmd;
+    }
+
+    private void cerrarConexionDB(IDbConnection dbconn, IDbCommand dbcmd) {
+        dbcmd.Dispose();
+        dbcmd = null;
+
+        dbconn.Close();
+        dbconn = null;
+    }
 
     /** Función que sirve para guardar el códifo generado
     *
@@ -83,23 +110,13 @@ public class db : MonoBehaviour
     *@param  random Funcion para elección aleatoria
     *@param  finalString Código obtentido
     **/
-    private int saveCode(string code)
-    {
-        string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
-        IDbConnection dbconn;
-        dbconn = (IDbConnection)new SqliteConnection(conn);
-        dbconn.Open(); //Open connection to the database.
+    private int alterGeneral(string query) {
 
-        IDbCommand dbcmd = dbconn.CreateCommand();
-        string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('"+code+ "', 0, datetime(), datetime())";
-        dbcmd.CommandText = sqlQuery;
+        IDbConnection dbconn = crearConexionDB();
+        IDbCommand dbcmd = crearComandoDB(dbconn, query);
         var result = dbcmd.ExecuteNonQuery();
 
-        dbcmd.Dispose();
-        dbcmd = null;
-
-        dbconn.Close();
-        dbconn = null;
+        cerrarConexionDB(dbconn, dbcmd);
 
         return result;
     }
@@ -138,14 +155,6 @@ public class db : MonoBehaviour
         }
 
         json = json.Remove(json.Length - 1);
-        Debug.Log(json);
-        /*string[] terms = firstList.ToArray();
-        for (int i=0; i<terms.Length; i++) {
-            Debug.Log(terms[i]);
-            Debug.Log("----------");
-        }*/
-
-
 
 
         reader.Close();
