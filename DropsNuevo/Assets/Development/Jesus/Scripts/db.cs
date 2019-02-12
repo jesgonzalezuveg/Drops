@@ -153,6 +153,5 @@ public class db : MonoBehaviour
         reader = null;
         cerrarConexionDB(dbconn, dbcmd);
 
-        return json;
     }
 }
