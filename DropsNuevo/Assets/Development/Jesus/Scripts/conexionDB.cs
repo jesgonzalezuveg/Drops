@@ -8,6 +8,11 @@ using Object = System.Object;
 
 public class conexionDB : MonoBehaviour
 {
+    /** Funcion que sirve para generar la conexion a la base de datos
+    *
+    *@param  conn es la ruta donde se encuentra la base de datos local
+    *@param  dbconn donde se crea el objeto conexion
+    **/
     private IDbConnection crearConexionDB() {
         string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
         IDbConnection dbconn;
