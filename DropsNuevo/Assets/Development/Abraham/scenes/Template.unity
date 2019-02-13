@@ -1023,6 +1023,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: GetKeyboardInput
       objectReference: {fileID: 0}
+    - target: {fileID: 3483224311129205962, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_ContentType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483224311129205962, guid: 2ec6f5961dbec2445a1dd3a38916bf7d,
+        type: 3}
+      propertyPath: m_InputType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3483224311629086453, guid: 2ec6f5961dbec2445a1dd3a38916bf7d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2ec6f5961dbec2445a1dd3a38916bf7d, type: 3}
@@ -1137,11 +1147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59af8e9c9882a945a1cfe2c5993cbdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  display: {fileID: 0}
-  passDisplay: {fileID: 0}
-  teclasLetras: {fileID: 0}
-  teclasOtros: {fileID: 0}
-  focusTxtUsuario: 1
 --- !u!1 &1430501659
 GameObject:
   m_ObjectHideFlags: 0

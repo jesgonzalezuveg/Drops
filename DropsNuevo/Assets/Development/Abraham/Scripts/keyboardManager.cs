@@ -115,7 +115,8 @@ public class keyboardManager : MonoBehaviour {
      * @param
      */
     public void DemoLogin() {
-        Debug.Log("Usuario: " + userInput.GetComponentInChildren<Text>().text + "\nContraseña: " + passInput.GetComponentInChildren<Text>().text);
-        SceneManager.LoadScene(1);
+        StartCoroutine(webServiceLogin.OnResponse(userInput.GetComponentInChildren<Text>().text, passInput.GetComponentInChildren<Text>().text));
+
+        //SceneManager.LoadScene(1);
     }
 }
