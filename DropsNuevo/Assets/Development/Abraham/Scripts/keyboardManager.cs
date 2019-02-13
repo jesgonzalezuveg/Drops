@@ -6,16 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class keyboardManager : MonoBehaviour {
 
-    GameObject userInput;
-    GameObject passInput;
-    GameObject teclasLetras;
-    GameObject teclasOtros;
+    GameObject userInput;                   //< InputField que almacena los datos de correo o matricula de usuario
+    GameObject passInput;                   //< InputField que almacena los datos de contraseña del usuario
+    GameObject teclasLetras;                //< Conjunto de botones que simulan las teclas de un teclado
+    GameObject teclasOtros;                 //< Conjunto de botones que simulan las teclas especiales de un teclado
 
-    bool isMinusculas = false;
-    bool btnOtros = true;
-    public bool focusTxtUsuario = true;
+    bool isMinusculas = false;              //< Bandera que detecta si esta o no en mayusculas el teclado
+    bool btnOtros = true;                   //< Bandera que detecta si estan activadas o no las teclas especiales
+    bool focusTxtUsuario = true;            //< Bandera que nos dice cual Input esta usando
 
-    // Use this for initialization
+    /**
+     * Función que se llama al inicio de la escena 
+     *
+     */ 
     void Start() {
         userInput = GameObject.Find("inputMatricula");
         passInput = GameObject.Find("inputContraseña");
@@ -24,11 +27,14 @@ public class keyboardManager : MonoBehaviour {
         teclasOtros.SetActive(false);
     }
 
+    /**
+     * Función que se manda llamar al hacer click en una tecla del teclado
+     * @param key, caracter que escribira en el input que se tenga seleccionado
+     */ 
     public void GetKeyboardInput(string key) {
         if (isMinusculas) {
             key = key.ToLower();
         }
-
         if (focusTxtUsuario) {
             userInput.GetComponent<InputField>().text += key;
         } else {
@@ -36,6 +42,10 @@ public class keyboardManager : MonoBehaviour {
         }
     }
 
+    /**
+     * Función que elimina el ultimo caracter de el input que se tiene seleccionado
+     * @param
+     */ 
     public void DeleteChar() {
         if (focusTxtUsuario) {
             if (userInput.GetComponent<InputField>().text != "") {
@@ -49,6 +59,10 @@ public class keyboardManager : MonoBehaviour {
 
     }
 
+    /**
+     * Función que activa o desactiva las mayusculas
+     * @param
+     */
     public void BtnMinusculas() {
         isMinusculas = !isMinusculas;
 
@@ -63,11 +77,20 @@ public class keyboardManager : MonoBehaviour {
         }
     }
 
+    /**
+     * Función que activa o desactiva los caracteres especiales
+     * @param
+     */ 
     public void BtnOtros() {
         btnOtros = !btnOtros;
         teclasOtros.SetActive(!btnOtros);
     }
 
+
+    /**
+     * Función que activa el input de matricula o correo usuario
+     * @param
+     */ 
     public void ClickTxtUsuario() {
         focusTxtUsuario = true;
         userInput.GetComponent<Image>().color = new Color(1, 1, 0.8f);
@@ -75,6 +98,10 @@ public class keyboardManager : MonoBehaviour {
         print("usuario");
     }
 
+    /**
+     * Función que activa el input de contraseña
+     * @param
+     */
     public void ClickTxtPass() {
         focusTxtUsuario = false;
         userInput.GetComponent<Image>().color = Color.white;
@@ -82,6 +109,11 @@ public class keyboardManager : MonoBehaviour {
         print("pass");
     }
 
+
+    /**
+     * Función que se activa cuando el usuario da click en el boton continuar
+     * @param
+     */
     public void DemoLogin() {
         Debug.Log("Usuario: " + userInput.GetComponentInChildren<Text>().text + "\nContraseña: " + passInput.GetComponentInChildren<Text>().text);
         SceneManager.LoadScene(1);

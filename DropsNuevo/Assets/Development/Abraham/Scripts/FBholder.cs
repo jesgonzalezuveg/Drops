@@ -12,8 +12,9 @@ public class FBholder : MonoBehaviour {
             FB.Init(() => {
                 if (FB.IsInitialized) {
                     FB.ActivateApp();
+                    friendsTxt.text = "Activate APP";
                 } else {
-                    Debug.Log("Fallo al iniciar");
+                    friendsTxt.text = "Fallo al iniciar";
                 }
             }, isGameShown => {
                 if (!isGameShown) {
@@ -24,6 +25,20 @@ public class FBholder : MonoBehaviour {
             });
         } else {
             FB.ActivateApp();
+        }
+    }
+
+    bool bandera = false;
+
+    private void Update() {
+        if (FB.IsLoggedIn) {
+            if (!bandera) {
+                friendsTxt.text = "Bienvenido: ";
+                getCorreo();
+            }
+            bandera = true;
+        } else {
+            friendsTxt.text = "No estas logeado";
         }
     }
 
@@ -59,6 +74,17 @@ public class FBholder : MonoBehaviour {
             foreach (var friend in friendsList) {
                 friendsTxt.text += ((Dictionary<string, object>)friend)["name"];
             }
+        });
+    }
+
+    public void getCorreo() {
+        string strCorreo = "";
+        string query = "/me?fields=email";
+        FB.API(query, HttpMethod.GET, result => {
+            var dictionary = (Dictionary<string, object>)Facebook.MiniJSON.Json.Deserialize(result.RawResult);
+            var friendsList = (string)dictionary["email"];
+            friendsTxt.text += friendsList;
+            
         });
     }
 
