@@ -22,7 +22,7 @@ public class WebServiceCodigo : MonoBehaviour {
     }
 
     // Use this for initialization
-    public static IEnumerator insertarCodigo(String codigo) {
+    public static IEnumerator insertarCodigo(string codigo) {
         //Start the fading process
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
@@ -47,7 +47,7 @@ public class WebServiceCodigo : MonoBehaviour {
     }
 
 
-    public static IEnumerator obtenerCodigo(String codigo, int status) {
+    public static IEnumerator obtenerCodigo(string codigo, int status) {
         //Start the fading process
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
@@ -68,15 +68,19 @@ public class WebServiceCodigo : MonoBehaviour {
                 text = www.downloadHandler.text;
                 text = text.Replace("[", "");
                 text = text.Replace("]", "");
-                Debug.Log(text);
+                //Debug.Log(text);
 
                 //Data2 jsonResponse = JsonUtility.FromJson<Data2>(text);
-                Data data = JsonUtility.FromJson<Data>(text);
-                Debug.Log(data.id);
-                Debug.Log(data.descripcion);
-                Debug.Log(data.status);
-                Debug.Log(data.fechaRegistro);
-                Debug.Log(data.fechaModificacion);
+                if (text=="0") {
+                    //Debug.Log("No se encontro el código");
+                    pairingCode.status = text;
+                    pairingCode.valCodigoSii = 0;
+                } else {
+                    //Debug.Log("Se encontro el código");
+                    Data data = JsonUtility.FromJson<Data>(text);
+                    pairingCode.status = data.status;
+                    pairingCode.valCodigoSii = 1;
+                }
             }
         }
     }

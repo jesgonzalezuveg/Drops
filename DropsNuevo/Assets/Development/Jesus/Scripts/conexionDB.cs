@@ -56,33 +56,39 @@ public class conexionDB : MonoBehaviour
         return result;
     }
 
-    public static String selectGeneral(string query) {
+    public static string selectGeneral(string query) {
         conexionDB connect = new conexionDB();
         IDbConnection dbconn = connect.crearConexionDB();
         IDbCommand dbcmd = connect.crearComandoDB(dbconn, query);
         IDataReader reader = dbcmd.ExecuteReader();
-        if (reader.Read()) {
-            //List<String> firstList = new List<String>();
-            int fieldCount;
-            string json = "";
-            while (reader.Read()) {
-                json = json + "{";
-                //List<String> listToAdd = new List<String>();
-                // Create a new dynamic ExpandoObject
-                Object[] values = new Object[reader.FieldCount];
-                fieldCount = reader.GetValues(values);
-                for (int i = 0; i < fieldCount; i++) {
-                    //listToAdd.Add(reader.GetValue(i).ToString());
-                    if (i == (fieldCount - 1)) {
-                        json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "'";
-                    } else {
-                        json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "', ";
-                    }
-                }
-                //firstList.AddRange(listToAdd);
-                json = json + "},";
-            }
+        Debug.Log(reader.RecordsAffected);
 
+        //List<String> firstList = new List<String>();
+        int fieldCount;
+        string json = "";
+        while (reader.Read()) {
+            json = json + "{";
+            //List<String> listToAdd = new List<String>();
+            // Create a new dynamic ExpandoObject
+            Object[] values = new Object[reader.FieldCount];
+            fieldCount = reader.GetValues(values);
+            for (int i = 0; i < fieldCount; i++) {
+                //listToAdd.Add(reader.GetValue(i).ToString());
+                if (i == (fieldCount - 1)) {
+                    json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "'";
+                } else {
+                    json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "', ";
+                }
+            }
+            //firstList.AddRange(listToAdd);
+            json = json + "},";
+        }
+
+        if (json=="") {
+            //Debug.Log("No tiene datos");
+            return "0";
+        } else {
+            //Debug.Log("Tiene datos");
             json = json.Remove(json.Length - 1);
 
 
@@ -91,8 +97,6 @@ public class conexionDB : MonoBehaviour
             connect.cerrarConexionDB(dbconn, dbcmd);
 
             return json;
-        } else {
-            return "0";
         }
     }
 }
