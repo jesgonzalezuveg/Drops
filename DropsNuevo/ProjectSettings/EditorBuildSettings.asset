@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Development/Abraham/scenes/facebookLogin.unity
     guid: c5980f730fcbd8b4b850f4de65bc9633
   - enabled: 1
-    path: Assets/Development/Abraham/scenes/Template.unity
+    path: Assets/Development/Abraham/scenes/login.unity
     guid: 7326f6df50c1df740adc207b03f3b35c
+  - enabled: 1
+    path: Assets/Development/Abraham/scenes/template.unity
+    guid: 88d63eb425a462840bcfd4b2cbe828c0
   m_configObjects: {}

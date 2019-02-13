@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
 using UnityEngine.Networking;
@@ -10,11 +11,7 @@ public class webServiceLogin : MonoBehaviour {
     private const string USUARIO_DATA = "http://siid.uveg.edu.mx/core/api/apiUsuarios.php";
     private const string API_KEY = "AJFFF-ASFFF-GWEGG-WEGERG-ERGEG-EGERG-ERGEG";//KEY falsa, remplazar por autentica
     public Text responseText;
-    public appManager appManager;
-
-    private void Start() {
-        appManager = GameObject.Find("AppManager").GetComponent<appManager>();
-}
+    public GameObject manager;
 
     [Serializable]
     public class Data {
@@ -86,12 +83,12 @@ public class webServiceLogin : MonoBehaviour {
 
     }
 
-    public static IEnumerator OnResponse(string usuario, string contraseña) {
+    public static IEnumerator getUserData(string usuario, string contraseña) {
         //Start the fading process
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
-        form.AddField("data", "{\"usuario\": \"10002080\"}");
+        form.AddField("data", "{\"usuario\": " + usuario + ", \"contrasena\": " + contraseña + "}");
         //byte[] rawFormData = form.data;
         using (UnityWebRequest www = UnityWebRequest.Post(USUARIO_DATA, form)) {
             //www.chunkedTransfer = false;
@@ -106,7 +103,49 @@ public class webServiceLogin : MonoBehaviour {
                 text = text.Replace("]", "");
                 Debug.Log(text);
                 JsonResponse data = JsonUtility.FromJson<JsonResponse>(text);
-                Debug.Log(data.data.Correo);
+                keyboardManager.sesion = data.estatusCode;
+                appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                manager.setNombre(data.data.Nombre);
+                manager.setPApellido(data.data.PrimerApellido);
+                manager.setSApellido(data.data.SegundoApellido);
+                manager.setCorreo(data.data.Correo);
+                manager.setImagen(data.data.Imagen);
+                if (data.estatusCode == "001") {
+                    SceneManager.LoadScene("template");
+                } else {
+
+                }
+            }
+        }
+    }
+
+    public static IEnumerator getUserData(string usuario) {
+        //Start the fading process
+        WWWForm form = new WWWForm();
+        Dictionary<string, string> headers = form.headers;
+        headers["Authorization"] = API_KEY;
+        form.AddField("data", "{\"usuario\": \"10002080\", \"contrasena\": \"12345\"}");
+        //byte[] rawFormData = form.data;
+        using (UnityWebRequest www = UnityWebRequest.Post(USUARIO_DATA, form)) {
+            //www.chunkedTransfer = false;
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError) {
+                Debug.Log(www.error);
+            } else {
+                string text;
+                text = www.downloadHandler.text;
+                text = text.Replace("[", "");
+                text = text.Replace("]", "");
+                JsonResponse data = JsonUtility.FromJson<JsonResponse>(text);
+                keyboardManager.sesion = data.estatusCode;
+                appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                manager.setNombre(data.data.Nombre);
+                manager.setPApellido(data.data.PrimerApellido);
+                manager.setSApellido(data.data.SegundoApellido);
+                manager.setCorreo(data.data.Correo);
+                manager.setImagen(data.data.Imagen);
+                SceneManager.LoadScene("template");
             }
         }
     }

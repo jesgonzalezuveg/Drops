@@ -2,6 +2,7 @@
 using UnityEngine;
 using Facebook.Unity;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FBholder : MonoBehaviour {
 
@@ -82,9 +83,10 @@ public class FBholder : MonoBehaviour {
         string query = "/me?fields=email";
         FB.API(query, HttpMethod.GET, result => {
             var dictionary = (Dictionary<string, object>)Facebook.MiniJSON.Json.Deserialize(result.RawResult);
-            var friendsList = (string)dictionary["email"];
-            friendsTxt.text += friendsList;
-            
+            var email = (string)dictionary["email"];
+            friendsTxt.text += email;
+            appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+            StartCoroutine(webServiceLogin.getUserData(email));
         });
     }
 

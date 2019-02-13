@@ -11,9 +11,12 @@ public class keyboardManager : MonoBehaviour {
     GameObject teclasLetras;                //< Conjunto de botones que simulan las teclas de un teclado
     GameObject teclasOtros;                 //< Conjunto de botones que simulan las teclas especiales de un teclado
 
+    public static string sesion;
+
     bool isMinusculas = false;              //< Bandera que detecta si esta o no en mayusculas el teclado
     bool btnOtros = true;                   //< Bandera que detecta si estan activadas o no las teclas especiales
     bool focusTxtUsuario = true;            //< Bandera que nos dice cual Input esta usando
+    bool clickLogin = false;
 
     /**
      * Función que se llama al inicio de la escena 
@@ -30,7 +33,7 @@ public class keyboardManager : MonoBehaviour {
     /**
      * Función que se manda llamar al hacer click en una tecla del teclado
      * @param key, caracter que escribira en el input que se tenga seleccionado
-     */ 
+     */
     public void GetKeyboardInput(string key) {
         if (isMinusculas) {
             key = key.ToLower();
@@ -115,8 +118,7 @@ public class keyboardManager : MonoBehaviour {
      * @param
      */
     public void DemoLogin() {
-        StartCoroutine(webServiceLogin.OnResponse(userInput.GetComponentInChildren<Text>().text, passInput.GetComponentInChildren<Text>().text));
-
-        //SceneManager.LoadScene(1);
+        StartCoroutine(webServiceLogin.getUserData(userInput.GetComponentInChildren<Text>().text, passInput.GetComponentInChildren<Text>().text));
+        clickLogin = true;
     }
 }
