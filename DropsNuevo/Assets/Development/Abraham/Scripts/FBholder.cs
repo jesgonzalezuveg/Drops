@@ -6,16 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class FBholder : MonoBehaviour {
 
-    public Text friendsTxt;
+    bool bandera = false;       ///< bandera Valida si se tiene o no una sesion de facebook activa para buscar el correo desde facebook y verifica si existe en UVEG
 
+    /**
+     * Función que se manda llamar antes que inicie la escena
+     * inicializa el servicio de Facebook
+     */
     void Awake() {
         if (!FB.IsInitialized) {
             FB.Init(() => {
                 if (FB.IsInitialized) {
                     FB.ActivateApp();
-                    friendsTxt.text = "Activate APP";
                 } else {
-                    friendsTxt.text = "Fallo al iniciar";
+
                 }
             }, isGameShown => {
                 if (!isGameShown) {
@@ -29,64 +32,47 @@ public class FBholder : MonoBehaviour {
         }
     }
 
-    bool bandera = false;
-
+    /**
+     * Función que se manda llamar cada frame de la aplicación
+     * Verifica si existe una sesión en facebook
+     * en caso que exista una sesion ejecuta el metodo getCorreo();
+     */ 
     private void Update() {
         if (FB.IsLoggedIn) {
             if (!bandera) {
-                friendsTxt.text = "Bienvenido: ";
                 getCorreo();
             }
             bandera = true;
         } else {
-            friendsTxt.text = "No estas logeado";
+
         }
     }
 
+    /**
+     * Función que se manda llamar al momento de precionar el boton login con Facebook
+     * solicita los permisos que el usuario debe aceptar en el popUp de facebook 
+     */
     public void facebookLogin() {
+        bandera = false;
         var permisos = new List<string>() { "public_profile","email","user_friends"};
         FB.LogInWithReadPermissions(permisos);
     }
 
-    public void facebookLogout() {
-        FB.LogOut();
-    }
-
-    public void facebookShare() {
-        FB.ShareLink(new System.Uri("https://resocoder.com"), "Check it out", "Hola",new System.Uri("http://resocoder.com/wp-content/uploads/2017/01/logoRound512.png"));
-
-    }
-
-
-    public void facebookGameRequest() {
-        FB.AppRequest("Come and play this awesome game", title: "Drops project");
-    }
-
-    public void facebookInvite() {
-        //FB.Mobile.AppInvite(new System.Uri("https://play.google.com/store/apps/....."));
-    }
-
-    public void getFriendsPlayingThisGame() {
-        string query = "/me/friends";
-        FB.API(query, HttpMethod.GET, result => {
-            var dictionary = (Dictionary<string, object>)Facebook.MiniJSON.Json.Deserialize(result.RawResult);
-            var friendsList = (List<object>)dictionary["data"];
-            friendsTxt.text = "";
-            foreach (var friend in friendsList) {
-                friendsTxt.text += ((Dictionary<string, object>)friend)["name"];
-            }
-        });
-    }
-
+    /**
+     * Función que obtiene el correo electronico de Facebook y ejecuta una busqueda en la Base de datos de UVEG
+     * 
+     */ 
     public void getCorreo() {
-        string strCorreo = "";
-        string query = "/me?fields=email";
+        string query = "/me?fields=email,name,picture.type(large)";
         FB.API(query, HttpMethod.GET, result => {
             var dictionary = (Dictionary<string, object>)Facebook.MiniJSON.Json.Deserialize(result.RawResult);
             var email = (string)dictionary["email"];
-            friendsTxt.text += email;
+            var name = (string)dictionary["name"];
+            var imagen = (Dictionary<string,object>)dictionary["picture"];
+            var data = (Dictionary<string, object>)imagen["data"];
+            var img = (string)data["url"];
             appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
-            StartCoroutine(webServiceLogin.getUserData(email));
+            StartCoroutine(webServiceLogin.getUserData(email,name,img));
         });
     }
 

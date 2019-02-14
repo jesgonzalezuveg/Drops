@@ -1,23 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class mainMenuManager : MonoBehaviour {
 
+    /**
+     * Función que se ejecuta al pulzar el boton login con pair code
+     * 
+     */
     public void pairCode() {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("sampleScene");
     }
 
-    public void facebookLogin() {
-        SceneManager.LoadScene(2);
-    }
-
-    public void invitado() {
-        SceneManager.LoadScene("");
-    }
-
+    /**
+     * Función que se ejecuta al pulzar el boton login
+     * 
+     */
     public void login() {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene("login");
+    }
+
+    /**
+     * Función que se ejecuta al pulzar el boton login invitado
+     * 
+     */
+    public void invitado() {
+        SceneManager.LoadScene("template");
     }
 }
