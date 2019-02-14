@@ -117,10 +117,12 @@ public class webServiceLogin : MonoBehaviour {
                         manager.setNombre(nombreCompleto);
                         manager.setCorreo(data.data.Correo);
                         manager.setImagen(data.data.Imagen);
-                        if (consultarUsuarioSqLite(data.data.Correo) == 1) {
+                        if (consultarUsuarioSqLite(data.data.Correo) == "1") {
+                            insertarLogSqLite(data.data.Usuario);
                             SceneManager.LoadScene("template");
                         } else {
                             if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio) == 1) {
+                                insertarLogSqLite(data.data.Usuario);
                                 SceneManager.LoadScene("template");
                             } else {
                                 Debug.Log("Fallo el insert");
@@ -159,27 +161,37 @@ public class webServiceLogin : MonoBehaviour {
                 JsonResponse data = JsonUtility.FromJson<JsonResponse>(text);
                 appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
                 if (data.data.Usuario != "") {
+                    //Si existe un usuario en campus
                     string nombreCompleto = data.data.Nombre + " " + data.data.PrimerApellido + " " + data.data.SegundoApellido;
                     manager.setNombre(nombreCompleto);
                     manager.setCorreo(data.data.Correo);
                     manager.setImagen(data.data.Imagen);
-                    if (consultarUsuarioSqLite(data.data.Correo) == 1) {
+                    if (consultarUsuarioSqLite(data.data.Usuario) != "0") {
+                        insertarLogSqLite(data.data.Usuario);
                         SceneManager.LoadScene("template");
                     } else {
                         if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio) == 1) {
+                            insertarLogSqLite(data.data.Usuario);
                             SceneManager.LoadScene("template");
                         } else {
                             Debug.Log("Fallo el insert");
                         }
                     }
                 } else {
-                    if (insertarUsuarioSqLite(usuario, name, "invitadoFacebook", "", "") == 1) {
-                        manager.setNombre(name);
-                        manager.setCorreo(usuario);
-                        manager.setImagen(imagen);
+                    ///
+                    manager.setNombre(name);
+                    manager.setCorreo(usuario);
+                    manager.setImagen(imagen);
+                    if (consultarUsuarioSqLite(usuario) != "0") {
+                        insertarLogSqLite(usuario);
                         SceneManager.LoadScene("template");
                     } else {
-                        Debug.Log("Fallo el insert");
+                        if (insertarUsuarioSqLite(usuario, name, "usuarioFacebook", "", "") == 1) {
+                            insertarLogSqLite(data.data.Usuario);
+                            SceneManager.LoadScene("template");
+                        } else {
+                            Debug.Log("Fallo el insert");
+                        }
                     }
                 }
             }
@@ -206,16 +218,47 @@ public class webServiceLogin : MonoBehaviour {
     }
 
     /**
-     * Función que consulta si es que el usuario que esta ingresado ya esta dado de alta
-     * @param usuario matricula o correo electronico del usuario
-     */ 
-    public static int consultarUsuarioSqLite(string usuario) {
-        string query = "SELECT * FROM usuario WHERE usuario = '" + usuario + "';";
+     * Función que inseta los datos del log
+     * @param usuario matricula o correo del usuario
+     * @param nombre nombre del usuario
+     */
+    public static int insertarLogSqLite(string usuario) {
+        string id = consultarIdUsuarioSqLite(usuario);
+        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idCodigo, idUsuario) VALUES (dateTime(), '', '" + SystemInfo.deviceModel + "',0,0,'" + id + "');";
+        //Debug.Log(query);
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
         } else {
             return 0;
+        }
+    }
+
+    /**
+     * Función que consulta si es que el usuario que esta ingresado ya esta dado de alta
+     * @param usuario matricula o correo electronico del usuario
+     */
+    public static string consultarUsuarioSqLite(string usuario) {
+        string query = "SELECT * FROM usuario WHERE usuario = '" + usuario + "';";
+        var result = conexionDB.selectGeneral(query);
+        print("*********"+result+"***************");
+        return result;
+    }
+
+    /**
+     * Función que consulta el id del usuario
+     * @param usuario matricula o correo electronico del usuario
+     */
+    public static string consultarIdUsuarioSqLite(string usuario) {
+        string query = "SELECT id FROM usuario WHERE usuario = '" + usuario + "';";
+        var result = conexionDB.selectGeneral(query);
+        result = result.Replace("{'id': '", "");
+        result = result.Replace("'}", "");
+        //print(result);
+        if (result != "") {
+            return result;
+        } else {
+            return "No hay datos";
         }
     }
 }
