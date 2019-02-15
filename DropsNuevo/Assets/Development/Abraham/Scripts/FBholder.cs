@@ -72,7 +72,7 @@ public class FBholder : MonoBehaviour {
             var data = (Dictionary<string, object>)imagen["data"];
             var img = (string)data["url"];
             appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
-            StartCoroutine(webServiceLogin.getUserData(email,name,img));
+            StartCoroutine(webServiceUsuario.getUserData(email,name,img));
         });
     }
 

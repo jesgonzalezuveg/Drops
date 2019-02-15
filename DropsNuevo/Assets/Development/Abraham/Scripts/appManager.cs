@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 
 public class appManager : MonoBehaviour {
-    
+
+    private string Usuario = "";            ///< Usuario almacena el usuario que utiliza la aplicación
     private string Nombre = "";             ///< Nombre almacena el nombre del usuario que utiliza la aplicación
     private string Correo = "";             ///< Correo almacena el correo con el cual la cuenta esta vinculada
     private string Imagen = "";             ///< Imagen almacena la imagen, ya sea de facebook o bien de UVEG de la persona que utiliza la aplicación
+
 
     /**
      * Función que se llama antes de iniciar la escena
@@ -17,6 +20,19 @@ public class appManager : MonoBehaviour {
      */ 
     public void Awake() {
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    void OnApplicationQuit() {
+        webServiceRegistro.insertarRegistroSqLite("LogOut", Usuario, 3);
+        webServiceLog.cerrarLog(Usuario);
+    }
+
+    /**
+     * Asigna el valor del usuario
+     * @param Usuario String que contiene el usuario
+     */
+    public void setUsuario(string Usuario) {
+        this.Usuario = Usuario;
     }
 
     /**

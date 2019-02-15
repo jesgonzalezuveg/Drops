@@ -15,8 +15,7 @@ public class keyboardManager : MonoBehaviour {
     bool btnOtros = true;                   ///< Bandera detecta si estan activadas o no las teclas especiales
     bool focusTxtUsuario = true;            ///< Bandera nos dice cual Input esta usando
 
-    /**
-     * Función que se llama al inicio de la escena 
+    /** Función que se llama al inicio de la escena 
      *
      */
     void Start() {
@@ -27,8 +26,7 @@ public class keyboardManager : MonoBehaviour {
         teclasOtros.SetActive(false);
     }
 
-    /**
-     * Función que se manda llamar al hacer click en una tecla del teclado
+    /** Función que se manda llamar al hacer click en una tecla del teclado
      * @param key, caracter que escribira en el input que se tenga seleccionado
      */
     public void GetKeyboardInput(string key) {
@@ -42,8 +40,7 @@ public class keyboardManager : MonoBehaviour {
         }
     }
 
-    /**
-     * Función que elimina el ultimo caracter de el input que se tiene seleccionado
+    /** Función que elimina el ultimo caracter de el input que se tiene seleccionado
      * @param
      */
     public void DeleteChar() {
@@ -58,8 +55,7 @@ public class keyboardManager : MonoBehaviour {
         }
     }
 
-    /**
-     * Función que activa o desactiva las mayusculas
+    /** Función que activa o desactiva las mayusculas
      * @param
      */
     public void BtnMinusculas() {
@@ -76,8 +72,7 @@ public class keyboardManager : MonoBehaviour {
         }
     }
 
-    /**
-     * Función que activa o desactiva los caracteres especiales
+    /** Función que activa o desactiva los caracteres especiales
      * @param
      */
     public void BtnOtros() {
@@ -86,34 +81,29 @@ public class keyboardManager : MonoBehaviour {
     }
 
 
-    /**
-     * Función que activa el input de matricula o correo usuario
+    /** Función que activa el input de matricula o correo usuario
      * @param
      */
     public void ClickTxtUsuario() {
         focusTxtUsuario = true;
         userInput.GetComponent<Image>().color = new Color(1, 1, 0.8f);
         passInput.GetComponent<Image>().color = Color.white;
-        print("usuario");
     }
 
-    /**
-     * Función que activa el input de contraseña
+    /** Función que activa el input de contraseña
      * @param
      */
     public void ClickTxtPass() {
         focusTxtUsuario = false;
         userInput.GetComponent<Image>().color = Color.white;
         passInput.GetComponent<Image>().color = new Color(1, 1, 0.8f);
-        print("pass");
     }
 
 
-    /**
-     * Función que se activa cuando el usuario da click en el boton continuar
+    /** Función que se activa cuando el usuario da click en el boton continuar
      * @param
      */
     public void login() {
-        StartCoroutine(webServiceLogin.getUserData(userInput.GetComponentInChildren<Text>().text, passInput.GetComponentInChildren<Text>().text));
+        StartCoroutine(webServiceUsuario.getUserData(userInput.GetComponentInChildren<Text>().text, passInput.GetComponentInChildren<Text>().text));
     }
 }

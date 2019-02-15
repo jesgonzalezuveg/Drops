@@ -61,7 +61,7 @@ public class conexionDB : MonoBehaviour
         IDbConnection dbconn = connect.crearConexionDB();
         IDbCommand dbcmd = connect.crearComandoDB(dbconn, query);
         IDataReader reader = dbcmd.ExecuteReader();
-        Debug.Log(reader.RecordsAffected);
+        //Debug.Log(reader.RecordsAffected);
 
         //List<String> firstList = new List<String>();
         int fieldCount;
@@ -85,10 +85,10 @@ public class conexionDB : MonoBehaviour
         }
 
         if (json=="") {
-            //Debug.Log("No tiene datos");
+            ////Debug.Log("No tiene datos");
             return "0";
         } else {
-            //Debug.Log("Tiene datos");
+            ////Debug.Log("Tiene datos");
             json = json.Remove(json.Length - 1);
 
 

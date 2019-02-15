@@ -5,13 +5,12 @@ using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
 
-public class webServiceLogin : MonoBehaviour {
+public class webServiceUsuario : MonoBehaviour {
 
     private const string USUARIO_DATA = "http://siid.uveg.edu.mx/core/api/apiUsuarios.php";     ///< URL del API que se utilizará
-    private const string API_KEY = "AJFFF-ASFFF-GWEGG-WEGERG-ERGEG-EGERG-ERGEG";                ///< API KEY que se necesitará para la conexión
+    private const string API_KEY = "AJFFF-ASFFF-GWEGG-WEGERG-ERGEG-EGERG-ERGEG";                ///< API_KEY KEY que se necesitará para la conexión
 
-    /**
-     * Estructura que almacena los datos del usuario
+    /** Estructura que almacena los datos del usuario
      */
     [Serializable]
     public class Data {
@@ -75,9 +74,7 @@ public class webServiceLogin : MonoBehaviour {
         public string NumeroMaterias = "";
     }
 
-
-    /**
-     * Estructura que almacena los datos del usuario y en caso de ser necesario los datos de inicio de sesión 
+    /** Estructura que almacena los datos del usuario y en caso de ser necesario los datos de inicio de sesión 
      */
     [Serializable]
     public class JsonResponse {
@@ -88,13 +85,11 @@ public class webServiceLogin : MonoBehaviour {
 
     }
 
-    /**
-     * Coroutine que consulta base de datos de SII para obtener los datos del usuario
+    /** Coroutine que consulta base de datos de SII para obtener los datos del usuario
      * @param usuario matricula, correo institucional o correo personal del alumno que ingresa
      * @param contraseña, contraseña del usuario del cual quieres consultar datos, sirve para verificar el login
      */
     public static IEnumerator getUserData(string usuario, string contraseña) {
-        print("usuario: " + usuario + "\nContraseña: " + contraseña);
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
@@ -114,16 +109,19 @@ public class webServiceLogin : MonoBehaviour {
                     if (data.estatusCode == "001") {
                         string nombreCompleto = data.data.Nombre + " " + data.data.PrimerApellido + " " + data.data.SegundoApellido;
                         appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                        manager.setUsuario(data.data.Usuario);
                         manager.setNombre(nombreCompleto);
                         manager.setCorreo(data.data.Correo);
                         manager.setImagen(data.data.Imagen);
-                        if (consultarUsuarioSqLite(data.data.Correo) == "1") {
-                            insertarLogSqLite(data.data.Usuario);
-                            SceneManager.LoadScene("template");
+                        if (consultarUsuarioSqLite(data.data.Correo) == "0") {
+                            webServiceLog.insertarLogSqLite(data.data.Usuario);
+                            webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 2);
+                            SceneManager.LoadScene("menuCategorias");
                         } else {
                             if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio) == 1) {
-                                insertarLogSqLite(data.data.Usuario);
-                                SceneManager.LoadScene("template");
+                                webServiceLog.insertarLogSqLite(data.data.Usuario);
+                                webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 2);
+                                SceneManager.LoadScene("menuCategorias");
                             } else {
                                 Debug.Log("Fallo el insert");
                             }
@@ -138,8 +136,7 @@ public class webServiceLogin : MonoBehaviour {
         }
     }
 
-    /**
-     * Coroutine que consulta base de datos de SII para obtener los datos del usuario
+    /** Coroutine que consulta base de datos de SII para obtener los datos del usuario
      * @param usuario matricula, correo institucional o correo personal del alumno que ingresa
      * @param name nombre del usuario de facebook
      * @facebook bool que detecta si se inicio sesión con facebook
@@ -148,7 +145,7 @@ public class webServiceLogin : MonoBehaviour {
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
-        form.AddField("data", "{\"usuario\":\""+usuario+"\"}");
+        form.AddField("data", "{\"usuario\":\"" + usuario + "\"}");
         using (UnityWebRequest www = UnityWebRequest.Post(USUARIO_DATA, form)) {
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError) {
@@ -163,32 +160,38 @@ public class webServiceLogin : MonoBehaviour {
                 if (data.data.Usuario != "") {
                     //Si existe un usuario en campus
                     string nombreCompleto = data.data.Nombre + " " + data.data.PrimerApellido + " " + data.data.SegundoApellido;
+                    manager.setUsuario(data.data.Usuario);
                     manager.setNombre(nombreCompleto);
                     manager.setCorreo(data.data.Correo);
                     manager.setImagen(data.data.Imagen);
                     if (consultarUsuarioSqLite(data.data.Usuario) != "0") {
-                        insertarLogSqLite(data.data.Usuario);
-                        SceneManager.LoadScene("template");
+                        webServiceLog.insertarLogSqLite(data.data.Usuario);
+                        webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario,2);
+                        SceneManager.LoadScene("menuCategorias");
                     } else {
                         if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio) == 1) {
-                            insertarLogSqLite(data.data.Usuario);
-                            SceneManager.LoadScene("template");
+                            webServiceLog.insertarLogSqLite(data.data.Usuario);
+                            webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 2);
+                            SceneManager.LoadScene("menuCategorias");
                         } else {
                             Debug.Log("Fallo el insert");
                         }
                     }
                 } else {
                     ///
+                    manager.setUsuario(usuario);
                     manager.setNombre(name);
                     manager.setCorreo(usuario);
                     manager.setImagen(imagen);
                     if (consultarUsuarioSqLite(usuario) != "0") {
-                        insertarLogSqLite(usuario);
-                        SceneManager.LoadScene("template");
+                        webServiceLog.insertarLogSqLite(usuario);
+                        webServiceRegistro.insertarRegistroSqLite("Login Facebook", usuario, 2);
+                        SceneManager.LoadScene("menuCategorias");
                     } else {
                         if (insertarUsuarioSqLite(usuario, name, "usuarioFacebook", "", "") == 1) {
-                            insertarLogSqLite(data.data.Usuario);
-                            SceneManager.LoadScene("template");
+                            webServiceLog.insertarLogSqLite(data.data.Usuario);
+                            webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 2);
+                            SceneManager.LoadScene("menuCategorias");
                         } else {
                             Debug.Log("Fallo el insert");
                         }
@@ -198,8 +201,7 @@ public class webServiceLogin : MonoBehaviour {
         }
     }
 
-    /**
-     * Función que inseta los datos del usuario en la base de datos local
+    /** Función que inseta los datos del usuario en la base de datos local
      * @param usuario matricula o correo del usuario
      * @param nombre nombre del usuario
      * @param rol tipo de usuario puede ser usuarioUveg, invitado o invitadoFacebook
@@ -207,7 +209,7 @@ public class webServiceLogin : MonoBehaviour {
      * @param programa puede ser nulo, en caso de ser alumno uveg insertará el programa al cual esta inscrito
      */
     public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa) {
-        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, SyncroStatus) VALUES ('"+ usuario +"','"+ nombre +"','"+ rol +"','"+ gradoEstudios +"','"+ programa + "', datetime(), 1, 1);";
+        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, SyncroStatus) VALUES ('" + usuario + "','" + nombre + "','" + rol + "','" + gradoEstudios + "','" + programa + "', datetime(), 1, 0);";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -217,36 +219,16 @@ public class webServiceLogin : MonoBehaviour {
         }
     }
 
-    /**
-     * Función que inseta los datos del log
-     * @param usuario matricula o correo del usuario
-     * @param nombre nombre del usuario
-     */
-    public static int insertarLogSqLite(string usuario) {
-        string id = consultarIdUsuarioSqLite(usuario);
-        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idCodigo, idUsuario) VALUES (dateTime(), '', '" + SystemInfo.deviceModel + "',0,0,'" + id + "');";
-        //Debug.Log(query);
-        var result = conexionDB.alterGeneral(query);
-        if (result == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    /**
-     * Función que consulta si es que el usuario que esta ingresado ya esta dado de alta
+    /** Función que consulta si es que el usuario que esta ingresado ya esta dado de alta
      * @param usuario matricula o correo electronico del usuario
      */
     public static string consultarUsuarioSqLite(string usuario) {
         string query = "SELECT * FROM usuario WHERE usuario = '" + usuario + "';";
         var result = conexionDB.selectGeneral(query);
-        print("*********"+result+"***************");
         return result;
     }
 
-    /**
-     * Función que consulta el id del usuario
+    /** Función que consulta el id del usuario
      * @param usuario matricula o correo electronico del usuario
      */
     public static string consultarIdUsuarioSqLite(string usuario) {
@@ -254,11 +236,11 @@ public class webServiceLogin : MonoBehaviour {
         var result = conexionDB.selectGeneral(query);
         result = result.Replace("{'id': '", "");
         result = result.Replace("'}", "");
-        //print(result);
         if (result != "") {
             return result;
         } else {
             return "No hay datos";
         }
     }
+
 }

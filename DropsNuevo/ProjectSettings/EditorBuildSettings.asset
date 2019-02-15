@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Development/Abraham/scenes/login.unity
     guid: 7326f6df50c1df740adc207b03f3b35c
   - enabled: 1
-    path: Assets/Development/Abraham/scenes/template.unity
+    path: Assets/Development/Abraham/scenes/menuCategorias.unity
     guid: 88d63eb425a462840bcfd4b2cbe828c0
   m_configObjects: {}

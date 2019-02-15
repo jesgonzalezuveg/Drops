@@ -24,6 +24,6 @@ public class mainMenuManager : MonoBehaviour {
      * 
      */
     public void invitado() {
-        SceneManager.LoadScene("template");
+        SceneManager.LoadScene("menuCategorias");
     }
 }
