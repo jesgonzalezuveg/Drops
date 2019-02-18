@@ -6,8 +6,7 @@ using System.Data;
 using System;
 using Object = System.Object;
 
-public class conexionDB : MonoBehaviour
-{
+public class conexionDB {
     /** Funcion que sirve para generar la conexion a la base de datos
     *
     *@param  conn es la ruta donde se encuentra la base de datos local
@@ -21,7 +20,7 @@ public class conexionDB : MonoBehaviour
         return dbconn;
     }
 
-    private IDbCommand crearComandoDB(IDbConnection conexion,string query) {
+    private IDbCommand crearComandoDB(IDbConnection conexion, string query) {
         IDbCommand dbcmd = conexion.CreateCommand();
         //string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())";
         string sqlQuery = query;
@@ -75,16 +74,18 @@ public class conexionDB : MonoBehaviour
             for (int i = 0; i < fieldCount; i++) {
                 //listToAdd.Add(reader.GetValue(i).ToString());
                 if (i == (fieldCount - 1)) {
-                    json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "'";
+                    //json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "'";
+                    json = json + '\"' + reader.GetName(i).ToString() + '\"' + ": " + '\"' + reader.GetValue(i).ToString() + '\"';
                 } else {
-                    json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "', ";
+                    //json = json + "'" + reader.GetName(i).ToString() + "': '" + reader.GetValue(i).ToString() + "', ";
+                    json = json + '\"' + reader.GetName(i).ToString() + '\"' + ": " + '\"' + reader.GetValue(i).ToString() + '\"' + ", ";
                 }
             }
             //firstList.AddRange(listToAdd);
             json = json + "},";
         }
 
-        if (json=="") {
+        if (json == "") {
             ////Debug.Log("No tiene datos");
             return "0";
         } else {

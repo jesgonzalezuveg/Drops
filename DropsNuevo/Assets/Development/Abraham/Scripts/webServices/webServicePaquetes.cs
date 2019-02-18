@@ -7,13 +7,30 @@ using UnityEngine.Networking;
 
 public class webServicePaquetes : MonoBehaviour {
 
-    public static string getPaquetes() {
+    /**
+     * Estructura que almacena los datos de un paquete
+     */
+    [Serializable]
+    public class paqueteData {
+        public string id = "";
+        public string descripcion = "";
+        public string fechaRegistro = "";
+        public string fechaModificacion = "";
+    }
+
+
+    /**
+     * Funcion que regresa los paquetes que existen en la base de datos local
+     * 
+     */
+    public static paqueteData getPaquetes() {
         string query = "SELECT * FROM paquete;";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
-            return result;
+            paqueteData paquete = JsonUtility.FromJson<paqueteData>(result);
+            return paquete;
         } else {
-            return "0";
+            return null;
         }
     }
 

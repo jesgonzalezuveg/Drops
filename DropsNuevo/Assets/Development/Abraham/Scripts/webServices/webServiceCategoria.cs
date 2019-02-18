@@ -8,20 +8,29 @@ using System;
 
 public class webServiceCategoria : MonoBehaviour {
 
+
+    /**
+     * Estructura que almacena los datos de categoria
+     */ 
     [Serializable]
-    public class Data {
+    public class categoriaData {
         public string id = "";
+        public string descripcion = "";
         public string status = "";
+        public string fechaRegistro = "";
+        public string fechaModificacion = "";
     }
 
-
+    /**
+     * Función que regresa el id de la categoria que se pide
+     * @param descripcion nombre de la categoria que se esta solicitando el ID
+     */ 
     public static string getIdCategoriaByName(string descripcion) {
         string query = "SELECT id FROM catalogoCatgoria WHERE descripcion = '" + descripcion + "' ;";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
-            result = result.Replace("{'id': '", "");
-            result = result.Replace("'}", "");
-            return result;
+            categoriaData data = JsonUtility.FromJson<categoriaData>(result);
+            return data.id;
         } else {
             return "0";
         }

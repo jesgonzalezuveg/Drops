@@ -10,7 +10,7 @@ public class webServiceUsuario : MonoBehaviour {
     private const string USUARIO_DATA = "http://siid.uveg.edu.mx/core/api/apiUsuarios.php";     ///< URL del API que se utilizará
     private const string API_KEY = "AJFFF-ASFFF-GWEGG-WEGERG-ERGEG-EGERG-ERGEG";                ///< API_KEY KEY que se necesitará para la conexión
 
-    /** Estructura que almacena los datos del usuario
+    /** Estructura que almacena los datos del usuario desde SII
      */
     [Serializable]
     public class Data {
@@ -74,6 +74,21 @@ public class webServiceUsuario : MonoBehaviour {
         public string NumeroMaterias = "";
     }
 
+    /**
+     * Estructura que almacena los datos del usuario desde SqLite
+     */
+    [Serializable]
+    public class userDataSqLite {
+        public string id = "";
+        public string usuario = "";
+        public string nombre = "";
+        public string rol = "";
+        public string gradoEstudios = "";
+        public string programa = "";
+        public string fechaRegistro = "";
+        public string status = "";
+    }
+
     /** Estructura que almacena los datos del usuario y en caso de ser necesario los datos de inicio de sesión 
      */
     [Serializable]
@@ -103,7 +118,6 @@ public class webServiceUsuario : MonoBehaviour {
                 text = www.downloadHandler.text;
                 text = text.Replace("[", "");
                 text = text.Replace("]", "");
-                Debug.Log(text);
                 JsonResponse data = JsonUtility.FromJson<JsonResponse>(text);
                 if (data.data.Usuario != "") {
                     if (data.estatusCode == "001") {
@@ -113,23 +127,19 @@ public class webServiceUsuario : MonoBehaviour {
                         manager.setNombre(nombreCompleto);
                         manager.setCorreo(data.data.Correo);
                         manager.setImagen(data.data.Imagen);
-                        if (consultarUsuarioSqLite(data.data.Correo) == "0") {
-                            webServiceLog.insertarLogSqLite(data.data.Usuario);
-                            webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 2);
-                            SceneManager.LoadScene("menuCategorias");
-                        } else {
-                            if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio) == 1) {
-                                webServiceLog.insertarLogSqLite(data.data.Usuario);
-                                webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 2);
-                                SceneManager.LoadScene("menuCategorias");
-                            } else {
-                                Debug.Log("Fallo el insert");
-                            }
+                        var idLocal = consultarIdUsuarioSqLite(data.data.Usuario);
+                        if (idLocal == "0") {
+                            insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio);
                         }
+                        webServiceLog.insertarLogSqLite(data.data.Usuario);
+                        webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 2);
+                        SceneManager.LoadScene("menuCategorias");
                     } else {
+                        //Aqui va mensaje de contraseña incorrecta
                         Debug.Log("Contraseña incorrecta");
                     }
                 } else {
+                    //Aqui va mensaje de usuario incorrecto
                     Debug.Log("El usuario no existe");
                 }
             }
@@ -158,7 +168,6 @@ public class webServiceUsuario : MonoBehaviour {
                 JsonResponse data = JsonUtility.FromJson<JsonResponse>(text);
                 appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
                 if (data.data.Usuario != "") {
-                    //Si existe un usuario en campus
                     string nombreCompleto = data.data.Nombre + " " + data.data.PrimerApellido + " " + data.data.SegundoApellido;
                     manager.setUsuario(data.data.Usuario);
                     manager.setNombre(nombreCompleto);
@@ -178,7 +187,6 @@ public class webServiceUsuario : MonoBehaviour {
                         }
                     }
                 } else {
-                    ///
                     manager.setUsuario(usuario);
                     manager.setNombre(name);
                     manager.setCorreo(usuario);
@@ -211,7 +219,6 @@ public class webServiceUsuario : MonoBehaviour {
     public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa) {
         string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, SyncroStatus) VALUES ('" + usuario + "','" + nombre + "','" + rol + "','" + gradoEstudios + "','" + programa + "', datetime(), 1, 0);";
         var result = conexionDB.alterGeneral(query);
-
         if (result == 1) {
             return 1;
         } else {
@@ -234,12 +241,11 @@ public class webServiceUsuario : MonoBehaviour {
     public static string consultarIdUsuarioSqLite(string usuario) {
         string query = "SELECT id FROM usuario WHERE usuario = '" + usuario + "';";
         var result = conexionDB.selectGeneral(query);
-        result = result.Replace("{'id': '", "");
-        result = result.Replace("'}", "");
-        if (result != "") {
-            return result;
+        if (result != "0") {
+            userDataSqLite data = JsonUtility.FromJson<userDataSqLite>(result);
+            return data.id;
         } else {
-            return "No hay datos";
+            return "0";
         }
     }
 

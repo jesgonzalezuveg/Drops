@@ -6,12 +6,6 @@ using System;
 
 public class testMaterias : MonoBehaviour {
 
-    [Serializable]
-    public class Data {
-        public string id = "";
-        public string descripcion = "";
-    }
-
     GameObject manager;
     public Image imagen;
 
@@ -29,19 +23,13 @@ public class testMaterias : MonoBehaviour {
 
     public void clickCategoria(string categoria) {
         var idCategoria = webServiceCategoria.getIdCategoriaByName(categoria);
-        var materias = webServiceMateria.getMateriasByCategoria(Int32.Parse(idCategoria));
+        var materias = webServiceMateria.getIdMateriasByCategoria(idCategoria);
+        Debug.Log(materias);
         string[] splitString = materias.Split(new string[] { "\r\n", "," }, StringSplitOptions.None);
-
-        List<string> preguntas = new List<string>();
-        List<Data> preguntasList = new List<Data>();
-
+        List<webServicePreguntas.preguntaData> preguntasList = new List<webServicePreguntas.preguntaData>();
         for (int i = 0; i < splitString.Length; i++) {
-            preguntas.Add(webServicePreguntas.getPreguntasByMateria(splitString[i]));
-            string stringjsonData = "{\"id\": \"1\", \"descripcion\": \"hola\"}";
-            Debug.Log(preguntas[i]);
-            Debug.Log(stringjsonData);
-            Data json = JsonUtility.FromJson<Data>(stringjsonData);
-            print(json.descripcion);
+            preguntasList.Add(webServicePreguntas.getPreguntasByMateria(splitString[i]));
+            Debug.Log(preguntasList[i].descripcion);
         }
     }
 
