@@ -80,6 +80,43 @@ public class WebServiceCodigo : MonoBehaviour {
                     Data data = JsonUtility.FromJson<Data>(text);
                     pairingCode.status = data.status;
                     pairingCode.valCodigoSii = 1;
+                    pairingCode.idCodigoServer = data.id;
+                }
+            }
+        }
+    }
+
+    public static IEnumerator updateCode(string idCodigo, int status) {
+        //Start the fading process
+        WWWForm form = new WWWForm();
+        Dictionary<string, string> headers = form.headers;
+        headers["Authorization"] = API_KEY;
+
+        form.AddField("metodo", "updateStatusCode");
+        form.AddField("idCodigo", idCodigo);
+        form.AddField("status", status);
+        //byte[] rawFormData = form.data;
+        using (UnityWebRequest www = UnityWebRequest.Post(URL, form)) {
+            //www.chunkedTransfer = false;
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError) {
+                Debug.Log(www.error);
+            } else {
+                string text;
+                text = www.downloadHandler.text;
+                text = text.Replace("[", "");
+                text = text.Replace("]", "");
+                //Debug.Log(text);
+
+                //Data2 jsonResponse = JsonUtility.FromJson<Data2>(text);
+                if (text == "0") {
+                    //Debug.Log("No se encontro el código");
+                    pairingCode.status = text;
+                    pairingCode.valCodigoSii = 0;
+                } else {
+                    pairingCode.status = text;
+                    pairingCode.valCodigoSii = 1;
                 }
             }
         }
