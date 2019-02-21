@@ -21,6 +21,8 @@ public class appManager : MonoBehaviour {
     private bool banderaEjercicios = true;
     private webServicePreguntas.preguntaData[] preguntas = null;
     private bool banderaPreguntas = true;
+    private webServiceRespuestas.respuestaData[] respuestas = null;
+    private bool banderaRespuestas = true;
 
     #region setter y getters
     /**
@@ -72,16 +74,13 @@ public class appManager : MonoBehaviour {
     public string getImagen() {
         return Imagen;
     }
-    #endregion
 
     public void setPaquetes(webServicePaquetes.paqueteData[] pack) {
         paquetes = pack;
     }
-
     public void setCategorias(webServiceCategoria.categoriaData[] categoria) {
         categorias = categoria;
     }
-
     public void setMaterias(webServiceMateria.materiaData[] materia) {
         materias = materia;
     }
@@ -91,6 +90,10 @@ public class appManager : MonoBehaviour {
     public void setPreguntas(webServicePreguntas.preguntaData[] pregunta) {
         preguntas = pregunta;
     }
+    public void setRespuestas(webServiceRespuestas.respuestaData[] respuesta) {
+        respuestas = respuesta;
+    }
+    #endregion
 
     public void Awake() {
         DontDestroyOnLoad(this.gameObject);
@@ -103,6 +106,7 @@ public class appManager : MonoBehaviour {
             StartCoroutine(webServiceMateria.getMaterias());
             StartCoroutine(webServiceEjercicio.getEjercicios());
             StartCoroutine(webServicePreguntas.getPreguntas());
+            StartCoroutine(webServiceRespuestas.getRespuestas());
         }
     }
 
@@ -112,7 +116,7 @@ public class appManager : MonoBehaviour {
         validarMaterias();
         validarEjercicios();
         validarPreguntas();
-        //validarRespuestas();
+        validarRespuestas();
     }
 
     public void validarPaquetes() {
@@ -120,7 +124,7 @@ public class appManager : MonoBehaviour {
             foreach (var pack in paquetes) {
                 if (webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion) != null) {
                     //Ya existe el paquete en local
-                    Debug.Log("Ya existe el paquete en local");
+                    //Debug.Log("Ya existe el paquete en local");
                 } else {
                     //Insertar paquete en local
                     webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion);
@@ -135,7 +139,7 @@ public class appManager : MonoBehaviour {
             foreach (var categoria in categorias) {
                 if (webServiceCategoria.getCategoriaByDescripcionSqLite(categoria.descripcion) != null) {
                     //Ya existe el paquete en local
-                    Debug.Log("Ya existe la categoria en local");
+                    //Debug.Log("Ya existe la categoria en local");
                 } else {
                     //Insertar paquete en local
                     webServiceCategoria.insertarCategoriaSqLite(categoria.descripcion, categoria.status, categoria.fechaRegistro, categoria.fechaModificacion);
@@ -150,7 +154,7 @@ public class appManager : MonoBehaviour {
             foreach (var materia in materias) {
                 if (webServiceMateria.getMateriaByClaveSqLite(materia.claveMateria) != null) {
                     //Ya existe el paquete en local
-                    Debug.Log("Ya existe la materia en local");
+                    //Debug.Log("Ya existe la materia en local");
                 } else {
                     //Insertar paquete en local
                     string idCategoria = webServiceCategoria.getIdCategoriaByNameSqLite(materia.descripcionCategoria);
@@ -166,7 +170,7 @@ public class appManager : MonoBehaviour {
             foreach (var ejercicio in ejercicios) {
                 if (webServiceEjercicio.getEjercicioByDescripcionSqLite(ejercicio.descripcion) != null) {
                     //Ya existe el paquete en local
-                    Debug.Log("Ya existe el ejercicio en local");
+                    //Debug.Log("Ya existe el ejercicio en local");
                 } else {
                     //Insertar paquete en local
                     webServiceEjercicio.insertarEjercicioSqLite(ejercicio.descripcion, ejercicio.status, ejercicio.fechaRegistro, ejercicio.fechaModificacion);
@@ -181,7 +185,7 @@ public class appManager : MonoBehaviour {
             foreach (var pregunta in preguntas) {
                 if (webServicePreguntas.getPreguntaByDescripcionSqLite(pregunta.descripcion) != null) {
                     //Ya existe el paquete en local
-                    Debug.Log("Ya existe la pregunta en local");
+                    //Debug.Log("Ya existe la pregunta en local");
                 } else {
                     //Insertar paquete en local
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
@@ -192,6 +196,22 @@ public class appManager : MonoBehaviour {
                 }
             }
             banderaPreguntas = false;
+        }
+    }
+
+    public void validarRespuestas() {
+        if (respuestas != null && banderaRespuestas) {
+            foreach (var respuesta in respuestas) {
+                var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta).id;
+                if (webServiceRespuestas.getRespuestaByDescripcionAndPregunta(respuesta.descripcion, idPregunta) != null) {
+                    //Ya existe el paquete en local
+                    //Debug.Log("Ya existe la respuesta en local");
+                } else {
+                    //Insertar paquete en local
+                    webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta);
+                }
+            }
+            banderaRespuestas = false;
         }
     }
 
