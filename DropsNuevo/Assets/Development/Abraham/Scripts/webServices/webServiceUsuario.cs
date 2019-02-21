@@ -87,6 +87,7 @@ public class webServiceUsuario : MonoBehaviour {
         public string programa = "";
         public string fechaRegistro = "";
         public string status = "";
+        public string syncroStatus = "";
     }
 
     /** Estructura que almacena los datos del usuario y en caso de ser necesario los datos de inicio de sesión 
@@ -226,6 +227,24 @@ public class webServiceUsuario : MonoBehaviour {
         }
     }
 
+    /** Función que inserta los datos del usuario en la base de datos local
+     * @param usuario matricula o correo del usuario
+     * @param nombre nombre del usuario
+     * @param rol tipo de usuario puede ser usuarioUveg, invitado o invitadoFacebook
+     * @param gradoEstudios puede ser nulo, en caso de ser alumno uveg insertará el nivel de estudios que tiene
+     * @param programa puede ser nulo, en caso de ser alumno uveg insertará el programa al cual esta inscrito
+     */
+    public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string fechaRegistro, int status) {
+        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, syncroStatus) VALUES ('" + usuario + "', '" + nombre + "', '" + rol + "', '" + gradoEstudios + "', '" + programa + "', '" + fechaRegistro + "', " + status + ", 2)";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     /** Función que consulta si es que el usuario que esta ingresado ya esta dado de alta
      * @param usuario matricula o correo electronico del usuario
      */
@@ -246,6 +265,39 @@ public class webServiceUsuario : MonoBehaviour {
             return data.id;
         } else {
             return "0";
+        }
+    }
+
+    /** Función para actualizar los datos del usuario
+     * @param usuario matricula o correo electronico del usuario
+     * @param nombre nombre completo del usuario
+     * @param rol rol del usuario
+     * @param gradoEstudios el grado de estudios del usuario
+     * @param programa la carrera del usuario
+     * @param status estado del usuario
+     */
+    public static int updateUserSqlite(string usuario, string nombre, string rol, string gradoEstudios, string programa, int status) {
+        string query = "UPDATE usuario SET usuario = '" + usuario + "', nombre = '" + nombre + "', rol = '" + rol + "', gradoEstudios = '" + gradoEstudios + "', programa = '" + programa + "', status = " + status + ", WHERE usuario = '" + usuario + "'";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    /** Función que verifica di el usuario existe
+     * @param usuario matricula o correo electronico del usuario
+     */
+    public static int existUserSqlite(string usuario) {
+        string query = "SELECT * FROM usuario WHERE usuario = '" + usuario + "'";
+        var result = conexionDB.selectGeneral(query);
+
+        if (result != "0") {
+            return 1;
+        } else {
+            return 0;
         }
     }
 

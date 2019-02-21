@@ -20,36 +20,25 @@ public class pairingCode : MonoBehaviour
     private int cargaCodigo;
     UnityEvent listenerCode= new UnityEvent();
 
-    //Variables de emparejamiento con sqlite
-    public static string fechaInicio;
-    public static string fechaTermino;
-    public static string dispositivo;
-    public static string idCodigo;
-    public static string idUsuario;
-    public static string usuario;
-    public static string nombre;
-    public static string rol;
-    public static string gradoEstudios;
-    public static string programa;
-    public static string fechaRegistro;
-    public static string statusUsuario;
-    public static string idC;
-    public static string codigo;
+    private webServiceUsuario.userDataSqLite usuario = null;
+    private webServiceLog.logData log = null;
+    private WebServiceCodigo.Data codigo = null;
 
-    [Serializable]
-    public class DataUser {
-        public string id = "";
-        public string nombre = "";
-        public string rol = "";
-        public string gradoEstudios = "";
-        public string programa = "";
-        public string fechaRegistro = "";
-        public string status = "";
-        public string syncroStatus = "";
+    public void setLog(webServiceLog.logData datos) {
+        log = datos;
     }
 
+    public void setUsuario(webServiceUsuario.userDataSqLite datos) {
+        usuario = datos;
+    }
+
+    public void setCodigo(WebServiceCodigo.Data datos) {
+        codigo = datos;
+    }
+
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         code = "";
         code2 = "";
@@ -76,7 +65,7 @@ public class pairingCode : MonoBehaviour
                 } else if (valCodigoSii == 0) {
                     pairingCode.valCodigoSii = 3;
                     Debug.Log("El código no exixte");
-                    guardarCodigoSqlite(code);
+                    WebServiceCodigo.guardarCodigoSqlite(code);
                     StartCoroutine(WebServiceCodigo.insertarCodigo(code));
                     GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text = code2;
                     listenerCode.AddListener(emparejarCodigo);
@@ -91,7 +80,7 @@ public class pairingCode : MonoBehaviour
             if (salir == 1) {
                 if (status == "2") {
                     Debug.Log("Quitting");
-                    int res = editarCodigoSqlite(code, 2);
+                    int res = WebServiceCodigo.editarCodigoSqlite(code, 2);
                     if (res == 1) {
                         Debug.Log("Se modifico el status");
                         listenerCode.RemoveListener(emparejarCodigo);
@@ -122,23 +111,23 @@ public class pairingCode : MonoBehaviour
                     pairingCode.valCodigoSii = 3;
                     Debug.Log("Se obtuvieron los datos de sesion para emparejarlos");
                     //Validar si el usuario ya existe en la db local
-                    var res = existUserSqlite(usuario);
+                    var res = webServiceUsuario.existUserSqlite(usuario.usuario);
                     if (res!=1) {
                         //Guardar el registro del usuario en la db local
-                        var resSaveUser = saveUserSqlite(usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, Int32.Parse(status));
+                        var resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status));
                         if (resSaveUser == 1) {
                             Debug.Log("El usuario se guardo correctamente");
                             //Obtener datos del usuario que se acaba de registrar de la db local
-                            var resultado = getDataUserSqlite(usuario);
+                            var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
                             if (resultado!="0") {
-                                DataUser data = JsonUtility.FromJson<DataUser>(resultado);
+                                webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
                                 //Guardar el log del usuario en la db local
                                 Debug.Log("El usuario se guardo correctamente");
-                                var resSaveLog = saveLogSqlite(fechaInicio, fechaTermino, dispositivo, 2, idCodigo, data.id);
+                                var resSaveLog = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 2, log.idCodigo, data.id);
                                 if (resSaveLog == 1) {
                                     Debug.Log("El log se inserto correctamente");
                                     //Cambiar estado del codigo a 3 tanto en local
-                                    var resEditCode = editarCodigoSqlite(codigo, 3);
+                                    var resEditCode = WebServiceCodigo.editarCodigoSqlite(codigo.descripcion, 3);
                                     if (resEditCode == 1) {
                                         Debug.Log("El estado del codigo local se cambio correctammente");
                                         salir = 4;
@@ -158,15 +147,15 @@ public class pairingCode : MonoBehaviour
                     } else {
                         Debug.Log("El usuario ya existe");
                         //Obtener datos del usuario ya registrado en la db local
-                        var resultado = getDataUserSqlite(usuario);
+                        var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
                         if (resultado != "0") {
-                            DataUser data = JsonUtility.FromJson<DataUser>(resultado);
+                            webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
                             //Guardar el log del usuario en la db local
-                            var resSaveLogSqlite = saveLogSqlite(fechaInicio, fechaTermino, dispositivo, 2, idCodigo, data.id);
+                            var resSaveLogSqlite = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 2, log.idCodigo, data.id);
                             if (resSaveLogSqlite == 1) {
                                 Debug.Log("El log se inserto correctamente");
                                 //Cambiar estado del codigo a 3 tanto en local
-                                var resEditSQLite = editarCodigoSqlite(codigo, 3);
+                                var resEditSQLite = WebServiceCodigo.editarCodigoSqlite(codigo.descripcion, 3);
                                 if (resEditSQLite == 1) {
                                     Debug.Log("El estado del codigo local se cambio correctammente");
                                     salir = 4;
@@ -192,7 +181,7 @@ public class pairingCode : MonoBehaviour
 
             //Paso 4 de pairing code: cambiar el estado del codigo del servidor a 3
             if (salir == 4) {
-                StartCoroutine(WebServiceCodigo.updateCode(idCodigo, 3));
+                StartCoroutine(WebServiceCodigo.updateCode(codigo.id, 3));
                 if (valCodigoSii == 1) {
                     Debug.Log("Se actualizo codigo en servidor");
                     Debug.Log("Emparejamiento finalizado. Pasar a la siguiente escena");
@@ -225,10 +214,10 @@ public class pairingCode : MonoBehaviour
         }
     }
 
+    /** Funcion que sirve para verifica si el estado del codigo en el SII cambia a 2(en uso por algun usuario)
+   **/
     void emparejarCodigo() {
-        //Output message to the console
-        Debug.Log(status);
-        Debug.Log(valCodigoSii);
+        //Web service que verifica si el estado del codigo en el SII
         StartCoroutine(WebServiceCodigo.obtenerCodigo(code, 2));
     }
 
@@ -258,90 +247,5 @@ public class pairingCode : MonoBehaviour
         var finalString = new string(stringChars);
 
         return finalString;
-    }
-
-    private int guardarCodigoSqlite(string codigo) {
-        string query = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('" + codigo + "', 1, datetime(), datetime())";
-        var result = conexionDB.alterGeneral(query);
-
-        if (result == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    private int editarCodigoSqlite(string codigo, int status) {
-        string query = "UPDATE codigo SET status = "+ status + ", fechaModificacion = datetime() WHERE descripcion = '" + codigo + "' AND status = "+(status-1)+"";
-        var result = conexionDB.alterGeneral(query);
-
-        if (result == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    private int existeCodigoSqlite(string codigo) {
-        string query = "SELECT * FROM codigo WHERE descripcion = '"+ codigo +"' AND status = 1";
-        var result = conexionDB.selectGeneral(query);
-
-        if (result != "0") {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-
-    private int saveUserSqlite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string fechaRegistro, int status) {
-        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, syncroStatus) VALUES ('" + usuario + "', '" + nombre + "', '" + rol + "', '" + gradoEstudios + "', '" + programa + "', '" + fechaRegistro + "', "+ status + ", 2)";
-        var result = conexionDB.alterGeneral(query);
-
-        if (result == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    private int existUserSqlite(string usuario) {
-        string query = "SELECT * FROM usuario WHERE usuario = '" + usuario + "'";
-        var result = conexionDB.selectGeneral(query);
-
-        if (result != "0") {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    private string getDataUserSqlite(string usuario) {
-        string query = "SELECT * FROM usuario WHERE usuario = '" + usuario + "'";
-        var result = conexionDB.selectGeneral(query);
-
-        return result;
-    }
-
-    private int updateUserSqlite(string usuario, string nombre, string rol, string gradoEstudios, string programa, int status) {
-        string query = "UPDATE usuario SET usuario = '" + usuario + "', nombre = '" + nombre + "', rol = '" + rol + "', gradoEstudios = '" + gradoEstudios + "', programa = '" + programa + "', status = " + status + ", WHERE usuario = '" + usuario + "'";
-        var result = conexionDB.alterGeneral(query);
-
-        if (result == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    private int saveLogSqlite(string fechaInicio, string fechaTermino, string dispositivo, int syncroStatus, string idCodigo, string idUsuario) {
-        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idCodigo, idUsuario) VALUES ('" + fechaInicio + "', '" + fechaTermino + "', '" + SystemInfo.deviceModel + "', " + syncroStatus + ", " + idCodigo + ", " + idUsuario + ")";
-        var result = conexionDB.alterGeneral(query);
-
-        if (result == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
     }
 }
