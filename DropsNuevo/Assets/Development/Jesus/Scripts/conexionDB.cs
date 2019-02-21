@@ -122,7 +122,7 @@ public class conexionDB {
         }
     }
 
-    private void createDB() {
+    private void createTables() {
         var query = "CREATE TABLE IF NOT EXISTS previousMessages (ID    INTEGER NOT NULL PRIMARY KEY , Cipher   VARCHAR(5000) NOT NULL, InitialMessage  VARCHAR(5000) NOT NULL,EncryptedMessage TEXT NOT NULL)";
         conexionDB connect = new conexionDB();
         IDbConnection dbconn = connect.crearConexionDB();
@@ -132,4 +132,6 @@ public class conexionDB {
         reader = null;
         connect.cerrarConexionDB(dbconn, dbcmd);
     }
+
 }
+
