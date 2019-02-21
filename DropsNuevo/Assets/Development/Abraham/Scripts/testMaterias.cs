@@ -22,14 +22,17 @@ public class testMaterias : MonoBehaviour {
     }
 
     public void clickCategoria(string categoria) {
-        var idCategoria = webServiceCategoria.getIdCategoriaByName(categoria);
-        var materias = webServiceMateria.getIdMateriasByCategoria(idCategoria);
-        Debug.Log(materias);
-        string[] splitString = materias.Split(new string[] { "\r\n", "," }, StringSplitOptions.None);
-        List<webServicePreguntas.preguntaData> preguntasList = new List<webServicePreguntas.preguntaData>();
-        for (int i = 0; i < splitString.Length; i++) {
-            preguntasList.Add(webServicePreguntas.getPreguntasByMateria(splitString[i]));
-            Debug.Log(preguntasList[i].descripcion);
+        var idCategoria = webServiceCategoria.getIdCategoriaByNameSqLite(categoria);
+        var materias = webServiceMateria.getIdMateriasByCategoriaSqLite(idCategoria);
+        if (materias != "0") {
+            string[] splitString = materias.Split(new string[] { "\r\n", "," }, StringSplitOptions.None);
+            List<webServicePreguntas.preguntaData> preguntasList = new List<webServicePreguntas.preguntaData>();
+            for (int i = 0; i < splitString.Length; i++) {
+                preguntasList.Add(webServicePreguntas.getPreguntasByMateria(splitString[i]));
+                Debug.Log(preguntasList[i].descripcion);
+            }
+        } else {
+            Debug.Log("No hay materias registradas");
         }
     }
 
