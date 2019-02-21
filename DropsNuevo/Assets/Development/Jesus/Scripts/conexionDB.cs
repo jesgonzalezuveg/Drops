@@ -29,6 +29,7 @@ public class conexionDB {
             WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + p);
             while (!loadDB.isDone) { }
             File.WriteAllBytes(filepath, loadDB.bytes);
+            createDB();
         }
         string connection;
         connection = "URI=file:" + filepath;
@@ -119,5 +120,16 @@ public class conexionDB {
 
             return json;
         }
+    }
+
+    private void createDB() {
+        var query = "CREATE TABLE IF NOT EXISTS previousMessages (ID    INTEGER NOT NULL PRIMARY KEY , Cipher   VARCHAR(5000) NOT NULL, InitialMessage  VARCHAR(5000) NOT NULL,EncryptedMessage TEXT NOT NULL)";
+        conexionDB connect = new conexionDB();
+        IDbConnection dbconn = connect.crearConexionDB();
+        IDbCommand dbcmd = connect.crearComandoDB(dbconn, query);
+        IDataReader reader = dbcmd.ExecuteReader();
+        reader.Close();
+        reader = null;
+        connect.cerrarConexionDB(dbconn, dbcmd);
     }
 }
