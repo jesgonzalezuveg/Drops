@@ -112,7 +112,7 @@ public class appManager : MonoBehaviour {
             StartCoroutine(webServiceEjercicio.getEjercicios());
             StartCoroutine(webServicePreguntas.getPreguntas());
             StartCoroutine(webServiceRespuestas.getRespuestas());
-            StartCoroutine(descargarImagenesPaquete("1"));
+           // StartCoroutine(descargarImagenesPaquete("1"));
         }
     }
 

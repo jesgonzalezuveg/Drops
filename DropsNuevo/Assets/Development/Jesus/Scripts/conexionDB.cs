@@ -15,7 +15,7 @@ public class conexionDB {
     **/
     private IDbConnection crearConexionDB() {
 #if UNITY_EDITOR
-        string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
+        string conn = "URI=file:" + Application.dataPath + "/Plugins/SQLite/pruebaAndroid.db"; //Path to database.
         IDbConnection dbconn;
         dbconn = (IDbConnection)new SqliteConnection(conn);
         dbconn.Open(); //Open connection to the database.
@@ -23,7 +23,7 @@ public class conexionDB {
         return dbconn;
 #endif
 #if UNITY_ANDROID
-        string p = "prueba.db";
+        string p = "pruebaAndroid.db";
         string filepath = Application.persistentDataPath + "/" + p;
         if (!File.Exists(filepath)) {
             WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + p);
