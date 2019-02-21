@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections;
+using System.IO;
 
 
 public class appManager : MonoBehaviour {
@@ -23,6 +25,9 @@ public class appManager : MonoBehaviour {
     private bool banderaPreguntas = true;
     private webServiceRespuestas.respuestaData[] respuestas = null;
     private bool banderaRespuestas = true;
+
+    public Image imagen;
+    public Text consola;
 
     #region setter y getters
     /**
@@ -98,15 +103,16 @@ public class appManager : MonoBehaviour {
     public void Awake() {
         DontDestroyOnLoad(this.gameObject);
         if (Application.internetReachability == NetworkReachability.NotReachable) {
-            Debug.Log("Error. Check internet connection!");
+            consola.text += "\nNo hay conexion";
         } else {
-            Debug.Log("Si hay conexion");
+            consola.text += "\nSi hay conexion";
             StartCoroutine(webServicePaquetes.getPaquetes());
             StartCoroutine(webServiceCategoria.getCategorias());
             StartCoroutine(webServiceMateria.getMaterias());
             StartCoroutine(webServiceEjercicio.getEjercicios());
             StartCoroutine(webServicePreguntas.getPreguntas());
             StartCoroutine(webServiceRespuestas.getRespuestas());
+            StartCoroutine(descargarImagenesPaquete("1"));
         }
     }
 
@@ -121,13 +127,15 @@ public class appManager : MonoBehaviour {
 
     public void validarPaquetes() {
         if (paquetes != null && banderaPaquetes) {
+            consola.text += "\n*****Consultando paquetes****";
             foreach (var pack in paquetes) {
+                consola.text += "\n" + pack.descripcion + "SII";
                 if (webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion) != null) {
-                    //Ya existe el paquete en local
-                    //Debug.Log("Ya existe el paquete en local");
+                    consola.text += "\nYa existe el paquete en local";
                 } else {
                     //Insertar paquete en local
-                    webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion);
+                    consola.text += "\nInsertando paquete en local" + webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion);
+
                 }
             }
             banderaPaquetes = false;
@@ -204,14 +212,34 @@ public class appManager : MonoBehaviour {
             foreach (var respuesta in respuestas) {
                 var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta).id;
                 if (webServiceRespuestas.getRespuestaByDescripcionAndPregunta(respuesta.descripcion, idPregunta) != null) {
-                    //Ya existe el paquete en local
-                    //Debug.Log("Ya existe la respuesta en local");
+                    //consola.text += "\nYa existe la respuesta " + respuesta.id + " en local";
                 } else {
-                    //Insertar paquete en local
+                    //consola.text += "\nInsertando la respuesta " + respuesta.id + " en local";
                     webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta);
                 }
             }
             banderaRespuestas = false;
+        }
+    }
+
+    public IEnumerator descargarImagenesPaquete(string paquete) {
+        if (File.Exists(Application.persistentDataPath + "einstein.png")) {
+            byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + "einstein.png");
+            Texture2D texture = new Texture2D(8, 8);
+            texture.LoadImage(byteArray);
+            Debug.Log(texture);
+            Rect rec = new Rect(0, 0, texture.width, texture.height);
+            imagen.sprite = Sprite.Create(texture, rec, new Vector2(0, 0), 1);
+
+        } else {
+            WWW www = new WWW("http://sii.uveg.edu.mx/unity/drops/img/einstein.png");
+            yield return www;
+            Texture2D texture = www.texture;
+            Debug.Log(texture.width + texture.height);
+            Rect rec = new Rect(0, 0, texture.width, texture.height);
+            imagen.sprite = Sprite.Create(texture, rec, new Vector2(0, 0), 1);
+            byte[] bytes = texture.EncodeToPNG();
+            File.WriteAllBytes(Application.persistentDataPath + "einstein.png", bytes);
         }
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using Mono.Data.Sqlite;
 using System.Data;
 using System;
+using System.IO;
 using Object = System.Object;
 
 public class conexionDB {
@@ -13,11 +14,30 @@ public class conexionDB {
     *@param  dbconn donde se crea el objeto conexion
     **/
     private IDbConnection crearConexionDB() {
+#if UNITY_EDITOR
         string conn = "URI=file:" + Application.dataPath + "/Development/Jesus/Plugins/prueba.db"; //Path to database.
         IDbConnection dbconn;
         dbconn = (IDbConnection)new SqliteConnection(conn);
         dbconn.Open(); //Open connection to the database.
+        Debug.Log(dbconn.ConnectionString);
         return dbconn;
+#endif
+#if UNITY_ANDROID
+        string p = "prueba.db";
+        string filepath = Application.persistentDataPath + "/" + p;
+        if (!File.Exists(filepath)) {
+            WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + p);
+            while (!loadDB.isDone) { }
+            File.WriteAllBytes(filepath, loadDB.bytes);
+        }
+        string connection;
+        connection = "URI=file:" + filepath;
+        Debug.Log("Stablishing connection to: " + connection);
+        IDbConnection dbcon;
+        dbcon = (IDbConnection)new SqliteConnection(connection);
+        dbcon.Open(); //Open connection to the database.
+        return dbcon;
+#endif
     }
 
     private IDbCommand crearComandoDB(IDbConnection conexion, string query) {
