@@ -39,8 +39,10 @@ public class webServiceMateria : MonoBehaviour {
         string query = "SELECT id FROM catalogoMateria WHERE idCategoria = " + categoria + ";";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
-            materiaData materia = JsonUtility.FromJson<materiaData>(result);
-            return materia.id;
+            result = result.Replace("{\"id\": \"", "");
+            result = result.Replace("\"}","");
+            Debug.Log(result);
+            return result;
         } else {
             return "0";
         }
