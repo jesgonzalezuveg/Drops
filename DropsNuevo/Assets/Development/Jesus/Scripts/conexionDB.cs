@@ -11,7 +11,7 @@ public class conexionDB {
 
     string rutaDB;
     string strConexion;
-    string DBFileName = "pruebaAndroid.sqlite";//Nombre de la base de datos con extension
+    string DBFileName = "dbUvegVR.sqlite";//Nombre de la base de datos con extension
 
     IDbConnection dbConnection;
     IDbCommand dbCommand;
@@ -24,8 +24,12 @@ public class conexionDB {
     **/
     private IDbConnection crearConexionDB() {
         //si es pc 
-        if (Application.platform == RuntimePlatform.WindowsEditor) {
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.OSXEditor) {
             rutaDB = Application.dataPath + "/StreamingAssets/" + DBFileName;//Path to database.
+        }
+        //si es IOS
+        else if (Application.platform == RuntimePlatform.IPhonePlayer) {
+            rutaDB = Application.dataPath + "/Raw/" + DBFileName;
         }
         //si es android
         else if (Application.platform == RuntimePlatform.Android) {
@@ -37,13 +41,12 @@ public class conexionDB {
 
                 }
                 File.WriteAllBytes(rutaDB, loadDB.bytes);
-            }
+            } 
         }
         strConexion = "URI=file:" + rutaDB;
         dbConnection = (IDbConnection)new SqliteConnection(strConexion);
         dbConnection.Open(); //Open connection to the database.
-        Debug.Log(dbConnection.ConnectionString);
-        GameObject.Find("AppManager").GetComponent<appManager>().consola.text +="\n Se conecto a bd";
+        //GameObject.Find("AppManager").GetComponent<appManager>().consola.text +="\n Se conecto a bd";
         return dbConnection;
     }
 

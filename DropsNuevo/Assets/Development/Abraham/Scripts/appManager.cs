@@ -114,7 +114,6 @@ public class appManager : MonoBehaviour {
             StartCoroutine(webServiceRespuestas.getRespuestas());
            // StartCoroutine(descargarImagenesPaquete("1"));
         }
-        consola.text += "\n" + webServiceUsuario.consultarUsuarioSqLite("10002080");
     }
 
     public void Update() {
