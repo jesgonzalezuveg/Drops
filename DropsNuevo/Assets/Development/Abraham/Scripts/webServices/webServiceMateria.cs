@@ -41,7 +41,6 @@ public class webServiceMateria : MonoBehaviour {
         if (result != "0") {
             result = result.Replace("{\"id\": \"", "");
             result = result.Replace("\"}","");
-            Debug.Log(result);
             return result;
         } else {
             return "0";

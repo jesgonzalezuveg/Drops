@@ -38,12 +38,14 @@ public class webServicePreguntas : MonoBehaviour {
      * la cual almacena los datos de las preguntas relacionadas a la materia
      * @param materia, id de la materia de la cual se requieren las preguntas
      */
-    public static preguntaData getPreguntasByMateria(string materia) {
-        string query = "SELECT id, descripcion, idTipoEjercicio FROM pregunta WHERE idMateria = " + materia + " AND status = 1;";
+    public static preguntaData[] getPreguntasByMateria(string materia) {
+        string query = "SELECT * FROM pregunta WHERE idMateria = " + materia + " AND status = 1;";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
-            preguntaData data = JsonUtility.FromJson<preguntaData>(result);
-            return data;
+            result = "{\"preguntas\":" + "[" + result + "]}";
+            Debug.Log(result);
+            Data data = JsonUtility.FromJson<Data>(result);
+            return data.preguntas;
         } else {
             return null;
         }

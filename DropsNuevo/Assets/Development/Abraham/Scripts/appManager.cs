@@ -112,7 +112,7 @@ public class appManager : MonoBehaviour {
             StartCoroutine(webServiceEjercicio.getEjercicios());
             StartCoroutine(webServicePreguntas.getPreguntas());
             StartCoroutine(webServiceRespuestas.getRespuestas());
-           // StartCoroutine(descargarImagenesPaquete("1"));
+            //StartCoroutine(descargarImagenesPaquete("1"));
         }
     }
 
@@ -130,12 +130,14 @@ public class appManager : MonoBehaviour {
             consola.text += "\n*****Consultando paquetes****";
             foreach (var pack in paquetes) {
                 consola.text += "\n" + pack.descripcion + "SII";
-                if (webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion) != null) {
+                var local = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
+                if ( local != null) {
                     consola.text += "\nYa existe el paquete en local";
+                    consola.text += "\n" + pack.id;
+                    pack.id = local.id;
+                    consola.text += "\n" + pack.id;
                 } else {
-                    //Insertar paquete en local
-                    consola.text += "\nInsertando paquete en local" + webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion);
-
+                    webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion);
                 }
             }
             banderaPaquetes = false;
@@ -145,11 +147,10 @@ public class appManager : MonoBehaviour {
     public void validarCategorias() {
         if (categorias != null && banderaCategorias) {
             foreach (var categoria in categorias) {
-                if (webServiceCategoria.getCategoriaByDescripcionSqLite(categoria.descripcion) != null) {
-                    //Ya existe el paquete en local
-                    //Debug.Log("Ya existe la categoria en local");
+                var local = webServiceCategoria.getCategoriaByDescripcionSqLite(categoria.descripcion);
+                if ( local != null) {
+                    categoria.id = local.id;
                 } else {
-                    //Insertar paquete en local
                     webServiceCategoria.insertarCategoriaSqLite(categoria.descripcion, categoria.status, categoria.fechaRegistro, categoria.fechaModificacion);
                 }
             }
@@ -160,11 +161,11 @@ public class appManager : MonoBehaviour {
     public void validarMaterias() {
         if (materias != null && banderaMaterias) {
             foreach (var materia in materias) {
-                if (webServiceMateria.getMateriaByClaveSqLite(materia.claveMateria) != null) {
-                    //Ya existe el paquete en local
-                    //Debug.Log("Ya existe la materia en local");
+                var local = webServiceMateria.getMateriaByClaveSqLite(materia.claveMateria);
+                if ( local != null) {
+                    materia.id = local.id;
+                    materia.idCategoria = local.idCategoria;
                 } else {
-                    //Insertar paquete en local
                     string idCategoria = webServiceCategoria.getIdCategoriaByNameSqLite(materia.descripcionCategoria);
                     webServiceMateria.insertarMateriaSqLite(materia.claveMateria, materia.descripcion, materia.status, materia.fechaRegistro, materia.fechaModificacion, idCategoria);
                 }
@@ -174,13 +175,12 @@ public class appManager : MonoBehaviour {
     }
 
     public void validarEjercicios() {
-        if (materias != null && banderaEjercicios) {
+        if (ejercicios != null && banderaEjercicios) {
             foreach (var ejercicio in ejercicios) {
-                if (webServiceEjercicio.getEjercicioByDescripcionSqLite(ejercicio.descripcion) != null) {
-                    //Ya existe el paquete en local
-                    //Debug.Log("Ya existe el ejercicio en local");
+                var local = webServiceEjercicio.getEjercicioByDescripcionSqLite(ejercicio.descripcion);
+                if ( local != null) {
+                    ejercicio.id = local.id;
                 } else {
-                    //Insertar paquete en local
                     webServiceEjercicio.insertarEjercicioSqLite(ejercicio.descripcion, ejercicio.status, ejercicio.fechaRegistro, ejercicio.fechaModificacion);
                 }
             }
@@ -191,15 +191,16 @@ public class appManager : MonoBehaviour {
     public void validarPreguntas() {
         if (preguntas != null && banderaPreguntas) {
             foreach (var pregunta in preguntas) {
-                if (webServicePreguntas.getPreguntaByDescripcionSqLite(pregunta.descripcion) != null) {
-                    //Ya existe el paquete en local
-                    //Debug.Log("Ya existe la pregunta en local");
+                var local = webServicePreguntas.getPreguntaByDescripcionSqLite(pregunta.descripcion);
+                if ( local != null) {
+                    pregunta.id = local.id;
+                    pregunta.idMateria = local.idMateria;
+                    pregunta.idPaquete = local.idPaquete;
+                    pregunta.idTipoEjercicio = local.idTipoEjercicio;
                 } else {
-                    //Insertar paquete en local
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
                     string idMateria = webServiceMateria.getMateriaByClaveSqLite(pregunta.claveMateria).id;
                     string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
-                    Debug.Log(pregunta.descripcion + pregunta.status + pregunta.fechaRegistro + pregunta.fechaModificacion + idTipoEjercicio + idMateria + idPaquete);
                     webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idMateria, idPaquete);
                 }
             }
@@ -211,10 +212,11 @@ public class appManager : MonoBehaviour {
         if (respuestas != null && banderaRespuestas) {
             foreach (var respuesta in respuestas) {
                 var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta).id;
-                if (webServiceRespuestas.getRespuestaByDescripcionAndPregunta(respuesta.descripcion, idPregunta) != null) {
-                    //consola.text += "\nYa existe la respuesta " + respuesta.id + " en local";
+                var local = webServiceRespuestas.getRespuestaByDescripcionAndPregunta(respuesta.descripcion, idPregunta);
+                if ( local != null) {
+                    respuesta.id = local.id;
+                    respuesta.idPregunta = local.idPregunta;
                 } else {
-                    //consola.text += "\nInsertando la respuesta " + respuesta.id + " en local";
                     webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta);
                 }
             }
@@ -223,24 +225,27 @@ public class appManager : MonoBehaviour {
     }
 
     public IEnumerator descargarImagenesPaquete(string paquete) {
-        if (File.Exists(Application.persistentDataPath + "einstein.png")) {
-            byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + "einstein.png");
-            Texture2D texture = new Texture2D(8, 8);
-            texture.LoadImage(byteArray);
-            Debug.Log(texture);
-            Rect rec = new Rect(0, 0, texture.width, texture.height);
-            imagen.sprite = Sprite.Create(texture, rec, new Vector2(0, 0), 1);
+        //foreach(var pregunta in preguntas){
+            //if(pregunta.idPaquete == paquete){
+                if (File.Exists(Application.persistentDataPath + "einstein.png")) {
+                    byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + "einstein.png");
+                    Texture2D texture = new Texture2D(8, 8);
+                    texture.LoadImage(byteArray);
+                    Debug.Log(texture);
+                    Rect rec = new Rect(0, 0, texture.width, texture.height);
+                    imagen.sprite = Sprite.Create(texture, rec, new Vector2(0, 0), 1);
 
-        } else {
-            WWW www = new WWW("http://sii.uveg.edu.mx/unity/drops/img/einstein.png");
-            yield return www;
-            Texture2D texture = www.texture;
-            Debug.Log(texture.width + texture.height);
-            Rect rec = new Rect(0, 0, texture.width, texture.height);
-            imagen.sprite = Sprite.Create(texture, rec, new Vector2(0, 0), 1);
-            byte[] bytes = texture.EncodeToPNG();
-            File.WriteAllBytes(Application.persistentDataPath + "einstein.png", bytes);
-        }
+                } else {
+                    WWW www = new WWW("http://sii.uveg.edu.mx/unity/drops/img/einstein.png");
+                    yield return www;
+                    Texture2D texture = www.texture;
+                    Debug.Log(texture.width + texture.height);
+                    Rect rec = new Rect(0, 0, texture.width, texture.height);
+                    imagen.sprite = Sprite.Create(texture, rec, new Vector2(0, 0), 1);
+                    byte[] bytes = texture.EncodeToPNG();
+                    File.WriteAllBytes(Application.persistentDataPath + "einstein.png", bytes);
+                }
+        //}
     }
 
     void OnApplicationQuit() {
