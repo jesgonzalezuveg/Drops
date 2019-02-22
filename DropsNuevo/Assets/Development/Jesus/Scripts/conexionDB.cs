@@ -1,52 +1,58 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mono.Data.Sqlite;
 using System.Data;
-using System;
 using System.IO;
 using Object = System.Object;
 
 public class conexionDB {
+
+    string rutaDB;
+    string strConexion;
+    string DBFileName = "pruebaAndroid.sqlite";//Nombre de la base de datos con extension
+
+    IDbConnection dbConnection;
+    IDbCommand dbCommand;
+    IDataReader reader;
+
     /** Funcion que sirve para generar la conexion a la base de datos
     *
     *@param  conn es la ruta donde se encuentra la base de datos local
     *@param  dbconn donde se crea el objeto conexion
     **/
     private IDbConnection crearConexionDB() {
-#if UNITY_EDITOR
-        string conn = "URI=file:" + Application.dataPath + "/Plugins/SQLite/pruebaAndroid.db"; //Path to database.
-        IDbConnection dbconn;
-        dbconn = (IDbConnection)new SqliteConnection(conn);
-        dbconn.Open(); //Open connection to the database.
-        Debug.Log(dbconn.ConnectionString);
-        return dbconn;
-#endif
-#if UNITY_ANDROID
-        string p = "pruebaAndroid.db";
-        string filepath = Application.persistentDataPath + "/" + p;
-        if (!File.Exists(filepath)) {
-            WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + p);
-            while (!loadDB.isDone) { }
-            File.WriteAllBytes(filepath, loadDB.bytes);
-            createDB();
+        //si es pc 
+        if (Application.platform == RuntimePlatform.WindowsEditor) {
+            rutaDB = Application.dataPath + "/StreamingAssets/" + DBFileName;//Path to database.
         }
-        string connection;
-        connection = "URI=file:" + filepath;
-        Debug.Log("Stablishing connection to: " + connection);
-        IDbConnection dbcon;
-        dbcon = (IDbConnection)new SqliteConnection(connection);
-        dbcon.Open(); //Open connection to the database.
-        return dbcon;
-#endif
+        //si es android
+        else if (Application.platform == RuntimePlatform.Android) {
+            rutaDB = Application.persistentDataPath + "/" + DBFileName;//Path to database.
+            //Comprobar si el archivo se encuentra almacenado en persistant data
+            if (!File.Exists(rutaDB)) {
+                WWW loadDB = new WWW("jar:file://" + Application.dataPath+"!/assets/"+DBFileName);
+                while (!loadDB.isDone) {
+
+                }
+                File.WriteAllBytes(rutaDB, loadDB.bytes);
+            }
+        }
+        strConexion = "URI=file:" + rutaDB;
+        dbConnection = (IDbConnection)new SqliteConnection(strConexion);
+        dbConnection.Open(); //Open connection to the database.
+        Debug.Log(dbConnection.ConnectionString);
+        GameObject.Find("AppManager").GetComponent<appManager>().consola.text +="\n Se conecto a bd";
+        return dbConnection;
     }
 
     private IDbCommand crearComandoDB(IDbConnection conexion, string query) {
-        IDbCommand dbcmd = conexion.CreateCommand();
+        dbCommand = conexion.CreateCommand();
         //string sqlQuery = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('test', 0, datetime(), datetime())";
         string sqlQuery = query;
-        dbcmd.CommandText = sqlQuery;
-        return dbcmd;
+        dbCommand.CommandText = sqlQuery;
+        return dbCommand;
     }
 
     private void cerrarConexionDB(IDbConnection dbconn, IDbCommand dbcmd) {
@@ -122,7 +128,7 @@ public class conexionDB {
         }
     }
 
-    private void createTables() {
+    /*private void createTables() {
         var query = "CREATE TABLE IF NOT EXISTS previousMessages (ID    INTEGER NOT NULL PRIMARY KEY , Cipher   VARCHAR(5000) NOT NULL, InitialMessage  VARCHAR(5000) NOT NULL,EncryptedMessage TEXT NOT NULL)";
         conexionDB connect = new conexionDB();
         IDbConnection dbconn = connect.crearConexionDB();
@@ -131,7 +137,7 @@ public class conexionDB {
         reader.Close();
         reader = null;
         connect.cerrarConexionDB(dbconn, dbcmd);
-    }
+    }*/
 
 }
 
