@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class packManager : MonoBehaviour {
 
-    public string paqueteId = "";
+    public string paquete = "";
+    private appManager manager;
+    private bool bandera = true;
+
+    public void Start() {
+        manager = GameObject.Find("AppManager").GetComponent<appManager>();
+    }
 
     public void descargaPaquete() {
-        Debug.Log(paqueteId);
+        StartCoroutine(webServicePreguntas.getPreguntasOfPack(paquete));
+        StartCoroutine(webServiceRespuestas.getRespuestasByPack(paquete));
     }
 
 }

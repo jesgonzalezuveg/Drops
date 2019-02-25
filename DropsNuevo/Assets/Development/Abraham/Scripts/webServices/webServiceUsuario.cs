@@ -111,7 +111,11 @@ public class webServiceUsuario : MonoBehaviour {
         headers["Authorization"] = API_KEY;
         form.AddField("data", "{\"usuario\": \"" + usuario + "\", \"contrasena\": \"" + contraseña + "\"}");
         using (UnityWebRequest www = UnityWebRequest.Post(USUARIO_DATA, form)) {
-            yield return www.SendWebRequest();
+            AsyncOperation asyncLoad = www.SendWebRequest();
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone) {
+                yield return null;
+            }
             if (www.isNetworkError || www.isHttpError) {
                 Debug.Log(www.error);
             } else {
@@ -158,7 +162,11 @@ public class webServiceUsuario : MonoBehaviour {
         headers["Authorization"] = API_KEY;
         form.AddField("data", "{\"usuario\":\"" + usuario + "\"}");
         using (UnityWebRequest www = UnityWebRequest.Post(USUARIO_DATA, form)) {
-            yield return www.SendWebRequest();
+            AsyncOperation asyncLoad = www.SendWebRequest();
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone) {
+                yield return null;
+            }
             if (www.isNetworkError || www.isHttpError) {
                 Debug.Log(www.error);
             } else {

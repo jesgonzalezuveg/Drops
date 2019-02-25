@@ -8,11 +8,12 @@ public class FBholder : MonoBehaviour {
 
     bool bandera = false;       ///< bandera Valida si se tiene o no una sesion de facebook activa para buscar el correo desde facebook y verifica si existe en UVEG
 
+
     /**
      * Función que se manda llamar antes que inicie la escena
      * inicializa el servicio de Facebook
      */
-    void Awake() {
+    public void iniciar() {
         if (!FB.IsInitialized) {
             FB.Init(() => {
                 if (FB.IsInitialized) {
@@ -30,6 +31,7 @@ public class FBholder : MonoBehaviour {
         } else {
             FB.ActivateApp();
         }
+        facebookLogin();
     }
 
     /**

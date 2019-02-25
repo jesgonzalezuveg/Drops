@@ -80,7 +80,41 @@ public class webServicePreguntas : MonoBehaviour {
 
         form.AddField("metodo", "consultarPreguntas");
         using (UnityWebRequest www = UnityWebRequest.Post(URL, form)) {
-            yield return www.SendWebRequest();
+            AsyncOperation asyncLoad = www.SendWebRequest();
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone) {
+                yield return null;
+            }
+            if (www.isNetworkError || www.isHttpError) {
+                Debug.Log(www.error);
+            } else {
+                string text;
+                text = www.downloadHandler.text;
+                if (text == "") {
+                    Debug.Log("No se encontraron preguntas");
+                } else {
+                    text = "{\"preguntas\":" + text + "}";
+                    Data myObject = JsonUtility.FromJson<Data>(text);
+                    GameObject.Find("AppManager").GetComponent<appManager>().setPreguntas(myObject.preguntas);
+                }
+            }
+        }
+    }
+
+
+    public static IEnumerator getPreguntasOfPack(string paquete) {
+        WWWForm form = new WWWForm();
+        Dictionary<string, string> headers = form.headers;
+        headers["Authorization"] = API_KEY;
+
+        form.AddField("metodo", "consultarPreguntasOfPack");
+        form.AddField("descripcion", paquete);
+        using (UnityWebRequest www = UnityWebRequest.Post(URL, form)) {
+            AsyncOperation asyncLoad = www.SendWebRequest();
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone) {
+                yield return null;
+            }
             if (www.isNetworkError || www.isHttpError) {
                 Debug.Log(www.error);
             } else {

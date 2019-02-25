@@ -75,7 +75,11 @@ public class webServiceMateria : MonoBehaviour {
 
         form.AddField("metodo", "consultarMaterias");
         using (UnityWebRequest www = UnityWebRequest.Post(URL, form)) {
-            yield return www.SendWebRequest();
+            AsyncOperation asyncLoad = www.SendWebRequest();
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone) {
+                yield return null;
+            }
 
             if (www.isNetworkError || www.isHttpError) {
                 Debug.Log(www.error);

@@ -29,18 +29,18 @@ public class webServiceRespuestas : MonoBehaviour {
         public respuestaData[] respuestas;
     }
 
-    public static respuestaData getRespuestasByPregunta(string idPregunta) {
+    public static Data getRespuestasByPreguntaSqLite(string idPregunta) {
         string query = "SELECT * FROM respuesta WHERE idPregunta = '" + idPregunta + "';";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
-            respuestaData respuesta = JsonUtility.FromJson<respuestaData>(result);
+            Data respuesta = JsonUtility.FromJson<Data>(result);
             return respuesta;
         } else {
             return null;
         }
     }
 
-    public static respuestaData getRespuestaByDescripcion(string descripcion) {
+    public static respuestaData getRespuestaByDescripcionSqLite(string descripcion) {
         string query = "SELECT * FROM respuesta WHERE descripcion = '" + descripcion + "';";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
@@ -51,7 +51,7 @@ public class webServiceRespuestas : MonoBehaviour {
         }
     }
 
-    public static respuestaData getRespuestaByDescripcionAndPregunta(string descripcion, string idPregunta) {
+    public static respuestaData getRespuestaByDescripcionAndPreguntaSquLite(string descripcion, string idPregunta) {
         string query = "SELECT * FROM respuesta WHERE descripcion = '" + descripcion + "' AND idPregunta = '" + idPregunta + "';";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
@@ -80,8 +80,41 @@ public class webServiceRespuestas : MonoBehaviour {
 
         form.AddField("metodo", "consultarRespuestas");
         using (UnityWebRequest www = UnityWebRequest.Post(URL, form)) {
-            yield return www.SendWebRequest();
+            AsyncOperation asyncLoad = www.SendWebRequest();
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone) {
+                yield return null;
+            }
 
+            if (www.isNetworkError || www.isHttpError) {
+                Debug.Log(www.error);
+            } else {
+                string text;
+                text = www.downloadHandler.text;
+                if (text == "") {
+                    Debug.Log("No se encontraron respuestas");
+                } else {
+                    text = "{\"respuestas\":" + text + "}";
+                    Data myObject = JsonUtility.FromJson<Data>(text);
+                    GameObject.Find("AppManager").GetComponent<appManager>().setRespuestas(myObject.respuestas);
+                }
+            }
+        }
+    }
+
+    public static IEnumerator getRespuestasByPack(string descripcionPack) {
+        WWWForm form = new WWWForm();
+        Dictionary<string, string> headers = form.headers;
+        headers["Authorization"] = API_KEY;
+
+        form.AddField("metodo", "consultarRespuestasByPack");
+        form.AddField("paquete", descripcionPack);
+        using (UnityWebRequest www = UnityWebRequest.Post(URL, form)) {
+            AsyncOperation asyncLoad = www.SendWebRequest();
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone) {
+                yield return null;
+            }
             if (www.isNetworkError || www.isHttpError) {
                 Debug.Log(www.error);
             } else {
