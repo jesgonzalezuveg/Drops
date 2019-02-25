@@ -6,14 +6,23 @@ using System;
 
 public class testMaterias : MonoBehaviour {
 
-    GameObject manager;
+    appManager manager;
     public Image imagen;
 
     private void Awake() {
-        manager = GameObject.Find("AppManager");
+        manager = GameObject.Find("AppManager").GetComponent<appManager>();
     }
 
-    IEnumerator Start() {
+    private void Start() {
+        StartCoroutine(webServicePaquetes.getPaquetes());
+        StartCoroutine(webServiceCategoria.getCategorias());
+        StartCoroutine(webServiceMateria.getMaterias());
+        StartCoroutine(webServiceEjercicio.getEjercicios());
+        StartCoroutine(getUserImg());
+    }
+
+
+    IEnumerator getUserImg() {
         if (manager.GetComponent<appManager>().getImagen() != "") {
             WWW www = new WWW(manager.GetComponent<appManager>().getImagen());
             yield return www;

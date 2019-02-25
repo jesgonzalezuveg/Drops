@@ -27,7 +27,6 @@ public class appManager : MonoBehaviour {
     private bool banderaRespuestas = true;
 
     public Image imagen;
-    public Text consola;
 
     #region setter y getters
     /**
@@ -103,18 +102,16 @@ public class appManager : MonoBehaviour {
     public void Awake() {
         DontDestroyOnLoad(this.gameObject);
         if (Application.internetReachability == NetworkReachability.NotReachable) {
-            consola.text += "\nNo hay conexion";
+            Debug.Log("No hay conexion");
         } else {
-            consola.text += "\nSi hay conexion";
-            StartCoroutine(webServicePaquetes.getPaquetes());
-            StartCoroutine(webServiceCategoria.getCategorias());
-            StartCoroutine(webServiceMateria.getMaterias());
-            StartCoroutine(webServiceEjercicio.getEjercicios());
+            Debug.Log("Si hay conexion");
+            /*
             StartCoroutine(webServicePreguntas.getPreguntas());
             StartCoroutine(webServiceRespuestas.getRespuestas());
-            //StartCoroutine(descargarImagenesPaquete("1"));
+            StartCoroutine(descargarImagenesPaquete("1"));
+            */
         }
-        //consola.text += "\n" + webServiceUsuario.consultarUsuarioSqLite("10002080");
+        //Debug.Log("" + webServiceUsuario.consultarUsuarioSqLite("10002080");
     }
 
     public void Update() {
@@ -128,17 +125,30 @@ public class appManager : MonoBehaviour {
 
     public void validarPaquetes() {
         if (paquetes != null && banderaPaquetes) {
-            consola.text += "\n*****Consultando paquetes****";
+            Debug.Log("*****Consultando paquetes****");
+            var listaPacks = GameObject.Find("fichasPaquetes");
             foreach (var pack in paquetes) {
-                consola.text += "\n" + pack.descripcion + "SII";
+                Debug.Log(pack.descripcion + "SII");
                 var local = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
                 if ( local != null) {
-                    consola.text += "\nYa existe el paquete en local";
-                    consola.text += "\n" + pack.id;
+                    Debug.Log("Ya existe el paquete en local");
                     pack.id = local.id;
-                    consola.text += "\n" + pack.id;
+                    var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
+                    if (descargaLocal == null) {
+                        var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
+                        fichaPaquete.transform.SetParent(listaPacks.transform);
+                        fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
+                        fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
+                    } else {
+
+                    }
                 } else {
+                    var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
+                    fichaPaquete.transform.SetParent(listaPacks.transform);
+                    fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
                     webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion);
+                    var localPack = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
+                    fichaPaquete.GetComponent<packManager>().paqueteId = localPack.id;
                 }
             }
             banderaPaquetes = false;
