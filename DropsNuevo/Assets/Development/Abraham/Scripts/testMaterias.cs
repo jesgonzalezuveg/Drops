@@ -9,6 +9,7 @@ public class testMaterias : MonoBehaviour {
     appManager manager;
     public Image imagen;
     public GameObject textoPaquetes;
+    private bool bandera = true;
 
     private void Awake() {
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
@@ -19,7 +20,14 @@ public class testMaterias : MonoBehaviour {
         StartCoroutine(webServiceCategoria.getCategorias());
         StartCoroutine(webServiceMateria.getMaterias());
         StartCoroutine(webServiceEjercicio.getEjercicios());
-        StartCoroutine(getUserImg());
+        
+    }
+
+    private void Update() {
+        if (manager.getImagen() != "" && bandera) {
+            StartCoroutine(getUserImg());
+            bandera = false;
+        }
     }
 
 

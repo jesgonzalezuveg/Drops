@@ -147,9 +147,12 @@ public class appManager : MonoBehaviour {
     }
 
     public void Update() {
+        Debug.Log(Imagen);
         if (Usuario != "" && bandera) {
-            StartCoroutine(webServiceUsuario.getUserData(Usuario));
-            bandera = false;
+            if (Imagen == "") {
+                StartCoroutine(webServiceUsuario.getUserData(Usuario));
+                bandera = false;
+            }
         }
         validarPaquetes();
         validarCategorias();
@@ -162,13 +165,9 @@ public class appManager : MonoBehaviour {
     public void validarPaquetes() {
         if (GameObject.Find("fichasPaquetes")) {
             var listaPacks = GameObject.Find("fichasPaquetes");
-            if (listaPacks.transform.childCount <= 0) {
-                GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(true);
-            } else {
-                GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(false);
-            }
             if (paquetes != null && banderaPaquetes) {
                 foreach (var pack in paquetes) {
+                    Debug.Log(pack.descripcion);
                     var local = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
                     if (local != null) {
                         pack.id = local.id;
@@ -196,6 +195,11 @@ public class appManager : MonoBehaviour {
                     }
                 }
                 banderaPaquetes = false;
+            }
+            if (listaPacks.transform.childCount <= 0) {
+                GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(true);
+            } else {
+                GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(false);
             }
         }
     }

@@ -7,7 +7,6 @@ public class packManager : MonoBehaviour {
     public string paquete = "";
     public string paqueteId = "";
     private appManager manager;
-    private bool bandera = true;
 
     public void Start() {
         manager = GameObject.Find("AppManager").GetComponent<appManager>();

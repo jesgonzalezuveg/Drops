@@ -152,7 +152,6 @@ public class webServiceUsuario : MonoBehaviour {
     }
 
     public static IEnumerator getUserData(string usuario) {
-        Debug.Log(usuario);
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
@@ -178,13 +177,6 @@ public class webServiceUsuario : MonoBehaviour {
                     manager.setNombre(nombreCompleto);
                     manager.setCorreo(data.data.Correo);
                     manager.setImagen(data.data.Imagen);
-                    var idLocal = consultarIdUsuarioSqLite(data.data.Usuario);
-                    if (idLocal == "0") {
-                        insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio);
-                    }
-                    webServiceLog.insertarLogSqLite(data.data.Usuario);
-                    webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 2);
-                    SceneManager.LoadScene("menuCategorias");
                 } else {
                     //Aqui va mensaje de usuario incorrecto
                     Debug.Log("El usuario no existe");
