@@ -5,9 +5,9 @@ using UnityEngine;
 using Random = System.Random;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
-public class pairingCode : MonoBehaviour
-{
+public class pairingCode : MonoBehaviour {
     //Variables que guardan el codigo generado, la segunda con guión en medio de los 6 caracteres
     string code;
     string code2;
@@ -18,7 +18,7 @@ public class pairingCode : MonoBehaviour
     private int salir;
     private int countFrames;
     private int cargaCodigo;
-    UnityEvent listenerCode= new UnityEvent();
+    UnityEvent listenerCode = new UnityEvent();
 
     private webServiceUsuario.userDataSqLite usuario = null;
     private webServiceLog.logData log = null;
@@ -38,8 +38,7 @@ public class pairingCode : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Awake()
-    {
+    void Awake() {
         code = "";
         code2 = "";
         status = "5";
@@ -51,9 +50,8 @@ public class pairingCode : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (countFrames>=30) {
+    void Update() {
+        if (countFrames >= 30) {
 
             //Paso 1 de pairing code: generara el codigo y guardarlo en el servidor
             if (salir == 0) {
@@ -67,7 +65,9 @@ public class pairingCode : MonoBehaviour
                     Debug.Log("El código no exixte");
                     WebServiceCodigo.guardarCodigoSqlite(code);
                     StartCoroutine(WebServiceCodigo.insertarCodigo(code));
-                    GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text = code2;
+                    foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
+                        objeto.GetComponent<Text>().text = code2;
+                    }
                     listenerCode.AddListener(emparejarCodigo);
                     salir = 1;
                 } else {
@@ -85,7 +85,9 @@ public class pairingCode : MonoBehaviour
                         Debug.Log("Se modifico el status");
                         listenerCode.RemoveListener(emparejarCodigo);
                         salir = 2;
-                        GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text = "Codigo emparejado";
+                        foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
+                            objeto.GetComponent<Text>().text = "Codigo emparejado";
+                        }
                         Debug.Log("Emparejando datos de sesion generados");
                         salir = 3;
                         pairingCode.valCodigoSii = 3;
@@ -112,15 +114,18 @@ public class pairingCode : MonoBehaviour
                     Debug.Log("Se obtuvieron los datos de sesion para emparejarlos");
                     //Validar si el usuario ya existe en la db local
                     var res = webServiceUsuario.existUserSqlite(usuario.usuario);
-                    if (res!=1) {
+                    if (res != 1) {
                         //Guardar el registro del usuario en la db local
                         var resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status));
                         if (resSaveUser == 1) {
                             Debug.Log("El usuario se guardo correctamente");
                             //Obtener datos del usuario que se acaba de registrar de la db local
                             var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
-                            if (resultado!="0") {
+                            if (resultado != "0") {
                                 webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
+                                //////////
+                                var appManager = GameObject.Find("AppManager").GetComponent<appManager>();
+                                appManager.setUsuario(data.usuario);
                                 //Guardar el log del usuario en la db local
                                 Debug.Log("El usuario se guardo correctamente");
                                 var resSaveLog = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 2, log.idCodigo, data.id);
@@ -150,6 +155,9 @@ public class pairingCode : MonoBehaviour
                         var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
                         if (resultado != "0") {
                             webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
+                            ///////////
+                            var appManager = GameObject.Find("AppManager").GetComponent<appManager>();
+                            appManager.setUsuario(data.usuario);
                             //Guardar el log del usuario en la db local
                             var resSaveLogSqlite = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 2, log.idCodigo, data.id);
                             if (resSaveLogSqlite == 1) {
@@ -184,7 +192,7 @@ public class pairingCode : MonoBehaviour
                 StartCoroutine(WebServiceCodigo.updateCode(codigo.id, 3));
                 if (valCodigoSii == 1) {
                     Debug.Log("Se actualizo codigo en servidor");
-                    Debug.Log("Emparejamiento finalizado. Pasar a la siguiente escena");
+                    SceneManager.LoadScene("menuCategorias");
                 } else if (valCodigoSii == 0) {
                     Debug.Log("No se pudo actualizar codigo en servidor");
                 } else {
@@ -192,22 +200,34 @@ public class pairingCode : MonoBehaviour
                 }
             }
 
-                countFrames = 0;
+            countFrames = 0;
         } else {
             countFrames++;
-            cargaCodigo++; if (salir==0) {
+            cargaCodigo++; if (salir == 0) {
                 if (cargaCodigo == 1) {
-                    GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text = "X";
+                    foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
+                        objeto.GetComponent<Text>().text = ".";
+                    }
                 } else if (cargaCodigo == 2) {
-                    GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text = "XD";
+                    foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
+                        objeto.GetComponent<Text>().text = "..";
+                    }
                 } else if (cargaCodigo == 3) {
-                    GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text = "XDX";
+                    foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
+                        objeto.GetComponent<Text>().text = "...";
+                    }
                 } else if (cargaCodigo == 4) {
-                    GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text = "XDXD";
+                    foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
+                        objeto.GetComponent<Text>().text = "....";
+                    }
                 } else if (cargaCodigo == 5) {
-                    GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text = "XDXDX";
+                    foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
+                        objeto.GetComponent<Text>().text = ".....";
+                    }
                 } else if (cargaCodigo == 6) {
-                    GameObject.FindGameObjectWithTag("codigo").GetComponent<Text>().text = "XDXDXD";
+                    foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
+                        objeto.GetComponent<Text>().text = "......";
+                    }
                     cargaCodigo = 0;
                 }
             }

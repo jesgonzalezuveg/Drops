@@ -8,6 +8,7 @@ public class testMaterias : MonoBehaviour {
 
     appManager manager;
     public Image imagen;
+    public GameObject textoPaquetes;
 
     private void Awake() {
         manager = GameObject.Find("AppManager").GetComponent<appManager>();

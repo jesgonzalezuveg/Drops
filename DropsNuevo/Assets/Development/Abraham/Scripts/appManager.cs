@@ -10,6 +10,7 @@ using System.IO;
 public class appManager : MonoBehaviour {
 
     private string Usuario = "";            ///< Usuario almacena el usuario que utiliza la aplicación
+    private string idUsuario = "";
     private string Nombre = "";             ///< Nombre almacena el nombre del usuario que utiliza la aplicación
     private string Correo = "";             ///< Correo almacena el correo con el cual la cuenta esta vinculada
     private string Imagen = "";             ///< Imagen almacena la imagen, ya sea de facebook o bien de UVEG de la persona que utiliza la aplicación
@@ -25,6 +26,7 @@ public class appManager : MonoBehaviour {
     private bool banderaPreguntas = true;
     private webServiceRespuestas.respuestaData[] respuestas = null;
     private bool banderaRespuestas = true;
+    private bool bandera = true;
 
     public Image imagen;
 
@@ -56,6 +58,13 @@ public class appManager : MonoBehaviour {
      */
     public void setImagen(string Imagen) {
         this.Imagen = Imagen;
+    }
+    /**
+     * Regresa los datos del usuario correspondiente al usuario
+     * 
+     */
+    public string getUsuario() {
+        return Usuario;
     }
     /**
      * Regresa los datos del usuario correspondiente al Nombre
@@ -134,16 +143,14 @@ public class appManager : MonoBehaviour {
             Debug.Log("No hay conexion");
         } else {
             Debug.Log("Si hay conexion");
-            /*
-            StartCoroutine(webServicePreguntas.getPreguntas());
-            StartCoroutine(webServiceRespuestas.getRespuestas());
-            StartCoroutine(descargarImagenesPaquete("1"));
-            */
         }
-        //Debug.Log("" + webServiceUsuario.consultarUsuarioSqLite("10002080");
     }
 
     public void Update() {
+        if (Usuario != "" && bandera) {
+            StartCoroutine(webServiceUsuario.getUserData(Usuario));
+            bandera = false;
+        }
         validarPaquetes();
         validarCategorias();
         validarMaterias();
@@ -153,35 +160,43 @@ public class appManager : MonoBehaviour {
     }
 
     public void validarPaquetes() {
-        if (paquetes != null && banderaPaquetes) {
-            Debug.Log("*****Consultando paquetes****");
+        if (GameObject.Find("fichasPaquetes")) {
             var listaPacks = GameObject.Find("fichasPaquetes");
-            foreach (var pack in paquetes) {
-                Debug.Log(pack.descripcion + "SII");
-                var local = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
-                if (local != null) {
-                    Debug.Log("Ya existe el paquete en local");
-                    pack.id = local.id;
-                    var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
-                    if (descargaLocal == null) {
+            if (listaPacks.transform.childCount <= 0) {
+                GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(true);
+            } else {
+                GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(false);
+            }
+            if (paquetes != null && banderaPaquetes) {
+                foreach (var pack in paquetes) {
+                    var local = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
+                    if (local != null) {
+                        pack.id = local.id;
+                        var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
+                        if (descargaLocal == null) {
+                            var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
+                            fichaPaquete.name = "fichaPack" + pack.id;
+                            llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
+                            fichaPaquete.transform.SetParent(listaPacks.transform);
+                            fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
+                            fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
+                            fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
+                        } else {
+
+                        }
+                    } else {
                         var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
+                        fichaPaquete.name = "fichaPack" + pack.id;
                         llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
                         fichaPaquete.transform.SetParent(listaPacks.transform);
                         fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
+                        webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion);
                         fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
-                    } else {
-
+                        fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
                     }
-                } else {
-                    var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
-                    llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
-                    fichaPaquete.transform.SetParent(listaPacks.transform);
-                    fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
-                    webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion);
-                    fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
                 }
+                banderaPaquetes = false;
             }
-            banderaPaquetes = false;
         }
     }
 
@@ -281,6 +296,11 @@ public class appManager : MonoBehaviour {
                 File.WriteAllBytes(Application.persistentDataPath + path, bytes);
             }
         }
+        Destroy(GameObject.Find("fichaPack" + preguntas[0].idPaquete));
+        preguntas = null;
+        banderaPreguntas = true;
+        respuestas = null;
+        banderaRespuestas = true;
     }
 
     void OnApplicationQuit() {

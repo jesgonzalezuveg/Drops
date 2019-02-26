@@ -151,6 +151,48 @@ public class webServiceUsuario : MonoBehaviour {
         }
     }
 
+    public static IEnumerator getUserData(string usuario) {
+        Debug.Log(usuario);
+        WWWForm form = new WWWForm();
+        Dictionary<string, string> headers = form.headers;
+        headers["Authorization"] = API_KEY;
+        form.AddField("data", "{\"usuario\": \"" + usuario + "\", \"contrasena\": \""+ usuario +"\"}");
+        using (UnityWebRequest www = UnityWebRequest.Post(USUARIO_DATA, form)) {
+            AsyncOperation asyncLoad = www.SendWebRequest();
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone) {
+                yield return null;
+            }
+            if (www.isNetworkError || www.isHttpError) {
+                Debug.Log(www.error);
+            } else {
+                string text;
+                text = www.downloadHandler.text;
+                text = text.Replace("[", "");
+                text = text.Replace("]", "");
+                JsonResponse data = JsonUtility.FromJson<JsonResponse>(text);
+                if (data.data.Usuario != "") {
+                    string nombreCompleto = data.data.Nombre + " " + data.data.PrimerApellido + " " + data.data.SegundoApellido;
+                    appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                    manager.setUsuario(data.data.Usuario);
+                    manager.setNombre(nombreCompleto);
+                    manager.setCorreo(data.data.Correo);
+                    manager.setImagen(data.data.Imagen);
+                    var idLocal = consultarIdUsuarioSqLite(data.data.Usuario);
+                    if (idLocal == "0") {
+                        insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio);
+                    }
+                    webServiceLog.insertarLogSqLite(data.data.Usuario);
+                    webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 2);
+                    SceneManager.LoadScene("menuCategorias");
+                } else {
+                    //Aqui va mensaje de usuario incorrecto
+                    Debug.Log("El usuario no existe");
+                }
+            }
+        }
+    }
+
     /** Coroutine que consulta base de datos de SII para obtener los datos del usuario
      * @param usuario matricula, correo institucional o correo personal del alumno que ingresa
      * @param name nombre del usuario de facebook
@@ -184,7 +226,7 @@ public class webServiceUsuario : MonoBehaviour {
                     manager.setImagen(data.data.Imagen);
                     if (consultarUsuarioSqLite(data.data.Usuario) != "0") {
                         webServiceLog.insertarLogSqLite(data.data.Usuario);
-                        webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario,2);
+                        webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 2);
                         SceneManager.LoadScene("menuCategorias");
                     } else {
                         if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio) == 1) {
