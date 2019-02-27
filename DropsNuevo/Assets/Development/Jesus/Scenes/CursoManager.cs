@@ -10,6 +10,7 @@ public class CursoManager : MonoBehaviour {
     public Text textoPuntaje;
     public GameObject correctoimg;
     public GameObject incorrectoimg;
+    public GameObject scoreFinal;
 
     webServicePreguntas.preguntaData[] preguntas = null;
     List<webServiceRespuestas.Data> respuestasTodas = new List<webServiceRespuestas.Data>();
@@ -23,6 +24,7 @@ public class CursoManager : MonoBehaviour {
         textoPuntaje.text = score + "";
         correctoimg.SetActive(false);
         incorrectoimg.SetActive(false);
+        scoreFinal.SetActive(false);
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
         preguntas = manager.preguntasCategoria;
         for (var i = 0; i < preguntas.Length; i++) {
@@ -77,7 +79,9 @@ public class CursoManager : MonoBehaviour {
         if (preguntas.Length > countPreguntas) {
             llamarPreguntas(countPreguntas);
         } else {
-            SceneManager.LoadScene("menuCategorias");
+            GameObject.Find("Pregunta1").SetActive(false);
+            scoreFinal.SetActive(true);
+            //SceneManager.LoadScene("menuCategorias");
         }
     }
 
@@ -87,7 +91,10 @@ public class CursoManager : MonoBehaviour {
         if (preguntas.Length > countPreguntas) {
             llamarPreguntas(countPreguntas);
         } else {
-            SceneManager.LoadScene("menuCategorias");
+            GameObject.Find("Pregunta1").SetActive(false);
+            scoreFinal.GetComponentInChildren<Text>().text = score + "";
+            scoreFinal.SetActive(true);
+            //SceneManager.LoadScene("menuCategorias");
         }
     }
 
@@ -95,6 +102,10 @@ public class CursoManager : MonoBehaviour {
         objeto.SetActive(true);
         yield return new WaitForSeconds(segundos);
         objeto.SetActive(false);
+    }
+
+    public void salir() {
+        SceneManager.LoadScene("menuCategorias");
     }
 
 }
