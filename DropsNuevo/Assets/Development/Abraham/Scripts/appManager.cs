@@ -28,6 +28,8 @@ public class appManager : MonoBehaviour {
     private bool banderaRespuestas = true;
     private bool bandera = true;
 
+    public webServicePreguntas.preguntaData[] preguntasCategoria = null;
+
     #region setter y getters
     /**
      * Asigna el valor del usuario

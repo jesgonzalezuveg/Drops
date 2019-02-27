@@ -33,6 +33,8 @@ public class webServiceRespuestas : MonoBehaviour {
         string query = "SELECT * FROM respuesta WHERE idPregunta = '" + idPregunta + "';";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
+            result = "{\"respuestas\":" + "[" + result + "]}";
+            Debug.Log(result);
             Data respuesta = JsonUtility.FromJson<Data>(result);
             return respuesta;
         } else {

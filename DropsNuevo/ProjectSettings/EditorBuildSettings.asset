@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Development/Abraham/scenes/menuCategorias.unity
     guid: 88d63eb425a462840bcfd4b2cbe828c0
+  - enabled: 1
+    path: Assets/Development/Jesus/Scenes/salon.unity
+    guid: e4b1f39edf94581418be51064c66ea04
   m_configObjects: {}

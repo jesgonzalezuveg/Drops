@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class testMaterias : MonoBehaviour {
 
@@ -44,15 +45,21 @@ public class testMaterias : MonoBehaviour {
         var materias = webServiceMateria.getIdMateriasByCategoriaSqLite(idCategoria);
         if (materias != "0") {
             string[] splitString = materias.Split(',');
+            bool banderaPreguntas = true;
             for (var i = 0; i < splitString.Length; i++ ) {
                 var preguntas = webServicePreguntas.getPreguntasByMateria(splitString[i]);
                 if (preguntas != null) {
                     foreach (var pregunta in preguntas) {
                         Debug.Log(pregunta.descripcion);
+                        banderaPreguntas = false;
                     }
+                    manager.preguntasCategoria = preguntas;
                 } else {
                     Debug.Log("No hay preguntas en esta categoria");
                 }
+            }
+            if (!banderaPreguntas) {
+                SceneManager.LoadScene("salon");
             }
         } else {
             Debug.Log("No hay materias registradas");
