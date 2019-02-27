@@ -46,8 +46,12 @@ public class testMaterias : MonoBehaviour {
             string[] splitString = materias.Split(',');
             for (var i = 0; i < splitString.Length; i++ ) {
                 var preguntas = webServicePreguntas.getPreguntasByMateria(splitString[i]);
-                foreach (var pregunta in preguntas) {
-                    Debug.Log(pregunta.descripcion);
+                if (preguntas != null) {
+                    foreach (var pregunta in preguntas) {
+                        Debug.Log(pregunta.descripcion);
+                    }
+                } else {
+                    Debug.Log("No hay preguntas en esta categoria");
                 }
             }
         } else {
@@ -56,6 +60,6 @@ public class testMaterias : MonoBehaviour {
     }
 
     public void salir() {
-
+        Application.Quit();
     }
 }

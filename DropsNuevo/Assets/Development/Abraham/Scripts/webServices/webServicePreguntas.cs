@@ -65,7 +65,6 @@ public class webServicePreguntas : MonoBehaviour {
         string query = "SELECT * FROM pregunta WHERE descripcion = '" + descripcion + "';";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
-            Debug.Log(result);
             preguntaData data = JsonUtility.FromJson<preguntaData>(result);
             return data;
         } else {
@@ -126,7 +125,6 @@ public class webServicePreguntas : MonoBehaviour {
                     Debug.Log("No se encontraron preguntas");
                 } else {
                     text = "{\"preguntas\":" + text + "}";
-                    Debug.Log(text);
                     Data myObject = JsonUtility.FromJson<Data>(text);
                     GameObject.Find("AppManager").GetComponent<appManager>().setPreguntas(myObject.preguntas);
                 }

@@ -28,8 +28,6 @@ public class appManager : MonoBehaviour {
     private bool banderaRespuestas = true;
     private bool bandera = true;
 
-    public Image imagen;
-
     #region setter y getters
     /**
      * Asigna el valor del usuario
@@ -147,7 +145,6 @@ public class appManager : MonoBehaviour {
     }
 
     public void Update() {
-        Debug.Log(Imagen);
         if (Usuario != "" && bandera) {
             if (Imagen == "") {
                 StartCoroutine(webServiceUsuario.getUserData(Usuario));
@@ -250,6 +247,7 @@ public class appManager : MonoBehaviour {
 
     public void validarPreguntas() {
         if (preguntas != null && banderaPreguntas) {
+            banderaPreguntas = false;
             Debug.Log("Hay preguntas");
             foreach (var pregunta in preguntas) {
                 var local = webServicePreguntas.getPreguntaByDescripcionSqLite(pregunta.descripcion);
@@ -265,23 +263,24 @@ public class appManager : MonoBehaviour {
                     webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idMateria, idPaquete);
                 }
             }
-            banderaPreguntas = false;
         }
     }
 
     public void validarRespuestas() {
         if (respuestas != null && banderaRespuestas) {
+            banderaRespuestas = false;
+            Debug.Log(respuestas.Length);
             foreach (var respuesta in respuestas) {
-                var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta).id;
-                var local = webServiceRespuestas.getRespuestaByDescripcionAndPreguntaSquLite(respuesta.descripcion, idPregunta);
+                var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta);
+                Debug.Log(idPregunta.id);
+                var local = webServiceRespuestas.getRespuestaByDescripcionAndPreguntaSquLite(respuesta.descripcion, idPregunta.id);
                 if (local != null) {
                     respuesta.id = local.id;
                     respuesta.idPregunta = local.idPregunta;
                 } else {
-                    webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta);
+                    webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta.id);
                 }
             }
-            banderaRespuestas = false;
             StartCoroutine(descargarImagenesPaquete());
         }
     }
