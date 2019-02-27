@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - codigo
+  - Q1.3
+  - Q1.4
+  - Q1.2
+  - Q1.1
+  - objRespuesta1
+  - objRespuesta2
+  - objRespuesta3
+  - objRespuesta4
   layers:
   - Default
   - TransparentFX
