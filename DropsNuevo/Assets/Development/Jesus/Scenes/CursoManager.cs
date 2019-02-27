@@ -74,7 +74,7 @@ public class CursoManager : MonoBehaviour {
 
     public void correcto() {
         Debug.Log("correcto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
-        StartCoroutine(esperaSegundos(2, correctoimg));
+        StartCoroutine(esperaSegundos(0.5f, correctoimg));
         score++;
         textoPuntaje.text = score + "";
         if (preguntas.Length > countPreguntas) {
@@ -89,7 +89,7 @@ public class CursoManager : MonoBehaviour {
 
     public void incorrecto() {
         Debug.Log("incorrecto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
-        StartCoroutine(esperaSegundos(2, incorrectoimg));
+        StartCoroutine(esperaSegundos(0.5f, incorrectoimg));
         if (preguntas.Length > countPreguntas) {
             llamarPreguntas(countPreguntas);
         } else {
@@ -101,7 +101,7 @@ public class CursoManager : MonoBehaviour {
         }
     }
 
-    IEnumerator esperaSegundos(int segundos, GameObject objeto) {
+    IEnumerator esperaSegundos(float segundos, GameObject objeto) {
         objeto.SetActive(true);
         yield return new WaitForSeconds(segundos);
         objeto.SetActive(false);
