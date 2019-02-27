@@ -8,6 +8,7 @@ using System.IO;
 public class CursoManager : MonoBehaviour {
 
     public Text textoPuntaje;
+    public Text textoPuntajeMarcador;
     public GameObject correctoimg;
     public GameObject incorrectoimg;
     public GameObject scoreFinal;
@@ -80,6 +81,7 @@ public class CursoManager : MonoBehaviour {
             llamarPreguntas(countPreguntas);
         } else {
             GameObject.Find("Pregunta1").SetActive(false);
+            textoPuntajeMarcador.text = score + "";
             scoreFinal.SetActive(true);
             //SceneManager.LoadScene("menuCategorias");
         }
@@ -92,7 +94,8 @@ public class CursoManager : MonoBehaviour {
             llamarPreguntas(countPreguntas);
         } else {
             GameObject.Find("Pregunta1").SetActive(false);
-            scoreFinal.GetComponentInChildren<Text>().text = score + "";
+            textoPuntajeMarcador.text = score + "";
+            //scoreFinal.GetComponentInChildren<Text>().text = score + "";
             scoreFinal.SetActive(true);
             //SceneManager.LoadScene("menuCategorias");
         }
@@ -107,5 +110,6 @@ public class CursoManager : MonoBehaviour {
     public void salir() {
         SceneManager.LoadScene("menuCategorias");
     }
+
 
 }
