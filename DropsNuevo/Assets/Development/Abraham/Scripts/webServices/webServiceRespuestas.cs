@@ -21,6 +21,7 @@ public class webServiceRespuestas : MonoBehaviour {
         public string fechaRegistro = "";
         public string fechaModificacion = "";
         public string idPregunta = "";
+        public string idServer = "";
         public string descripcionPregunta = "";
     }
 
@@ -64,8 +65,19 @@ public class webServiceRespuestas : MonoBehaviour {
         }
     }
 
-    public static int insertarRespuestaSqLite(string descripcion, string urlImagen, string correcto, string relacion, string status, string fechaRegistro, string fechaModificacion, string idPregunta) {
-        string query = "INSERT INTO respuesta (descripcion, urlImagen, correcto, relacion, status, fechaRegistro, fechaModificacion, idPregunta) VALUES ('" + descripcion + "', '" + urlImagen + "', '" + correcto + "', '" + relacion + "', '" + status + "', '" + fechaRegistro + "', '" + fechaModificacion + "', '" + idPregunta + "'); ";
+    public static int insertarRespuestaSqLite(string descripcion, string urlImagen, string correcto, string relacion, string status, string fechaRegistro, string fechaModificacion, string idPregunta, string idServer) {
+        string query = "INSERT INTO respuesta (descripcion, urlImagen, correcto, relacion, status, fechaRegistro, fechaModificacion, idPregunta, idServer) VALUES ('" + descripcion + "', '" + urlImagen + "', '" + correcto + "', '" + relacion + "', '" + status + "', '" + fechaRegistro + "', '" + fechaModificacion + "', '" + idPregunta + "', '" + idServer + "'); ";
+        var result = conexionDB.alterGeneral(query);
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public static int updateRespuestaSqLite(string descripcion, string urlImagen, string correcto, string relacion, string status, string fechaRegistro, string fechaModificacion, string idPregunta, string idServer) {
+        Debug.Log("Actualizando paquete");
+        string query = "UPDATE  respuesta SET  descripcion =  '" + descripcion + "', urlImagen =  '" + urlImagen + "', correcto =  '" + correcto + "', relacion = '" + relacion + "', status =  '" + status +  "', fechaRegistro =  '" + fechaRegistro + "', fechaModificacion =  '" + fechaModificacion + "', idPregunta =  '" + idPregunta +  "' WHERE  respuesta.id = '" + idServer + "';";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;

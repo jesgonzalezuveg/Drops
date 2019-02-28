@@ -50,7 +50,6 @@ public class testMaterias : MonoBehaviour {
                 var preguntas = webServicePreguntas.getPreguntasByMateria(splitString[i]);
                 if (preguntas != null) {
                     foreach (var pregunta in preguntas) {
-                        Debug.Log(pregunta.descripcion);
                         banderaPreguntas = false;
                     }
                     //MODIFICAR MANDAR DE TODAS LAS MATERIAS

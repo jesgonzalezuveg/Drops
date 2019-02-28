@@ -166,31 +166,41 @@ public class appManager : MonoBehaviour {
             var listaPacks = GameObject.Find("fichasPaquetes");
             if (paquetes != null && banderaPaquetes) {
                 foreach (var pack in paquetes) {
-                    Debug.Log(pack.descripcion);
                     var local = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
                     if (local != null) {
                         pack.id = local.id;
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
                         if (descargaLocal == null) {
-                            var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
-                            fichaPaquete.name = "fichaPack" + pack.id;
-                            llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
-                            fichaPaquete.transform.SetParent(listaPacks.transform);
-                            fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
-                            fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
-                            fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
+                            addPackCard(pack, listaPacks);
                         } else {
-
+                            //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss
+                            descargaLocal.fechaDescarga = descargaLocal.fechaDescarga.Remove(10, descargaLocal.fechaDescarga.Length - 10);
+                            string[] splitDateDescarga = descargaLocal.fechaDescarga.Split('/');
+                            //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
+                            pack.fechaModificacion = pack.fechaModificacion.Remove(10, pack.fechaModificacion.Length - 10);
+                            string[] splitDatePack = pack.fechaModificacion.Split('-');
+                            if (Int32.Parse(splitDateDescarga[2]) >= Int32.Parse(splitDatePack[0])) {
+                                Debug.Log("El año es mayor o igual");
+                                if (Int32.Parse(splitDateDescarga[1]) >= Int32.Parse(splitDatePack[1])) {
+                                    Debug.Log("El mes es mayor o igual");
+                                    if (Int32.Parse(splitDateDescarga[0]) >= Int32.Parse(splitDatePack[2])) {
+                                        Debug.Log("El dia es mayor o igual");
+                                    } else {
+                                        Debug.Log("Actualizar paquete");
+                                        addPackCard(pack, listaPacks, true);
+                                    }
+                                } else {
+                                    Debug.Log("Actualizar paquete");
+                                    addPackCard(pack, listaPacks, true);
+                                }
+                            } else {
+                                Debug.Log("Actualizar paquete");
+                                addPackCard(pack, listaPacks, true);
+                            }
                         }
                     } else {
-                        var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
-                        fichaPaquete.name = "fichaPack" + pack.id;
-                        llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
-                        fichaPaquete.transform.SetParent(listaPacks.transform);
-                        fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
-                        webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion);
-                        fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
-                        fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
+                        webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion, pack.id);
+                        addPackCard(pack, listaPacks);
                     }
                 }
                 banderaPaquetes = false;
@@ -201,6 +211,27 @@ public class appManager : MonoBehaviour {
                 GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(false);
             }
         }
+    }
+
+    public void addPackCard(webServicePaquetes.paqueteData pack, GameObject listaPacks) {
+        var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
+        fichaPaquete.name = "fichaPack" + pack.id;
+        llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
+        fichaPaquete.transform.SetParent(listaPacks.transform);
+        fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
+        fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
+        fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
+    }
+
+    public void addPackCard(webServicePaquetes.paqueteData pack, GameObject listaPacks, bool existe) {
+        var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
+        fichaPaquete.name = "fichaPack" + pack.id;
+        llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
+        fichaPaquete.transform.SetParent(listaPacks.transform);
+        fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
+        fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
+        fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
+        fichaPaquete.GetComponent<packManager>().existe = existe;
     }
 
     public void validarCategorias() {
@@ -249,8 +280,8 @@ public class appManager : MonoBehaviour {
 
     public void validarPreguntas() {
         if (preguntas != null && banderaPreguntas) {
+            Debug.Log("Validando preguntas");
             banderaPreguntas = false;
-            Debug.Log("Hay preguntas");
             foreach (var pregunta in preguntas) {
                 var local = webServicePreguntas.getPreguntaByDescripcionSqLite(pregunta.descripcion);
                 if (local != null) {
@@ -262,7 +293,7 @@ public class appManager : MonoBehaviour {
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
                     string idMateria = webServiceMateria.getMateriaByClaveSqLite(pregunta.claveMateria).id;
                     string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
-                    webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idMateria, idPaquete);
+                    webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idMateria, idPaquete, pregunta.id);
                 }
             }
         }
@@ -270,17 +301,18 @@ public class appManager : MonoBehaviour {
 
     public void validarRespuestas() {
         if (respuestas != null && banderaRespuestas) {
+            Debug.Log("Validando respuestas");
             banderaRespuestas = false;
-            Debug.Log(respuestas.Length);
             foreach (var respuesta in respuestas) {
                 var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta);
-                Debug.Log(idPregunta.id);
                 var local = webServiceRespuestas.getRespuestaByDescripcionAndPreguntaSquLite(respuesta.descripcion, idPregunta.id);
                 if (local != null) {
+                    Debug.Log("Ya existe esta pregunta");
+                    webServiceRespuestas.updateRespuestaSqLite(respuesta.descripcion,respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, respuesta.idPregunta, respuesta.idServer);
                     respuesta.id = local.id;
                     respuesta.idPregunta = local.idPregunta;
                 } else {
-                    webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta.id);
+                    webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta.id, respuesta.id);
                 }
             }
             StartCoroutine(descargarImagenesPaquete());

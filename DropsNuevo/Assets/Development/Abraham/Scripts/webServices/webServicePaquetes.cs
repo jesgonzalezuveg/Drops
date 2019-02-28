@@ -19,6 +19,7 @@ public class webServicePaquetes : MonoBehaviour{
         public string descripcion = "";
         public string fechaRegistro = "";
         public string fechaModificacion = "";
+        public string idServer = "";
     }
 
     [Serializable]
@@ -53,8 +54,8 @@ public class webServicePaquetes : MonoBehaviour{
         }
     }
 
-    public static int insertarPaqueteSqLite(string descripcion, string fechaCreacion, string fechaModificacion) {
-        string query = "INSERT INTO paquete (descripcion, fechaRegistro, fechaModificacion) VALUES ('" + descripcion + "','" + fechaCreacion + "','" + fechaModificacion + "');";
+    public static int insertarPaqueteSqLite(string descripcion, string fechaCreacion, string fechaModificacion, string idServer) {
+        string query = "INSERT INTO paquete (descripcion, fechaRegistro, fechaModificacion, idServer) VALUES ('" + descripcion + "', dateTime(), dateTime(), '" + idServer + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
