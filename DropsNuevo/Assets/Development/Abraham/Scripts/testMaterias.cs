@@ -53,6 +53,7 @@ public class testMaterias : MonoBehaviour {
                         Debug.Log(pregunta.descripcion);
                         banderaPreguntas = false;
                     }
+                    //MODIFICAR MANDAR DE TODAS LAS MATERIAS
                     manager.preguntasCategoria = preguntas;
                 } else {
                     Debug.Log("No hay preguntas en esta categoria");

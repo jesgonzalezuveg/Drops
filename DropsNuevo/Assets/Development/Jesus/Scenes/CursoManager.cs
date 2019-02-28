@@ -63,7 +63,7 @@ public class CursoManager : MonoBehaviour {
                 count++;
             }
         }
-        PosAleatoria(1);
+        //PosAleatoria(1);
         countPreguntas++;
     }
 
