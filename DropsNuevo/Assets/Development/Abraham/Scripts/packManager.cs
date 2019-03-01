@@ -15,12 +15,12 @@ public class packManager : MonoBehaviour {
 
     public void descargaPaquete() {
         if (existe) {
-            StartCoroutine(webServicePreguntas.getPreguntasOfPack(paquete));
-            StartCoroutine(webServiceRespuestas.getRespuestasByPack(paquete));
+            StartCoroutine(webServicePreguntas.getPreguntasOfPackViejo(paquete)); 
+            StartCoroutine(webServiceRespuestas.getRespuestasByPackViejo(paquete)); 
             webServiceDescarga.insertarDescargaSqLite(paqueteId, webServiceUsuario.consultarIdUsuarioSqLite(manager.getUsuario()));
         } else {
-            StartCoroutine(webServicePreguntas.getPreguntasOfPack(paquete));
-            StartCoroutine(webServiceRespuestas.getRespuestasByPack(paquete));
+            StartCoroutine(webServicePreguntas.getPreguntasOfPackViejo(paquete)); 
+            StartCoroutine(webServiceRespuestas.getRespuestasByPackViejo(paquete)); 
             webServiceDescarga.insertarDescargaSqLite(paqueteId, webServiceUsuario.consultarIdUsuarioSqLite(manager.getUsuario()));
         }
     }
