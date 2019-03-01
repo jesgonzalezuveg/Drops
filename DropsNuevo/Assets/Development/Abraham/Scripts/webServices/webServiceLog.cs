@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
-
+using System.Net;
+using System.IO;
 public class webServiceLog : MonoBehaviour {
 
 

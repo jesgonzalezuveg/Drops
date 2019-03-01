@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
+using System.Net;
+using System.IO;
 
 public class webServicePaquetes : MonoBehaviour{
 
@@ -19,6 +21,8 @@ public class webServicePaquetes : MonoBehaviour{
         public string descripcion = "";
         public string fechaRegistro = "";
         public string fechaModificacion = "";
+        public string urlImagen = "";
+        public string idServer = "";
     }
 
     [Serializable]
@@ -53,8 +57,8 @@ public class webServicePaquetes : MonoBehaviour{
         }
     }
 
-    public static int insertarPaqueteSqLite(string descripcion, string fechaCreacion, string fechaModificacion) {
-        string query = "INSERT INTO paquete (descripcion, fechaRegistro, fechaModificacion) VALUES ('" + descripcion + "','" + fechaCreacion + "','" + fechaModificacion + "');";
+    public static int insertarPaqueteSqLite(string descripcion, string fechaCreacion, string fechaModificacion, string urlImagen, string idServer) {
+        string query = "INSERT INTO paquete (descripcion, fechaRegistro, fechaModificacion, urlImagen , idServer) VALUES ('" + descripcion + "', dateTime(), dateTime(), '" + urlImagen + "', '" + idServer + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -64,7 +68,7 @@ public class webServicePaquetes : MonoBehaviour{
     }
 
 
-    public static IEnumerator getPaquetes() {
+    public static IEnumerator getPaquetesViejo() {
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
@@ -92,5 +96,17 @@ public class webServicePaquetes : MonoBehaviour{
             }
         }
     }
+
+    //public static void getPaquetesNuevo() {
+    //    WWWForm form = new WWWForm();
+    //    form.AddField("metodo", "consultarPaquetes");
+    //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(String.Format(URL, form));
+    //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+    //    StreamReader reader = new StreamReader(response.GetResponseStream());
+    //    string text = reader.ReadToEnd();
+    //    text = "{\"paquete\":" + text + "}";
+    //    Data info = JsonUtility.FromJson<Data>(text);
+    //    GameObject.Find("AppManager").GetComponent<appManager>().setPaquetes(info.paquete);
+    //}
 
 }

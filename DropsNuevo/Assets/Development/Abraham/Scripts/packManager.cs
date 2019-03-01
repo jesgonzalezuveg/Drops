@@ -6,6 +6,7 @@ public class packManager : MonoBehaviour {
 
     public string paquete = "";
     public string paqueteId = "";
+    public bool existe = false;
     private appManager manager;
 
     public void Start() {
@@ -13,9 +14,15 @@ public class packManager : MonoBehaviour {
     }
 
     public void descargaPaquete() {
-        StartCoroutine(webServicePreguntas.getPreguntasOfPack(paquete));
-        StartCoroutine(webServiceRespuestas.getRespuestasByPack(paquete));
-        webServiceDescarga.insertarDescargaSqLite(paqueteId,webServiceUsuario.consultarIdUsuarioSqLite(manager.getUsuario()));
+        if (existe) {
+            StartCoroutine(webServicePreguntas.getPreguntasOfPackViejo(paquete)); 
+            StartCoroutine(webServiceRespuestas.getRespuestasByPackViejo(paquete)); 
+            webServiceDescarga.insertarDescargaSqLite(paqueteId, webServiceUsuario.consultarIdUsuarioSqLite(manager.getUsuario()));
+        } else {
+            StartCoroutine(webServicePreguntas.getPreguntasOfPackViejo(paquete)); 
+            StartCoroutine(webServiceRespuestas.getRespuestasByPackViejo(paquete)); 
+            webServiceDescarga.insertarDescargaSqLite(paqueteId, webServiceUsuario.consultarIdUsuarioSqLite(manager.getUsuario()));
+        }
     }
 
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
+using System.Net;
+using System.IO;
 
 public class webServiceDescarga : MonoBehaviour {
 
@@ -25,7 +27,7 @@ public class webServiceDescarga : MonoBehaviour {
     }
 
     public static descargaData getDescargaByPaquete(string idPaquete) {
-        string query = "SELECT * FROM descarga WHERE idPaquete = '" + idPaquete + "';";
+        string query = "SELECT * FROM descarga WHERE idPaquete = '" + idPaquete + "' ORDER BY fechaDescarga DESC LIMIT 1;";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             descargaData categoria = JsonUtility.FromJson<descargaData>(result);

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
+using System.Net;
+using System.IO;
 
 public class webServicePreguntas : MonoBehaviour {
 
@@ -23,6 +25,7 @@ public class webServicePreguntas : MonoBehaviour {
         public string idTipoEjercicio = "";
         public string idMateria = "";
         public string idPaquete = "";
+        public string idServer = "";
         public string claveMateria = "";
         public string descripcionEjercicio = "";
         public string descripcionPaquete = "";
@@ -43,7 +46,6 @@ public class webServicePreguntas : MonoBehaviour {
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             result = "{\"preguntas\":" + "[" + result + "]}";
-            Debug.Log(result);
             Data data = JsonUtility.FromJson<Data>(result);
             return data.preguntas;
         } else {
@@ -51,8 +53,8 @@ public class webServicePreguntas : MonoBehaviour {
         }
     }
 
-    public static int insertarPreguntaSqLite(string descripcion, string status, string fechaRegistro, string fechaModificacion, string idTipoEjercicio, string idMateria, string idPaquete) {
-        string query = "INSERT INTO pregunta (descripcion, status, fechaRegistro, fechaModificacion, idTipoEjercicio, idMateria, idPaquete) VALUES ('" + descripcion + "', '" + status + "', '" + fechaRegistro + "','" + fechaModificacion + "', '" + idTipoEjercicio + "', '" + idMateria + "', '" + idPaquete +"');";
+    public static int insertarPreguntaSqLite(string descripcion, string status, string fechaRegistro, string fechaModificacion, string idTipoEjercicio, string idMateria, string idPaquete, string idServer) {
+        string query = "INSERT INTO pregunta (descripcion, status, fechaRegistro, fechaModificacion, idTipoEjercicio, idMateria, idPaquete, idServer) VALUES ('" + descripcion + "', '" + status + "', '" + fechaRegistro + "','" + fechaModificacion + "', '" + idTipoEjercicio + "', '" + idMateria + "', '" + idPaquete +"', '" + idServer + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -73,7 +75,7 @@ public class webServicePreguntas : MonoBehaviour {
     }
 
 
-    public static IEnumerator getPreguntas() {
+    public static IEnumerator getPreguntasViejo() {
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
@@ -101,9 +103,20 @@ public class webServicePreguntas : MonoBehaviour {
         }
     }
 
+    //public static void getPreguntasNuevo() {
+    //    WWWForm form = new WWWForm();
+    //    form.AddField("metodo", "consultarPreguntas");
+    //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(String.Format(URL, form));
+    //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+    //    StreamReader reader = new StreamReader(response.GetResponseStream());
+    //    string text = reader.ReadToEnd();
+    //    text = "{\"preguntas\":" + text + "}";
+    //    Data info = JsonUtility.FromJson<Data>(text);
+    //    GameObject.Find("AppManager").GetComponent<appManager>().setPreguntas(info.preguntas);
+    //}
 
-    public static IEnumerator getPreguntasOfPack(string paquete) {
-        Debug.Log(paquete);
+
+    public static IEnumerator getPreguntasOfPackViejo(string paquete) {
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
@@ -131,5 +144,19 @@ public class webServicePreguntas : MonoBehaviour {
             }
         }
     }
+
+
+    //public static void getPreguntasOfPackNuevo(string paquete) {
+    //    WWWForm form = new WWWForm();
+    //    form.AddField("metodo", "consultarPreguntasOfPack");
+    //    form.AddField("descripcion", paquete);
+    //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(String.Format(URL, form));
+    //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+    //    StreamReader reader = new StreamReader(response.GetResponseStream());
+    //    string text = reader.ReadToEnd();
+    //    text = "{\"preguntas\":" + text + "}";
+    //    Data info = JsonUtility.FromJson<Data>(text);
+    //    GameObject.Find("AppManager").GetComponent<appManager>().setPreguntas(info.preguntas);
+    //}
 
 }
