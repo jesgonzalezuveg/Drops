@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
-using System.Net;
-using System.IO;
 
 public class webServiceEjercicio : MonoBehaviour {
 
@@ -51,7 +49,7 @@ public class webServiceEjercicio : MonoBehaviour {
     }
 
 
-    public static IEnumerator getEjerciciosViejo() {
+    public static IEnumerator getEjercicios() {
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
@@ -79,17 +77,5 @@ public class webServiceEjercicio : MonoBehaviour {
             }
         }
     }
-
-    //public static void getEjerciciosNuevo() {
-    //    WWWForm form = new WWWForm();
-    //    form.AddField("metodo", "consultarEjercicios");
-    //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(String.Format(URL, form));
-    //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-    //    StreamReader reader = new StreamReader(response.GetResponseStream());
-    //    string text = reader.ReadToEnd();
-    //    text = "{\"ejercicios\":" + text + "}";
-    //    Data info = JsonUtility.FromJson<Data>(text);
-    //    GameObject.Find("AppManager").GetComponent<appManager>().setEjerciocio(info.ejercicios);
-    //}
 
 }

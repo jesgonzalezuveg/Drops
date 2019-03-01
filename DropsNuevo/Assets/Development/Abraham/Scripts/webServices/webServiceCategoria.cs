@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
-using System.Net;
-using System.IO;
 
 public class webServiceCategoria : MonoBehaviour {
 
@@ -66,7 +64,7 @@ public class webServiceCategoria : MonoBehaviour {
     }
 
 
-    public static IEnumerator getCategoriasViejo() {
+    public static IEnumerator getCategorias() {
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
@@ -94,17 +92,5 @@ public class webServiceCategoria : MonoBehaviour {
             }
         }
     }
-
-    //public static void getCategoriasNuevo() {
-    //    WWWForm form = new WWWForm();
-    //    form.AddField("metodo", "consultarCategorias");
-    //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(String.Format(URL, form));
-    //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-    //    StreamReader reader = new StreamReader(response.GetResponseStream());
-    //    string text = reader.ReadToEnd();
-    //    text = "{\"categoria\":" + text + "}";
-    //    Data info = JsonUtility.FromJson<Data>(text);
-    //    GameObject.Find("AppManager").GetComponent<appManager>().setCategorias(info.categoria);
-    //}
 
 }

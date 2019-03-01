@@ -148,9 +148,7 @@ public class appManager : MonoBehaviour {
 
     public void Update() {
         if (Usuario != "" && bandera) {
-            Debug.Log("Entra 1");
-            if (Imagen != "") {
-                Debug.Log("Entra 2");
+            if (Imagen == "") {
                 StartCoroutine(webServiceUsuario.getUserData(Usuario));
                 bandera = false;
             }
@@ -238,7 +236,6 @@ public class appManager : MonoBehaviour {
 
     public void validarCategorias() {
         if (categorias != null && banderaCategorias) {
-            Debug.Log("Categorias no vacias");
             foreach (var categoria in categorias) {
                 var local = webServiceCategoria.getCategoriaByDescripcionSqLite(categoria.descripcion);
                 if (local != null) {
@@ -294,11 +291,9 @@ public class appManager : MonoBehaviour {
                     pregunta.idTipoEjercicio = local.idTipoEjercicio;
                 } else {
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
-                    if (materias != null) {
-                        string idMateria = webServiceMateria.getMateriaByClaveSqLite(pregunta.claveMateria).id;
-                        string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
-                        webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idMateria, idPaquete, pregunta.id);
-                    }
+                    string idMateria = webServiceMateria.getMateriaByClaveSqLite(pregunta.claveMateria).id;
+                    string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
+                    webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idMateria, idPaquete, pregunta.id);
                 }
             }
         }
@@ -310,7 +305,6 @@ public class appManager : MonoBehaviour {
             banderaRespuestas = false;
             foreach (var respuesta in respuestas) {
                 var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta);
-                Debug.Log(idPregunta);
                 var local = webServiceRespuestas.getRespuestaByDescripcionAndPreguntaSquLite(respuesta.descripcion, idPregunta.id);
                 if (local != null) {
                     Debug.Log("Ya existe esta pregunta");
