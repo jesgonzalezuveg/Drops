@@ -51,6 +51,7 @@ public class testMaterias : MonoBehaviour {
                 if (preguntas != null) {
                     foreach (var pregunta in preguntas) {
                         Debug.Log(pregunta.descripcion);
+                        Debug.Log(pregunta.idTipoEjercicio);
                         banderaPreguntas = false;
                     }
                     //MODIFICAR MANDAR DE TODAS LAS MATERIAS

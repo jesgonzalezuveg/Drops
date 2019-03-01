@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
 using System;
+using UnityEngine.EventSystems;
 
 public class CursoManager : MonoBehaviour {
 
@@ -13,21 +14,32 @@ public class CursoManager : MonoBehaviour {
     public GameObject correctoimg;
     public GameObject incorrectoimg;
     public GameObject scoreFinal;
+    public GameObject[] preguntasTipos;
 
+    // Variables para la poscision aleatoria
     int num;
     Vector3 temp1, temp2, temp3, temp4, temp5, temp6;
     Vector3 rotation1, rotation2, rotation3, rotation4, rotation5, rotation6;
     Transform transform1, transform2, transform3, transform4, transform5, transform6;
     GameObject Imagen1, Imagen2, Imagen3, Imagen4, Imagen5, Imagen6;
+    //Variables para la poscision aleatoria
 
     webServicePreguntas.preguntaData[] preguntas = null;
     List<webServiceRespuestas.Data> respuestasTodas = new List<webServiceRespuestas.Data>();
     appManager manager;
-    int countPreguntas=0;
+    int countPreguntas = 0;
     int score;
+  
+    //Variables para ejercicio de seleccion multiple
+    int countSelectMultiple; //Contador que indica el numero de respuestas correctas en el ejercicio
+    public Sprite opcionCorrecta; //Imagen que aparece cuando se selecciona una respuesta correcta.
+    public bool resMulti1 = false;
+    public bool resMulti2 = false;
+    public bool resMulti3 = false;
 
     // Start is called before the first frame update
     void Start() {
+        countSelectMultiple = 0;
         score = 0;
         textoPuntaje.text = score + "";
         correctoimg.SetActive(false);
@@ -43,65 +55,148 @@ public class CursoManager : MonoBehaviour {
         }
 
         llamarPreguntas(countPreguntas);
-        
+
     }
 
     public void llamarPreguntas(int position) {
         GameObject.Find("txtQuestion").GetComponent<Text>().text = manager.preguntasCategoria[position].descripcion;
-        int count = 2;
-        for (int i = 0; i < respuestasTodas[position].respuestas.Length; i++) {
-            string url = respuestasTodas[position].respuestas[i].urlImagen;
-            if (respuestasTodas[position].respuestas[i].correcto == "True") {
+        Debug.Log(manager.preguntasCategoria[position].descripcion);
+        Debug.Log(manager.preguntasCategoria[position].idTipoEjercicio);
+
+        //Validamos de que tipo de ejercicio se trata
+        if (manager.preguntasCategoria[position].idTipoEjercicio == "1") {
+            preguntasTipos[0].SetActive(true);
+            int count = 1;
+            for (int i = 0; i < respuestasTodas[position].respuestas.Length; i++) {
+                string url = respuestasTodas[position].respuestas[i].urlImagen;
                 var splitUrk = url.Split('/');
                 var urlReal = splitUrk[splitUrk.Length - 1];
-                ponerImagen(1, urlReal);
-            } else {
-               
-                var splitUrk = url.Split('/');
-                var urlReal = splitUrk[splitUrk.Length - 1];
-                ponerImagen(count, urlReal);
+                ponerImagen(count + "S", urlReal, manager.preguntasCategoria[position].idTipoEjercicio, respuestasTodas[position].respuestas[i].correcto);
                 count++;
+
             }
         }
+
+        if (manager.preguntasCategoria[position].idTipoEjercicio == "2") {
+
+        }
+
+        if (manager.preguntasCategoria[position].idTipoEjercicio == "3") {
+            preguntasTipos[1].SetActive(true);
+            for (int i = 0; i < respuestasTodas[position].respuestas.Length; i++) {
+                string url = respuestasTodas[position].respuestas[i].urlImagen;
+                var splitUrk = url.Split('/');
+                var urlReal = splitUrk[splitUrk.Length - 1];
+                ponerImagen(i + "M", urlReal, manager.preguntasCategoria[position].idTipoEjercicio, respuestasTodas[position].respuestas[i].correcto);
+
+            }
+        }
+
+        if (manager.preguntasCategoria[position].idTipoEjercicio == "4") {
+
+        }
         //PosAleatoria(1);
-        countPreguntas++;
+        if (manager.preguntasCategoria[position].idTipoEjercicio == "3" || manager.preguntasCategoria[position].idTipoEjercicio == "1") {
+            countPreguntas++;
+        }
     }
 
-    public void ponerImagen(int i, string path) {
+    public void ponerImagen(string i, string path, string tipo, string respuesta) {
         if (File.Exists(Application.persistentDataPath + path)) {
             byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-            Texture2D texture = new Texture2D(8,8);
+            Texture2D texture = new Texture2D(8, 8);
             texture.LoadImage(byteArray);
             Rect rec = new Rect(0, 0, texture.width, texture.height);
             var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
             var objeto = "objRespuesta" + i;
             var imagen = GameObject.Find(objeto);
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerClick;
+            if (tipo == "1") {
+
+                if (respuesta == "True") {
+                    entry.callback.AddListener((eventData) => {
+                        correctoSimple();
+                    });
+                } else {
+                    entry.callback.AddListener((eventData) => {
+                        incorrecto();
+                    });
+                }
+                imagen.GetComponent<EventTrigger>().triggers.Add(entry);
+            }
+
+            if (tipo == "3") {
+                if (respuesta == "True") {
+                    countSelectMultiple++;
+                    entry.callback.AddListener((eventData) => {
+                        //continuar
+                        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+                        correctoMultiple();
+                    });
+                } else {
+                    entry.callback.AddListener((eventData) => {
+                        incorrecto();
+                    });
+                }
+                imagen.GetComponent<EventTrigger>().triggers.Add(entry);
+            }
             imagen.GetComponent<SpriteRenderer>().sprite = sprite;
         }
     }
 
-    public void correcto() {
+    public void correctoSimple() {
         Debug.Log("correcto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
         StartCoroutine(esperaSegundos(0.5f, correctoimg));
         score++;
         textoPuntaje.text = score + "";
         if (preguntas.Length > countPreguntas) {
+            desactivarPreguntas();
             llamarPreguntas(countPreguntas);
         } else {
-            GameObject.Find("Pregunta1").SetActive(false);
+            desactivarPreguntas();
             textoPuntajeMarcador.text = score + "";
             scoreFinal.SetActive(true);
             //SceneManager.LoadScene("menuCategorias");
         }
     }
 
+    public void correctoMultiple() {
+        Debug.Log("Hllllllllllllllllllllll");
+        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+        /*if (resMulti1 == false) {
+            string objName = objeto;
+            countSelectMultiple--;
+            if (countSelectMultiple != 0) {
+                var objImagen = GameObject.Find(objName);
+                objImagen.GetComponent<SpriteRenderer>().sprite = opcionCorrecta;
+                Debug.Log("Faltan respuestas");
+            } else {
+                Debug.Log("Respuestas completas");
+                score++;
+                textoPuntaje.text = score + "";
+                if (preguntas.Length > countPreguntas) {
+                    desactivarPreguntas();
+                    llamarPreguntas(countPreguntas);
+                } else {
+                    desactivarPreguntas();
+                    textoPuntajeMarcador.text = score + "";
+                    scoreFinal.SetActive(true);
+                }
+            }
+        }*/
+
+    }
+
+
     public void incorrecto() {
         Debug.Log("incorrecto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
         StartCoroutine(esperaSegundos(0.5f, incorrectoimg));
         if (preguntas.Length > countPreguntas) {
+            desactivarPreguntas();
             llamarPreguntas(countPreguntas);
         } else {
-            GameObject.Find("Pregunta1").SetActive(false);
+            desactivarPreguntas();
             textoPuntajeMarcador.text = score + "";
             //scoreFinal.GetComponentInChildren<Text>().text = score + "";
             scoreFinal.SetActive(true);
@@ -113,6 +208,11 @@ public class CursoManager : MonoBehaviour {
         objeto.SetActive(true);
         yield return new WaitForSeconds(segundos);
         objeto.SetActive(false);
+    }
+
+    public void desactivarPreguntas(){
+        preguntasTipos[0].SetActive(false);
+        preguntasTipos[1].SetActive(false);
     }
 
     public void salir() {
