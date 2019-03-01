@@ -171,8 +171,10 @@ public class appManager : MonoBehaviour {
                         pack.id = local.id;
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
                         if (descargaLocal == null) {
+                            Debug.Log("No se ha descargado el pack");
                             addPackCard(pack, listaPacks);
                         } else {
+                            Debug.Log("Ya se descargo el pack");
                             //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss
                             descargaLocal.fechaDescarga = descargaLocal.fechaDescarga.Remove(10, descargaLocal.fechaDescarga.Length - 10);
                             string[] splitDateDescarga = descargaLocal.fechaDescarga.Split('/');
@@ -180,14 +182,16 @@ public class appManager : MonoBehaviour {
                             pack.fechaModificacion = pack.fechaModificacion.Remove(10, pack.fechaModificacion.Length - 10);
                             string[] splitDatePack = pack.fechaModificacion.Split('-');
                             if (Int32.Parse(splitDateDescarga[2]) >= Int32.Parse(splitDatePack[0])) {
-                                Debug.Log("El año es mayor o igual");
+                                Debug.Log("El año de descarga es mayor o igual");
                                 if (Int32.Parse(splitDateDescarga[1]) >= Int32.Parse(splitDatePack[1])) {
-                                    Debug.Log("El mes es mayor o igual");
-                                    if (Int32.Parse(splitDateDescarga[0]) >= Int32.Parse(splitDatePack[2])) {
-                                        Debug.Log("El dia es mayor o igual");
-                                    } else {
-                                        Debug.Log("Actualizar paquete");
-                                        addPackCard(pack, listaPacks, true);
+                                    Debug.Log("El mes de descarga es mayor o igual");
+                                    if (Int32.Parse(splitDateDescarga[1]) == Int32.Parse(splitDatePack[1])) {
+                                        if (Int32.Parse(splitDateDescarga[0]) >= Int32.Parse(splitDatePack[2])) {
+                                            Debug.Log("El dia de descarga es mayor o igual");
+                                        } else {
+                                            Debug.Log("Actualizar paquete");
+                                            addPackCard(pack, listaPacks, true);
+                                        }
                                     }
                                 } else {
                                     Debug.Log("Actualizar paquete");
