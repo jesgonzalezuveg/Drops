@@ -247,6 +247,7 @@ public class CursoManager : MonoBehaviour {
         } else {
             countPreguntas++;
             Debug.Log("Respuestas completas");
+            StartCoroutine(esperaSegundos(0.5f, correctoimg));
             score++;
             removeTrigger(obj);
             textoPuntaje.text = score + "";
