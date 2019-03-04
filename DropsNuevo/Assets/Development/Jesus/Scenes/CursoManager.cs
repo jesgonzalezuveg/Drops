@@ -24,10 +24,12 @@ public class CursoManager : MonoBehaviour {
     GameObject Imagen1, Imagen2, Imagen3, Imagen4, Imagen5, Imagen6;
     // Variables para la poscision aleatoria
 
+    //Variables que almacenan la preguntas y sus respuestas
     webServicePreguntas.preguntaData[] preguntas = null;
     List<webServiceRespuestas.Data> respuestasTodas = new List<webServiceRespuestas.Data>();
     appManager manager;
 
+    //Variables que almacena el numero de preguntas descargadas y el puntaje actual
     int countPreguntas = 0;
     int score;
 
@@ -36,11 +38,15 @@ public class CursoManager : MonoBehaviour {
     public Sprite opcionCorrecta; //Imagen que aparece cuando se selecciona una respuesta correcta.
 
     //Variables para ejercicio de relacionar pares.
-    int numPares;
-    string par1;
-    string par2;
-    string par1Name;
-    string par2Name;
+    int numPares;//Numero de pares a relacionar
+    string par1;//primer par seleccionado
+    string par2;//segundo par seleccionado
+    string par1Name;//Nombre del gameobject del primer par seleccionado
+    string par2Name;//Nombre del gameobject del ssegundo par seleccionado
+
+    //Variables para ejercicio de completar la frase
+    int numLetras;//Numero total de letras
+    int letra;//Valor para validar el orden de las letras de la palabra
 
     // Start is called before the first frame update
     void Start() {
@@ -49,6 +55,8 @@ public class CursoManager : MonoBehaviour {
         par1Name = "";
         par2Name = "";
         numPares = 0;
+        numLetras = 0;
+        letra = 1;
         countSelectMultiple = 0;
         score = 0;
         textoPuntaje.text = score + "";
@@ -78,6 +86,7 @@ public class CursoManager : MonoBehaviour {
                 Debug.Log("La pregunta es de tipo 1");
                 preguntasTipos[0].SetActive(true);
                 GameObject.Find("txtQuestionS").GetComponent<Text>().text = manager.preguntasCategoria[position].descripcion;
+                //GameObject.Find("txtQuestionM").GetComponent<Text>().text = SystemInfo.deviceType + "";
                 int count = 1;
                 for (int i = 0; i < respuestasTodas[position].respuestas.Length; i++) {
                     string url = respuestasTodas[position].respuestas[i].urlImagen;
@@ -85,17 +94,30 @@ public class CursoManager : MonoBehaviour {
                     var urlReal = splitUrk[splitUrk.Length - 1];
                     ponerImagen(count + "S", urlReal, manager.preguntasCategoria[position].idTipoEjercicio, respuestasTodas[position].respuestas[i].correcto);
                     count++;
-
                 }
-            }
+            }else if (manager.preguntasCategoria[position].idTipoEjercicio == "2") {
+                Debug.Log("La pregunta es de tipo 2");
+                preguntasTipos[3].SetActive(true);
 
-            if (manager.preguntasCategoria[position].idTipoEjercicio == "2") {
-                countPreguntas++;
-                desactivarPreguntas();
-                llamarPreguntas(countPreguntas);
-            }
+                GameObject.Find("txtQuestionC").GetComponent<Text>().text = manager.preguntasCategoria[position].descripcion;
+                //GameObject.Find("txtQuestionM").GetComponent<Text>().text =SystemInfo.deviceType+"";
+                int count = 1;
+                for (int i = 0; i < respuestasTodas[position].respuestas.Length; i++) {
+                    string palabra = respuestasTodas[position].respuestas[i].descripcion.ToUpper();
+                    Debug.Log(palabra);
+                    foreach (char letra in palabra) {
+                        ponerImagenLetra(letra, count+"C", count);
+                        count++;
+                    }
+                    numLetras = count;
+                }
 
-            if (manager.preguntasCategoria[position].idTipoEjercicio == "3") {
+                for (int j = count; j<= 15; j++) {
+                    var objeto = "objRespuesta" + j + "C";
+                    removeTrigger(objeto);
+                    removeColider(objeto);
+                }
+            }else if (manager.preguntasCategoria[position].idTipoEjercicio == "3") {
                 Debug.Log("La pregunta es de tipo 3");
                 preguntasTipos[1].SetActive(true);
                 GameObject.Find("txtQuestionM").GetComponent<Text>().text = manager.preguntasCategoria[position].descripcion;
@@ -107,9 +129,7 @@ public class CursoManager : MonoBehaviour {
                     ponerImagen(count + "M", urlReal, manager.preguntasCategoria[position].idTipoEjercicio, respuestasTodas[position].respuestas[i].correcto);
                     count++;
                 }
-            }
-
-            if (manager.preguntasCategoria[position].idTipoEjercicio == "4") {
+            }else if (manager.preguntasCategoria[position].idTipoEjercicio == "4") {
                 Debug.Log("La pregunta es de tipo 4");
                 preguntasTipos[2].SetActive(true);
                 GameObject.Find("txtQuestionP").GetComponent<Text>().text = manager.preguntasCategoria[position].descripcion;
@@ -125,6 +145,25 @@ public class CursoManager : MonoBehaviour {
                 numPares = numPares / 2;
             }
         }
+    }
+
+    public void ponerImagenLetra(char letra, string i, int orden) {
+        var objeto = "objRespuesta" + i;
+        var spriteObj= Resources.Load("Letras/letra-" + letra);
+        var imagen = GameObject.Find(objeto);
+        Texture2D tex = spriteObj as Texture2D;
+        Rect rec = new Rect(0, 0, tex.width, tex.height);
+        var sprite = Sprite.Create(tex, rec, new Vector2(0.5f, 0.5f), 100);
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener((eventData) => {
+            int letraOrden = orden;
+            string obj = objeto;
+            validarOrden(obj, letraOrden);
+
+        });
+        imagen.GetComponent<EventTrigger>().triggers.Add(entry);
+        imagen.GetComponent<SpriteRenderer>().sprite =sprite;
     }
 
     public void ponerImagen(string i, string path, string tipo, string respuesta) {
@@ -210,6 +249,7 @@ public class CursoManager : MonoBehaviour {
         } else {
             countPreguntas++;
             Debug.Log("Respuestas completas");
+            StartCoroutine(esperaSegundos(0.5f, correctoimg));
             score++;
             removeTrigger(obj);
             textoPuntaje.text = score + "";
@@ -276,48 +316,34 @@ public class CursoManager : MonoBehaviour {
         Debug.Log(par1Name);
         Debug.Log(par2Name);
         Debug.Log("------------------");
+    }
 
-
-        /*var myGameObject = GameObject.Find(obj);
-        if (par1 == "" && par2 == "") {
-            par1 = relacion;
-            myGameObject.GetComponent<Renderer>().material.color = new Color32(255, 255, 225, 100);
-            par1Name = obj;
+    public void validarOrden(string objName, int letraSeleccionada) {
+        if (letraSeleccionada == letra) {
+            var myGameObject = GameObject.Find(objName);
+            myGameObject.GetComponent<SpriteRenderer>().sprite = null;
+            removeTrigger(objName);
+            removeColider(objName);
+            letra++;
+        } else {
+            numLetras = 0;
+            letra = 1;
+            for (int i = 1; i <= 15; i++) {
+                var objeto = "objRespuesta" + i + "C";
+                addCollider(objName);
+            }
+            incorrecto(objName);
         }
 
-        if (par1 != "" && par2 == "") {
-            par2 = relacion;
-            par2Name = obj;
-            if (par1 == par2) {
-                var par1Seleccionado = GameObject.Find(par1Name);
-                var par2Seleccionado = GameObject.Find(par2Name);
-                Debug.Log("Par correcto");
-                numPares--;
-                if (numPares>0) {
-                    removeTrigger(par1Name);
-                    removeTrigger(par2Name);
-                    par1Seleccionado.SetActive(false);
-                    par2Seleccionado.SetActive(false);
-                    par1 = null;
-                    par2 = null;
-                    par1Name = null;
-                    par2Name = null;
-                } else {
-                    removeTrigger(par1Name);
-                    removeTrigger(par2Name);
-                    par1Seleccionado.SetActive(false);
-                    par2Seleccionado.SetActive(false);
-                    par1 = null;
-                    par2 = null;
-                    par1Name = null;
-                    par2Name = null;
-                    correctoPar(true);
-                }
-            } else {
-                Debug.Log("Par incorrecto");
-                correctoPar(false);
+        if (numLetras == letra) {
+            numLetras = 0;
+            letra = 1;
+            for (int i = 1; i <= 15; i++) {
+                var objeto = "objRespuesta" + i + "C";
+                addCollider(objName);
             }
-        }*/
+            correctoSimple(objName);
+        }
     }
 
     public void correctoPar(bool res) {
@@ -375,10 +401,21 @@ public class CursoManager : MonoBehaviour {
         myGameObject.GetComponent<EventTrigger>().triggers.RemoveRange(0, myGameObject.GetComponent<EventTrigger>().triggers.Count);
     }
 
+    public void removeColider(string objName) {
+        var myGameObject = GameObject.Find(objName);
+        myGameObject.GetComponent<Collider>().enabled = false;
+    }
+
+    public void addCollider(string objName) {
+        var myGameObject = GameObject.Find(objName);
+        myGameObject.GetComponent<Collider>().enabled = true;
+    }
+
     public void desactivarPreguntas() {
         preguntasTipos[0].SetActive(false);
         preguntasTipos[1].SetActive(false);
         preguntasTipos[2].SetActive(false);
+        preguntasTipos[3].SetActive(false);
     }
 
     IEnumerator esperaSegundos(float segundos, GameObject objeto) {
