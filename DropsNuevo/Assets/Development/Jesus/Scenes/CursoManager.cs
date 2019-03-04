@@ -24,10 +24,12 @@ public class CursoManager : MonoBehaviour {
     GameObject Imagen1, Imagen2, Imagen3, Imagen4, Imagen5, Imagen6;
     // Variables para la poscision aleatoria
 
+    //Variables que almacenan la preguntas y sus respuestas
     webServicePreguntas.preguntaData[] preguntas = null;
     List<webServiceRespuestas.Data> respuestasTodas = new List<webServiceRespuestas.Data>();
     appManager manager;
 
+    //Variables que almacena el numero de preguntas descargadas y el puntaje actual
     int countPreguntas = 0;
     int score;
 
@@ -36,15 +38,15 @@ public class CursoManager : MonoBehaviour {
     public Sprite opcionCorrecta; //Imagen que aparece cuando se selecciona una respuesta correcta.
 
     //Variables para ejercicio de relacionar pares.
-    int numPares;
-    string par1;
-    string par2;
-    string par1Name;
-    string par2Name;
+    int numPares;//Numero de pares a relacionar
+    string par1;//primer par seleccionado
+    string par2;//segundo par seleccionado
+    string par1Name;//Nombre del gameobject del primer par seleccionado
+    string par2Name;//Nombre del gameobject del ssegundo par seleccionado
 
     //Variables para ejercicio de completar la frase
-    int numLetras;
-    int letra;
+    int numLetras;//Numero total de letras
+    int letra;//Valor para validar el orden de las letras de la palabra
 
     // Start is called before the first frame update
     void Start() {
