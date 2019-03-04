@@ -148,9 +148,7 @@ public class appManager : MonoBehaviour {
 
     public void Update() {
         if (Usuario != "" && bandera) {
-            Debug.Log("Entra 1");
-            if (Imagen != "") {
-                Debug.Log("Entra 2");
+            if (Imagen == "") {
                 StartCoroutine(webServiceUsuario.getUserData(Usuario));
                 bandera = false;
             }
@@ -173,8 +171,10 @@ public class appManager : MonoBehaviour {
                         pack.id = local.id;
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
                         if (descargaLocal == null) {
+                            Debug.Log("No se ha descargado el pack");
                             addPackCard(pack, listaPacks);
                         } else {
+                            Debug.Log("Ya se descargo el pack");
                             //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss
                             descargaLocal.fechaDescarga = descargaLocal.fechaDescarga.Remove(10, descargaLocal.fechaDescarga.Length - 10);
                             string[] splitDateDescarga = descargaLocal.fechaDescarga.Split('/');
@@ -182,14 +182,16 @@ public class appManager : MonoBehaviour {
                             pack.fechaModificacion = pack.fechaModificacion.Remove(10, pack.fechaModificacion.Length - 10);
                             string[] splitDatePack = pack.fechaModificacion.Split('-');
                             if (Int32.Parse(splitDateDescarga[2]) >= Int32.Parse(splitDatePack[0])) {
-                                Debug.Log("El año es mayor o igual");
+                                Debug.Log("El año de descarga es mayor o igual");
                                 if (Int32.Parse(splitDateDescarga[1]) >= Int32.Parse(splitDatePack[1])) {
-                                    Debug.Log("El mes es mayor o igual");
-                                    if (Int32.Parse(splitDateDescarga[0]) >= Int32.Parse(splitDatePack[2])) {
-                                        Debug.Log("El dia es mayor o igual");
-                                    } else {
-                                        Debug.Log("Actualizar paquete");
-                                        addPackCard(pack, listaPacks, true);
+                                    Debug.Log("El mes de descarga es mayor o igual");
+                                    if (Int32.Parse(splitDateDescarga[1]) == Int32.Parse(splitDatePack[1])) {
+                                        if (Int32.Parse(splitDateDescarga[0]) >= Int32.Parse(splitDatePack[2])) {
+                                            Debug.Log("El dia de descarga es mayor o igual");
+                                        } else {
+                                            Debug.Log("Actualizar paquete");
+                                            addPackCard(pack, listaPacks, true);
+                                        }
                                     }
                                 } else {
                                     Debug.Log("Actualizar paquete");
@@ -238,7 +240,6 @@ public class appManager : MonoBehaviour {
 
     public void validarCategorias() {
         if (categorias != null && banderaCategorias) {
-            Debug.Log("Categorias no vacias");
             foreach (var categoria in categorias) {
                 var local = webServiceCategoria.getCategoriaByDescripcionSqLite(categoria.descripcion);
                 if (local != null) {
@@ -294,11 +295,9 @@ public class appManager : MonoBehaviour {
                     pregunta.idTipoEjercicio = local.idTipoEjercicio;
                 } else {
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
-                    if (materias != null) {
-                        string idMateria = webServiceMateria.getMateriaByClaveSqLite(pregunta.claveMateria).id;
-                        string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
-                        webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idMateria, idPaquete, pregunta.id);
-                    }
+                    string idMateria = webServiceMateria.getMateriaByClaveSqLite(pregunta.claveMateria).id;
+                    string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
+                    webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idMateria, idPaquete, pregunta.id);
                 }
             }
         }
@@ -310,7 +309,6 @@ public class appManager : MonoBehaviour {
             banderaRespuestas = false;
             foreach (var respuesta in respuestas) {
                 var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta);
-                Debug.Log(idPregunta);
                 var local = webServiceRespuestas.getRespuestaByDescripcionAndPreguntaSquLite(respuesta.descripcion, idPregunta.id);
                 if (local != null) {
                     Debug.Log("Ya existe esta pregunta");

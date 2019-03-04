@@ -16,17 +16,17 @@ public class testMaterias : MonoBehaviour {
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
     }
 
-    private void Start() { 
-        StartCoroutine(webServicePaquetes.getPaquetesViejo()); 
-        StartCoroutine(webServiceCategoria.getCategoriasViejo()); 
-        StartCoroutine(webServiceMateria.getMateriasViejo()); 
-        StartCoroutine(webServiceEjercicio.getEjerciciosViejo());
-        StartCoroutine(getUserImg());
+    private void Start() {
+        StartCoroutine(webServicePaquetes.getPaquetes());
+        StartCoroutine(webServiceCategoria.getCategorias());
+        StartCoroutine(webServiceMateria.getMaterias());
+        StartCoroutine(webServiceEjercicio.getEjercicios());
+        
     }
 
     private void Update() {
         if (manager.getImagen() != "" && bandera) {
-            
+            StartCoroutine(getUserImg());
             bandera = false;
         }
     }
