@@ -138,6 +138,7 @@ public class appManager : MonoBehaviour {
     #endregion
 
     public void Awake() {
+        GameObject.Find("MensajeCarga").SetActive(false);
         DontDestroyOnLoad(this.gameObject);
         if (Application.internetReachability == NetworkReachability.NotReachable) {
             Debug.Log("No hay conexion");
@@ -162,81 +163,41 @@ public class appManager : MonoBehaviour {
     }
 
     public void validarPaquetes() {
-        if (GameObject.Find("fichasPaquetes")) {
-            var listaPacks = GameObject.Find("fichasPaquetes");
+        if (GameObject.Find("ListaPaquetes")) {
+            var paquetesManager = GameObject.Find("ListaPaquetes").GetComponent<paquetesManager>();
             if (paquetes != null && banderaPaquetes) {
                 foreach (var pack in paquetes) {
                     var local = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
                     if (local != null) {
                         pack.id = local.id;
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
+                        //Si no existe la descarga del paquete añade la tarjeta
                         if (descargaLocal == null) {
                             Debug.Log("No se ha descargado el pack");
-                            addPackCard(pack, listaPacks);
+                            paquetesManager.newCardDescarga(pack);
                         } else {
                             Debug.Log("Ya se descargo el pack");
-                            //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss
-                            descargaLocal.fechaDescarga = descargaLocal.fechaDescarga.Remove(10, descargaLocal.fechaDescarga.Length - 10);
-                            string[] splitDateDescarga = descargaLocal.fechaDescarga.Split('/');
-                            //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
-                            pack.fechaModificacion = pack.fechaModificacion.Remove(10, pack.fechaModificacion.Length - 10);
-                            string[] splitDatePack = pack.fechaModificacion.Split('-');
-                            if (Int32.Parse(splitDateDescarga[2]) >= Int32.Parse(splitDatePack[0])) {
-                                Debug.Log("El año de descarga es mayor o igual");
-                                if (Int32.Parse(splitDateDescarga[1]) >= Int32.Parse(splitDatePack[1])) {
-                                    Debug.Log("El mes de descarga es mayor o igual");
-                                    if (Int32.Parse(splitDateDescarga[1]) == Int32.Parse(splitDatePack[1])) {
-                                        if (Int32.Parse(splitDateDescarga[0]) >= Int32.Parse(splitDatePack[2])) {
-                                            Debug.Log("El dia de descarga es mayor o igual");
-                                        } else {
-                                            Debug.Log("Actualizar paquete");
-                                            addPackCard(pack, listaPacks, true);
-                                        }
-                                    }
-                                } else {
-                                    Debug.Log("Actualizar paquete");
-                                    addPackCard(pack, listaPacks, true);
-                                }
+                            if (isActualized(descargaLocal, pack)) {
+                                //Esta actualizado
+                                Debug.Log("Esta actualizado");
+                                paquetesManager.newCardJugar(pack);
                             } else {
-                                Debug.Log("Actualizar paquete");
-                                addPackCard(pack, listaPacks, true);
+                                //No esta actualizado
+                                Debug.Log("No esta actualizado");
+                                paquetesManager.newCardActualizar(pack);
                             }
                         }
                     } else {
                         webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion, pack.urlImagen, pack.id);
-                        addPackCard(pack, listaPacks);
+                        paquetesManager.newCardDescarga(pack);
                     }
                 }
                 banderaPaquetes = false;
             }
-            if (listaPacks.transform.childCount <= 0) {
-                GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(true);
-            } else {
-                GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(false);
-            }
         }
     }
 
-    public void addPackCard(webServicePaquetes.paqueteData pack, GameObject listaPacks) {
-        var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
-        fichaPaquete.name = "fichaPack" + pack.id;
-        llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
-        fichaPaquete.transform.SetParent(listaPacks.transform);
-        fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
-        fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
-        fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
-    }
-
-    public void addPackCard(webServicePaquetes.paqueteData pack, GameObject listaPacks, bool existe) {
-        var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
-        fichaPaquete.name = "fichaPack" + pack.id;
-        llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
-        fichaPaquete.transform.SetParent(listaPacks.transform);
-        fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
-        fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
-        fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
-        fichaPaquete.GetComponent<packManager>().existe = existe;
-    }
+    
 
     public void validarCategorias() {
         if (categorias != null && banderaCategorias) {
@@ -337,7 +298,12 @@ public class appManager : MonoBehaviour {
                 File.WriteAllBytes(Application.persistentDataPath + path, bytes);
             }
         }
+        var mensaje = GameObject.Find("MensajeCarga");
+        mensaje.GetComponentInChildren<Text>().text = "Paquete descargado";
+        mensaje.SetActive(false);
         Destroy(GameObject.Find("fichaPack" + preguntas[0].idPaquete));
+        banderaPaquetes = true;
+        validarPaquetes();
         preguntas = null;
         banderaPreguntas = true;
         respuestas = null;
@@ -351,10 +317,35 @@ public class appManager : MonoBehaviour {
         }
     }
 
-    void llenarFicha(GameObject ficha, string descripcion, string fechaModificacion) {
-        ficha.transform.GetChild(0).GetComponent<Text>().text = descripcion;
-        var fecha = fechaModificacion.Split(' ');
-        ficha.transform.GetChild(1).GetComponent<Text>().text = "Ultima actualización:\n" + fecha[0];
+    bool isActualized(webServiceDescarga.descargaData descargaLocal, webServicePaquetes.paqueteData pack) {
+        //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss
+        descargaLocal.fechaDescarga = descargaLocal.fechaDescarga.Remove(10, descargaLocal.fechaDescarga.Length - 10);
+        string[] splitDateDescarga = descargaLocal.fechaDescarga.Split('/');
+        //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
+        pack.fechaModificacion = pack.fechaModificacion.Remove(10, pack.fechaModificacion.Length - 10);
+        string[] splitDatePack = pack.fechaModificacion.Split('-');
+        if (Int32.Parse(splitDateDescarga[2]) >= Int32.Parse(splitDatePack[0])) {
+            Debug.Log("El año de descarga es mayor o igual");
+            if (Int32.Parse(splitDateDescarga[1]) >= Int32.Parse(splitDatePack[1])) {
+                Debug.Log("El mes de descarga es mayor o igual");
+                if (Int32.Parse(splitDateDescarga[1]) == Int32.Parse(splitDatePack[1])) {
+                    if (Int32.Parse(splitDateDescarga[0]) >= Int32.Parse(splitDatePack[2])) {
+                        Debug.Log("El dia de descarga es mayor o igual");
+                        return true;
+                    } else {
+                        Debug.Log("Actualizar paquete");
+                        return false;
+                    }
+                }
+            } else {
+                Debug.Log("Actualizar paquete");
+                return false;
+            }
+        } else {
+            Debug.Log("Actualizar paquete");
+            return false;
+        }
+        return true;
     }
 
 }

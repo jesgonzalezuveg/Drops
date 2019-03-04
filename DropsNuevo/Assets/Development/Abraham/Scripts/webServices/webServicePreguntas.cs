@@ -72,6 +72,19 @@ public class webServicePreguntas : MonoBehaviour {
         }
     }
 
+    public static preguntaData[] getPreguntasByPackSqLite(string ipPaquete) {
+        string query = "SELECT a.*, b.claveMateria AS claveMateria, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoMateria AS b INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idMateria = b.id AND a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "'";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            result = "{\"preguntas\":[" + result + "]}";
+            Debug.Log(result);
+            Data data = JsonUtility.FromJson<Data>(result);
+            return data.preguntas;
+        } else {
+            return null;
+        }
+    }
+
 
     public static IEnumerator getPreguntas() {
         WWWForm form = new WWWForm();

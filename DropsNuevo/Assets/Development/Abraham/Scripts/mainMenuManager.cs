@@ -3,6 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class mainMenuManager : MonoBehaviour {
 
+    private void Start() {
+        /*if (SystemInfo.deviceType == oculus) {
+            Esconder boton de facebook
+        }*/
+    }
+
     /**
      * Función que se ejecuta al pulzar el boton login con pair code
      * 

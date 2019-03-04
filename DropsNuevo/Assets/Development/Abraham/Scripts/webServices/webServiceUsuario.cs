@@ -166,7 +166,7 @@ public class webServiceUsuario : MonoBehaviour {
                 text = text.Replace("[", "");
                 text = text.Replace("]", "");
                 JsonResponse data = JsonUtility.FromJson<JsonResponse>(text);
-                if (data.data.Usuario != "") {
+                if (data.data.Nombre != "") {
                     if (data.estatusCode == "001") {
                         string nombreCompleto = data.data.Nombre + " " + data.data.PrimerApellido + " " + data.data.SegundoApellido;
                         appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
@@ -183,10 +183,15 @@ public class webServiceUsuario : MonoBehaviour {
                         SceneManager.LoadScene("menuCategorias");
                     } else {
                         //Aqui va mensaje de contraseña incorrecta
+                        GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "Contraseña incorrecta";
+                        GameObject.FindObjectOfType<keyboardManager>().cargando.SetActive(false);
                         Debug.Log("Contraseña incorrecta");
+
                     }
                 } else {
                     //Aqui va mensaje de usuario incorrecto
+                    GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "El usuario no existe";
+                    GameObject.FindObjectOfType<keyboardManager>().cargando.SetActive(false);
                     Debug.Log("El usuario no existe");
                 }
             }
