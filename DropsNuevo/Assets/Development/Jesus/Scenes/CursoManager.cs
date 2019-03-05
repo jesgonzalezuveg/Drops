@@ -48,7 +48,6 @@ public class CursoManager : MonoBehaviour {
     int numLetras;//Numero total de letras
     int letra;//Valor para validar el orden de las letras de la palabra
 
-    // Start is called before the first frame update
     void Start() {
         par1 = "";
         par2 = "";
