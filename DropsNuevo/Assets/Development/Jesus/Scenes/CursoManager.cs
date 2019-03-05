@@ -48,7 +48,6 @@ public class CursoManager : MonoBehaviour {
     int numLetras;//Numero total de letras
     int letra;//Valor para validar el orden de las letras de la palabra
 
-    // Start is called before the first frame update
     void Start() {
         par1 = "";
         par2 = "";
@@ -80,7 +79,8 @@ public class CursoManager : MonoBehaviour {
 
     public void llamarPreguntas(int position) {
         Debug.Log("pregunta" + position);
-        if (position<preguntas.Length) {
+        //if (position<preguntas.Length) {
+        if (position<6) {
             //Validamos de que tipo de ejercicio se trata
             if (manager.preguntasCategoria[position].idTipoEjercicio == "1") {
                 Debug.Log("La pregunta es de tipo 1");
