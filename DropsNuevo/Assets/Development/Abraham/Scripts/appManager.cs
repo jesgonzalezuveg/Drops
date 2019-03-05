@@ -275,6 +275,7 @@ public class appManager : MonoBehaviour {
             banderaRespuestas = false;
             foreach (var respuesta in respuestas) {
                 var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta);
+                Debug.Log("respuesta:"+ respuesta.descripcion+" id:"+idPregunta.id +"  ");
                 var local = webServiceRespuestas.getRespuestaByDescripcionAndPreguntaSquLite(respuesta.descripcion, idPregunta.id);
                 if (local != null) {
                     Debug.Log("Ya existe esta pregunta");
