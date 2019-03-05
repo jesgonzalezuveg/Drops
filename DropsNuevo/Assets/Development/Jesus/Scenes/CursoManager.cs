@@ -79,7 +79,8 @@ public class CursoManager : MonoBehaviour {
 
     public void llamarPreguntas(int position) {
         Debug.Log("pregunta" + position);
-        if (position<preguntas.Length) {
+        //if (position<preguntas.Length) {
+        if (position<6) {
             //Validamos de que tipo de ejercicio se trata
             if (manager.preguntasCategoria[position].idTipoEjercicio == "1") {
                 Debug.Log("La pregunta es de tipo 1");
