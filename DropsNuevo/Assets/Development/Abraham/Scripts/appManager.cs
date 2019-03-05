@@ -59,6 +59,14 @@ public class appManager : MonoBehaviour {
     public void setImagen(string Imagen) {
         this.Imagen = Imagen;
     }
+    public void setBanderas(bool valor) {
+        banderaCategorias = valor;
+        banderaEjercicios = valor;
+        banderaMaterias = valor;
+        banderaPaquetes = valor;
+        banderaPreguntas = valor;
+        banderaRespuestas = valor;
+    }
     /**
      * Regresa los datos del usuario correspondiente al usuario
      * 

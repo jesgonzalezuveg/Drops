@@ -20,11 +20,11 @@ public class paquetesManager : MonoBehaviour {
     }
 
     private void Start() {
+        manager.setBanderas(true);
         StartCoroutine(webServicePaquetes.getPaquetes());
         StartCoroutine(webServiceCategoria.getCategorias());
         StartCoroutine(webServiceMateria.getMaterias());
         StartCoroutine(webServiceEjercicio.getEjercicios());
-        //appManager banderas set true
     }
 
     private void Update() {
