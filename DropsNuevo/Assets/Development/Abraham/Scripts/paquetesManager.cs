@@ -43,7 +43,6 @@ public class paquetesManager : MonoBehaviour {
 
     IEnumerator getUserImg() {
         if (manager.GetComponent<appManager>().getImagen() != "") {
-            Debug.Log(manager.GetComponent<appManager>().getImagen());
             string path = manager.GetComponent<appManager>().getImagen().Split('/')[manager.GetComponent<appManager>().getImagen().Split('/').Length - 1];
             if (File.Exists(Application.persistentDataPath + path)) {
                 byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
@@ -65,6 +64,10 @@ public class paquetesManager : MonoBehaviour {
         }
     }
 
+    /**
+     * Funcion obsoleta, ya no se llaman las preguntas por categoria
+     * 
+     */
     public void clickCategoria(string categoria) {
         var idCategoria = webServiceCategoria.getIdCategoriaByNameSqLite(categoria);
         var materias = webServiceMateria.getIdMateriasByCategoriaSqLite(idCategoria);
@@ -143,11 +146,6 @@ public class paquetesManager : MonoBehaviour {
             var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
             ficha.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
         }
-    }
-
-    public void clickPaquete(string paquete) {
-        var idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(paquete);
-
     }
 
     public void salir() {

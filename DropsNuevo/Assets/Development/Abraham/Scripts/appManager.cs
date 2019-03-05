@@ -174,6 +174,7 @@ public class appManager : MonoBehaviour {
         if (GameObject.Find("ListaPaquetes")) {
             var paquetesManager = GameObject.Find("ListaPaquetes").GetComponent<paquetesManager>();
             if (paquetes != null && banderaPaquetes) {
+                destruirObjetos();
                 foreach (var pack in paquetes) {
                     var local = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
                     if (local != null) {
@@ -181,17 +182,13 @@ public class appManager : MonoBehaviour {
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
                         //Si no existe la descarga del paquete añade la tarjeta
                         if (descargaLocal == null) {
-                            Debug.Log("No se ha descargado el pack");
                             paquetesManager.newCardDescarga(pack);
                         } else {
-                            Debug.Log("Ya se descargo el pack");
                             if (isActualized(descargaLocal, pack)) {
                                 //Esta actualizado
-                                Debug.Log("Esta actualizado");
                                 paquetesManager.newCardJugar(pack);
                             } else {
                                 //No esta actualizado
-                                Debug.Log("No esta actualizado");
                                 paquetesManager.newCardActualizar(pack);
                             }
                         }
@@ -301,14 +298,20 @@ public class appManager : MonoBehaviour {
             } else {
                 WWW www = new WWW(respuesta.urlImagen);
                 yield return www;
-                Texture2D texture = www.texture;
-                byte[] bytes = texture.EncodeToPNG();
-                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                if (www.texture != null) {
+                    Texture2D texture = www.texture;
+                    byte[] bytes = texture.EncodeToPNG();
+                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                } else {
+                    Debug.Log("Texture es null: " + respuesta.urlImagen);
+                }
             }
         }
         var mensaje = GameObject.Find("MensajeCarga");
-        mensaje.GetComponentInChildren<Text>().text = "Paquete descargado";
-        mensaje.SetActive(false);
+        if (mensaje) {
+            mensaje.GetComponentInChildren<Text>().text = "Paquete descargado";
+            mensaje.SetActive(false);
+        }
         Destroy(GameObject.Find("fichaPack" + preguntas[0].idPaquete));
         banderaPaquetes = true;
         validarPaquetes();
@@ -333,27 +336,36 @@ public class appManager : MonoBehaviour {
         pack.fechaModificacion = pack.fechaModificacion.Remove(10, pack.fechaModificacion.Length - 10);
         string[] splitDatePack = pack.fechaModificacion.Split('-');
         if (Int32.Parse(splitDateDescarga[2]) >= Int32.Parse(splitDatePack[0])) {
-            Debug.Log("El año de descarga es mayor o igual");
             if (Int32.Parse(splitDateDescarga[1]) >= Int32.Parse(splitDatePack[1])) {
-                Debug.Log("El mes de descarga es mayor o igual");
                 if (Int32.Parse(splitDateDescarga[1]) == Int32.Parse(splitDatePack[1])) {
                     if (Int32.Parse(splitDateDescarga[0]) >= Int32.Parse(splitDatePack[2])) {
-                        Debug.Log("El dia de descarga es mayor o igual");
                         return true;
                     } else {
-                        Debug.Log("Actualizar paquete");
                         return false;
                     }
                 }
             } else {
-                Debug.Log("Actualizar paquete");
                 return false;
             }
         } else {
-            Debug.Log("Actualizar paquete");
             return false;
         }
         return true;
+    }
+
+    void destruirObjetos() {
+        if (GameObject.Find("PanelPaquetesDescargados").transform.childCount > 0) {
+            for (var i = 0; i < GameObject.Find("PanelPaquetesDescargados").transform.childCount; i++) {
+                var objeto = GameObject.Find("PanelPaquetesDescargados").transform.GetChild(i);
+                Destroy(objeto.gameObject);
+            }
+        }
+        if (GameObject.Find("PanelNuevosPaquetes").transform.childCount > 0) {
+            for (var i = 0; i < GameObject.Find("PanelNuevosPaquetes").transform.childCount; i++) {
+                var objeto = GameObject.Find("PanelNuevosPaquetes").transform.GetChild(i);
+                Destroy(objeto.gameObject);
+            }
+        }
     }
 
 }

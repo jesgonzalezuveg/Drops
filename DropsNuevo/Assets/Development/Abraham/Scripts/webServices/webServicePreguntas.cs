@@ -133,10 +133,11 @@ public class webServicePreguntas : MonoBehaviour {
             } else {
                 string text;
                 text = www.downloadHandler.text;
-                if (text == "") {
+                if (text == "0") {
                     Debug.Log("No se encontraron preguntas");
                 } else {
                     text = "{\"preguntas\":" + text + "}";
+                    Debug.Log(text);
                     Data myObject = JsonUtility.FromJson<Data>(text);
                     GameObject.Find("AppManager").GetComponent<appManager>().setPreguntas(myObject.preguntas);
                 }

@@ -18,22 +18,36 @@ public class packManager : MonoBehaviour {
     }
 
     public void descargaPaquete() {
-        mensaje.SetActive(true);
-        mensaje.GetComponentInChildren<Text>().text = "Descargando paquete";
-        GetComponentInChildren<Button>().interactable = false;
-        StartCoroutine(webServicePreguntas.getPreguntasOfPack(paquete.descripcion));
-        StartCoroutine(webServiceRespuestas.getRespuestasByPack(paquete.descripcion));
-        webServiceDescarga.insertarDescargaSqLite(paquete.id, webServiceUsuario.consultarIdUsuarioSqLite(manager.getUsuario()));
+        //StopAllCoroutines();
+        if (mensaje) {
+            mensaje.SetActive(true);
+            mensaje.GetComponentInChildren<Text>().text = "Descargando paquete";
+        }
+        consultarDatos();
     }
 
     public void jugarPaquete() {
-        Debug.Log(paquete.id);
+        //StopAllCoroutines();
         manager.preguntasCategoria = webServicePreguntas.getPreguntasByPackSqLite(paquete.id);
         SceneManager.LoadScene("salon");
     }
 
     public void actualizarPaquete() {
-        Debug.Log("actualizar");
+        //StopAllCoroutines();
+        mensaje.SetActive(true);
+        mensaje.GetComponentInChildren<Text>().text = "Actualizando paquete";
+        consultarDatos();
+    }
+
+    void consultarDatos() {
+        manager.setPreguntas(null);
+        manager.setRespuestas(null);
+        foreach (var k in GetComponentsInChildren<Button>()) {
+            k.interactable = false;
+        }
+        StartCoroutine(webServicePreguntas.getPreguntasOfPack(paquete.descripcion));
+        StartCoroutine(webServiceRespuestas.getRespuestasByPack(paquete.descripcion));
+        webServiceDescarga.insertarDescargaSqLite(paquete.id, webServiceUsuario.consultarIdUsuarioSqLite(manager.getUsuario()));
     }
 
 }
