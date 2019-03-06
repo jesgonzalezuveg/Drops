@@ -324,7 +324,7 @@ public class appManager : MonoBehaviour {
 
     void OnApplicationQuit() {
         if (Usuario != "") {
-            webServiceRegistro.insertarRegistroSqLite("LogOut", Usuario, 3);
+            webServiceRegistro.validarAccionSqlite("Aplicación cerrada por el usuario", Usuario, "Aplicación cerrada");
             webServiceLog.cerrarLog(Usuario);
         }
     }

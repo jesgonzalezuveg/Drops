@@ -79,8 +79,9 @@ public class CursoManager : MonoBehaviour {
 
     public void llamarPreguntas(int position) {
         Debug.Log("pregunta" + position);
-        //if (position<preguntas.Length) {
-        if (position<6) {
+        if (position<preguntas.Length) {
+        //if (position<6) {
+            webServiceRegistro.validarAccionSqlite("Pregunta: " + manager.preguntasCategoria[position].descripcion, manager.getUsuario(), "Entró a pregunta");
             //Validamos de que tipo de ejercicio se trata
             if (manager.preguntasCategoria[position].idTipoEjercicio == "1") {
                 Debug.Log("La pregunta es de tipo 1");
@@ -223,6 +224,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void correctoSimple(string obj) {
+        webServiceRegistro.validarAccionSqlite("Respondió correctamente(Simple)", manager.getUsuario(), "Respondió pregunta");
         countPreguntas++;
         Debug.Log("correcto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
         StartCoroutine(esperaSegundos(0.5f, correctoimg));
@@ -235,6 +237,8 @@ public class CursoManager : MonoBehaviour {
         } else {
             desactivarPreguntas(); ;
             textoPuntajeMarcador.text = score + "";
+            webServiceRegistro.validarAccionSqlite("Puntaje obtenido: " + score, manager.getUsuario(), "Puntaje obtenido");
+            webServiceRegistro.validarAccionSqlite("Terminó ejercicio", manager.getUsuario(), "Terminó ejercicio");
             scoreFinal.SetActive(true);
             //SceneManager.LoadScene("menuCategorias");
         }
@@ -257,10 +261,13 @@ public class CursoManager : MonoBehaviour {
             Debug.Log(countPreguntas);
             if (preguntas.Length > countPreguntas) {
                 desactivarPreguntas();
+                webServiceRegistro.validarAccionSqlite("Respondió correctamente(Opción Multiple)", manager.getUsuario(), "Respondió pregunta");
                 llamarPreguntas(countPreguntas);
             } else {
                 desactivarPreguntas();
                 textoPuntajeMarcador.text = score + "";
+                webServiceRegistro.validarAccionSqlite("Puntaje obtenido: " + score, manager.getUsuario(), "Puntaje obtenido");
+                webServiceRegistro.validarAccionSqlite("Terminó ejercicio", manager.getUsuario(), "Terminó ejercicio");
                 scoreFinal.SetActive(true);
             }
         }
@@ -348,6 +355,7 @@ public class CursoManager : MonoBehaviour {
 
     public void correctoPar(bool res) {
         if (res==true) {
+            webServiceRegistro.validarAccionSqlite("Respondió correctamente(Par)", manager.getUsuario(), "Respondió pregunta");
             countPreguntas++;
             Debug.Log("correcto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
             StartCoroutine(esperaSegundos(0.5f, correctoimg));
@@ -359,10 +367,13 @@ public class CursoManager : MonoBehaviour {
             } else {
                 desactivarPreguntas(); ;
                 textoPuntajeMarcador.text = score + "";
+                webServiceRegistro.validarAccionSqlite("Puntaje obtenido: " + score, manager.getUsuario(), "Puntaje obtenido");
+                webServiceRegistro.validarAccionSqlite("Terminó ejercicio", manager.getUsuario(), "Terminó ejercicio");
                 scoreFinal.SetActive(true);
                 //SceneManager.LoadScene("menuCategorias");
             }
         } else {
+            webServiceRegistro.validarAccionSqlite("Respondió incorrectamente", manager.getUsuario(), "Respondió pregunta");
             countPreguntas++;
             Debug.Log("incorrecto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
             StartCoroutine(esperaSegundos(0.5f, incorrectoimg));
@@ -372,7 +383,8 @@ public class CursoManager : MonoBehaviour {
             } else {
                 desactivarPreguntas();
                 textoPuntajeMarcador.text = score + "";
-                //scoreFinal.GetComponentInChildren<Text>().text = score + "";
+                webServiceRegistro.validarAccionSqlite("Puntaje obtenido: " + score, manager.getUsuario(), "Puntaje obtenido");
+                webServiceRegistro.validarAccionSqlite("Terminó ejercicio", manager.getUsuario(), "Terminó ejercicio");
                 scoreFinal.SetActive(true);
                 //SceneManager.LoadScene("menuCategorias");
             }
@@ -380,6 +392,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void incorrecto(string objName) {
+        webServiceRegistro.validarAccionSqlite("Respondió incorrectamente", manager.getUsuario(), "Respondió pregunta");
         countPreguntas++;
         Debug.Log("incorrecto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
         removeTrigger(objName);
@@ -390,7 +403,8 @@ public class CursoManager : MonoBehaviour {
         } else {
             desactivarPreguntas();
             textoPuntajeMarcador.text = score + "";
-            //scoreFinal.GetComponentInChildren<Text>().text = score + "";
+            webServiceRegistro.validarAccionSqlite("Puntaje obtenido: " + score, manager.getUsuario(), "Puntaje obtenido");
+            webServiceRegistro.validarAccionSqlite("Terminó ejercicio", manager.getUsuario(), "Terminó ejercicio");
             scoreFinal.SetActive(true);
             //SceneManager.LoadScene("menuCategorias");
         }
@@ -426,6 +440,13 @@ public class CursoManager : MonoBehaviour {
 
     public void salir() {
         SceneManager.LoadScene("menuCategorias");
+    }
+
+    void OnApplicationQuit() {
+        if (manager.getUsuario() != "") {
+            webServiceRegistro.validarAccionSqlite("El usuario no termino la partida", manager.getUsuario(), "Ejercicio sin terminar");
+            webServiceLog.cerrarLog(manager.getUsuario());
+        }
     }
 
     public void PosAleatoria(int tipo) {

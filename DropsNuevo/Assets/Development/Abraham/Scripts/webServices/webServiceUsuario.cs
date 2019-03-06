@@ -76,7 +76,7 @@ public class webServiceUsuario : MonoBehaviour {
      * @param programa puede ser nulo, en caso de ser alumno uveg insertará el programa al cual esta inscrito
      */
     public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string fechaRegistro, int status) {
-        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, syncroStatus) VALUES ('" + usuario + "', '" + nombre + "', '" + rol + "', '" + gradoEstudios + "', '" + programa + "', '" + fechaRegistro + "', " + status + ", 2)";
+        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, syncroStatus) VALUES ('" + usuario + "', '" + nombre + "', '" + rol + "', '" + gradoEstudios + "', '" + programa + "',  dateTime(), " + status + ", 2)";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -179,7 +179,8 @@ public class webServiceUsuario : MonoBehaviour {
                             insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio);
                         }
                         webServiceLog.insertarLogSqLite(data.data.Usuario);
-                        webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 1);
+                        webServiceRegistro.validarAccionSqlite("Login teclado", data.data.Usuario, "Login");
+                        //webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 1);
                         SceneManager.LoadScene("menuCategorias");
                     } else {
                         //Aqui va mensaje de contraseña incorrecta
@@ -224,7 +225,8 @@ public class webServiceUsuario : MonoBehaviour {
                     manager.setNombre(nombreCompleto);
                     manager.setCorreo(data.data.Correo);
                     manager.setImagen(data.data.Imagen);
-                    webServiceRegistro.insertarRegistroSqLite("Login Pairing Code", data.data.Usuario, 1);
+                    webServiceRegistro.validarAccionSqlite("Login Pairing Code", data.data.Usuario, "Login");
+                    //webServiceRegistro.insertarRegistroSqLite("Login Pairing Code", data.data.Usuario, 1);
                 } else {
                     //Aqui va mensaje de usuario incorrecto
                     Debug.Log("El usuario no existe");
@@ -272,7 +274,8 @@ public class webServiceUsuario : MonoBehaviour {
                     } else {
                         if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio) == 1) {
                             webServiceLog.insertarLogSqLite(data.data.Usuario);
-                            webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 2);
+                            //webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 2);
+                            webServiceRegistro.validarAccionSqlite("Login Facebook", data.data.Usuario, "Login");
                             SceneManager.LoadScene("menuCategorias");
                         } else {
                             Debug.Log("Fallo el insert");
