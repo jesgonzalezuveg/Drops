@@ -48,6 +48,11 @@ public class CursoManager : MonoBehaviour {
     int numLetras;//Numero total de letras
     int letra;//Valor para validar el orden de las letras de la palabra
 
+    //Variables para registrar el intento y su detalle
+    string idLog;
+    string idUsuario;
+    string idIntento;
+
     void Start() {
         par1 = "";
         par2 = "";
@@ -73,6 +78,10 @@ public class CursoManager : MonoBehaviour {
             respuestasTodas.Add(respuestas);
         }
 
+        idUsuario = webServiceUsuario.consultarIdUsuarioSqLite(manager.getUsuario());
+        idLog = webServiceLog.getLastLogSqLite(idUsuario);
+        webServiceIntento.insertarIntentoSqLite("0", manager.getUsuario());
+        idIntento = webServiceIntento.consultarUltimoIdIntentoByIdLogSqLite(idLog);
         llamarPreguntas(countPreguntas);
         
     }
@@ -93,7 +102,7 @@ public class CursoManager : MonoBehaviour {
                     string url = respuestasTodas[position].respuestas[i].urlImagen;
                     var splitUrk = url.Split('/');
                     var urlReal = splitUrk[splitUrk.Length - 1];
-                    ponerImagen(count + "S", urlReal, manager.preguntasCategoria[position].idTipoEjercicio, respuestasTodas[position].respuestas[i].correcto);
+                    ponerImagen(count + "S", urlReal, manager.preguntasCategoria[position].idTipoEjercicio, respuestasTodas[position].respuestas[i].correcto, manager.preguntasCategoria[position].id, respuestasTodas[position].respuestas[i].id);
                     count++;
                 }
             }else if (manager.preguntasCategoria[position].idTipoEjercicio == "2") {
@@ -127,7 +136,7 @@ public class CursoManager : MonoBehaviour {
                     string url = respuestasTodas[position].respuestas[i].urlImagen;
                     var splitUrk = url.Split('/');
                     var urlReal = splitUrk[splitUrk.Length - 1];
-                    ponerImagen(count + "M", urlReal, manager.preguntasCategoria[position].idTipoEjercicio, respuestasTodas[position].respuestas[i].correcto);
+                    ponerImagen(count + "M", urlReal, manager.preguntasCategoria[position].idTipoEjercicio, respuestasTodas[position].respuestas[i].correcto, manager.preguntasCategoria[position].id, respuestasTodas[position].respuestas[i].id);
                     count++;
                 }
             }else if (manager.preguntasCategoria[position].idTipoEjercicio == "4") {
@@ -139,7 +148,7 @@ public class CursoManager : MonoBehaviour {
                     string url = respuestasTodas[position].respuestas[i].urlImagen;
                     var splitUrk = url.Split('/');
                     var urlReal = splitUrk[splitUrk.Length - 1];
-                    ponerImagen(count + "P", urlReal, manager.preguntasCategoria[position].idTipoEjercicio, respuestasTodas[position].respuestas[i].relacion);
+                    ponerImagen(count + "P", urlReal, manager.preguntasCategoria[position].idTipoEjercicio, respuestasTodas[position].respuestas[i].relacion, manager.preguntasCategoria[position].id, respuestasTodas[position].respuestas[i].id);
                     count++;
                     numPares++;
                 }
@@ -167,7 +176,7 @@ public class CursoManager : MonoBehaviour {
         imagen.GetComponent<SpriteRenderer>().sprite =sprite;
     }
 
-    public void ponerImagen(string i, string path, string tipo, string respuesta) {
+    public void ponerImagen(string i, string path, string tipo, string respuesta, string idPregunta, string idRespuesta) {
         if (File.Exists(Application.persistentDataPath + path)) {
             byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
             Texture2D texture = new Texture2D(8, 8);
@@ -182,12 +191,22 @@ public class CursoManager : MonoBehaviour {
 
                 if (respuesta == "True") {
                     entry.callback.AddListener((eventData) => {
+                        string idI = idIntento;
+                        string idR = idRespuesta;
+                        string idP = idPregunta;
+                        string correcto = respuesta;
                         string objName = objeto;
+                        webServiceDetalleIntento.insertarDetalleIntentoSqLite(correcto, idP, idR, idI);
                         correctoSimple(objName);
                     });
                 } else {
                     entry.callback.AddListener((eventData) => {
+                        string idI = idIntento;
+                        string idR = idRespuesta;
+                        string idP = idPregunta;
+                        string correcto = respuesta;
                         string objName = objeto;
+                        webServiceDetalleIntento.insertarDetalleIntentoSqLite(correcto, idP, idR, idI);
                         incorrecto(objeto);
                     });
                 }
@@ -199,12 +218,22 @@ public class CursoManager : MonoBehaviour {
                         //continuar
                         Debug.Log("correcto");
                         string objName = objeto;
+                        string idI = idIntento;
+                        string idR = idRespuesta;
+                        string idP = idPregunta;
+                        string correcto = respuesta;
+                        webServiceDetalleIntento.insertarDetalleIntentoSqLite(correcto, idP, idR, idI);
                         correctoMultiple(objName);
                     });
                 } else {
                     entry.callback.AddListener((eventData) => {
                         Debug.Log("incorrecto");
                         string objName = objeto;
+                        string idI = idIntento;
+                        string idR = idRespuesta;
+                        string idP = idPregunta;
+                        string correcto = respuesta;
+                        webServiceDetalleIntento.insertarDetalleIntentoSqLite(correcto, idP, idR, idI);
                         incorrecto(objeto);
                     });
                 }
@@ -214,7 +243,10 @@ public class CursoManager : MonoBehaviour {
                     //continuar
                     string objName = objeto;
                     string relacion = respuesta;
-                    validarPares(objName, relacion);
+                    string idI = idIntento;
+                    string idR = idRespuesta;
+                    string idP = idPregunta;
+                    validarPares(objName, relacion, idP, idR, idI);
                 });
                 imagen.GetComponent<EventTrigger>().triggers.Add(entry);
             }
@@ -273,13 +305,14 @@ public class CursoManager : MonoBehaviour {
         }
     }
 
-    public void validarPares(string obj, string relacion) {
+    public void validarPares(string obj, string relacion, string idP, string idR, string idI) {
         var myGameObject = GameObject.Find(obj);
         if (par1 == "" && par2 == "") {
             Debug.Log("entro a la validacion de pares");
             par1Name = obj;
             par1 = relacion;
             //myGameObject.GetComponent<Renderer>().material.color = new Color32(255, 255, 225, 100);
+            webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idP, idR, idI);
             myGameObject.GetComponent<SpriteRenderer>().sprite = opcionCorrecta;
         }else if (par1 != "" && par2 == "") {
             Debug.Log("entro a la validacion 2 de pares");
@@ -290,6 +323,7 @@ public class CursoManager : MonoBehaviour {
                 var par1Seleccionado = GameObject.Find(par1Name);
                 var par2Seleccionado = GameObject.Find(par2Name);
                 Debug.Log("Par correcto");
+                webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idP, idR, idI);
                 numPares--;
                 if (numPares > 0) {
                     removeTrigger(par1Name);
@@ -313,6 +347,7 @@ public class CursoManager : MonoBehaviour {
                 }
             } else {
                 Debug.Log("Par incorrecto");
+                webServiceDetalleIntento.insertarDetalleIntentoSqLite("False", idP, idR, idI);
                 correctoPar(false);
             }
         }
