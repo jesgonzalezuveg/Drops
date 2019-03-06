@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using System.Text;
 using UnityEngine.Networking;
 
 public class webServicePreguntas : MonoBehaviour {
@@ -76,6 +77,22 @@ public class webServicePreguntas : MonoBehaviour {
         string query = "SELECT a.*, b.claveMateria AS claveMateria, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoMateria AS b INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idMateria = b.id AND a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "'";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
+            result = "{\"preguntas\":[" + result + "]}";
+            Debug.Log(result);
+            Data data = JsonUtility.FromJson<Data>(result);
+            return data.preguntas;
+        } else {
+            return null;
+        }
+    }
+
+
+    public static preguntaData[] getPreguntasByPackSqLiteCurso(string ipPaquete, int limite) {
+        string query = "SELECT a.*, b.claveMateria AS claveMateria, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoMateria AS b INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idMateria = b.id AND a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "' ORDER BY random() LIMIT " + limite + ";";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            byte[] bytes = Encoding.Default.GetBytes(result);
+            result = Encoding.UTF8.GetString(bytes);
             result = "{\"preguntas\":[" + result + "]}";
             Debug.Log(result);
             Data data = JsonUtility.FromJson<Data>(result);
