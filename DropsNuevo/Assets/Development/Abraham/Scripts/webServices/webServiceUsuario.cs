@@ -179,7 +179,7 @@ public class webServiceUsuario : MonoBehaviour {
                             insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio);
                         }
                         webServiceLog.insertarLogSqLite(data.data.Usuario);
-                        webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 2);
+                        webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 1);
                         SceneManager.LoadScene("menuCategorias");
                     } else {
                         //Aqui va mensaje de contraseña incorrecta
@@ -224,6 +224,7 @@ public class webServiceUsuario : MonoBehaviour {
                     manager.setNombre(nombreCompleto);
                     manager.setCorreo(data.data.Correo);
                     manager.setImagen(data.data.Imagen);
+                    webServiceRegistro.insertarRegistroSqLite("Login Pairing Code", data.data.Usuario, 1);
                 } else {
                     //Aqui va mensaje de usuario incorrecto
                     Debug.Log("El usuario no existe");
@@ -265,8 +266,9 @@ public class webServiceUsuario : MonoBehaviour {
                     manager.setImagen(data.data.Imagen);
                     if (consultarUsuarioSqLite(data.data.Usuario) != "0") {
                         webServiceLog.insertarLogSqLite(data.data.Usuario);
-                        webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 2);
+                        webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 1);
                         SceneManager.LoadScene("menuCategorias");
+
                     } else {
                         if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio) == 1) {
                             webServiceLog.insertarLogSqLite(data.data.Usuario);
