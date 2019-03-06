@@ -28,9 +28,10 @@ public class packManager : MonoBehaviour {
         consultarDatos();
     }
 
+    //Sustituir valor "10" con el numero de reactivos que seleccione el usuario
     public void jugarPaquete() {
         //StopAllCoroutines();
-        manager.preguntasCategoria = webServicePreguntas.getPreguntasByPackSqLite(paquete.id);
+        manager.preguntasCategoria = webServicePreguntas.getPreguntasByPackSqLiteCurso(paquete.id, 5);
         webServiceRegistro.validarAccionSqlite("Partida: " + paquete.descripcion, manager.getUsuario(), "Comenzó ejercicio");
         SceneManager.LoadScene("salon");
     }
