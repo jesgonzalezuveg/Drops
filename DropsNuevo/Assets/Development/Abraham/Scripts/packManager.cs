@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class packManager : MonoBehaviour {
 
@@ -23,12 +24,14 @@ public class packManager : MonoBehaviour {
             mensaje.SetActive(true);
             mensaje.GetComponentInChildren<Text>().text = "Descargando paquete";
         }
+        webServiceRegistro.validarAccionSqlite("Descarga: " + paquete.descripcion, manager.getUsuario(), "Descargar paquete");
         consultarDatos();
     }
 
     public void jugarPaquete() {
         //StopAllCoroutines();
         manager.preguntasCategoria = webServicePreguntas.getPreguntasByPackSqLite(paquete.id);
+        webServiceRegistro.validarAccionSqlite("Partida: " + paquete.descripcion, manager.getUsuario(), "Comenzó ejercicio");
         SceneManager.LoadScene("salon");
     }
 
@@ -38,6 +41,7 @@ public class packManager : MonoBehaviour {
             mensaje.SetActive(true);
             mensaje.GetComponentInChildren<Text>().text = "Actualizando paquete";
         }
+        webServiceRegistro.validarAccionSqlite("Actualización : " + paquete.descripcion, manager.getUsuario(), "Actualizar paquete");
         consultarDatos();
     }
 

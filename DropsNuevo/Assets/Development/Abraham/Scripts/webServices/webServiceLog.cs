@@ -44,7 +44,7 @@ public class webServiceLog : MonoBehaviour {
      * @param idUsuario id del usuario generado en la db local
      */
     public static int insertarLogSqLite(string fechaInicio, string fechaTermino, string dispositivo, int syncroStatus, string idCodigo, string idUsuario) {
-        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idCodigo, idUsuario) VALUES ('" + fechaInicio + "', '" + fechaTermino + "', '" + SystemInfo.deviceModel + "', " + syncroStatus + ", " + idCodigo + ", " + idUsuario + ")";
+        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idCodigo, idUsuario) VALUES (dateTime(), dateTime(), '" + SystemInfo.deviceModel + "', " + syncroStatus + ", " + idCodigo + ", " + idUsuario + ")";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
