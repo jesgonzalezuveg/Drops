@@ -34,8 +34,10 @@ public class packManager : MonoBehaviour {
 
     public void actualizarPaquete() {
         //StopAllCoroutines();
-        mensaje.SetActive(true);
-        mensaje.GetComponentInChildren<Text>().text = "Actualizando paquete";
+        if (mensaje) {
+            mensaje.SetActive(true);
+            mensaje.GetComponentInChildren<Text>().text = "Actualizando paquete";
+        }
         consultarDatos();
     }
 
