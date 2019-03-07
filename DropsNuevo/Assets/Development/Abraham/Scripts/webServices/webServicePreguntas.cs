@@ -88,7 +88,7 @@ public class webServicePreguntas : MonoBehaviour {
 
 
     public static preguntaData[] getPreguntasByPackSqLiteCurso(string ipPaquete, int limite) {
-        string query = "SELECT a.*, b.claveMateria AS claveMateria, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoMateria AS b INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idMateria = b.id AND a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "' ORDER BY random() LIMIT " + limite + ";";
+        string query = "SELECT a.*, b.claveMateria AS claveMateria, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoMateria AS b INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idMateria = b.id AND a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE a.idTipoEjercicio = 3 AND d.id = '" + ipPaquete + "' ORDER BY random() LIMIT " + limite + ";";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             byte[] bytes = Encoding.Default.GetBytes(result);
