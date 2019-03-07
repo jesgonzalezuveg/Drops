@@ -23,7 +23,7 @@ public class paquetesManager : MonoBehaviour {
         manager.setBanderas(true);
         StartCoroutine(webServicePaquetes.getPaquetes());
         StartCoroutine(webServiceCategoria.getCategorias());
-        StartCoroutine(webServiceMateria.getMaterias());
+        //StartCoroutine(webServiceMateria.getMaterias());
         StartCoroutine(webServiceEjercicio.getEjercicios());
     }
 
@@ -61,36 +61,6 @@ public class paquetesManager : MonoBehaviour {
                 var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
                 imagen.sprite = sprite;
             }
-        }
-    }
-
-    /**
-     * Funcion obsoleta, ya no se llaman las preguntas por categoria
-     * 
-     */
-    public void clickCategoria(string categoria) {
-        var idCategoria = webServiceCategoria.getIdCategoriaByNameSqLite(categoria);
-        var materias = webServiceMateria.getIdMateriasByCategoriaSqLite(idCategoria);
-        if (materias != "0") {
-            string[] splitString = materias.Split(',');
-            bool banderaPreguntas = true;
-            for (var i = 0; i < splitString.Length; i++) {
-                var preguntas = webServicePreguntas.getPreguntasByMateria(splitString[i]);
-                if (preguntas != null) {
-                    foreach (var pregunta in preguntas) {
-                        banderaPreguntas = false;
-                    }
-                    //MODIFICAR MANDAR DE TODAS LAS MATERIAS
-                    manager.preguntasCategoria = preguntas;
-                } else {
-                    Debug.Log("No hay preguntas en esta categoria");
-                }
-            }
-            if (!banderaPreguntas) {
-                SceneManager.LoadScene("salon");
-            }
-        } else {
-            Debug.Log("No hay materias registradas");
         }
     }
 

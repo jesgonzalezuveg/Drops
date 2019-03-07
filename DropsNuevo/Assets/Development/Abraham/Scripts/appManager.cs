@@ -18,8 +18,8 @@ public class appManager : MonoBehaviour {
     private bool banderaPaquetes = true;
     private webServiceCategoria.categoriaData[] categorias = null;
     private bool banderaCategorias = true;
-    private webServiceMateria.materiaData[] materias = null;
-    private bool banderaMaterias = true;
+    //private webServiceMateria.materiaData[] materias = null;
+    //private bool banderaMaterias = true;
     private webServiceEjercicio.ejercicioData[] ejercicios = null;
     private bool banderaEjercicios = true;
     private webServicePreguntas.preguntaData[] preguntas = null;
@@ -62,7 +62,7 @@ public class appManager : MonoBehaviour {
     public void setBanderas(bool valor) {
         banderaCategorias = valor;
         banderaEjercicios = valor;
-        banderaMaterias = valor;
+        //banderaMaterias = valor;
         banderaPaquetes = valor;
         banderaPreguntas = valor;
         banderaRespuestas = valor;
@@ -112,13 +112,13 @@ public class appManager : MonoBehaviour {
         return categorias;
     }
 
-    public void setMaterias(webServiceMateria.materiaData[] materia) {
-        materias = materia;
-    }
+    //public void setMaterias(webServiceMateria.materiaData[] materia) {
+    //    materias = materia;
+    //}
 
-    public webServiceMateria.materiaData[] getMaterias() {
-        return materias;
-    }
+    //public webServiceMateria.materiaData[] getMaterias() {
+    //    return materias;
+    //}
 
     public void setEjerciocio(webServiceEjercicio.ejercicioData[] ejercicio) {
         ejercicios = ejercicio;
@@ -162,9 +162,9 @@ public class appManager : MonoBehaviour {
                 bandera = false;
             }
         }
-        validarPaquetes();
         validarCategorias();
-        validarMaterias();
+        validarPaquetes();
+        //validarMaterias();
         validarEjercicios();
         validarPreguntas();
         validarRespuestas();
@@ -193,7 +193,7 @@ public class appManager : MonoBehaviour {
                             }
                         }
                     } else {
-                        webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion, pack.urlImagen, pack.id);
+                        webServicePaquetes.insertarPaqueteSqLite(pack);
                         paquetesManager.newCardDescarga(pack);
                     }
                 }
@@ -202,7 +202,7 @@ public class appManager : MonoBehaviour {
         }
     }
 
-    
+
 
     public void validarCategorias() {
         if (categorias != null && banderaCategorias) {
@@ -218,21 +218,21 @@ public class appManager : MonoBehaviour {
         }
     }
 
-    public void validarMaterias() {
-        if (materias != null && banderaMaterias) {
-            foreach (var materia in materias) {
-                var local = webServiceMateria.getMateriaByClaveSqLite(materia.claveMateria);
-                if (local != null) {
-                    materia.id = local.id;
-                    materia.idCategoria = local.idCategoria;
-                } else {
-                    string idCategoria = webServiceCategoria.getIdCategoriaByNameSqLite(materia.descripcionCategoria);
-                    webServiceMateria.insertarMateriaSqLite(materia.claveMateria, materia.descripcion, materia.status, materia.fechaRegistro, materia.fechaModificacion, idCategoria);
-                }
-            }
-            banderaMaterias = false;
-        }
-    }
+    //public void validarMaterias() {
+    //    if (materias != null && banderaMaterias) {
+    //        foreach (var materia in materias) {
+    //            var local = webServiceMateria.getMateriaByClaveSqLite(materia.claveMateria);
+    //            if (local != null) {
+    //                materia.id = local.id;
+    //                materia.idCategoria = local.idCategoria;
+    //            } else {
+    //                string idCategoria = webServiceCategoria.getIdCategoriaByNameSqLite(materia.descripcionCategoria);
+    //                webServiceMateria.insertarMateriaSqLite(materia.claveMateria, materia.descripcion, materia.status, materia.fechaRegistro, materia.fechaModificacion, idCategoria);
+    //            }
+    //        }
+    //        banderaMaterias = false;
+    //    }
+    //}
 
     public void validarEjercicios() {
         if (ejercicios != null && banderaEjercicios) {
@@ -250,20 +250,19 @@ public class appManager : MonoBehaviour {
 
     public void validarPreguntas() {
         if (preguntas != null && banderaPreguntas) {
-            Debug.Log("Validando preguntas");
             banderaPreguntas = false;
             foreach (var pregunta in preguntas) {
-                var local = webServicePreguntas.getPreguntaByDescripcionSqLite(pregunta.descripcion);
+                var local = webServicePreguntas.getPreguntaByIdServerSqLite(pregunta.id);
                 if (local != null) {
                     pregunta.id = local.id;
-                    pregunta.idMateria = local.idMateria;
                     pregunta.idPaquete = local.idPaquete;
                     pregunta.idTipoEjercicio = local.idTipoEjercicio;
+                    //webServicePreguntas.updatePreguntaSqLite(pregunta, local.idServer);
                 } else {
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
-                    string idMateria = webServiceMateria.getMateriaByClaveSqLite(pregunta.claveMateria).id;
+                    //string idMateria = webServiceMateria.getMateriaByClaveSqLite(pregunta.claveMateria).id;
                     string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
-                    webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idMateria, idPaquete, pregunta.id);
+                    webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, /*idMateria*/"0", idPaquete, pregunta.id);
                 }
             }
         }
@@ -271,19 +270,17 @@ public class appManager : MonoBehaviour {
 
     public void validarRespuestas() {
         if (respuestas != null && banderaRespuestas) {
-            Debug.Log("Validando respuestas");
             banderaRespuestas = false;
             foreach (var respuesta in respuestas) {
-                var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta);
-                Debug.Log("respuesta:"+ respuesta.descripcion+" id:"+idPregunta.id +"  ");
-                var local = webServiceRespuestas.getRespuestaByDescripcionAndPreguntaSquLite(respuesta.descripcion, idPregunta.id);
+                var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta).id;
+                Debug.Log(respuesta.descripcionPregunta + " - " + idPregunta);
+                var local = webServiceRespuestas.getRespuestaByIdServerAndPreguntaSquLite(respuesta.id, idPregunta);
                 if (local != null) {
-                    Debug.Log("Ya existe esta pregunta");
-                    webServiceRespuestas.updateRespuestaSqLite(respuesta.descripcion,respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, respuesta.idPregunta, respuesta.idServer);
+                    webServiceRespuestas.updateRespuestaSqLite(respuesta.descripcion,respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, respuesta.idPregunta, local.idServer);
                     respuesta.id = local.id;
                     respuesta.idPregunta = local.idPregunta;
                 } else {
-                    webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta.id, respuesta.id);
+                    webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta, respuesta.id);
                 }
             }
             StartCoroutine(descargarImagenesPaquete());
@@ -294,9 +291,9 @@ public class appManager : MonoBehaviour {
         foreach (var respuesta in respuestas) {
             var pathArray = respuesta.urlImagen.Split('/');
             var path = pathArray[pathArray.Length - 1];
-            if (File.Exists(Application.persistentDataPath + path)) {
+            /*if (File.Exists(Application.persistentDataPath + path)) {
                 byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-            } else {
+            } else {*/
                 WWW www = new WWW(respuesta.urlImagen);
                 yield return www;
                 if (www.texture != null) {
@@ -306,7 +303,7 @@ public class appManager : MonoBehaviour {
                 } else {
                     Debug.Log("Texture es null: " + respuesta.urlImagen);
                 }
-            }
+            //}
         }
         var mensaje = GameObject.Find("MensajeCarga");
         if (mensaje) {

@@ -22,10 +22,8 @@ public class webServicePreguntas : MonoBehaviour {
         public string fechaRegistro = "";
         public string fechaModificacion = "";
         public string idTipoEjercicio = "";
-        public string idMateria = "";
         public string idPaquete = "";
         public string idServer = "";
-        public string claveMateria = "";
         public string descripcionEjercicio = "";
         public string descripcionPaquete = "";
     }
@@ -51,9 +49,9 @@ public class webServicePreguntas : MonoBehaviour {
             return null;
         }
     }
-
+    //Modificar
     public static int insertarPreguntaSqLite(string descripcion, string status, string fechaRegistro, string fechaModificacion, string idTipoEjercicio, string idMateria, string idPaquete, string idServer) {
-        string query = "INSERT INTO pregunta (descripcion, status, fechaRegistro, fechaModificacion, idTipoEjercicio, idMateria, idPaquete, idServer) VALUES ('" + descripcion + "', '" + status + "', '" + fechaRegistro + "','" + fechaModificacion + "', '" + idTipoEjercicio + "', '" + idMateria + "', '" + idPaquete +"', '" + idServer + "');";
+        string query = "INSERT INTO pregunta (descripcion, status, fechaRegistro, fechaModificacion, idTipoEjercicio, idPaquete, idServer) VALUES ('" + descripcion + "', '" + status + "', '" + fechaRegistro + "','" + fechaModificacion + "', '" + idTipoEjercicio + "', '" + idPaquete +"', '" + idServer + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -73,8 +71,29 @@ public class webServicePreguntas : MonoBehaviour {
         }
     }
 
+    public static preguntaData getPreguntaByIdServerSqLite(string idServer) {
+        string query = "SELECT * FROM pregunta WHERE idServer = '" + idServer + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            preguntaData data = JsonUtility.FromJson<preguntaData>(result);
+            return data;
+        } else {
+            return null;
+        }
+    }
+
+    public static int updatePreguntaSqLite(preguntaData pregunta, string idServer) {
+        string query = "UPDATE  pregunta SET  descripcion =  '" + pregunta.descripcion + "', status =  '" + pregunta.status + "', FechaModificacion =  dateTime(), idTipoEjercicio = '" + webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id + "', idPaquete =  '" + webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id + "' WHERE  idServer = '" + idServer + "';";
+        var result = conexionDB.alterGeneral(query);
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public static preguntaData[] getPreguntasByPackSqLite(string ipPaquete) {
-        string query = "SELECT a.*, b.claveMateria AS claveMateria, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoMateria AS b INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idMateria = b.id AND a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "'";
+        string query = "SELECT a.*, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "'";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             result = "{\"preguntas\":[" + result + "]}";
@@ -88,7 +107,7 @@ public class webServicePreguntas : MonoBehaviour {
 
 
     public static preguntaData[] getPreguntasByPackSqLiteCurso(string ipPaquete, int limite) {
-        string query = "SELECT a.*, b.claveMateria AS claveMateria, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoMateria AS b INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idMateria = b.id AND a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "' ORDER BY random() LIMIT " + limite + ";";
+        string query = "SELECT a.*, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "' ORDER BY random() LIMIT " + limite + ";";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             byte[] bytes = Encoding.Default.GetBytes(result);
@@ -154,7 +173,7 @@ public class webServicePreguntas : MonoBehaviour {
                     Debug.Log("No se encontraron preguntas");
                 } else {
                     text = "{\"preguntas\":" + text + "}";
-                    Debug.Log(text);
+                    //Debug.Log(text);
                     Data myObject = JsonUtility.FromJson<Data>(text);
                     GameObject.Find("AppManager").GetComponent<appManager>().setPreguntas(myObject.preguntas);
                 }

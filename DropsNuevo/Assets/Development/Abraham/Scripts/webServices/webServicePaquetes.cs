@@ -16,11 +16,14 @@ public class webServicePaquetes : MonoBehaviour{
     [Serializable]
     public class paqueteData {
         public string id = "";
+        public string clave = "";
         public string descripcion = "";
         public string fechaRegistro = "";
         public string fechaModificacion = "";
         public string urlImagen = "";
+        public string idCategoria = "";
         public string idServer = "";
+        public string descripcionCategoria = "";
     }
 
     [Serializable]
@@ -55,8 +58,10 @@ public class webServicePaquetes : MonoBehaviour{
         }
     }
 
-    public static int insertarPaqueteSqLite(string descripcion, string fechaCreacion, string fechaModificacion, string urlImagen, string idServer) {
-        string query = "INSERT INTO paquete (descripcion, fechaRegistro, fechaModificacion, urlImagen, idServer) VALUES ('" + descripcion + "', dateTime(), dateTime(), '" + urlImagen + "', '" + idServer + "');";
+    public static int insertarPaqueteSqLite(paqueteData paquete) {
+        //clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer
+        var idCategoria = webServiceCategoria.getCategoriaByDescripcionSqLite(paquete.descripcionCategoria).id;
+        string query = "INSERT INTO paquete (clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer) VALUES ('" + paquete.clave + "','" + paquete.descripcion + "', dateTime(), dateTime(),'" + paquete.urlImagen + "','" + idCategoria + "','" + paquete.id + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
