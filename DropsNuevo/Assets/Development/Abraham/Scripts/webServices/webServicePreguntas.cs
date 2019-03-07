@@ -3,55 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-using System.Text;
 using UnityEngine.Networking;
 
-public class webServicePreguntas : MonoBehaviour {
+public class webServicePaquetes : MonoBehaviour {
 
-    private const string URL = "http://sii.uveg.edu.mx/unity/dropsV2/controllers/webServicePreguntas.php";
+    private const string URL = "http://sii.uveg.edu.mx/unity/dropsV2/controllers/webServicePaquetes.php";
     private const string API_KEY = "AJFFF-ASFFF-GWEGG-WEGERG-ERGEG-EGERG-ERGEG";//KEY falsa, remplazar por autentica
 
     /**
-     * Estructura que almacena los datos de una pregunta
+     * Estructura que almacena los datos de un paquete
      */
     [Serializable]
-    public class preguntaData {
+    public class paqueteData {
         public string id = "";
+        public string clave = "";
         public string descripcion = "";
-        public string status = "";
         public string fechaRegistro = "";
         public string fechaModificacion = "";
-        public string idTipoEjercicio = "";
-        public string idPaquete = "";
+        public string urlImagen = "";
+        public string idCategoria = "";
         public string idServer = "";
-        public string descripcionEjercicio = "";
-        public string descripcionPaquete = "";
+        public string descripcionCategoria = "";
     }
 
     [Serializable]
     public class Data {
-        public preguntaData[] preguntas;
+        public paqueteData[] paquete;
     }
+
 
     /**
-     * Función que regresa la estructura preguntaData
-     * la cual almacena los datos de las preguntas relacionadas a la materia
-     * @param materia, id de la materia de la cual se requieren las preguntas
+     * Funcion que regresa los paquetes que existen en la base de datos local
+     * 
      */
-    public static preguntaData[] getPreguntasByMateria(string materia) {
-        string query = "SELECT * FROM pregunta WHERE idMateria = " + materia + " AND status = 1;";
+    public static paqueteData getPaquetesSqLite() {
+        string query = "SELECT * FROM paquete;";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
-            result = "{\"preguntas\":" + "[" + result + "]}";
-            Data data = JsonUtility.FromJson<Data>(result);
-            return data.preguntas;
+            paqueteData paquete = JsonUtility.FromJson<paqueteData>(result);
+            return paquete;
         } else {
             return null;
         }
     }
-    //Modificar
-    public static int insertarPreguntaSqLite(string descripcion, string status, string fechaRegistro, string fechaModificacion, string idTipoEjercicio, string idMateria, string idPaquete, string idServer) {
-        string query = "INSERT INTO pregunta (descripcion, status, fechaRegistro, fechaModificacion, idTipoEjercicio, idPaquete, idServer) VALUES ('" + descripcion + "', '" + status + "', '" + fechaRegistro + "','" + fechaModificacion + "', '" + idTipoEjercicio + "', '" + idPaquete +"', '" + idServer + "');";
+
+    public static paqueteData getPaquetesByDescripcionSqLite(string descripcion) {
+        string query = "SELECT * FROM paquete WHERE descripcion = '" + descripcion + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            paqueteData paquete = JsonUtility.FromJson<paqueteData>(result);
+            return paquete;
+        } else {
+            return null;
+        }
+    }
+
+    public static int insertarPaqueteSqLite(paqueteData paquete) {
+        //clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer
+        var idCategoria = webServiceCategoria.getCategoriaByDescripcionSqLite(paquete.descripcionCategoria).id;
+        string query = "INSERT INTO paquete (clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer) VALUES ('" + paquete.clave + "','" + paquete.descripcion + "', dateTime(), dateTime(),'" + paquete.urlImagen + "','" + idCategoria + "','" + paquete.id + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -60,122 +70,31 @@ public class webServicePreguntas : MonoBehaviour {
         }
     }
 
-    public static preguntaData getPreguntaByDescripcionSqLite(string descripcion) {
-        string query = "SELECT * FROM pregunta WHERE descripcion = '" + descripcion + "';";
-        var result = conexionDB.selectGeneral(query);
-        if (result != "0") {
-            preguntaData data = JsonUtility.FromJson<preguntaData>(result);
-            return data;
-        } else {
-            return null;
-        }
-    }
 
-    public static preguntaData getPreguntaByIdServerSqLite(string idServer) {
-        string query = "SELECT * FROM pregunta WHERE idServer = '" + idServer + "';";
-        var result = conexionDB.selectGeneral(query);
-        if (result != "0") {
-            preguntaData data = JsonUtility.FromJson<preguntaData>(result);
-            return data;
-        } else {
-            return null;
-        }
-    }
-
-    public static int updatePreguntaSqLite(preguntaData pregunta, string idServer) {
-        string query = "UPDATE  pregunta SET  descripcion =  '" + pregunta.descripcion + "', status =  '" + pregunta.status + "', FechaModificacion =  dateTime(), idTipoEjercicio = '" + webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id + "', idPaquete =  '" + webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id + "' WHERE  idServer = '" + idServer + "';";
-        var result = conexionDB.alterGeneral(query);
-        if (result == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    public static preguntaData[] getPreguntasByPackSqLite(string ipPaquete) {
-        string query = "SELECT a.*, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "'";
-        var result = conexionDB.selectGeneral(query);
-        if (result != "0") {
-            result = "{\"preguntas\":[" + result + "]}";
-            Debug.Log(result);
-            Data data = JsonUtility.FromJson<Data>(result);
-            return data.preguntas;
-        } else {
-            return null;
-        }
-    }
-
-
-    public static preguntaData[] getPreguntasByPackSqLiteCurso(string ipPaquete, int limite) {
-        string query = "SELECT a.*, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "' ORDER BY random() LIMIT " + limite + ";";
-        var result = conexionDB.selectGeneral(query);
-        if (result != "0") {
-            byte[] bytes = Encoding.Default.GetBytes(result);
-            result = Encoding.UTF8.GetString(bytes);
-            result = "{\"preguntas\":[" + result + "]}";
-            Debug.Log(result);
-            Data data = JsonUtility.FromJson<Data>(result);
-            return data.preguntas;
-        } else {
-            return null;
-        }
-    }
-
-
-    public static IEnumerator getPreguntas() {
+    public static IEnumerator getPaquetes() {
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
 
-        form.AddField("metodo", "consultarPreguntas");
+        form.AddField("metodo", "consultarPaquetes");
         using (UnityWebRequest www = UnityWebRequest.Post(URL, form)) {
             AsyncOperation asyncLoad = www.SendWebRequest();
             // Wait until the asynchronous scene fully loads
             while (!asyncLoad.isDone) {
                 yield return null;
             }
+
             if (www.isNetworkError || www.isHttpError) {
                 Debug.Log(www.error);
             } else {
                 string text;
                 text = www.downloadHandler.text;
                 if (text == "") {
-                    Debug.Log("No se encontraron preguntas");
+                    Debug.Log("No se encontraron paquetes");
                 } else {
-                    text = "{\"preguntas\":" + text + "}";
+                    text = "{\"paquete\":" + text + "}";
                     Data myObject = JsonUtility.FromJson<Data>(text);
-                    GameObject.Find("AppManager").GetComponent<appManager>().setPreguntas(myObject.preguntas);
-                }
-            }
-        }
-    }
-
-
-    public static IEnumerator getPreguntasOfPack(string paquete) {
-        WWWForm form = new WWWForm();
-        Dictionary<string, string> headers = form.headers;
-        headers["Authorization"] = API_KEY;
-
-        form.AddField("metodo", "consultarPreguntasOfPack");
-        form.AddField("descripcion", paquete);
-        using (UnityWebRequest www = UnityWebRequest.Post(URL, form)) {
-            AsyncOperation asyncLoad = www.SendWebRequest();
-            // Wait until the asynchronous scene fully loads
-            while (!asyncLoad.isDone) {
-                yield return null;
-            }
-            if (www.isNetworkError || www.isHttpError) {
-                Debug.Log(www.error);
-            } else {
-                string text;
-                text = www.downloadHandler.text;
-                if (text == "0") {
-                    Debug.Log("No se encontraron preguntas");
-                } else {
-                    text = "{\"preguntas\":" + text + "}";
-                    //Debug.Log(text);
-                    Data myObject = JsonUtility.FromJson<Data>(text);
-                    GameObject.Find("AppManager").GetComponent<appManager>().setPreguntas(myObject.preguntas);
+                    GameObject.Find("AppManager").GetComponent<appManager>().setPaquetes(myObject.paquete);
                 }
             }
         }
