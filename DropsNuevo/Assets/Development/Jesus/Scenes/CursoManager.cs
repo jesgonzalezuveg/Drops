@@ -29,6 +29,9 @@ public class CursoManager : MonoBehaviour {
     List<webServiceRespuestas.Data> respuestasTodas = new List<webServiceRespuestas.Data>();
     appManager manager;
 
+    //Tipo de pregunta
+    string tipoPregunta;
+
     //Variables que almacena el numero de preguntas descargadas y el puntaje actual
     int countPreguntas = 0;
     int score;
@@ -46,7 +49,9 @@ public class CursoManager : MonoBehaviour {
 
     //Variables para ejercicio de completar la frase
     int numLetras;//Numero total de letras
-    int letra;//Valor para validar el orden de las letras de la palabra
+    int letraPos;//Valor para validar el orden de las letras de la palabra
+    string palabraCompleta; //Almacena la palabra a completar
+    public Text palabraCom;//Variable que almacena el avance al completar la palabra
 
     //Variables para registrar el intento y su detalle
     string idLog;
@@ -60,7 +65,8 @@ public class CursoManager : MonoBehaviour {
         par2Name = "";
         numPares = 0;
         numLetras = 0;
-        letra = 1;
+        letraPos = 0;
+        palabraCom.text = "";
         countSelectMultiple = 0;
         score = 0;
         textoPuntaje.text = score + "";
@@ -87,6 +93,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void llamarPreguntas(int position) {
+        tipoPregunta = manager.preguntasCategoria[position].idTipoEjercicio;
         Debug.Log("pregunta" + position);
         if (position<preguntas.Length) {
         //if (position<6) {
@@ -108,24 +115,36 @@ public class CursoManager : MonoBehaviour {
             }else if (manager.preguntasCategoria[position].idTipoEjercicio == "2") {
                 Debug.Log("La pregunta es de tipo 2");
                 preguntasTipos[3].SetActive(true);
-
+                var canvasObjC = GameObject.Find("CanvasObjC");
+                for (int i = 0; i < canvasObjC.transform.GetChildCount(); i++) {
+                    canvasObjC.transform.GetChild(i).gameObject.SetActive(true);
+                    canvasObjC.transform.GetChild(i).gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+                    canvasObjC.transform.GetChild(i).gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                }
                 GameObject.Find("txtQuestionC").GetComponent<Text>().text = manager.preguntasCategoria[position].descripcion;
                 //GameObject.Find("txtQuestionM").GetComponent<Text>().text =SystemInfo.deviceType+"";
                 int count = 1;
                 for (int i = 0; i < respuestasTodas[position].respuestas.Length; i++) {
-                    string palabra = respuestasTodas[position].respuestas[i].descripcion.ToUpper();
-                    Debug.Log(palabra);
-                    foreach (char letra in palabra) {
-                        ponerImagenLetra(letra, count+"C", count);
+                    palabraCompleta = respuestasTodas[position].respuestas[i].descripcion.ToUpper();
+                    //string palabra = respuestasTodas[position].respuestas[i].descripcion.ToUpper();
+                    Debug.Log(palabraCompleta);
+                    Debug.Log(count);
+                    foreach (char letra in palabraCompleta) {
+                        ponerImagenLetra(letra, count+"C");
                         count++;
                     }
-                    numLetras = count;
+                    numLetras = count-1;
+                   //Debug.Log(numLetras);
                 }
 
                 for (int j = count; j<= 15; j++) {
                     var objeto = "objRespuesta" + j + "C";
-                    removeTrigger(objeto);
-                    removeColider(objeto);
+                    //Debug.Log(objeto);
+                    GameObject.Find(objeto).GetComponent<Image>().color = new Color(0,0,0,0);
+                    GameObject.Find(objeto).SetActive(false); 
+                    //GameObject.Find(objeto).GetComponent<Button>().onClick.RemoveAllListeners();
+                    //removeTrigger(objeto);
+                    //removeColider(objeto);
                 }
             }else if (manager.preguntasCategoria[position].idTipoEjercicio == "3") {
                 Debug.Log("La pregunta es de tipo 3");
@@ -157,23 +176,32 @@ public class CursoManager : MonoBehaviour {
         }
     }
 
-    public void ponerImagenLetra(char letra, string i, int orden) {
+    public void ponerImagenLetra(char letra, string i) {
         var objeto = "objRespuesta" + i;
         var spriteObj= Resources.Load("Letras/letra-" + letra);
         var imagen = GameObject.Find(objeto);
         Texture2D tex = spriteObj as Texture2D;
         Rect rec = new Rect(0, 0, tex.width, tex.height);
         var sprite = Sprite.Create(tex, rec, new Vector2(0.5f, 0.5f), 100);
-        EventTrigger.Entry entry = new EventTrigger.Entry();
+        /*EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener((eventData) => {
-            int letraOrden = orden;
             string obj = objeto;
-            validarOrden(obj, letraOrden);
+            char objLetra = letra;
+            validarOrden(obj, letra);
 
         });
-        imagen.GetComponent<EventTrigger>().triggers.Add(entry);
-        imagen.GetComponent<SpriteRenderer>().sprite =sprite;
+        imagen.GetComponent<EventTrigger>().triggers.Add(entry);*/
+        //imagen.GetComponent<Button>().image = spriteObj;
+        imagen.GetComponent<Button>().onClick.AddListener(delegate {
+            string obj = objeto;
+            char objletra = letra;
+            this.validarOrden(obj, letra);
+        });
+
+        imagen.GetComponent<Image>().sprite = sprite;
+        imagen.GetComponent<RectTransform>().LookAt(GameObject.Find("Main Camera").transform);
+        imagen.GetComponent<RectTransform>().Rotate(new Vector3(0,180, 0));
     }
 
     public void ponerImagen(string i, string path, string tipo, string respuesta, string idPregunta, string idRespuesta) {
@@ -261,7 +289,9 @@ public class CursoManager : MonoBehaviour {
         Debug.Log("correcto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
         StartCoroutine(esperaSegundos(0.5f, correctoimg));
         score++;
-        removeTrigger(obj);
+        if (tipoPregunta != "2") {
+            removeTrigger(obj);
+        }
         textoPuntaje.text = score + "";
         if (preguntas.Length > countPreguntas) {
             desactivarPreguntas();
@@ -360,30 +390,34 @@ public class CursoManager : MonoBehaviour {
         Debug.Log("------------------");
     }
 
-    public void validarOrden(string objName, int letraSeleccionada) {
-        if (letraSeleccionada == letra) {
+    public void validarOrden(string objName, char letraVal) {
+        Debug.Log(letraVal);
+        Debug.Log(palabraCompleta[letraPos]);
+        if (palabraCompleta[letraPos]==letraVal) {
             var myGameObject = GameObject.Find(objName);
-            myGameObject.GetComponent<SpriteRenderer>().sprite = null;
-            removeTrigger(objName);
-            removeColider(objName);
-            letra++;
+            //myGameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+            myGameObject.SetActive(false);
+            letraPos++;
+            palabraCom.text = palabraCom.text+letraVal;
         } else {
-            numLetras = 0;
-            letra = 1;
             for (int i = 1; i <= 15; i++) {
                 var objeto = "objRespuesta" + i + "C";
-                addCollider(objName);
+                var myGameObject = GameObject.Find(objeto);
+                if (myGameObject != null) {
+                    //myGameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+                    myGameObject.SetActive(false);
+                }
             }
+            palabraCom.text = "";
+            numLetras = 0;
+            letraPos = 0;
             incorrecto(objName);
         }
 
-        if (numLetras == letra) {
+        if (numLetras == letraPos) {
+            palabraCom.text = "";
             numLetras = 0;
-            letra = 1;
-            for (int i = 1; i <= 15; i++) {
-                var objeto = "objRespuesta" + i + "C";
-                addCollider(objName);
-            }
+            letraPos = 0;
             correctoSimple(objName);
         }
     }
@@ -429,8 +463,10 @@ public class CursoManager : MonoBehaviour {
     public void incorrecto(string objName) {
         webServiceRegistro.validarAccionSqlite("Respondió incorrectamente", manager.getUsuario(), "Respondió pregunta");
         countPreguntas++;
-        Debug.Log("incorrecto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
-        removeTrigger(objName);
+        //Debug.Log("incorrecto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
+        if (tipoPregunta!= "2") {
+            removeTrigger(objName);
+        }
         StartCoroutine(esperaSegundos(0.5f, incorrectoimg));
         if (preguntas.Length > countPreguntas) {
             desactivarPreguntas();
