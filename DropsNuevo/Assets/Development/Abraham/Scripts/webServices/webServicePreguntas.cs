@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using System.Text;
 using UnityEngine.Networking;
 
 public class webServicePreguntas : MonoBehaviour {
@@ -21,9 +22,8 @@ public class webServicePreguntas : MonoBehaviour {
         public string fechaRegistro = "";
         public string fechaModificacion = "";
         public string idTipoEjercicio = "";
-        public string idMateria = "";
         public string idPaquete = "";
-        public string claveMateria = "";
+        public string idServer = "";
         public string descripcionEjercicio = "";
         public string descripcionPaquete = "";
     }
@@ -33,26 +33,20 @@ public class webServicePreguntas : MonoBehaviour {
         public preguntaData[] preguntas;
     }
 
-    /**
-     * Función que regresa la estructura preguntaData
-     * la cual almacena los datos de las preguntas relacionadas a la materia
-     * @param materia, id de la materia de la cual se requieren las preguntas
-     */
-    public static preguntaData[] getPreguntasByMateria(string materia) {
-        string query = "SELECT * FROM pregunta WHERE idMateria = " + materia + " AND status = 1;";
-        var result = conexionDB.selectGeneral(query);
-        if (result != "0") {
-            result = "{\"preguntas\":" + "[" + result + "]}";
-            Debug.Log(result);
-            Data data = JsonUtility.FromJson<Data>(result);
-            return data.preguntas;
+    public static int insertarPreguntaSqLite(string descripcion, string status, string fechaRegistro, string fechaModificacion, string idTipoEjercicio, string idPaquete, string idServer) {
+        string query = "INSERT INTO pregunta (descripcion, status, fechaRegistro, fechaModificacion, idTipoEjercicio, idPaquete, idServer) VALUES ('" + descripcion + "', '" + status + "', '" + fechaRegistro + "','" + fechaModificacion + "', '" + idTipoEjercicio + "', '" + idPaquete + "', '" + idServer + "');";
+        var result = conexionDB.alterGeneral(query);
+        if (result == 1) {
+            return 1;
         } else {
-            return null;
+            return 0;
         }
     }
 
-    public static int insertarPreguntaSqLite(string descripcion, string status, string fechaRegistro, string fechaModificacion, string idTipoEjercicio, string idMateria, string idPaquete) {
-        string query = "INSERT INTO pregunta (descripcion, status, fechaRegistro, fechaModificacion, idTipoEjercicio, idMateria, idPaquete) VALUES ('" + descripcion + "', '" + status + "', '" + fechaRegistro + "','" + fechaModificacion + "', '" + idTipoEjercicio + "', '" + idMateria + "', '" + idPaquete +"');";
+    public static int updatePreguntaSqLite(preguntaData pregunta, string idServer) {
+        string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
+        string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
+        string query = "UPDATE  pregunta SET  `descripcion` =  '" + pregunta.descripcion + "',`status` = '" + pregunta.status + "', `fechaRegistro` = '" + pregunta.fechaRegistro + "', `fechaModificacion` = datetime(), `idTipoEjercicio` = '" + idTipoEjercicio + "', `idPaquete` = '" + idPaquete + "' WHERE  idServer = " + idServer + "; ";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -65,9 +59,48 @@ public class webServicePreguntas : MonoBehaviour {
         string query = "SELECT * FROM pregunta WHERE descripcion = '" + descripcion + "';";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
-            Debug.Log(result);
             preguntaData data = JsonUtility.FromJson<preguntaData>(result);
             return data;
+        } else {
+            return null;
+        }
+    }
+
+    public static preguntaData getPreguntaByIdServerSqLite(string idServer) {
+        string query = "SELECT * FROM pregunta WHERE idServer = '" + idServer + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            preguntaData data = JsonUtility.FromJson<preguntaData>(result);
+            return data;
+        } else {
+            return null;
+        }
+    }
+
+    public static preguntaData[] getPreguntasByPackSqLite(string ipPaquete) {
+        string query = "SELECT a.*, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "'";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            result = "{\"preguntas\":[" + result + "]}";
+            Debug.Log(result);
+            Data data = JsonUtility.FromJson<Data>(result);
+            return data.preguntas;
+        } else {
+            return null;
+        }
+    }
+
+
+    public static preguntaData[] getPreguntasByPackSqLiteCurso(string ipPaquete, int limite) {
+        string query = "SELECT a.*, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "' ORDER BY random() LIMIT " + limite + ";";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            byte[] bytes = Encoding.Default.GetBytes(result);
+            result = Encoding.UTF8.GetString(bytes);
+            result = "{\"preguntas\":[" + result + "]}";
+            Debug.Log(result);
+            Data data = JsonUtility.FromJson<Data>(result);
+            return data.preguntas;
         } else {
             return null;
         }
@@ -104,7 +137,6 @@ public class webServicePreguntas : MonoBehaviour {
 
 
     public static IEnumerator getPreguntasOfPack(string paquete) {
-        Debug.Log(paquete);
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
@@ -122,7 +154,7 @@ public class webServicePreguntas : MonoBehaviour {
             } else {
                 string text;
                 text = www.downloadHandler.text;
-                if (text == "") {
+                if (text == "0") {
                     Debug.Log("No se encontraron preguntas");
                 } else {
                     text = "{\"preguntas\":" + text + "}";

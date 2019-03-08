@@ -18,8 +18,8 @@ public class appManager : MonoBehaviour {
     private bool banderaPaquetes = true;
     private webServiceCategoria.categoriaData[] categorias = null;
     private bool banderaCategorias = true;
-    private webServiceMateria.materiaData[] materias = null;
-    private bool banderaMaterias = true;
+    private webServiceAcciones.accionData[] acciones = null;
+    private bool banderaAcciones = true;
     private webServiceEjercicio.ejercicioData[] ejercicios = null;
     private bool banderaEjercicios = true;
     private webServicePreguntas.preguntaData[] preguntas = null;
@@ -28,7 +28,7 @@ public class appManager : MonoBehaviour {
     private bool banderaRespuestas = true;
     private bool bandera = true;
 
-    public Image imagen;
+    public webServicePreguntas.preguntaData[] preguntasCategoria = null;
 
     #region setter y getters
     /**
@@ -58,6 +58,14 @@ public class appManager : MonoBehaviour {
      */
     public void setImagen(string Imagen) {
         this.Imagen = Imagen;
+    }
+    public void setBanderas(bool valor) {
+        banderaCategorias = valor;
+        banderaEjercicios = valor;
+        banderaAcciones = valor;
+        banderaPaquetes = valor;
+        banderaPreguntas = valor;
+        banderaRespuestas = valor;
     }
     /**
      * Regresa los datos del usuario correspondiente al usuario
@@ -104,12 +112,12 @@ public class appManager : MonoBehaviour {
         return categorias;
     }
 
-    public void setMaterias(webServiceMateria.materiaData[] materia) {
-        materias = materia;
+    public void setAcciones(webServiceAcciones.accionData[] Acciones) {
+        acciones = Acciones;
     }
 
-    public webServiceMateria.materiaData[] getMaterias() {
-        return materias;
+    public webServiceAcciones.accionData[] getAcciones() {
+        return acciones;
     }
 
     public void setEjerciocio(webServiceEjercicio.ejercicioData[] ejercicio) {
@@ -147,62 +155,53 @@ public class appManager : MonoBehaviour {
     }
 
     public void Update() {
-        Debug.Log(Imagen);
         if (Usuario != "" && bandera) {
             if (Imagen == "") {
                 StartCoroutine(webServiceUsuario.getUserData(Usuario));
                 bandera = false;
             }
         }
-        validarPaquetes();
         validarCategorias();
-        validarMaterias();
+        validarPaquetes();
+        validarAcciones();
         validarEjercicios();
         validarPreguntas();
         validarRespuestas();
     }
 
     public void validarPaquetes() {
-        if (GameObject.Find("fichasPaquetes")) {
-            var listaPacks = GameObject.Find("fichasPaquetes");
+        if (GameObject.Find("ListaPaquetes")) {
+            var paquetesManager = GameObject.Find("ListaPaquetes").GetComponent<paquetesManager>();
             if (paquetes != null && banderaPaquetes) {
+                destruirObjetos();
                 foreach (var pack in paquetes) {
-                    Debug.Log(pack.descripcion);
                     var local = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
                     if (local != null) {
                         pack.id = local.id;
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
+                        //Si no existe la descarga del paquete añade la tarjeta
                         if (descargaLocal == null) {
-                            var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
-                            fichaPaquete.name = "fichaPack" + pack.id;
-                            llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
-                            fichaPaquete.transform.SetParent(listaPacks.transform);
-                            fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
-                            fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
-                            fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
+                            paquetesManager.newCardDescarga(pack);
                         } else {
-
+                            if (isActualized(descargaLocal, pack)) {
+                                //Esta actualizado
+                                paquetesManager.newCardJugar(pack);
+                            } else {
+                                //No esta actualizado
+                                paquetesManager.newCardActualizar(pack);
+                            }
                         }
                     } else {
-                        var fichaPaquete = Instantiate(Resources.Load("fichaPaquete") as GameObject);
-                        fichaPaquete.name = "fichaPack" + pack.id;
-                        llenarFicha(fichaPaquete, pack.descripcion, pack.fechaModificacion);
-                        fichaPaquete.transform.SetParent(listaPacks.transform);
-                        fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
-                        webServicePaquetes.insertarPaqueteSqLite(pack.descripcion, pack.fechaRegistro, pack.fechaModificacion);
-                        fichaPaquete.GetComponent<packManager>().paquete = pack.descripcion;
-                        fichaPaquete.GetComponent<packManager>().paqueteId = pack.id;
+                        webServicePaquetes.insertarPaqueteSqLite(pack);
+                        paquetesManager.newCardDescarga(pack);
                     }
                 }
                 banderaPaquetes = false;
             }
-            if (listaPacks.transform.childCount <= 0) {
-                GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(true);
-            } else {
-                GameObject.Find("ListaPaquetes").GetComponent<testMaterias>().textoPaquetes.SetActive(false);
-            }
         }
     }
+
+
 
     public void validarCategorias() {
         if (categorias != null && banderaCategorias) {
@@ -218,19 +217,18 @@ public class appManager : MonoBehaviour {
         }
     }
 
-    public void validarMaterias() {
-        if (materias != null && banderaMaterias) {
-            foreach (var materia in materias) {
-                var local = webServiceMateria.getMateriaByClaveSqLite(materia.claveMateria);
-                if (local != null) {
-                    materia.id = local.id;
-                    materia.idCategoria = local.idCategoria;
+    public void validarAcciones() {
+        if (acciones != null && banderaAcciones) {
+            foreach (var Acciones in acciones) {
+                var local = webServiceAcciones.consultarIdAccionSqLite(Acciones.descripcion);
+                if (local != "0") {
+                    Acciones.id = local;
                 } else {
-                    string idCategoria = webServiceCategoria.getIdCategoriaByNameSqLite(materia.descripcionCategoria);
-                    webServiceMateria.insertarMateriaSqLite(materia.claveMateria, materia.descripcion, materia.status, materia.fechaRegistro, materia.fechaModificacion, idCategoria);
+                    Debug.Log("Entra aqui pue");
+                    webServiceAcciones.insertarAccionSqLite(Acciones.descripcion, Acciones.status);
                 }
             }
-            banderaMaterias = false;
+            banderaAcciones = false;
         }
     }
 
@@ -250,38 +248,39 @@ public class appManager : MonoBehaviour {
 
     public void validarPreguntas() {
         if (preguntas != null && banderaPreguntas) {
-            Debug.Log("Hay preguntas");
+            banderaPreguntas = false;
             foreach (var pregunta in preguntas) {
-                var local = webServicePreguntas.getPreguntaByDescripcionSqLite(pregunta.descripcion);
+                var local = webServicePreguntas.getPreguntaByIdServerSqLite(pregunta.id);
                 if (local != null) {
+                    Debug.Log("Updateando");
                     pregunta.id = local.id;
-                    pregunta.idMateria = local.idMateria;
                     pregunta.idPaquete = local.idPaquete;
                     pregunta.idTipoEjercicio = local.idTipoEjercicio;
+                    webServicePreguntas.updatePreguntaSqLite(pregunta, local.idServer);
                 } else {
+                    Debug.Log("Insertando");
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
-                    string idMateria = webServiceMateria.getMateriaByClaveSqLite(pregunta.claveMateria).id;
                     string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
-                    webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idMateria, idPaquete);
+                    webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idPaquete, pregunta.id);
                 }
             }
-            banderaPreguntas = false;
         }
     }
 
     public void validarRespuestas() {
         if (respuestas != null && banderaRespuestas) {
+            banderaRespuestas = false;
             foreach (var respuesta in respuestas) {
-                var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta).id;
-                var local = webServiceRespuestas.getRespuestaByDescripcionAndPreguntaSquLite(respuesta.descripcion, idPregunta);
+                var idPregunta = webServicePreguntas.getPreguntaByIdServerSqLite(respuesta.idPregunta).id;
+                var local = webServiceRespuestas.getRespuestaByIdServerAndPreguntaSquLite(respuesta.id, idPregunta);
                 if (local != null) {
+                    webServiceRespuestas.updateRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta, local.idServer);
                     respuesta.id = local.id;
                     respuesta.idPregunta = local.idPregunta;
                 } else {
-                    webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta);
+                    webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta, respuesta.id);
                 }
             }
-            banderaRespuestas = false;
             StartCoroutine(descargarImagenesPaquete());
         }
     }
@@ -290,17 +289,26 @@ public class appManager : MonoBehaviour {
         foreach (var respuesta in respuestas) {
             var pathArray = respuesta.urlImagen.Split('/');
             var path = pathArray[pathArray.Length - 1];
-            if (File.Exists(Application.persistentDataPath + path)) {
+            /*if (File.Exists(Application.persistentDataPath + path)) {
                 byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-            } else {
-                WWW www = new WWW(respuesta.urlImagen);
-                yield return www;
+            } else {*/
+            WWW www = new WWW(respuesta.urlImagen);
+            yield return www;
+            if (www.texture != null) {
                 Texture2D texture = www.texture;
                 byte[] bytes = texture.EncodeToPNG();
                 File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+            } else {
+                Debug.Log("Texture es null: " + respuesta.urlImagen);
             }
+            //}
         }
+        GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Paquete descargado");
+        GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
+
         Destroy(GameObject.Find("fichaPack" + preguntas[0].idPaquete));
+        banderaPaquetes = true;
+        validarPaquetes();
         preguntas = null;
         banderaPreguntas = true;
         respuestas = null;
@@ -309,15 +317,49 @@ public class appManager : MonoBehaviour {
 
     void OnApplicationQuit() {
         if (Usuario != "") {
-            webServiceRegistro.insertarRegistroSqLite("LogOut", Usuario, 3);
+            webServiceRegistro.validarAccionSqlite("Aplicación cerrada por el usuario", Usuario, "Aplicación cerrada");
             webServiceLog.cerrarLog(Usuario);
         }
     }
 
-    void llenarFicha(GameObject ficha, string descripcion, string fechaModificacion) {
-        ficha.transform.GetChild(0).GetComponent<Text>().text = descripcion;
-        var fecha = fechaModificacion.Split(' ');
-        ficha.transform.GetChild(1).GetComponent<Text>().text = "Ultima actualización:\n" + fecha[0];
+    bool isActualized(webServiceDescarga.descargaData descargaLocal, webServicePaquetes.paqueteData pack) {
+        //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss
+        descargaLocal.fechaDescarga = descargaLocal.fechaDescarga.Remove(10, descargaLocal.fechaDescarga.Length - 10);
+        string[] splitDateDescarga = descargaLocal.fechaDescarga.Split('/');
+        //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
+        pack.fechaModificacion = pack.fechaModificacion.Remove(10, pack.fechaModificacion.Length - 10);
+        string[] splitDatePack = pack.fechaModificacion.Split('-');
+        if (Int32.Parse(splitDateDescarga[2]) >= Int32.Parse(splitDatePack[0])) {
+            if (Int32.Parse(splitDateDescarga[1]) >= Int32.Parse(splitDatePack[1])) {
+                if (Int32.Parse(splitDateDescarga[1]) == Int32.Parse(splitDatePack[1])) {
+                    if (Int32.Parse(splitDateDescarga[0]) >= Int32.Parse(splitDatePack[2])) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    void destruirObjetos() {
+        if (GameObject.Find("PanelPaquetesDescargados").transform.childCount > 0) {
+            for (var i = 0; i < GameObject.Find("PanelPaquetesDescargados").transform.childCount; i++) {
+                var objeto = GameObject.Find("PanelPaquetesDescargados").transform.GetChild(i);
+                Destroy(objeto.gameObject);
+            }
+        }
+        if (GameObject.Find("PanelNuevosPaquetes").transform.childCount > 0) {
+            for (var i = 0; i < GameObject.Find("PanelNuevosPaquetes").transform.childCount; i++) {
+                var objeto = GameObject.Find("PanelNuevosPaquetes").transform.GetChild(i);
+                Destroy(objeto.gameObject);
+            }
+        }
     }
 
 }

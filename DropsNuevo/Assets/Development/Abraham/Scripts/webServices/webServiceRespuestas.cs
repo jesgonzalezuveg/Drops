@@ -21,6 +21,7 @@ public class webServiceRespuestas : MonoBehaviour {
         public string fechaRegistro = "";
         public string fechaModificacion = "";
         public string idPregunta = "";
+        public string idServer = "";
         public string descripcionPregunta = "";
     }
 
@@ -33,6 +34,8 @@ public class webServiceRespuestas : MonoBehaviour {
         string query = "SELECT * FROM respuesta WHERE idPregunta = '" + idPregunta + "';";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
+            result = "{\"respuestas\":" + "[" + result + "]}";
+            Debug.Log(result);
             Data respuesta = JsonUtility.FromJson<Data>(result);
             return respuesta;
         } else {
@@ -62,8 +65,30 @@ public class webServiceRespuestas : MonoBehaviour {
         }
     }
 
-    public static int insertarRespuestaSqLite(string descripcion, string urlImagen, string correcto, string relacion, string status, string fechaRegistro, string fechaModificacion, string idPregunta) {
-        string query = "INSERT INTO respuesta (descripcion, urlImagen, correcto, relacion, status, fechaRegistro, fechaModificacion, idPregunta) VALUES ('" + descripcion + "', '" + urlImagen + "', '" + correcto + "', '" + relacion + "', '" + status + "', '" + fechaRegistro + "', '" + fechaModificacion + "', '" + idPregunta + "'); ";
+    public static respuestaData getRespuestaByIdServerAndPreguntaSquLite(string idServer, string idPregunta) {
+        string query = "SELECT * FROM respuesta WHERE idServer = '" + idServer + "' AND idPregunta = '" + idPregunta + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            respuestaData respuesta = JsonUtility.FromJson<respuestaData>(result);
+            return respuesta;
+        } else {
+            return null;
+        }
+    }
+
+    public static int insertarRespuestaSqLite(string descripcion, string urlImagen, string correcto, string relacion, string status, string fechaRegistro, string fechaModificacion, string idPregunta, string idServer) {
+        string query = "INSERT INTO respuesta (descripcion, urlImagen, correcto, relacion, status, fechaRegistro, fechaModificacion, idPregunta, idServer) VALUES ('" + descripcion + "', '" + urlImagen + "', '" + correcto + "', '" + relacion + "', '" + status + "', '" + fechaRegistro + "', '" + fechaModificacion + "', '" + idPregunta + "', '" + idServer + "'); ";
+        var result = conexionDB.alterGeneral(query);
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public static int updateRespuestaSqLite(string descripcion, string urlImagen, string correcto, string relacion, string status, string fechaRegistro, string fechaModificacion, string idPregunta, string idServer) {
+        string query = "UPDATE  respuesta SET  descripcion =  '" + descripcion + "', urlImagen =  '" + urlImagen + "', correcto =  '" + correcto + "', relacion = '" + relacion + "', status =  '" + status +  "', fechaRegistro =  '" + fechaRegistro + "', fechaModificacion =  '" + fechaModificacion + "', idPregunta =  '" + idPregunta +  "' WHERE  idServer = '" + idServer + "';";
+        Debug.Log("Updateando");
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -91,7 +116,7 @@ public class webServiceRespuestas : MonoBehaviour {
             } else {
                 string text;
                 text = www.downloadHandler.text;
-                if (text == "") {
+                if (text == "0") {
                     Debug.Log("No se encontraron respuestas");
                 } else {
                     text = "{\"respuestas\":" + text + "}";
@@ -120,7 +145,7 @@ public class webServiceRespuestas : MonoBehaviour {
             } else {
                 string text;
                 text = www.downloadHandler.text;
-                if (text == "") {
+                if (text == "0") {
                     Debug.Log("No se encontraron respuestas");
                 } else {
                     text = "{\"respuestas\":" + text + "}";

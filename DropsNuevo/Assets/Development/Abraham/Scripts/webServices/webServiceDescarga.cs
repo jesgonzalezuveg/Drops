@@ -25,7 +25,7 @@ public class webServiceDescarga : MonoBehaviour {
     }
 
     public static descargaData getDescargaByPaquete(string idPaquete) {
-        string query = "SELECT * FROM descarga WHERE idPaquete = '" + idPaquete + "';";
+        string query = "SELECT * FROM descarga WHERE idPaquete = '" + idPaquete + "' ORDER BY fechaDescarga DESC LIMIT 1;";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             descargaData categoria = JsonUtility.FromJson<descargaData>(result);
@@ -36,7 +36,7 @@ public class webServiceDescarga : MonoBehaviour {
     }
 
     public static int insertarDescargaSqLite(string idPaquete, string idUsuario) {
-        string query = "INSERT INTO descarga (equipo, fechaDescarga, idPaquete, idUsuario) VALUES ('" + SystemInfo.deviceUniqueIdentifier + "', dateTime(), '" + idPaquete +"', '" + idUsuario +"');";
+        string query = "INSERT INTO descarga (equipo, fechaDescarga, idPaquete, idUsuario) VALUES ('" + SystemInfo.deviceModel + "', dateTime(), '" + idPaquete +"', '" + idUsuario +"');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;

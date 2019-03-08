@@ -36,4 +36,13 @@ public class webServiceRegistro : MonoBehaviour {
         }
     }
 
+    public static void validarAccionSqlite(string descripcion, string usuario, string accion) {
+        string idAccion = webServiceAcciones.consultarIdAccionSqLite(accion);
+        if (idAccion != "0") {
+            insertarRegistroSqLite(descripcion, usuario, Convert.ToInt32(idAccion));
+        } else {
+            insertarRegistroSqLite(descripcion + " *No había accion registrada", usuario, 0);
+        }
+    }
+
 }
