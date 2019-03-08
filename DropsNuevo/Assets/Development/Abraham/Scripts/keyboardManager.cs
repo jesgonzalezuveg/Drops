@@ -16,7 +16,6 @@ public class keyboardManager : MonoBehaviour {
     bool btnOtros = true;                   ///< Bandera detecta si estan activadas o no las teclas especiales
     bool focusTxtUsuario = true;            ///< Bandera nos dice cual Input esta usando
 
-    public GameObject cargando;
     public Text mensaje;
 
     /** Función que se llama al inicio de la escena 
@@ -28,7 +27,6 @@ public class keyboardManager : MonoBehaviour {
         teclasLetras = GameObject.Find("tecladoLetras");
         teclasOtros = GameObject.Find("tecladoEspecial");
         teclasOtros.SetActive(false);
-        cargando.SetActive(false);
         mensaje.text = "";
     }
 
@@ -112,7 +110,7 @@ public class keyboardManager : MonoBehaviour {
      * @param
      */
     public void login() {
-        cargando.SetActive(true);
+        GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Cargando....");
         StartCoroutine(webServiceUsuario.getUserData(userInput.GetComponentInChildren<Text>().text, password));
     }
 }

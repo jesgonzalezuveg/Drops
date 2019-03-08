@@ -185,14 +185,14 @@ public class webServiceUsuario : MonoBehaviour {
                     } else {
                         //Aqui va mensaje de contraseña incorrecta
                         GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "Contraseña incorrecta";
-                        GameObject.FindObjectOfType<keyboardManager>().cargando.SetActive(false);
+                        GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
                         Debug.Log("Contraseña incorrecta");
 
                     }
                 } else {
                     //Aqui va mensaje de usuario incorrecto
                     GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "El usuario no existe";
-                    GameObject.FindObjectOfType<keyboardManager>().cargando.SetActive(false);
+                    GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
                     Debug.Log("El usuario no existe");
                 }
             }

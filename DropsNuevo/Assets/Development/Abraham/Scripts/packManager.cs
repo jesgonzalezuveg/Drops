@@ -9,21 +9,15 @@ public class packManager : MonoBehaviour {
 
     public webServicePaquetes.paqueteData paquete = null;
     private appManager manager;
-    public GameObject mensaje;
 
     public void Start() {
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
-        if (mensaje) {
-            mensaje.SetActive(false);
-        }
+        GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
     }
 
     public void descargaPaquete() {
         //StopAllCoroutines();
-        if (mensaje) {
-            mensaje.SetActive(true);
-            mensaje.GetComponentInChildren<Text>().text = "Descargando paquete";
-        }
+        GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Descargando paquete");
         webServiceRegistro.validarAccionSqlite("Descarga: " + paquete.descripcion, manager.getUsuario(), "Descargar paquete");
         consultarDatos();
     }
@@ -38,10 +32,7 @@ public class packManager : MonoBehaviour {
 
     public void actualizarPaquete() {
         //StopAllCoroutines();
-        if (mensaje) {
-            mensaje.SetActive(true);
-            mensaje.GetComponentInChildren<Text>().text = "Actualizando paquete";
-        }
+        GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Actualizando paquete");
         webServiceRegistro.validarAccionSqlite("Actualización : " + paquete.descripcion, manager.getUsuario(), "Actualizar paquete");
         consultarDatos();
     }

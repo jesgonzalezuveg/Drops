@@ -23,7 +23,7 @@ public class paquetesManager : MonoBehaviour {
         manager.setBanderas(true);
         StartCoroutine(webServicePaquetes.getPaquetes());
         StartCoroutine(webServiceCategoria.getCategorias());
-        //StartCoroutine(webServiceMateria.getMaterias());
+        StartCoroutine(webServiceAcciones.getAcciones());
         StartCoroutine(webServiceEjercicio.getEjercicios());
     }
 
@@ -72,7 +72,6 @@ public class paquetesManager : MonoBehaviour {
         fichaPaquete.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
         fichaPaquete.GetComponent<packManager>().paquete = pack;
-        fichaPaquete.GetComponent<packManager>().mensaje = GameObject.Find("MensajeCarga");
     }
 
     public void newCardActualizar(webServicePaquetes.paqueteData pack) {
@@ -83,7 +82,6 @@ public class paquetesManager : MonoBehaviour {
         fichaPaquete.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
         fichaPaquete.GetComponent<packManager>().paquete = pack;
-        fichaPaquete.GetComponent<packManager>().mensaje = GameObject.Find("MensajeCarga");
     }
 
     public void newCardDescarga(webServicePaquetes.paqueteData pack) {
@@ -94,7 +92,6 @@ public class paquetesManager : MonoBehaviour {
         fichaPaquete.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
         fichaPaquete.GetComponent<packManager>().paquete = pack;
-        fichaPaquete.GetComponent<packManager>().mensaje = GameObject.Find("MensajeCarga");
     }
 
     IEnumerator llenarFicha(GameObject ficha, string descripcion, string urlImagen) {
