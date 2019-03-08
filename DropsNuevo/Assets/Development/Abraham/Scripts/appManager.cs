@@ -18,8 +18,8 @@ public class appManager : MonoBehaviour {
     private bool banderaPaquetes = true;
     private webServiceCategoria.categoriaData[] categorias = null;
     private bool banderaCategorias = true;
-    //private webServiceMateria.materiaData[] materias = null;
-    //private bool banderaMaterias = true;
+    private webServiceAcciones.accionData[] acciones = null;
+    private bool banderaAcciones = true;
     private webServiceEjercicio.ejercicioData[] ejercicios = null;
     private bool banderaEjercicios = true;
     private webServicePreguntas.preguntaData[] preguntas = null;
@@ -62,7 +62,7 @@ public class appManager : MonoBehaviour {
     public void setBanderas(bool valor) {
         banderaCategorias = valor;
         banderaEjercicios = valor;
-        //banderaMaterias = valor;
+        banderaAcciones = valor;
         banderaPaquetes = valor;
         banderaPreguntas = valor;
         banderaRespuestas = valor;
@@ -112,13 +112,13 @@ public class appManager : MonoBehaviour {
         return categorias;
     }
 
-    //public void setMaterias(webServiceMateria.materiaData[] materia) {
-    //    materias = materia;
-    //}
+    public void setAcciones(webServiceAcciones.accionData[] Acciones) {
+        acciones = Acciones;
+    }
 
-    //public webServiceMateria.materiaData[] getMaterias() {
-    //    return materias;
-    //}
+    public webServiceAcciones.accionData[] getAcciones() {
+        return acciones;
+    }
 
     public void setEjerciocio(webServiceEjercicio.ejercicioData[] ejercicio) {
         ejercicios = ejercicio;
@@ -146,7 +146,6 @@ public class appManager : MonoBehaviour {
     #endregion
 
     public void Awake() {
-        GameObject.Find("MensajeCarga").SetActive(false);
         DontDestroyOnLoad(this.gameObject);
         if (Application.internetReachability == NetworkReachability.NotReachable) {
             Debug.Log("No hay conexion");
@@ -164,7 +163,7 @@ public class appManager : MonoBehaviour {
         }
         validarCategorias();
         validarPaquetes();
-        //validarMaterias();
+        validarAcciones();
         validarEjercicios();
         validarPreguntas();
         validarRespuestas();
@@ -218,21 +217,20 @@ public class appManager : MonoBehaviour {
         }
     }
 
-    //public void validarMaterias() {
-    //    if (materias != null && banderaMaterias) {
-    //        foreach (var materia in materias) {
-    //            var local = webServiceMateria.getMateriaByClaveSqLite(materia.claveMateria);
-    //            if (local != null) {
-    //                materia.id = local.id;
-    //                materia.idCategoria = local.idCategoria;
-    //            } else {
-    //                string idCategoria = webServiceCategoria.getIdCategoriaByNameSqLite(materia.descripcionCategoria);
-    //                webServiceMateria.insertarMateriaSqLite(materia.claveMateria, materia.descripcion, materia.status, materia.fechaRegistro, materia.fechaModificacion, idCategoria);
-    //            }
-    //        }
-    //        banderaMaterias = false;
-    //    }
-    //}
+    public void validarAcciones() {
+        if (acciones != null && banderaAcciones) {
+            foreach (var Acciones in acciones) {
+                var local = webServiceAcciones.consultarIdAccionSqLite(Acciones.descripcion);
+                if (local != "0") {
+                    Acciones.id = local;
+                } else {
+                    Debug.Log("Entra aqui pue");
+                    webServiceAcciones.insertarAccionSqLite(Acciones.descripcion, Acciones.status);
+                }
+            }
+            banderaAcciones = false;
+        }
+    }
 
     public void validarEjercicios() {
         if (ejercicios != null && banderaEjercicios) {
@@ -254,13 +252,14 @@ public class appManager : MonoBehaviour {
             foreach (var pregunta in preguntas) {
                 var local = webServicePreguntas.getPreguntaByIdServerSqLite(pregunta.id);
                 if (local != null) {
+                    Debug.Log("Updateando");
                     pregunta.id = local.id;
                     pregunta.idPaquete = local.idPaquete;
                     pregunta.idTipoEjercicio = local.idTipoEjercicio;
-                    //webServicePreguntas.updatePreguntaSqLite(pregunta, local.idServer);
+                    webServicePreguntas.updatePreguntaSqLite(pregunta, local.idServer);
                 } else {
+                    Debug.Log("Insertando");
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
-                    //string idMateria = webServiceMateria.getMateriaByClaveSqLite(pregunta.claveMateria).id;
                     string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
                     webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idPaquete, pregunta.id);
                 }
@@ -272,11 +271,10 @@ public class appManager : MonoBehaviour {
         if (respuestas != null && banderaRespuestas) {
             banderaRespuestas = false;
             foreach (var respuesta in respuestas) {
-                var idPregunta = webServicePreguntas.getPreguntaByDescripcionSqLite(respuesta.descripcionPregunta).id;
-                Debug.Log(respuesta.descripcionPregunta + " - " + idPregunta);
+                var idPregunta = webServicePreguntas.getPreguntaByIdServerSqLite(respuesta.idPregunta).id;
                 var local = webServiceRespuestas.getRespuestaByIdServerAndPreguntaSquLite(respuesta.id, idPregunta);
                 if (local != null) {
-                    webServiceRespuestas.updateRespuestaSqLite(respuesta.descripcion,respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, respuesta.idPregunta, local.idServer);
+                    webServiceRespuestas.updateRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta, local.idServer);
                     respuesta.id = local.id;
                     respuesta.idPregunta = local.idPregunta;
                 } else {
@@ -294,22 +292,20 @@ public class appManager : MonoBehaviour {
             /*if (File.Exists(Application.persistentDataPath + path)) {
                 byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
             } else {*/
-                WWW www = new WWW(respuesta.urlImagen);
-                yield return www;
-                if (www.texture != null) {
-                    Texture2D texture = www.texture;
-                    byte[] bytes = texture.EncodeToPNG();
-                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-                } else {
-                    Debug.Log("Texture es null: " + respuesta.urlImagen);
-                }
+            WWW www = new WWW(respuesta.urlImagen);
+            yield return www;
+            if (www.texture != null) {
+                Texture2D texture = www.texture;
+                byte[] bytes = texture.EncodeToPNG();
+                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+            } else {
+                Debug.Log("Texture es null: " + respuesta.urlImagen);
+            }
             //}
         }
-        var mensaje = GameObject.Find("MensajeCarga");
-        if (mensaje) {
-            mensaje.GetComponentInChildren<Text>().text = "Paquete descargado";
-            mensaje.SetActive(false);
-        }
+        GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Paquete descargado");
+        GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
+
         Destroy(GameObject.Find("fichaPack" + preguntas[0].idPaquete));
         banderaPaquetes = true;
         validarPaquetes();
