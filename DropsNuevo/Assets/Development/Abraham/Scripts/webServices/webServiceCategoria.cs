@@ -31,8 +31,8 @@ public class webServiceCategoria : MonoBehaviour {
      * Función que regresa el id de la categoria que se pide
      * @param descripcion nombre de la categoria que se esta solicitando el ID
      */
-    public static string getIdCategoriaByNameSqLite(string descripcion) {
-        string query = "SELECT id FROM catalogoCatgoriaPaquete WHERE descripcion = '" + descripcion + "' ;";
+    public static string getIdCategoriaByNameSqLite(string descripcionP) {
+        string query = "SELECT id FROM catalogoCatgoriaPaquete WHERE descripcion = '" + descripcionP + "' ;";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             categoriaData data = JsonUtility.FromJson<categoriaData>(result);
@@ -42,8 +42,8 @@ public class webServiceCategoria : MonoBehaviour {
         }
     }
 
-    public static categoriaData getCategoriaByDescripcionSqLite(string descripcion) {
-        string query = "SELECT * FROM catalogoCatgoriaPaquete WHERE descripcion = '" + descripcion + "';";
+    public static categoriaData getCategoriaByDescripcionSqLite(string descripcionP) {
+        string query = "SELECT * FROM catalogoCatgoriaPaquete WHERE descripcion = '" + descripcionP + "';";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             categoriaData categoria = JsonUtility.FromJson<categoriaData>(result);
@@ -53,8 +53,8 @@ public class webServiceCategoria : MonoBehaviour {
         }
     }
 
-    public static int insertarCategoriaSqLite(string descripcion, string status, string fechaRegistro, string fechaModificacion) {
-        string query = "INSERT INTO catalogoCatgoriaPaquete (descripcion, status,fechaRegistro, fechaModificacion) VALUES ('" + descripcion + "', '" + status + "', '" + fechaRegistro + "','" + fechaModificacion + "');";
+    public static int insertarCategoriaSqLite(categoriaData categoria) {
+        string query = "INSERT INTO catalogoCatgoriaPaquete (descripcion, status,fechaRegistro, fechaModificacion) VALUES ('" + categoria.descripcion + "', '" + categoria.status + "', '" + categoria.fechaRegistro + "','" + categoria.fechaModificacion + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;

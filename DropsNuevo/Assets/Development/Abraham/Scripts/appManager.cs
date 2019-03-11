@@ -241,7 +241,7 @@ public class appManager : MonoBehaviour {
                 if (local != null) {
                     categoria.id = local.id;
                 } else {
-                    webServiceCategoria.insertarCategoriaSqLite(categoria.descripcion, categoria.status, categoria.fechaRegistro, categoria.fechaModificacion);
+                    webServiceCategoria.insertarCategoriaSqLite(categoria);
                 }
             }
             banderaCategorias = false;

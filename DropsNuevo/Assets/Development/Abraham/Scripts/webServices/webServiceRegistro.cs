@@ -25,13 +25,19 @@ public class webServiceRegistro : MonoBehaviour {
      * @param usuario matricula o correo del usuario
      */
     public static int insertarRegistroSqLite(string detalle, string usuario, int idAccion) {
-        string id = webServiceUsuario.consultarIdUsuarioSqLite(usuario);
-        string idLog = webServiceLog.getLastLogSqLite(id);
-        string query = "INSERT INTO registros (detalle, fechaRegistro, syncroStatus, idAccion, idLog, idUsuario) VALUES ('" + detalle + "',dateTime(), '0', " + idAccion + ", " + idLog + ", " + id + " );";
-        var result = conexionDB.alterGeneral(query);
-        if (result == 1) {
-            return 1;
-        } else {
+        try {
+            string id = webServiceUsuario.consultarIdUsuarioSqLite(usuario);
+            string idLog = webServiceLog.getLastLogSqLite(id);
+            string query = "INSERT INTO registros (detalle, fechaRegistro, syncroStatus, idAccion, idLog, idUsuario) VALUES ('" + detalle + "',dateTime(), '0', " + idAccion + ", " + idLog + ", " + id + " );";
+            var result = conexionDB.alterGeneral(query);
+            if (result == 1) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        catch (Exception ex) {
+            Debug.LogError("Error en insertarRegistro: " + ex);
             return 0;
         }
     }

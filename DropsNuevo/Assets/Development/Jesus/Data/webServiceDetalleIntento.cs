@@ -35,12 +35,23 @@ public class webServiceDetalleIntento : MonoBehaviour
      * @param descripcion descripcion de la accion 
      * @param status estado de la accion (activa o inanctiva)
      */
-    public static int insertarDetalleIntentoSqLite(string correcto, string idPregunta, string idRespuesta, string idIntento) {
-        string query = "INSERT INTO detalleIntento (correcto, syncroStatus, idPregunta, idRespuesta, idIntento) VALUES (" + correcto + ", 0, " + idPregunta + ", " + idRespuesta + ", " + idIntento + ");";
-        var result = conexionDB.alterGeneral(query);
-        if (result == 1) {
-            return 1;
-        } else {
+    public static int insertarDetalleIntentoSqLite(string correctoP, string idPreguntaP, string idRespuestaP, string idIntentoP) {
+        try {
+            if (correctoP == "true" || correctoP == "True") {
+                correctoP = "1";
+            } else {
+                correctoP = "0";
+            }
+            string query = "INSERT INTO detalleIntento (correcto, syncroStatus, idPregunta, idRespuesta, idIntento) VALUES (" + correctoP + ", 0, " + idPreguntaP + ", " + idRespuestaP + ", " + idIntentoP + ");";
+            Debug.Log(query);
+            var result = conexionDB.alterGeneral(query);
+            if (result == 1) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (Exception ex) {
+            Debug.LogError("Error en insertarDetalleintento: " + ex);
             return 0;
         }
     }
@@ -48,8 +59,8 @@ public class webServiceDetalleIntento : MonoBehaviour
     /** Función que consulta y trae los datos de la accion solicitada
      * @param accion descripcion de la accion a consultar
      */
-    public static string consultarDetalleIntentoByIdSqLite(string id) {
-        string query = "SELECT * FROM detalleIntento WHERE id = " + id + ";";
+    public static string consultarDetalleIntentoByIdSqLite(string idP) {
+        string query = "SELECT * FROM detalleIntento WHERE id = " + idP + ";";
         var result = conexionDB.selectGeneral(query);
         return result;
     }
@@ -57,8 +68,8 @@ public class webServiceDetalleIntento : MonoBehaviour
     /** Función que consulta y trae los datos de la accion solicitada
      * @param accion descripcion de la accion a consultar
      */
-    public static string consultarDetalleIntentoByIdIntentoSqLite(string id) {
-        string query = "SELECT * FROM detalleIntento WHERE idIntento = " + id + ";";
+    public static string consultarDetalleIntentoByIdIntentoSqLite(string idP) {
+        string query = "SELECT * FROM detalleIntento WHERE idIntento = " + idP + ";";
         var result = conexionDB.selectGeneral(query);
         return result;
     }
@@ -68,8 +79,8 @@ public class webServiceDetalleIntento : MonoBehaviour
      * @param status estado de la accion (activa o inanctiva)
      * @param idServer id de la accion en el servidor
      */
-    public static int updateDetalleIntentoSqlite(string id, string correcto, string idPregunta, string idRespuesta) {
-        string query = "UPDATE detalleIntento SET correcto = " + correcto + ", idPregunta =  "+ idPregunta + ", idRespuesta =  " + idRespuesta + " WHERE id = " + id + "";
+    public static int updateDetalleIntentoSqlite(string idP, string correctoP, string idPreguntaP, string idRespuestaP) {
+        string query = "UPDATE detalleIntento SET correcto = " + correctoP + ", idPregunta =  "+ idPreguntaP + ", idRespuesta =  " + idRespuestaP + " WHERE id = " + idP + "";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -84,8 +95,8 @@ public class webServiceDetalleIntento : MonoBehaviour
      * @param status estado de la accion (activa o inanctiva)
      * @param idServer id de la accion en el servidor
      */
-    public static int updateSyncroStarusIntentoSqlite(string id, int status) {
-        string query = "UPDATE detalleIntento SET syncroStatus = " + status + " WHERE id = " + id + "";
+    public static int updateSyncroStarusIntentoSqlite(string idP, int statusP) {
+        string query = "UPDATE detalleIntento SET syncroStatus = " + statusP + " WHERE id = " + idP + "";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -98,8 +109,8 @@ public class webServiceDetalleIntento : MonoBehaviour
     /** Función que verifica si la accion existe
      * @param usuario matricula o correo electronico del usuario
      */
-    public static int existDetalleIntentoSqlite(string id) {
-        string query = "SELECT * FROM detalleIntento WHERE id = " + id + "";
+    public static int existDetalleIntentoSqlite(string idP) {
+        string query = "SELECT * FROM detalleIntento WHERE id = " + idP + "";
         var result = conexionDB.selectGeneral(query);
 
         if (result != "0") {
