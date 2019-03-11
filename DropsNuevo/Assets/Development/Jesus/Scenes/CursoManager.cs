@@ -77,9 +77,6 @@ public class CursoManager : MonoBehaviour {
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
         preguntas = manager.preguntasCategoria;
         for (var i = 0; i < preguntas.Length; i++) {
-            Debug.Log(manager.preguntasCategoria[i].descripcion);
-            Debug.Log(manager.preguntasCategoria[i].id);
-            Debug.Log("Tipo de ejericio "+manager.preguntasCategoria[i].idTipoEjercicio);
             var respuestas = webServiceRespuestas.getRespuestasByPreguntaSqLite(manager.preguntasCategoria[i].id);
             respuestasTodas.Add(respuestas);
         }
@@ -94,13 +91,11 @@ public class CursoManager : MonoBehaviour {
 
     public void llamarPreguntas(int position) {
         tipoPregunta = manager.preguntasCategoria[position].idTipoEjercicio;
-        Debug.Log("pregunta" + position);
         if (position<preguntas.Length) {
         //if (position<6) {
             webServiceRegistro.validarAccionSqlite("Pregunta: " + manager.preguntasCategoria[position].descripcion, manager.getUsuario(), "Entró a pregunta");
             //Validamos de que tipo de ejercicio se trata
             if (manager.preguntasCategoria[position].idTipoEjercicio == "1") {
-                Debug.Log("La pregunta es de tipo 1");
                 preguntasTipos[0].SetActive(true);
                 var canvasObjS = GameObject.Find("CanvasObjS");
                 for (int i = 0; i < canvasObjS.transform.childCount; i++) {
@@ -117,7 +112,6 @@ public class CursoManager : MonoBehaviour {
                     count++;
                 }
             }else if (manager.preguntasCategoria[position].idTipoEjercicio == "2") {
-                Debug.Log("La pregunta es de tipo 2");
                 preguntasTipos[3].SetActive(true);
                 var canvasObjC = GameObject.Find("CanvasObjC");
                 for (int i = 0; i < canvasObjC.transform.childCount; i++) {
@@ -129,8 +123,6 @@ public class CursoManager : MonoBehaviour {
                 int count = 1;
                 for (int i = 0; i < respuestasTodas[position].respuestas.Length; i++) {
                     palabraCompleta = respuestasTodas[position].respuestas[i].descripcion.ToUpper();
-                    Debug.Log(palabraCompleta);
-                    Debug.Log(count);
                     foreach (char letra in palabraCompleta) {
                         ponerImagenLetra(letra, count+"C", respuestasTodas[position].respuestas[i].id, manager.preguntasCategoria[position].id);
                         count++;
@@ -144,7 +136,6 @@ public class CursoManager : MonoBehaviour {
                     GameObject.Find(objeto).SetActive(false); 
                 }
             }else if (manager.preguntasCategoria[position].idTipoEjercicio == "3") {
-                Debug.Log("La pregunta es de tipo 3");
                 preguntasTipos[1].SetActive(true);
                 var canvasObjM = GameObject.Find("CanvasObjM");
                 for (int i = 0; i < canvasObjM.transform.childCount; i++) {
@@ -161,7 +152,6 @@ public class CursoManager : MonoBehaviour {
                     count++;
                 }
             }else if (manager.preguntasCategoria[position].idTipoEjercicio == "4") {
-                Debug.Log("La pregunta es de tipo 4");
                 preguntasTipos[2].SetActive(true);
                 var canvasObjP = GameObject.Find("CanvasObjP");
                 for (int i = 0; i < canvasObjP.transform.childCount; i++) {

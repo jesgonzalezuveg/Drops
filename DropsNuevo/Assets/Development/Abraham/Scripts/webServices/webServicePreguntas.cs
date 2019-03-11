@@ -98,7 +98,6 @@ public class webServicePreguntas : MonoBehaviour {
             byte[] bytes = Encoding.Default.GetBytes(result);
             result = Encoding.UTF8.GetString(bytes);
             result = "{\"preguntas\":[" + result + "]}";
-            Debug.Log(result);
             Data data = JsonUtility.FromJson<Data>(result);
             return data.preguntas;
         } else {
@@ -158,7 +157,6 @@ public class webServicePreguntas : MonoBehaviour {
                     Debug.Log("No se encontraron preguntas");
                 } else {
                     text = "{\"preguntas\":" + text + "}";
-                    Debug.Log(text);
                     Data myObject = JsonUtility.FromJson<Data>(text);
                     GameObject.Find("AppManager").GetComponent<appManager>().setPreguntas(myObject.preguntas);
                 }

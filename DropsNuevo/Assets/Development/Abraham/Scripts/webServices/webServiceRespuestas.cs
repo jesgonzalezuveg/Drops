@@ -35,7 +35,6 @@ public class webServiceRespuestas : MonoBehaviour {
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             result = "{\"respuestas\":" + "[" + result + "]}";
-            Debug.Log(result);
             Data respuesta = JsonUtility.FromJson<Data>(result);
             return respuesta;
         } else {

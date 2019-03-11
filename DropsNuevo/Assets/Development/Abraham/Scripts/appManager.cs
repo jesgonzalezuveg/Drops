@@ -167,7 +167,11 @@ public class appManager : MonoBehaviour {
 
     void HandleLog(string logString, string stackTrace, LogType type) {
         myLog = logString;
-        string newString = "\n [" + type + "] : " + myLog;
+        string newString = "";
+        if (type == LogType.Error || type == LogType.Exception) {
+            newString += "\n*****************";
+        }
+         newString += "\n [" + type + "] : " + myLog;
         myLogQueue.Enqueue(newString);
         if (type == LogType.Exception) {
             newString = "\n" + stackTrace;
@@ -251,7 +255,6 @@ public class appManager : MonoBehaviour {
                 if (local != "0") {
                     Acciones.id = local;
                 } else {
-                    Debug.Log("Entra aqui pue");
                     webServiceAcciones.insertarAccionSqLite(Acciones.descripcion, Acciones.status);
                 }
             }
@@ -279,13 +282,11 @@ public class appManager : MonoBehaviour {
             foreach (var pregunta in preguntas) {
                 var local = webServicePreguntas.getPreguntaByIdServerSqLite(pregunta.id);
                 if (local != null) {
-                    Debug.Log("Updateando");
                     pregunta.id = local.id;
                     pregunta.idPaquete = local.idPaquete;
                     pregunta.idTipoEjercicio = local.idTipoEjercicio;
                     webServicePreguntas.updatePreguntaSqLite(pregunta, local.idServer);
                 } else {
-                    Debug.Log("Insertando");
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
                     string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
                     webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idPaquete, pregunta.id);
