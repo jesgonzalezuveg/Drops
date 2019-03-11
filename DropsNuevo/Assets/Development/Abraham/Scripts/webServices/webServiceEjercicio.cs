@@ -48,6 +48,17 @@ public class webServiceEjercicio : MonoBehaviour {
         }
     }
 
+    public static string consultarDescripcionEjercicioByIdSqLite(string id) {
+        string query = "SELECT * FROM catalogoEjercicio WHERE id = '" + id + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            ejercicioData categoria = JsonUtility.FromJson<ejercicioData>(result);
+            return categoria.descripcion;
+        } else {
+            return "0";
+        }
+    }
+
 
     public static IEnumerator getEjercicios() {
         WWWForm form = new WWWForm();
