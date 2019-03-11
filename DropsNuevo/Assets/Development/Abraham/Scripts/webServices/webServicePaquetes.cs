@@ -60,7 +60,12 @@ public class webServicePaquetes : MonoBehaviour{
 
     public static int insertarPaqueteSqLite(paqueteData paquete) {
         //clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer
+        Debug.Log(paquete.descripcionCategoria);
         var idCategoria = webServiceCategoria.getCategoriaByDescripcionSqLite(paquete.descripcionCategoria).id;
+        if (idCategoria == "0") {
+            Debug.Log("Error aqui");
+            return 0;
+        }
         string query = "INSERT INTO paquete (clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer) VALUES ('" + paquete.clave + "','" + paquete.descripcion + "', dateTime(), '" + paquete.fechaModificacion + "','" + paquete.urlImagen + "','" + idCategoria + "','" + paquete.id + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {

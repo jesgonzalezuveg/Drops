@@ -211,19 +211,23 @@ public class appManager : MonoBehaviour {
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
                         //Si no existe la descarga del paquete añade la tarjeta
                         if (descargaLocal == null) {
+                            Debug.Log("Nuevo paquete");
                             paquetesManager.newCardDescarga(pack);
                         } else {
                             //GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "fechaDescarga: \n" + descargaLocal.fechaDescarga + "\nFecha modificacion: \n" + pack.fechaModificacion);
                             if (isActualized(descargaLocal, pack)) {
                                 //Esta actualizado
+                                Debug.Log("El paquete ya esta actualizado");
                                 paquetesManager.newCardJugar(pack);
                             } else {
                                 //No esta actualizado
+                                Debug.Log("Puedes actualizar el paquete");
                                 paquetesManager.newCardActualizar(pack);
                             }
                         }
                     } else {
                         webServicePaquetes.insertarPaqueteSqLite(pack);
+                        Debug.Log("Nuevo paquete");
                         paquetesManager.newCardDescarga(pack);
                     }
                 }
@@ -332,6 +336,7 @@ public class appManager : MonoBehaviour {
             //}
         }
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Paquete descargado");
+        Debug.Log("Paquete descargado");
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
 
         Destroy(GameObject.Find("fichaPack" + preguntas[0].idPaquete));
@@ -351,16 +356,26 @@ public class appManager : MonoBehaviour {
     }
 
     bool isActualized(webServiceDescarga.descargaData descargaLocal, webServicePaquetes.paqueteData pack) {
-        //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss
+        //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss "PC"
+        //Formato de fechaDescarga = MM/dd/yyyy HH:mm:ss "Android"
+        var dia = 1;
+        var mes = 0;
+        var año = 2;
+        if (Application.isEditor) {
+            Debug.Log("isEditor = true");
+            dia = 0;
+            mes = 1;
+            año = 2;
+        }
         descargaLocal.fechaDescarga = descargaLocal.fechaDescarga.Remove(10, descargaLocal.fechaDescarga.Length - 10);
         string[] splitDateDescarga = descargaLocal.fechaDescarga.Split('/');
         //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
         pack.fechaModificacion = pack.fechaModificacion.Remove(10, pack.fechaModificacion.Length - 10);
         string[] splitDatePack = pack.fechaModificacion.Split('-');
-        if (Int32.Parse(splitDateDescarga[2]) >= Int32.Parse(splitDatePack[0])) {
-            if (Int32.Parse(splitDateDescarga[1]) >= Int32.Parse(splitDatePack[1])) {
-                if (Int32.Parse(splitDateDescarga[1]) == Int32.Parse(splitDatePack[1])) {
-                    if (Int32.Parse(splitDateDescarga[0]) >= Int32.Parse(splitDatePack[2])) {
+        if (Int32.Parse(splitDateDescarga[año]) >= Int32.Parse(splitDatePack[0])) {
+            if (Int32.Parse(splitDateDescarga[mes]) >= Int32.Parse(splitDatePack[1])) {
+                if (Int32.Parse(splitDateDescarga[mes]) == Int32.Parse(splitDatePack[1])) {
+                    if (Int32.Parse(splitDateDescarga[dia]) >= Int32.Parse(splitDatePack[2])) {
                         return true;
                     } else {
                         return false;
