@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System;
 using UnityEngine.SceneManagement;
 
 public class mainMenuManager : MonoBehaviour {
@@ -14,7 +16,8 @@ public class mainMenuManager : MonoBehaviour {
      * 
      */
     public void pairCode() {
-        SceneManager.LoadScene("sampleScene");
+        this.GetComponent<AudioSource>().Play();
+        StartCoroutine(loadScene("sampleScene"));
     }
 
     /**
@@ -22,7 +25,8 @@ public class mainMenuManager : MonoBehaviour {
      * 
      */
     public void login() {
-        SceneManager.LoadScene("login");
+        this.GetComponent<AudioSource>().Play();
+        StartCoroutine(loadScene("login"));
     }
 
     /**
@@ -30,6 +34,12 @@ public class mainMenuManager : MonoBehaviour {
      * 
      */
     public void invitado() {
-        SceneManager.LoadScene("menuCategorias");
+        this.GetComponent<AudioSource>().Play();
+        StartCoroutine(loadScene("menuCategorias"));
+    }
+
+    IEnumerator loadScene(string scene) {
+        yield return new WaitUntil(() => this.GetComponent<AudioSource>().isPlaying == false);
+        SceneManager.LoadScene(scene);
     }
 }
