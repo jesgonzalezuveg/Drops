@@ -171,7 +171,7 @@ public class appManager : MonoBehaviour {
         if (type == LogType.Error || type == LogType.Exception) {
             newString += "\n*****************";
         }
-         newString += "\n [" + type + "] : " + myLog;
+        newString += "\n [" + type + "] : " + myLog;
         myLogQueue.Enqueue(newString);
         if (type == LogType.Exception) {
             newString = "\n" + stackTrace;
@@ -211,26 +211,23 @@ public class appManager : MonoBehaviour {
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
                         //Si no existe la descarga del paquete añade la tarjeta
                         if (descargaLocal == null) {
-                            Debug.Log("Nuevo paquete");
                             paquetesManager.newCardDescarga(pack);
                         } else {
                             //GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "fechaDescarga: \n" + descargaLocal.fechaDescarga + "\nFecha modificacion: \n" + pack.fechaModificacion);
                             if (isActualized(descargaLocal, pack)) {
                                 //Esta actualizado
-                                Debug.Log("El paquete ya esta actualizado");
                                 paquetesManager.newCardJugar(pack);
                             } else {
                                 //No esta actualizado
-                                Debug.Log("Puedes actualizar el paquete");
                                 paquetesManager.newCardActualizar(pack);
                             }
                         }
                     } else {
                         webServicePaquetes.insertarPaqueteSqLite(pack);
-                        Debug.Log("Nuevo paquete");
                         paquetesManager.newCardDescarga(pack);
                     }
                 }
+                paquetesManager.fillEmpty();
                 banderaPaquetes = false;
             }
         }
@@ -303,14 +300,17 @@ public class appManager : MonoBehaviour {
         if (respuestas != null && banderaRespuestas) {
             banderaRespuestas = false;
             foreach (var respuesta in respuestas) {
-                var idPregunta = webServicePreguntas.getPreguntaByIdServerSqLite(respuesta.idPregunta).id;
-                var local = webServiceRespuestas.getRespuestaByIdServerAndPreguntaSquLite(respuesta.id, idPregunta);
-                if (local != null) {
-                    webServiceRespuestas.updateRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta, local.idServer);
-                    respuesta.id = local.id;
-                    respuesta.idPregunta = local.idPregunta;
-                } else {
-                    webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta, respuesta.id);
+                ////Error aqui
+                if (webServicePreguntas.getPreguntaByIdServerSqLite(respuesta.idPregunta) != null) {
+                    var idPregunta = webServicePreguntas.getPreguntaByIdServerSqLite(respuesta.idPregunta).id;
+                    var local = webServiceRespuestas.getRespuestaByIdServerAndPreguntaSquLite(respuesta.id, idPregunta);
+                    if (local != null) {
+                        webServiceRespuestas.updateRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta, local.idServer);
+                        respuesta.id = local.id;
+                        respuesta.idPregunta = local.idPregunta;
+                    } else {
+                        webServiceRespuestas.insertarRespuestaSqLite(respuesta.descripcion, respuesta.urlImagen, respuesta.correcto, respuesta.relacion, respuesta.status, respuesta.fechaRegistro, respuesta.fechaModificacion, idPregunta, respuesta.id);
+                    }
                 }
             }
             StartCoroutine(descargarImagenesPaquete());
@@ -319,21 +319,25 @@ public class appManager : MonoBehaviour {
 
     public IEnumerator descargarImagenesPaquete() {
         foreach (var respuesta in respuestas) {
-            var pathArray = respuesta.urlImagen.Split('/');
-            var path = pathArray[pathArray.Length - 1];
-            /*if (File.Exists(Application.persistentDataPath + path)) {
-                byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-            } else {*/
-            WWW www = new WWW(respuesta.urlImagen);
-            yield return www;
-            if (www.texture != null) {
-                Texture2D texture = www.texture;
-                byte[] bytes = texture.EncodeToPNG();
-                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-            } else {
-                Debug.Log("Texture es null: " + respuesta.urlImagen);
+            //Validar si fecha modificacion respuesta es diferente a la que se tiene en BD
+            //String hoy = DateTime.Now + "";
+            //Debug.Log(respuesta.fechaModificacion);
+            if (respuesta != null) {
+                var pathArray = respuesta.urlImagen.Split('/');
+                var path = pathArray[pathArray.Length - 1];
+                /*if (File.Exists(Application.persistentDataPath + path)) {
+                    byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
+                } else {*/
+                WWW www = new WWW(respuesta.urlImagen);
+                yield return www;
+                if (www.texture != null) {
+                    Texture2D texture = www.texture;
+                    byte[] bytes = texture.EncodeToPNG();
+                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                } else {
+                    Debug.Log("Texture es null: " + respuesta.urlImagen);
+                }
             }
-            //}
         }
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Paquete descargado");
         Debug.Log("Paquete descargado");
@@ -394,14 +398,20 @@ public class appManager : MonoBehaviour {
         if (GameObject.Find("PanelPaquetesDescargados").transform.childCount > 0) {
             for (var i = 0; i < GameObject.Find("PanelPaquetesDescargados").transform.childCount; i++) {
                 var objeto = GameObject.Find("PanelPaquetesDescargados").transform.GetChild(i);
-                Destroy(objeto.gameObject);
+                DestroyImmediate(objeto.gameObject);
             }
+            destruirObjetos();
+        } else {
+            return;
         }
         if (GameObject.Find("PanelNuevosPaquetes").transform.childCount > 0) {
             for (var i = 0; i < GameObject.Find("PanelNuevosPaquetes").transform.childCount; i++) {
                 var objeto = GameObject.Find("PanelNuevosPaquetes").transform.GetChild(i);
-                Destroy(objeto.gameObject);
+                DestroyImmediate(objeto.gameObject);
             }
+            destruirObjetos();
+        } else {
+            return;
         }
     }
 

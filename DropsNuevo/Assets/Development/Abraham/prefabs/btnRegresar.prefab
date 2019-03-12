@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 876615823126303262}
   - component: {fileID: 876615823126303233}
   - component: {fileID: 876615823126303232}
+  - component: {fileID: 1611947138365835836}
   m_Layer: 5
   m_Name: btnRegresar
   m_TagString: Untagged
@@ -128,3 +129,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1611947138365835836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876615823126303234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  click: {fileID: 8300000, guid: 45ad60f2195117c4795f8be630c1cb7b, type: 3}
+  hover: {fileID: 8300000, guid: 7d8b837d18fe6bc44ae6e9b7fa03470e, type: 3}

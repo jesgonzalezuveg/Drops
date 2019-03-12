@@ -94,6 +94,27 @@ public class paquetesManager : MonoBehaviour {
         fichaPaquete.GetComponent<packManager>().paquete = pack;
     }
 
+    public void fillEmpty() {
+        var hijos = listaPaquetes.GetComponentsInChildren<packManager>(true);
+        if (hijos.Length <= 5) {
+            var obj = Instantiate(Resources.Load("placeHolder")) as GameObject;
+            obj.transform.position = new Vector3(0, 0, 0);
+            obj.transform.SetParent(listaPaquetes.transform);
+            obj.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            obj.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
+            fillEmpty();
+        }else if (hijos.Length % 2 == 1) {
+            Debug.Log("Insertar otro");
+            var obj = Instantiate(Resources.Load("placeHolder")) as GameObject;
+            obj.transform.position = new Vector3(0, 0, 0);
+            obj.transform.SetParent(listaPaquetes.transform);
+            obj.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            obj.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
+        }
+        listaPaquetes.GetComponent<gridScrollLayout>().bandera = true;
+        listaPaquetesNuevos.GetComponent<gridScrollLayout>().bandera = true;
+    }
+
     IEnumerator llenarFicha(GameObject ficha, string descripcion, string urlImagen) {
         ficha.transform.GetChild(1).GetComponent<Text>().text = descripcion;
 
