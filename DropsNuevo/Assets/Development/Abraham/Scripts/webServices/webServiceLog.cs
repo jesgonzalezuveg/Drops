@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
+using System.Text;
 
 public class webServiceLog : MonoBehaviour {
 
@@ -21,12 +22,31 @@ public class webServiceLog : MonoBehaviour {
         public string idUsuario = "";
     }
 
+    [Serializable]
+    public class dataLog {
+        public logData[] logs;
+    }
+
+    public static logData[] getLogsByUser(string idUsuario) {
+        string query = "SELECT * FROM log WHERE syncroStatus = 0 OR syncroStatus = 1 AND idUsuario = " + idUsuario + ";";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            byte[] bytes = Encoding.Default.GetBytes(result);
+            result = Encoding.UTF8.GetString(bytes);
+            result = "{\"logs\":[" + result + "]}";
+            dataLog data = JsonUtility.FromJson<dataLog>(result);
+            return data.logs;
+        } else {
+            return null;
+        }
+    }
+
     /** Función que inserta los datos del log
      * @param usuario matricula o correo del usuario
      */
     public static int insertarLogSqLite(string usuario) {
         string id = webServiceUsuario.consultarIdUsuarioSqLite(usuario);
-        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idCodigo, idUsuario) VALUES (dateTime(), '', '" + SystemInfo.deviceModel + "',0,0,'" + id + "');";
+        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idCodigo, idUsuario) VALUES (dateTime(), dateTime(), '" + SystemInfo.deviceModel + "',0,0,'" + id + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;

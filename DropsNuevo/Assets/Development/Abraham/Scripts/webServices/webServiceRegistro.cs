@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
+using System.Text;
 
 public class webServiceRegistro : MonoBehaviour {
 
@@ -18,6 +19,25 @@ public class webServiceRegistro : MonoBehaviour {
         public string idAccion = "";
         public string idLog = "";
         public string idUsuario = "";
+    }
+
+    [Serializable]
+    public class dataRegistros {
+        public registroData[] registros;
+    }
+
+    public static registroData[] getRegistrossByLog(string idLog) {
+        string query = "SELECT * FROM registros WHERE idLog = " + idLog + " AND syncroStatus = 0;";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            byte[] bytes = Encoding.Default.GetBytes(result);
+            result = Encoding.UTF8.GetString(bytes);
+            result = "{\"registros\":[" + result + "]}";
+            dataRegistros data = JsonUtility.FromJson<dataRegistros>(result);
+            return data.registros;
+        } else {
+            return null;
+        }
     }
 
     /** Función que inseta los datos del registro

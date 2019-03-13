@@ -30,6 +30,17 @@ public class webServiceRespuestas : MonoBehaviour {
         public respuestaData[] respuestas;
     }
 
+    public static string consultarIdServerRespuestaSqLiteById(string id) {
+        string query = "SELECT idServer FROM respuesta WHERE id = '" + id + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            respuestaData data = JsonUtility.FromJson<respuestaData>(result);
+            return data.idServer;
+        } else {
+            return "0";
+        }
+    }
+
     public static Data getRespuestasByPreguntaSqLite(string idPregunta) {
         string query = "SELECT * FROM respuesta WHERE idPregunta = '" + idPregunta + "';";
         var result = conexionDB.selectGeneral(query);

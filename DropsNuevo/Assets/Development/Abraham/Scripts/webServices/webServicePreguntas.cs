@@ -33,6 +33,17 @@ public class webServicePreguntas : MonoBehaviour {
         public preguntaData[] preguntas;
     }
 
+    public static string consultarIdServerPreguntaSqLiteById(string id) {
+        string query = "SELECT idServer FROM pregunta WHERE id = '" + id + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            preguntaData data = JsonUtility.FromJson<preguntaData>(result);
+            return data.idServer;
+        } else {
+            return "0";
+        }
+    }
+
     public static int insertarPreguntaSqLite(string descripcion, string status, string fechaRegistro, string fechaModificacion, string idTipoEjercicio, string idPaquete, string idServer) {
         string query = "INSERT INTO pregunta (descripcion, status, fechaRegistro, fechaModificacion, idTipoEjercicio, idPaquete, idServer) VALUES ('" + descripcion + "', '" + status + "', '" + fechaRegistro + "','" + fechaModificacion + "', '" + idTipoEjercicio + "', '" + idPaquete + "', '" + idServer + "');";
         var result = conexionDB.alterGeneral(query);
