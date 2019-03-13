@@ -78,7 +78,7 @@ public class CursoManager : MonoBehaviour {
         preguntas = manager.preguntasCategoria;
         var categoria = webServiceCategoria.getCategoriaByIdSqLite(webServicePaquetes.getPaquetesByDescripcionSqLite(preguntas[0].descripcionPaquete).idCategoria).descripcion;
         categoria = categoria.Replace(" ", string.Empty);
-        Debug.Log("salonTemplate" + categoria);
+        //Debug.Log("salonTemplate" + categoria);
         var salon = Instantiate(Resources.Load("Salones/salonTemplate" + categoria));
         setSalonPosition(salon as GameObject);
         for (var i = 0; i < preguntas.Length; i++) {
@@ -95,18 +95,18 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void llamarPreguntas(int position) {
-        Debug.Log("Pregunta:"+manager.preguntasCategoria[position].descripcion);
+        //Debug.Log("Pregunta:"+manager.preguntasCategoria[position].descripcion);
         if (position<preguntas.Length) {
-            Debug.Log("Entro al if:");
+            //Debug.Log("Entro al if:");
         //if (position<6) {
-            Debug.Log("Insertar accion Entro a pregunta");
+            //Debug.Log("Insertar accion Entro a pregunta");
             webServiceRegistro.validarAccionSqlite("Pregunta: " + manager.preguntasCategoria[position].descripcion, manager.getUsuario(), "Entró a pregunta");
-            Debug.Log("Se inserto correctamente");
+            //Debug.Log("Se inserto correctamente");
             //Validamos de que tipo de ejercicio se trata
             descripcionTipoEjercicio = webServiceEjercicio.consultarDescripcionEjercicioByIdSqLite(manager.preguntasCategoria[position].idTipoEjercicio);
-            Debug.Log(descripcionTipoEjercicio);
+            //Debug.Log(descripcionTipoEjercicio);
             if (descripcionTipoEjercicio == "Seleccion simple") {
-                Debug.Log("Entro al if tipo:");
+                //Debug.Log("Entro al if tipo:");
                 preguntasTipos[0].SetActive(true);
                 var canvasObjS = GameObject.Find("CanvasObjS");
                 for (int i = 0; i < canvasObjS.transform.childCount; i++) {
@@ -119,12 +119,12 @@ public class CursoManager : MonoBehaviour {
                     string url = respuestasTodas[position].respuestas[i].urlImagen;
                     var splitUrk = url.Split('/');
                     var urlReal = splitUrk[splitUrk.Length - 1];
-                    Debug.Log("Respuesta"+ urlReal);
+                    //Debug.Log("Respuesta"+ urlReal);
                     ponerImagen(count + "S", urlReal, descripcionTipoEjercicio, respuestasTodas[position].respuestas[i].correcto, manager.preguntasCategoria[position].id, respuestasTodas[position].respuestas[i].id);
                     count++;
                 }
             }else if (descripcionTipoEjercicio == "Completar palabra") {
-                Debug.Log("Entro al if tipo:");
+                //Debug.Log("Entro al if tipo:");
                 preguntasTipos[3].SetActive(true);
                 var canvasObjC = GameObject.Find("CanvasObjC");
                 for (int i = 0; i < canvasObjC.transform.childCount; i++) {
@@ -149,7 +149,7 @@ public class CursoManager : MonoBehaviour {
                     GameObject.Find(objeto).SetActive(false); 
                 }
             }else if (descripcionTipoEjercicio == "Seleccion Multiple") {
-                Debug.Log("Entro al if tipo:");
+                //Debug.Log("Entro al if tipo:");
                 preguntasTipos[1].SetActive(true);
                 var canvasObjM = GameObject.Find("CanvasObjM");
                 for (int i = 0; i < canvasObjM.transform.childCount; i++) {
@@ -162,13 +162,13 @@ public class CursoManager : MonoBehaviour {
                     string url = respuestasTodas[position].respuestas[i].urlImagen;
                     var splitUrk = url.Split('/');
                     var urlReal = splitUrk[splitUrk.Length - 1];
-                    Debug.Log("Respuesta" + urlReal);
-                    Debug.Log("Respuesta NPI: " + respuestasTodas[position].respuestas[i].correcto);
+                    //Debug.Log("Respuesta" + urlReal);
+                    //Debug.Log("Respuesta NPI: " + respuestasTodas[position].respuestas[i].correcto);
                     ponerImagen(count + "M", urlReal, descripcionTipoEjercicio, respuestasTodas[position].respuestas[i].correcto, manager.preguntasCategoria[position].id, respuestasTodas[position].respuestas[i].id);
                     count++;
                 }
             }else if (descripcionTipoEjercicio == "Relacionar") {
-                Debug.Log("Entro al if tipo:");
+                //Debug.Log("Entro al if tipo:");
                 preguntasTipos[2].SetActive(true);
                 var canvasObjP = GameObject.Find("CanvasObjP");
                 for (int i = 0; i < canvasObjP.transform.childCount; i++) {
@@ -182,23 +182,23 @@ public class CursoManager : MonoBehaviour {
                     string url = respuestasTodas[position].respuestas[i].urlImagen;
                     var splitUrk = url.Split('/');
                     var urlReal = splitUrk[splitUrk.Length - 1];
-                    Debug.Log("Respuesta" + urlReal);
+                    //Debug.Log("Respuesta" + urlReal);
                     ponerImagen(count + "P", urlReal, descripcionTipoEjercicio, respuestasTodas[position].respuestas[i].relacion, manager.preguntasCategoria[position].id, respuestasTodas[position].respuestas[i].id);
                     count++;
                     numPares++;
                 }
                 numPares = numPares / 2;
             } else {
-                Debug.Log("No se encontro el tipo de ejercicio");
+                //Debug.Log("No se encontro el tipo de ejercicio");
             }
         }
     }
 
     public void ponerImagenLetra(char letra, string i, string idRespuesta, string idPregunta) {
-        Debug.Log("letra es: " + letra);
-        Debug.Log("i es: " + i);
-        Debug.Log("id pregunta es: " + idPregunta);
-        Debug.Log("id respuesta es: " + idRespuesta);
+        //Debug.Log("letra es: " + letra);
+        //Debug.Log("i es: " + i);
+        //Debug.Log("id pregunta es: " + idPregunta);
+        //Debug.Log("id respuesta es: " + idRespuesta);
         var objeto = "objRespuesta" + i;
         var spriteObj= Resources.Load("Letras/letra-" + letra);
         var imagen = GameObject.Find(objeto);
@@ -229,11 +229,6 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void ponerImagen(string i, string path, string tipo, string respuesta, string idPregunta, string idRespuesta) {
-        Debug.Log("i es: "+ i);
-        Debug.Log("path es: "+ path);
-        Debug.Log("La respuesta es: "+respuesta);
-        Debug.Log("id pregunta es: "+idPregunta);
-        Debug.Log("id respuesta es: "+idRespuesta);
         if (File.Exists(Application.persistentDataPath + path)) {
             byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
             Texture2D texture = new Texture2D(8, 8);
@@ -268,7 +263,7 @@ public class CursoManager : MonoBehaviour {
                 if (respuesta == "True") {
                     countSelectMultiple++;
                     imagen.GetComponent<Button>().onClick.AddListener(delegate {
-                        Debug.Log("correcto");
+                        //Debug.Log("correcto");
                         string objName = objeto;
                         string idI = idIntento;
                         string idR = idRespuesta;
@@ -279,7 +274,7 @@ public class CursoManager : MonoBehaviour {
                     });
                 } else {
                     imagen.GetComponent<Button>().onClick.AddListener(delegate {
-                        Debug.Log("incorrecto");
+                        //Debug.Log("incorrecto");
                         string objName = objeto;
                         string idI = idIntento;
                         string idR = idRespuesta;
@@ -311,7 +306,7 @@ public class CursoManager : MonoBehaviour {
             webServiceRegistro.validarAccionSqlite("Respondió correctamente(Simple)", manager.getUsuario(), "Respondió pregunta");
         }
         countPreguntas++;
-        Debug.Log("correcto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
+        //Debug.Log("correcto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
         StartCoroutine(esperaSegundos(correctoimg));
         score++;
         textoPuntaje.text = score + "";
@@ -333,15 +328,15 @@ public class CursoManager : MonoBehaviour {
         countSelectMultiple--;
         if (countSelectMultiple != 0) {
             myGameObject.GetComponent<Image>().sprite = opcionCorrecta;
-            Debug.Log("Faltan respuestas");
+            //Debug.Log("Faltan respuestas");
         } else {
             countPreguntas++;
-            Debug.Log("Respuestas completas");
+            //Debug.Log("Respuestas completas");
             StartCoroutine(esperaSegundos(correctoimg));
             score++;
             textoPuntaje.text = score + "";
-            Debug.Log(preguntas.Length);
-            Debug.Log(countPreguntas);
+            //Debug.Log(preguntas.Length);
+            //Debug.Log(countPreguntas);
             if (preguntas.Length > countPreguntas) {
                 desactivarPreguntas();
                 webServiceRegistro.validarAccionSqlite("Respondió correctamente(Opción Multiple)", manager.getUsuario(), "Respondió pregunta");
@@ -360,21 +355,21 @@ public class CursoManager : MonoBehaviour {
     public void validarPares(string obj, string relacion, string idP, string idR, string idI) {
         var myGameObject = GameObject.Find(obj);
         if (par1 == "" && par2 == "") {
-            Debug.Log("entro a la validacion de pares");
+            //Debug.Log("entro a la validacion de pares");
             par1Name = obj;
             par1 = relacion;
             //webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idP, idR, idI);
             myGameObject.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
             myGameObject.GetComponent<Button>().onClick.RemoveAllListeners();
         } else if (par1 != "" && par2 == "") {
-            Debug.Log("entro a la validacion 2 de pares");
+            //Debug.Log("entro a la validacion 2 de pares");
             par2 = relacion;
             par2Name = obj;
 
             if (par1 == par2) {
                 var par1Seleccionado = GameObject.Find(par1Name);
                 var par2Seleccionado = GameObject.Find(par2Name);
-                Debug.Log("Par correcto");
+                //Debug.Log("Par correcto");
                 webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idP, idR, idI);
                 numPares--;
                 if (numPares > 0) {
@@ -395,7 +390,7 @@ public class CursoManager : MonoBehaviour {
                     correctoPar(true, idI);
                 }
             } else {
-                Debug.Log("Par incorrecto");
+                //Debug.Log("Par incorrecto");
                 par1 = "";
                 par2 = "";
                 par1Name = "";
@@ -408,8 +403,8 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void validarOrden(string objName, char letraVal, string idI, string idR, string idP) {
-        Debug.Log(letraVal);
-        Debug.Log(palabraCompleta[letraPos]);
+        //Debug.Log(letraVal);
+        //Debug.Log(palabraCompleta[letraPos]);
         if (palabraCompleta[letraPos]==letraVal) {
             var myGameObject = GameObject.Find(objName);
             myGameObject.SetActive(false);
@@ -448,7 +443,7 @@ public class CursoManager : MonoBehaviour {
         if (res==true) {
             webServiceRegistro.validarAccionSqlite("Respondió correctamente(Par)", manager.getUsuario(), "Respondió pregunta");
             countPreguntas++;
-            Debug.Log("correcto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
+            //Debug.Log("correcto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
             StartCoroutine(esperaSegundos(correctoimg));
             score++;
             textoPuntaje.text = score + "";
@@ -466,7 +461,7 @@ public class CursoManager : MonoBehaviour {
         } else {
             webServiceRegistro.validarAccionSqlite("Respondió incorrectamente(Par)", manager.getUsuario(), "Respondió pregunta");
             countPreguntas++;
-            Debug.Log("incorrecto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
+            //Debug.Log("incorrecto  --- " + preguntas.Length + "CountPreguntas: " + countPreguntas);
             StartCoroutine(esperaSegundos(incorrectoimg));
             if (preguntas.Length > countPreguntas) {
                 desactivarPreguntas();

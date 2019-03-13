@@ -5,10 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class mainMenuManager : MonoBehaviour {
 
+    public GameObject facebookButon;    ///< facebookButon boton de login con facebook
+
+
+    /**
+     * Funcion que se manda llamar al inicio de la escena (frame 1) 
+     * Verifica si el dispositivo en el que se esta ejecuntando es un oculus.
+     * en caso que si oculta el boton de login con facebook
+     */
     private void Start() {
-        /*if (SystemInfo.deviceType == oculus) {
-            Esconder boton de facebook
-        }*/
+        var cadenas = SystemInfo.deviceModel.Split(' ');
+        Debug.Log(cadenas[0]);
+        if (cadenas[0] == "Oculus") {
+            Debug.Log("Hiding Facebook login");
+            facebookButon.SetActive(false);
+        }
     }
 
     /**
@@ -38,6 +49,10 @@ public class mainMenuManager : MonoBehaviour {
         StartCoroutine(loadScene("menuCategorias"));
     }
 
+    /**
+     * Coroutine que espera a que termine de reprocucir el audio de click de los botones
+     * para poder ir a la nueva escena
+     */
     IEnumerator loadScene(string scene) {
         yield return new WaitUntil(() => this.GetComponent<AudioSource>().isPlaying == false);
         SceneManager.LoadScene(scene);

@@ -91,7 +91,7 @@ public class webServicePreguntas : MonoBehaviour {
     }
 
 
-    public static preguntaData[] getPreguntasByPackSqLiteCurso(string ipPaquete, int limite) {
+    public static preguntaData[] getPreguntasByPackSqLiteCurso(string ipPaquete, float limite) {
         string query = "SELECT a.*, c.descripcion AS descripcionEjercicio, d.descripcion AS descripcionPaquete FROM pregunta AS a INNER JOIN catalogoEjercicio AS c INNER JOIN paquete AS d ON a.idTipoEjercicio = c.id AND a.idPaquete = d.id WHERE d.id = '" + ipPaquete + "' ORDER BY random() LIMIT " + limite + ";";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {

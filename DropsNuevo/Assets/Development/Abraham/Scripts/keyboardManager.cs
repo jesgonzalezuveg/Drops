@@ -16,10 +16,11 @@ public class keyboardManager : MonoBehaviour {
     bool btnOtros = true;                   ///< Bandera detecta si estan activadas o no las teclas especiales
     bool focusTxtUsuario = true;            ///< Bandera nos dice cual Input esta usando
 
-    public Text mensaje;
+    public Text mensaje;                    ///< mensaje mensaje que muestra si se ingreso o no el usuario y contraseña de manera correcta
+
 
     /** Función que se llama al inicio de la escena 
-     *
+     * Inicia las referencias a lo GO
      */
     void Start() {
         userInput = GameObject.Find("inputMatricula2");

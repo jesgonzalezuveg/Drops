@@ -10,25 +10,27 @@ using System.IO;
 public class appManager : MonoBehaviour {
 
     private string Usuario = "";            ///< Usuario almacena el usuario que utiliza la aplicación
-    private string idUsuario = "";
+    private string idUsuario = "";          ///< idUsuario almacena el id del usuario que utiliza la aplicación
     private string Nombre = "";             ///< Nombre almacena el nombre del usuario que utiliza la aplicación
     private string Correo = "";             ///< Correo almacena el correo con el cual la cuenta esta vinculada
     private string Imagen = "";             ///< Imagen almacena la imagen, ya sea de facebook o bien de UVEG de la persona que utiliza la aplicación
-    private webServicePaquetes.paqueteData[] paquetes = null;
-    private bool banderaPaquetes = true;
-    private webServiceCategoria.categoriaData[] categorias = null;
-    private bool banderaCategorias = true;
-    private webServiceAcciones.accionData[] acciones = null;
-    private bool banderaAcciones = true;
-    private webServiceEjercicio.ejercicioData[] ejercicios = null;
-    private bool banderaEjercicios = true;
-    private webServicePreguntas.preguntaData[] preguntas = null;
-    private bool banderaPreguntas = true;
-    private webServiceRespuestas.respuestaData[] respuestas = null;
-    private bool banderaRespuestas = true;
-    private bool bandera = true;
+    private webServicePaquetes.paqueteData[] paquetes = null;       ///< paquetes arreglo de estructura paqueteData, almacena los paquetes que existen en la BD del SII
+    private bool banderaPaquetes = true;                            ///< banderaPaquetes verifica si ya se recorrio el arreglo paquetes
+    private webServiceCategoria.categoriaData[] categorias = null;  ///< categorias arreglo de estructura categoriasData, almacena las categorias que existen en la BD del SII
+    private bool banderaCategorias = true;                          ///< banderaCategorias verifica si ya se recorrio el arreglo categorias
+    private webServiceAcciones.accionData[] acciones = null;        ///< acciones arreglo de estructura accionesData, almacena las acciones que existen en la BD del SII
+    private bool banderaAcciones = true;                            ///< banderaAcciones verifica si ya se recorrio el arreglo acciones
+    private webServiceEjercicio.ejercicioData[] ejercicios = null;  ///< ejercicios arreglo de estructura ejerciciosData, almacena las ejercicios que existen en la BD del SII
+    private bool banderaEjercicios = true;                          ///< banderaEjercicios verifica si ya se recorrio el arreglo ejercicios
+    private webServicePreguntas.preguntaData[] preguntas = null;    ///< preguntas arreglo de estructura preguntasData, almacena las preguntas que existen en la BD del SII
+    private bool banderaPreguntas = true;                           ///< banderaPreguntas verifica si ya se recorrio el arreglo preguntas
+    private webServiceRespuestas.respuestaData[] respuestas = null; ///< respuestas arreglo de estructura respuestasData, almacena las respuestas que existen en la BD del SII
+    private bool banderaRespuestas = true;                          ///< banderaRespuestas verifica si ya se recorrio el arreglo respuestas
+    private bool bandera = true;                                    ///< bandera verifica si ya se mostro la imagen de usuario
 
-    public webServicePreguntas.preguntaData[] preguntasCategoria = null;
+    public webServicePreguntas.preguntaData[] preguntasCategoria = null;    ///< preguntasCategoria arreglo de preguntas correspondientes al paquete que se selecciono para jugar
+    public float numeroPreguntas = 5;       ///< numeroPreguntas numero de preguntas que tendra el curso, el usuario puede modificarlo inGame
+    public bool isOnline = false;           ///< isOnline bandera que sirve para validar si se encuentra conectado a internet o no
 
     #region setter y getters
     /**
@@ -145,25 +147,35 @@ public class appManager : MonoBehaviour {
     }
     #endregion
 
+    /**
+     * Funcion que se llama antes de mostrar video (frame 0)
+     * Verifica si hay conexion a internet o no
+     */
     public void Awake() {
         DontDestroyOnLoad(this.gameObject);
         if (Application.internetReachability == NetworkReachability.NotReachable) {
             Debug.Log("No hay conexion");
+            isOnline = false;
         } else {
             Debug.Log("Si hay conexion");
+            isOnline = true;
         }
     }
 
-    void OnEnable() {
+    /**
+     * Conjunto de metodos y variables que sirven para mostrar una consola inGame (debugs en oculus y android)
+     * 
+     */
+    #region funciones para consola in game
+    string myLog;
+    Queue myLogQueue = new Queue();
+    /*void OnEnable() {
         Application.logMessageReceived += HandleLog;
     }
 
     void OnDisable() {
         Application.logMessageReceived -= HandleLog;
     }
-
-    string myLog;
-    Queue myLogQueue = new Queue();
 
     void HandleLog(string logString, string stackTrace, LogType type) {
         myLog = logString;
@@ -181,8 +193,14 @@ public class appManager : MonoBehaviour {
         foreach (string mylog in myLogQueue) {
             myLog += mylog;
         }
-    }
+    }*/
+    #endregion
 
+    /**
+     * Funcion que se manda llamar cada frame
+     * verifica si existe la imagen del usuario, en caso que no exista la consulta e inserta
+     * se encarga de llamar las validaciones de los datos de la BD
+     */
     public void Update() {
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje2(true, myLog);
         if (Usuario != "" && bandera) {
@@ -199,6 +217,10 @@ public class appManager : MonoBehaviour {
         validarRespuestas();
     }
 
+    /**
+     * Funcion que se encarga de validar si ya se descargo o no cada uno de los paquetes
+     * que se encuentran en la BD.
+     */
     public void validarPaquetes() {
         if (GameObject.Find("ListaPaquetes")) {
             var paquetesManager = GameObject.Find("ListaPaquetes").GetComponent<paquetesManager>();
@@ -209,16 +231,13 @@ public class appManager : MonoBehaviour {
                     if (local != null) {
                         pack.id = local.id;
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
-                        //Si no existe la descarga del paquete añade la tarjeta
                         if (descargaLocal == null) {
                             paquetesManager.newCardDescarga(pack);
                         } else {
                             //GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "fechaDescarga: \n" + descargaLocal.fechaDescarga + "\nFecha modificacion: \n" + pack.fechaModificacion);
                             if (isActualized(descargaLocal, pack)) {
-                                //Esta actualizado
                                 paquetesManager.newCardJugar(pack);
                             } else {
-                                //No esta actualizado
                                 paquetesManager.newCardActualizar(pack);
                             }
                         }
@@ -233,8 +252,10 @@ public class appManager : MonoBehaviour {
         }
     }
 
-
-
+    /**
+     * Funcion que se encarga de validar si ya se descargo o no cada una de las categorias
+     * que se encuentran en la BD.
+     */
     public void validarCategorias() {
         if (categorias != null && banderaCategorias) {
             foreach (var categoria in categorias) {
@@ -249,6 +270,10 @@ public class appManager : MonoBehaviour {
         }
     }
 
+    /**
+      * Funcion que se encarga de validar si ya se descargo o no cada una de las acciones
+      * que se encuentran en la BD.
+      */
     public void validarAcciones() {
         if (acciones != null && banderaAcciones) {
             foreach (var Acciones in acciones) {
@@ -263,6 +288,10 @@ public class appManager : MonoBehaviour {
         }
     }
 
+    /**
+     * Funcion que se encarga de validar si ya se descargo o no cada uno de los ejercicios
+     * que se encuentran en la BD.
+     */
     public void validarEjercicios() {
         if (ejercicios != null && banderaEjercicios) {
             foreach (var ejercicio in ejercicios) {
@@ -277,6 +306,11 @@ public class appManager : MonoBehaviour {
         }
     }
 
+    /**
+     * Esta funcion solo se manda llamar cada que el usuario da click en descargar o actualizar
+     * Verifica cada una de las preguntas de determinado paquete para saber si ya se realizó la descarga
+     * o verificar si es necesario actualizar los datos
+     */
     public void validarPreguntas() {
         if (preguntas != null && banderaPreguntas) {
             banderaPreguntas = false;
@@ -296,6 +330,11 @@ public class appManager : MonoBehaviour {
         }
     }
 
+    /**
+     * Esta funcion solo se manda llamar cada que el usuario da click en descargar o actualizar
+     * Verifica cada una de las respuestas de determinada pregunta para saber si ya se realizó la descarga
+     * o verificar si es necesario actualizar los datos
+     */
     public void validarRespuestas() {
         if (respuestas != null && banderaRespuestas) {
             banderaRespuestas = false;
@@ -317,11 +356,17 @@ public class appManager : MonoBehaviour {
         }
     }
 
+    /**
+     * Coorutina que se encarga de descargar las imagenes de el paquete que se esta descargando
+     * o actualizando, verifica si la fecha de modificacion de la respuesta es diferente a la de 
+     * descarga anterior y comienza la descarga.
+     * Aqui se oculta el mensaje "Descargando paquete"
+     * y se encarga de actulizar los paquetes en pantalla
+     */ 
     public IEnumerator descargarImagenesPaquete() {
         foreach (var respuesta in respuestas) {
-            //Validar si fecha modificacion respuesta es diferente a la que se tiene en BD
+            //Validar si fecha modificacion respuesta es diferente a la fecha de descarga que se tenia
             //String hoy = DateTime.Now + "";
-            //Debug.Log(respuesta.fechaModificacion);
             if (respuesta != null) {
                 var pathArray = respuesta.urlImagen.Split('/');
                 var path = pathArray[pathArray.Length - 1];
@@ -335,12 +380,10 @@ public class appManager : MonoBehaviour {
                     byte[] bytes = texture.EncodeToPNG();
                     File.WriteAllBytes(Application.persistentDataPath + path, bytes);
                 } else {
-                    Debug.Log("Texture es null: " + respuesta.urlImagen);
                 }
             }
         }
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Paquete descargado");
-        Debug.Log("Paquete descargado");
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
 
         Destroy(GameObject.Find("fichaPack" + preguntas[0].idPaquete));
@@ -352,6 +395,10 @@ public class appManager : MonoBehaviour {
         banderaRespuestas = true;
     }
 
+    /**
+     * Funcion que se manda llamar al momento de cerrar la aplicacion
+     * Modifica la fecha de termino del log en la base de datos local
+     */
     void OnApplicationQuit() {
         if (Usuario != "") {
             webServiceRegistro.validarAccionSqlite("Aplicación cerrada por el usuario", Usuario, "Aplicación cerrada");
@@ -359,6 +406,12 @@ public class appManager : MonoBehaviour {
         }
     }
 
+    /**
+     * Funcion que verifica si el paquete esta actualizado o no
+     * Verifica si la fecha de descarga que se tiene es menor, mayor o igual a la fecha de modificacion del paquete
+     * @descargalocal descargaData estructura que almacena los datos de la descarga anterior
+     * @pack paqueteData estructura que almacena los datos del paquete que viene desde BD del SII
+     */
     bool isActualized(webServiceDescarga.descargaData descargaLocal, webServicePaquetes.paqueteData pack) {
         //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss "PC"
         //Formato de fechaDescarga = MM/dd/yyyy HH:mm:ss "Android"
@@ -366,7 +419,6 @@ public class appManager : MonoBehaviour {
         var mes = 0;
         var año = 2;
         if (Application.isEditor) {
-            Debug.Log("isEditor = true");
             dia = 0;
             mes = 1;
             año = 2;
@@ -394,6 +446,11 @@ public class appManager : MonoBehaviour {
         return true;
     }
 
+    /**
+     * Funcion que se manda llamar cada que se actualiza/descarga un paquete
+     * Limpia los campos dentro de panelPaquetesDescargados y PanelNuevosPaquetes
+     * para despues llenarlos de nuevo con la informacion actualizada
+     */
     void destruirObjetos() {
         if (GameObject.Find("PanelPaquetesDescargados").transform.childCount > 0) {
             for (var i = 0; i < GameObject.Find("PanelPaquetesDescargados").transform.childCount; i++) {

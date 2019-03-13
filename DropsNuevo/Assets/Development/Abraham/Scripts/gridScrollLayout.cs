@@ -6,17 +6,26 @@ using UnityEngine.UI;
 
 public class gridScrollLayout : MonoBehaviour {
 
-    public int maxHorizontalTags;
-    public int scrollCount;
-    public bool bandera = true;
-    private GridLayoutGroup layout;
-    private packManager[] hijos;
-    private int count = 0;
+    public int maxHorizontalTags;       ///< maxHorizontalTags Valor maximo de tarjetas que contendra el grid layout
+    public int scrollCount;             ///< scrollCount numero de tarjetas que avanzará con cada click en los botones
+    public bool bandera = true;         ///< bandera bandera que verifica si ya se realizo el acomo inicial del grid scroll
+    private GridLayoutGroup layout;     ///< layout layout que acomoda las tarjetas en forma de cuadricula
+    private packManager[] hijos;        ///< hijos tarjetas dentro del layout
+    private int count = 0;              ///< count valor inicial del hijo que debe mostrar, va desde 0 hasta (hijos.lenght - maxHorizontalTags)
 
+
+    /**
+     * Funcion que se manda llamar al inicio de la scena(frame 1)
+     * se obtiene el componente layout del gameObject
+     */
     void Start() {
         layout = gameObject.GetComponent<GridLayoutGroup>();
     }
 
+    /**
+     * Funcion que se llama cada frame
+     * Verifica si la cantidad de hijos es mayor al valor maximo de 
+     */
     void Update() {
         hijos = gameObject.GetComponentsInChildren<packManager>(true);
         if (hijos.Length > maxHorizontalTags && bandera) {
@@ -25,6 +34,10 @@ public class gridScrollLayout : MonoBehaviour {
         }
     }
 
+    /**
+     * Funcion que se manda llamar cuando el usuario da click en el boton de scroll anterior
+     * resta el numero de saltos al count en caso que sea diferente a 0
+     */
     public void anterior() {
         if (count > 0) {
             count -= scrollCount;
@@ -32,6 +45,10 @@ public class gridScrollLayout : MonoBehaviour {
         activarHijos();
     }
 
+    /**
+     * Funcion que se manda llamar cuando el usuario da click en el boton de scroll siguiente
+     * suma el numero de saltos al count en caso que sea diferente a (hijos.Length - maxHorizontalTags)
+     */
     public void siguiente() {
         if (count < hijos.Length - maxHorizontalTags) {
             count += scrollCount;
@@ -39,6 +56,10 @@ public class gridScrollLayout : MonoBehaviour {
         activarHijos();
     }
 
+    /**
+     * Funcion que se manda llamar cada que se da click en un boton del scroll
+     * Activa los objetos desde count hasta (count + maxHorizontalTags) y desactiva los restantes
+     */
     void activarHijos() {
         List<GameObject> visibles = new List<GameObject>();
         List<GameObject> ocultos = new List<GameObject>();
