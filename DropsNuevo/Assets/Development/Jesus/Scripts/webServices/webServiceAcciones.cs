@@ -65,6 +65,17 @@ public class webServiceAcciones : MonoBehaviour {
         }
     }
 
+    public static string consultarDescripcionAccionSqLite(string idAccion) {
+        string query = "SELECT descripcion FROM catalogoAcciones WHERE id = '" + idAccion + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            accionData data = JsonUtility.FromJson<accionData>(result);
+            return data.descripcion;
+        } else {
+            return "0";
+        }
+    }
+
     /** Función para actualizar los datos de una accion
      * @param accion descripcion de la accion 
      * @param status estado de la accion (activa o inanctiva)

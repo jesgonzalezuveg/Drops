@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
+using System.Text;
 
 public class webServiceDetalleIntento : MonoBehaviour
 {
@@ -29,6 +30,25 @@ public class webServiceDetalleIntento : MonoBehaviour
         public string idPregunta = "";
         public string idRespuesta = "";
         public string idIntento = "";
+    }
+
+    [Serializable]
+    public class dataDetalleIntento {
+        public detalleIntentoDataSqLite[] detalleIntento;
+    }
+
+    public static detalleIntentoDataSqLite[] getDetalleIntentosByIntento(string idIntento) {
+        string query = "SELECT * FROM detalleIntento WHERE idIntento = " + idIntento + " AND syncroStatus = 0;";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            byte[] bytes = Encoding.Default.GetBytes(result);
+            result = Encoding.UTF8.GetString(bytes);
+            result = "{\"detalleIntento\":[" + result + "]}";
+            dataDetalleIntento data = JsonUtility.FromJson<dataDetalleIntento>(result);
+            return data.detalleIntento;
+        } else {
+            return null;
+        }
     }
 
     /** Función que inseta los datos de la accion en la base de datos local

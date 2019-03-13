@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
+using System.Text;
 
 public class webServiceIntento : MonoBehaviour {
     /** Estructura que almacena los datos de las acciones desde SII
@@ -28,6 +29,25 @@ public class webServiceIntento : MonoBehaviour {
         public string fechaModificacion = "";
         public string syncroStatus = "";
         public string idLog = "";
+    }
+
+    [Serializable]
+    public class dataIntento {
+        public intentoDataSqLite[] intentos;
+    }
+
+    public static intentoDataSqLite[] getIntentosByLog(string idLog) {
+        string query = "SELECT * FROM intento WHERE idLog = " + idLog + " AND syncroStatus = 0;";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            byte[] bytes = Encoding.Default.GetBytes(result);
+            result = Encoding.UTF8.GetString(bytes);
+            result = "{\"intentos\":[" + result + "]}";
+            dataIntento data = JsonUtility.FromJson<dataIntento>(result);
+            return data.intentos;
+        } else {
+            return null;
+        }
     }
 
     /** Función que inseta los datos de la accion en la base de datos local
