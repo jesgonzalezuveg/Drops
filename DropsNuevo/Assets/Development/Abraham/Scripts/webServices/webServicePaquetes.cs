@@ -60,7 +60,7 @@ public class webServicePaquetes : MonoBehaviour{
 
     public static int insertarPaqueteSqLite(paqueteData paquete) {
         //clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer
-        Debug.Log("Error de nuevo :/");
+        //Debug.Log("Error de nuevo :/");
         var idCategoria = webServiceCategoria.getCategoriaByDescripcionSqLite(paquete.descripcionCategoria).id;
         if (idCategoria == "0") {
             Debug.Log("Error aqui");

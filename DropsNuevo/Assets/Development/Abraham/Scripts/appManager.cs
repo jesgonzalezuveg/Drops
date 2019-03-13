@@ -31,6 +31,7 @@ public class appManager : MonoBehaviour {
     public webServicePreguntas.preguntaData[] preguntasCategoria = null;    ///< preguntasCategoria arreglo de preguntas correspondientes al paquete que se selecciono para jugar
     public float numeroPreguntas = 5;       ///< numeroPreguntas numero de preguntas que tendra el curso, el usuario puede modificarlo inGame
     public bool isOnline = false;           ///< isOnline bandera que sirve para validar si se encuentra conectado a internet o no
+    public webServicePaquetes.paqueteData packToPlay;
 
     #region setter y getters
     /**
@@ -235,7 +236,7 @@ public class appManager : MonoBehaviour {
                             paquetesManager.newCardDescarga(pack);
                         } else {
                             //GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "fechaDescarga: \n" + descargaLocal.fechaDescarga + "\nFecha modificacion: \n" + pack.fechaModificacion);
-                            if (isActualized(descargaLocal, pack)) {
+                            if (isActualized(descargaLocal.fechaDescarga, pack.fechaModificacion)) {
                                 paquetesManager.newCardJugar(pack);
                             } else {
                                 paquetesManager.newCardActualizar(pack);
@@ -362,27 +363,35 @@ public class appManager : MonoBehaviour {
      * descarga anterior y comienza la descarga.
      * Aqui se oculta el mensaje "Descargando paquete"
      * y se encarga de actulizar los paquetes en pantalla
-     */ 
+     */
     public IEnumerator descargarImagenesPaquete() {
         foreach (var respuesta in respuestas) {
+            var descarga = webServiceDescarga.getDescargaByPaquete(packToPlay.id);
             //Validar si fecha modificacion respuesta es diferente a la fecha de descarga que se tenia
-            //String hoy = DateTime.Now + "";
-            if (respuesta != null) {
-                var pathArray = respuesta.urlImagen.Split('/');
-                var path = pathArray[pathArray.Length - 1];
-                /*if (File.Exists(Application.persistentDataPath + path)) {
-                    byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-                } else {*/
-                WWW www = new WWW(respuesta.urlImagen);
-                yield return www;
-                if (www.texture != null) {
-                    Texture2D texture = www.texture;
-                    byte[] bytes = texture.EncodeToPNG();
-                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+            if (descarga != null) {
+                if (respuesta != null) {
+                    if (!isActualized(descarga.fechaDescarga, respuesta.fechaModificacion)) {
+                        Debug.Log("Actualizando imagen");
+                        var pathArray = respuesta.urlImagen.Split('/');
+                        var path = pathArray[pathArray.Length - 1];
+                        WWW www = new WWW(respuesta.urlImagen);
+                        yield return www;
+                        if (www.texture != null) {
+                            Texture2D texture = www.texture;
+                            byte[] bytes = texture.EncodeToPNG();
+                            File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                        } else {
+
+                        }
+                    } else {
+                        Debug.Log("Ya esta actualizada");
+                    }
                 } else {
+
                 }
             }
         }
+        webServiceDescarga.insertarDescargaSqLite(packToPlay.id, webServiceUsuario.consultarIdUsuarioSqLite(Usuario));
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Paquete descargado");
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
 
@@ -412,7 +421,7 @@ public class appManager : MonoBehaviour {
      * @descargalocal descargaData estructura que almacena los datos de la descarga anterior
      * @pack paqueteData estructura que almacena los datos del paquete que viene desde BD del SII
      */
-    bool isActualized(webServiceDescarga.descargaData descargaLocal, webServicePaquetes.paqueteData pack) {
+    bool isActualized(string fechaDescarga, string fechaModificacion) {
         //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss "PC"
         //Formato de fechaDescarga = MM/dd/yyyy HH:mm:ss "Android"
         var dia = 1;
@@ -423,11 +432,11 @@ public class appManager : MonoBehaviour {
             mes = 1;
             año = 2;
         }
-        descargaLocal.fechaDescarga = descargaLocal.fechaDescarga.Remove(10, descargaLocal.fechaDescarga.Length - 10);
-        string[] splitDateDescarga = descargaLocal.fechaDescarga.Split('/');
+        fechaDescarga = fechaDescarga.Remove(10, fechaDescarga.Length - 10);
+        string[] splitDateDescarga = fechaDescarga.Split('/');
         //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
-        pack.fechaModificacion = pack.fechaModificacion.Remove(10, pack.fechaModificacion.Length - 10);
-        string[] splitDatePack = pack.fechaModificacion.Split('-');
+        fechaModificacion = fechaModificacion.Remove(10, fechaModificacion.Length - 10);
+        string[] splitDatePack = fechaModificacion.Split('-');
         if (Int32.Parse(splitDateDescarga[año]) >= Int32.Parse(splitDatePack[0])) {
             if (Int32.Parse(splitDateDescarga[mes]) >= Int32.Parse(splitDatePack[1])) {
                 if (Int32.Parse(splitDateDescarga[mes]) == Int32.Parse(splitDatePack[1])) {

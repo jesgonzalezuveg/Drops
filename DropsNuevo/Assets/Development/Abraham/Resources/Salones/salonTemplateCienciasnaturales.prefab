@@ -6632,6 +6632,7 @@ GameObject:
   - component: {fileID: 424446338864546561}
   - component: {fileID: 3571815151199483018}
   - component: {fileID: 3108415056090374818}
+  - component: {fileID: 7186269219277630193}
   m_Layer: 0
   m_Name: SALIDA (1)
   m_TagString: Untagged
@@ -6732,7 +6733,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 0}
-          m_MethodName: BtnSalir
+          m_MethodName: salir
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6745,6 +6746,18 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &7186269219277630193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215962253954381104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dca49a4c29a42e4c8fad3d5717f8811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4237517653993840349
 GameObject:
   m_ObjectHideFlags: 0
@@ -12204,6 +12217,7 @@ GameObject:
   - component: {fileID: 4451027617441244744}
   - component: {fileID: 3999920220969590377}
   - component: {fileID: 1438871053451377987}
+  - component: {fileID: 1556592841807525786}
   m_Layer: 0
   m_Name: SALIDA
   m_TagString: Untagged
@@ -12304,7 +12318,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 0}
-          m_MethodName: BtnSalir
+          m_MethodName: salir
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -12317,6 +12331,18 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &1556592841807525786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736979155743727627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dca49a4c29a42e4c8fad3d5717f8811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7748330768726079832
 GameObject:
   m_ObjectHideFlags: 0
@@ -14229,7 +14255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7298489958148434501}
   m_Layer: 0
-  m_Name: SalonNaturales
+  m_Name: salonTemplateCienciasnaturales
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14899,11 +14925,7 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 7.598528
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 6e968269d90d52b4fa380d9ecef9dc30, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 0f57a88184320cb4899684682c51d914, type: 2}
-    - target: {fileID: 2300002, guid: 6e968269d90d52b4fa380d9ecef9dc30, type: 3}
+    - target: {fileID: 2300006, guid: 6e968269d90d52b4fa380d9ecef9dc30, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0f57a88184320cb4899684682c51d914, type: 2}
@@ -14911,15 +14933,19 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0f57a88184320cb4899684682c51d914, type: 2}
-    - target: {fileID: 2300006, guid: 6e968269d90d52b4fa380d9ecef9dc30, type: 3}
+    - target: {fileID: 2300002, guid: 6e968269d90d52b4fa380d9ecef9dc30, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0f57a88184320cb4899684682c51d914, type: 2}
-    - target: {fileID: 2300008, guid: 6e968269d90d52b4fa380d9ecef9dc30, type: 3}
+    - target: {fileID: 2300000, guid: 6e968269d90d52b4fa380d9ecef9dc30, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0f57a88184320cb4899684682c51d914, type: 2}
     - target: {fileID: 2300010, guid: 6e968269d90d52b4fa380d9ecef9dc30, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0f57a88184320cb4899684682c51d914, type: 2}
+    - target: {fileID: 2300008, guid: 6e968269d90d52b4fa380d9ecef9dc30, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0f57a88184320cb4899684682c51d914, type: 2}
