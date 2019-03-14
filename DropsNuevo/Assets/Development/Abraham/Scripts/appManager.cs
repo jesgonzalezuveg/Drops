@@ -415,7 +415,7 @@ public class appManager : MonoBehaviour {
                 }
             }
         }
-        webServiceDescarga.insertarDescargaSqLite(packToPlay.id, webServiceUsuario.consultarIdUsuarioSqLite(Usuario));
+        webServiceDescarga.insertarDescargaSqLite(webServicePaquetes.getPaquetesByDescripcionSqLite(packToPlay.descripcion).id, webServiceUsuario.consultarIdUsuarioSqLite(Usuario));
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Paquete descargado");
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
 
