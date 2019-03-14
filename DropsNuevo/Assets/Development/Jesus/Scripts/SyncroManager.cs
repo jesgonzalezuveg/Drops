@@ -25,7 +25,7 @@ public class SyncroManager : MonoBehaviour
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
         Sincronizacion();
         StartCoroutine(webServiceSincronizacion.SincroData(jsonGeneral));
-        sincronizacionLocal();
+        //sincronizacionLocal();
     }
 
     public void sincronizacionLocal() {
@@ -38,7 +38,7 @@ public class SyncroManager : MonoBehaviour
             }
         } else {
             Debug.Log("respuesta =  0");
-            sincronizacionLocal();
+            //sincronizacionLocal();
         }
     }
 

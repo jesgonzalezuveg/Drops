@@ -127,6 +127,12 @@ public class webServiceSincronizacion : MonoBehaviour
                 if (text == "1") {
                     SyncroManager.respuestaWsSincro = "1";
                     Debug.Log("Sincronizacion realizada");
+                    int resultado = changeSyncroStatus(data);
+                    if (resultado == 1) {
+                        Debug.Log("respuesta local: termino sincronizacion");
+                    } else {
+                        Debug.Log("respuesta local: error al sincronizar");
+                    }
                 } else {
                     SyncroManager.respuestaWsSincro = "0";
                     Debug.Log("Fallo la sincronizacion");
