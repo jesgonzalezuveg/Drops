@@ -73,7 +73,29 @@ public class webServiceSincronizacion : MonoBehaviour
     public static int changeSyncroStatus(string json) {
         RootObject myObject = JsonUtility.FromJson<RootObject>(json);
         for (int i =0; i < myObject.Usuarios.Length; i++) {
-            //myObject.Usuarios[i]
+           if(webServiceUsuario.updateSyncroStatusSqlite(myObject.Usuarios[i].id, 2)==1) {
+                for (int j = 0; j < myObject.Usuarios[i].logs.Length; j++) {
+                    if (webServiceLog.updateSyncroStatusSqlite(myObject.Usuarios[i].logs[j].id, 2) == 1) {
+                        if (myObject.Usuarios[i].logs[j].registros.Length>0) {
+                            for (int k = 0; k < myObject.Usuarios[i].logs[j].registros.Length; k++) {
+                                webServiceRegistro.updateSyncroStatusSqlite(myObject.Usuarios[i].logs[j].registros[k].id, 2);
+                            }
+                        }
+
+                        if (myObject.Usuarios[i].logs[j].intentos.Length > 0) {
+                            for (int l = 0; l < myObject.Usuarios[i].logs[j].intentos.Length; l++) {
+                                if (webServiceIntento.updateSyncroStatusSqlite(myObject.Usuarios[i].logs[j].intentos[l].id, 2) == 1) {
+                                    if (myObject.Usuarios[i].logs[j].intentos[l].detalleIntento.Length > 0) {
+                                        for (int m = 0; m < myObject.Usuarios[i].logs[j].intentos[l].detalleIntento.Length; m++) {
+                                            webServiceDetalleIntento.updateSyncroStatusSqlite(myObject.Usuarios[i].logs[j].intentos[l].detalleIntento[m].id, 2);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         //myObject.Usuarios
         return 1;

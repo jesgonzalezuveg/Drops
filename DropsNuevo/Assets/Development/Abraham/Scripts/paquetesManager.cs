@@ -32,6 +32,9 @@ public class paquetesManager : MonoBehaviour {
      * obtiene los datos de la BD local
      */
     private void Start() {
+        if (manager.isFirstLogin) {
+            manager.isFirstLogin = false;
+        }
         scrollBar.GetComponent<Slider>().value = manager.numeroPreguntas;
         setVisibleModal(false);
         manager.setBanderas(true);

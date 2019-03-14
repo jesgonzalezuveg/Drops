@@ -36,6 +36,17 @@ public class webServiceIntento : MonoBehaviour {
         public intentoDataSqLite[] intentos;
     }
 
+    public static int updateSyncroStatusSqlite(string id, int sincroStatus) {
+        string query = "UPDATE intento SET syncroStatus = '" + sincroStatus + "' WHERE id = '" + id + "'";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public static intentoDataSqLite[] getIntentosByLog(string idLog) {
         string query = "SELECT * FROM intento WHERE idLog = " + idLog + " AND syncroStatus = 0;";
         var result = conexionDB.selectGeneral(query);

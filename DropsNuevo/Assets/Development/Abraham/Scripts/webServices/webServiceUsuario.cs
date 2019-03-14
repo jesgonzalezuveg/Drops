@@ -118,7 +118,18 @@ public class webServiceUsuario : MonoBehaviour {
      * @param status estado del usuario
      */
     public static int updateUserSqlite(string usuario, string nombre, string rol, string gradoEstudios, string programa, int status) {
-        string query = "UPDATE usuario SET usuario = '" + usuario + "', nombre = '" + nombre + "', rol = '" + rol + "', gradoEstudios = '" + gradoEstudios + "', programa = '" + programa + "', status = " + status + ", WHERE usuario = '" + usuario + "'";
+        string query = "UPDATE usuario SET usuario = '" + usuario + "', nombre = '" + nombre + "', rol = '" + rol + "', gradoEstudios = '" + gradoEstudios + "', programa = '" + programa + "', status = " + status + " WHERE usuario = '" + usuario + "'";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public static int updateSyncroStatusSqlite(string id, int sincroStatus) {
+        string query = "UPDATE usuario SET syncroStatus = '" + sincroStatus + "' WHERE id = '" + id + "'";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
