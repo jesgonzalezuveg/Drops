@@ -27,6 +27,17 @@ public class webServiceLog : MonoBehaviour {
         public logData[] logs;
     }
 
+    public static int updateSyncroStatusSqlite(string id, int sincroStatus) {
+        string query = "UPDATE log SET syncroStatus = '" + sincroStatus + "' WHERE id = '" + id + "'";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public static logData[] getLogsByUser(string idUsuario) {
         string query = "SELECT * FROM log WHERE syncroStatus = 0 OR syncroStatus = 1 AND idUsuario = " + idUsuario + ";";
         var result = conexionDB.selectGeneral(query);

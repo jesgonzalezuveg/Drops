@@ -32,6 +32,7 @@ public class appManager : MonoBehaviour {
     public float numeroPreguntas = 5;                       ///< numeroPreguntas numero de preguntas que tendra el curso, el usuario puede modificarlo inGame
     public bool isOnline = false;                           ///< isOnline bandera que sirve para validar si se encuentra conectado a internet o no
     public webServicePaquetes.paqueteData packToPlay;       ///< packToPlay estructura del paquete que se va a jugar, descargar o actualizar
+    public bool isFirstLogin = true;
 
     #region setter y getters
     /**

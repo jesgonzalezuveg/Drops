@@ -51,6 +51,17 @@ public class webServiceDetalleIntento : MonoBehaviour
         }
     }
 
+    public static int updateSyncroStatusSqlite(string id, int sincroStatus) {
+        string query = "UPDATE detalleIntento SET syncroStatus = '" + sincroStatus + "' WHERE id = '" + id + "'";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     /** Función que inseta los datos de la accion en la base de datos local
      * @param descripcion descripcion de la accion 
      * @param status estado de la accion (activa o inanctiva)

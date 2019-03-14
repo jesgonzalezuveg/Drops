@@ -14,12 +14,32 @@ public class SyncroManager : MonoBehaviour
     public static string respuestaWsSincro = "0";
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        Debug.Log(GameObject.Find("AppManager").GetComponent<appManager>().isFirstLogin);
+        if (GameObject.Find("AppManager").GetComponent<appManager>().isFirstLogin) {
+            Debug.Log("No sincronizar antes del primer login");
+            return;
+        }
         jsonGeneral = "";
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
         Sincronizacion();
         StartCoroutine(webServiceSincronizacion.SincroData(jsonGeneral));
+        sincronizacionLocal();
+    }
+
+    public void sincronizacionLocal() {
+        if (respuestaWsSincro == "1") {
+            int resultado = webServiceSincronizacion.changeSyncroStatus(jsonGeneral);
+            if (resultado == 1) {
+                Debug.Log("respuesta local: termino sincronizacion");
+            } else {
+                Debug.Log("respuesta local: error al sincronizar");
+            }
+        } else {
+            Debug.Log("respuesta =  0");
+            sincronizacionLocal();
+        }
     }
 
     public void Sincronizacion() {
@@ -80,6 +100,7 @@ public class SyncroManager : MonoBehaviour
             }
             jsonGeneral += "]";
         } else {
+            //jsonGeneral = "";
             jsonGeneral += "\"logs\":[]";
             Debug.Log("No se encontraron logs");
         }
