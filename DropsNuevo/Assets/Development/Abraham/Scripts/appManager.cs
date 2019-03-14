@@ -29,9 +29,9 @@ public class appManager : MonoBehaviour {
     private bool bandera = true;                                    ///< bandera verifica si ya se mostro la imagen de usuario
 
     public webServicePreguntas.preguntaData[] preguntasCategoria = null;    ///< preguntasCategoria arreglo de preguntas correspondientes al paquete que se selecciono para jugar
-    public float numeroPreguntas = 5;       ///< numeroPreguntas numero de preguntas que tendra el curso, el usuario puede modificarlo inGame
-    public bool isOnline = false;           ///< isOnline bandera que sirve para validar si se encuentra conectado a internet o no
-    public webServicePaquetes.paqueteData packToPlay;
+    public float numeroPreguntas = 5;                       ///< numeroPreguntas numero de preguntas que tendra el curso, el usuario puede modificarlo inGame
+    public bool isOnline = false;                           ///< isOnline bandera que sirve para validar si se encuentra conectado a internet o no
+    public webServicePaquetes.paqueteData packToPlay;       ///< packToPlay estructura del paquete que se va a jugar, descargar o actualizar
 
     #region setter y getters
     /**
@@ -155,10 +155,8 @@ public class appManager : MonoBehaviour {
     public void Awake() {
         DontDestroyOnLoad(this.gameObject);
         if (Application.internetReachability == NetworkReachability.NotReachable) {
-            Debug.Log("No hay conexion");
             isOnline = false;
         } else {
-            Debug.Log("Si hay conexion");
             isOnline = true;
         }
     }
@@ -204,11 +202,18 @@ public class appManager : MonoBehaviour {
      */
     public void Update() {
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje2(true, myLog);
-        if (Usuario != "" && bandera) {
-            if (Imagen == "") {
-                StartCoroutine(webServiceUsuario.getUserData(Usuario));
-                bandera = false;
+        if (isOnline) {
+            if (Usuario != "" && bandera) {
+                if (Imagen == "") {
+                    StartCoroutine(webServiceUsuario.getUserData(Usuario));
+                    bandera = false;
+                }
             }
+        } else {
+            setUsuario("Invitado");
+            setNombre("Invitado");
+            setCorreo("");
+            setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
         }
         validarCategorias();
         validarPaquetes();
@@ -233,13 +238,20 @@ public class appManager : MonoBehaviour {
                         pack.id = local.id;
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
                         if (descargaLocal == null) {
-                            paquetesManager.newCardDescarga(pack);
-                        } else {
-                            //GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "fechaDescarga: \n" + descargaLocal.fechaDescarga + "\nFecha modificacion: \n" + pack.fechaModificacion);
-                            if (isActualized(descargaLocal.fechaDescarga, pack.fechaModificacion)) {
-                                paquetesManager.newCardJugar(pack);
+                            if (isOnline) {
+                                paquetesManager.newCardDescarga(pack);
                             } else {
-                                paquetesManager.newCardActualizar(pack);
+
+                            }
+                        } else {
+                            if (isOnline) {
+                                if (isActualized(descargaLocal.fechaDescarga, pack.fechaModificacion)) {
+                                    paquetesManager.newCardJugar(pack);
+                                } else {
+                                    paquetesManager.newCardActualizar(pack);
+                                }
+                            } else {
+                                paquetesManager.newCardJugar(pack);
                             }
                         }
                     } else {
@@ -324,6 +336,7 @@ public class appManager : MonoBehaviour {
                     webServicePreguntas.updatePreguntaSqLite(pregunta, local.idServer);
                 } else {
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
+                    //Error Aqui
                     string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
                     webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idPaquete, pregunta.id);
                 }
@@ -371,7 +384,6 @@ public class appManager : MonoBehaviour {
             if (descarga != null) {
                 if (respuesta != null) {
                     if (!isActualized(descarga.fechaDescarga, respuesta.fechaModificacion)) {
-                        Debug.Log("Actualizando imagen");
                         var pathArray = respuesta.urlImagen.Split('/');
                         var path = pathArray[pathArray.Length - 1];
                         WWW www = new WWW(respuesta.urlImagen);
@@ -384,8 +396,19 @@ public class appManager : MonoBehaviour {
 
                         }
                     } else {
-                        Debug.Log("Ya esta actualizada");
                     }
+                } else {
+
+                }
+            } else {
+                var pathArray = respuesta.urlImagen.Split('/');
+                var path = pathArray[pathArray.Length - 1];
+                WWW www = new WWW(respuesta.urlImagen);
+                yield return www;
+                if (www.texture != null) {
+                    Texture2D texture = www.texture;
+                    byte[] bytes = texture.EncodeToPNG();
+                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
                 } else {
 
                 }
