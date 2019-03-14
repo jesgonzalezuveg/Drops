@@ -87,7 +87,7 @@ public class webServiceRespuestas : MonoBehaviour {
     }
 
     public static int insertarRespuestaSqLite(string descripcion, string urlImagen, string correcto, string relacion, string status, string fechaRegistro, string fechaModificacion, string idPregunta, string idServer) {
-        string query = "INSERT INTO respuesta (descripcion, urlImagen, correcto, relacion, status, fechaRegistro, fechaModificacion, idPregunta, idServer) VALUES ('" + descripcion + "', '" + urlImagen + "', '" + correcto + "', '" + relacion + "', '" + status + "', '" + fechaRegistro + "', '" + fechaModificacion + "', '" + idPregunta + "', '" + idServer + "'); ";
+        string query = "INSERT INTO respuesta (descripcion, urlImagen, correcto, relacion, status, fechaRegistro, fechaModificacion, idPregunta, idServer) VALUES ('" + descripcion + "', '" + urlImagen + "', '" + correcto + "', '" + relacion + "', '" + status + "', datetime(), datetime(), '" + idPregunta + "', '" + idServer + "'); ";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -97,7 +97,7 @@ public class webServiceRespuestas : MonoBehaviour {
     }
 
     public static int updateRespuestaSqLite(string descripcion, string urlImagen, string correcto, string relacion, string status, string fechaRegistro, string fechaModificacion, string idPregunta, string idServer) {
-        string query = "UPDATE  respuesta SET  descripcion =  '" + descripcion + "', urlImagen =  '" + urlImagen + "', correcto =  '" + correcto + "', relacion = '" + relacion + "', status =  '" + status +  "', fechaRegistro =  '" + fechaRegistro + "', fechaModificacion =  '" + fechaModificacion + "', idPregunta =  '" + idPregunta +  "' WHERE  idServer = '" + idServer + "';";
+        string query = "UPDATE  respuesta SET  descripcion =  '" + descripcion + "', urlImagen =  '" + urlImagen + "', correcto =  '" + correcto + "', relacion = '" + relacion + "', status =  '" + status + "', fechaRegistro =  datetime(), fechaModificacion =  datetime(), idPregunta =  '" + idPregunta +  "' WHERE  idServer = '" + idServer + "';";
         Debug.Log("Updateando");
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {

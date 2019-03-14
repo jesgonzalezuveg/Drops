@@ -36,11 +36,12 @@ public class webServicePaquetes : MonoBehaviour{
      * Funcion que regresa los paquetes que existen en la base de datos local
      * 
      */
-    public static paqueteData getPaquetesSqLite() {
+    public static Data getPaquetesSqLite() {
         string query = "SELECT * FROM paquete;";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
-            paqueteData paquete = JsonUtility.FromJson<paqueteData>(result);
+            result = "{\"paquete\": [" + result + "]}";
+            Data paquete = JsonUtility.FromJson<Data>(result);
             return paquete;
         } else {
             return null;
@@ -60,19 +61,21 @@ public class webServicePaquetes : MonoBehaviour{
 
     public static int insertarPaqueteSqLite(paqueteData paquete) {
         //clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer
-        Debug.Log("Error de nuevo :/");
-        var idCategoria = webServiceCategoria.getCategoriaByDescripcionSqLite(paquete.descripcionCategoria).id;
-        if (idCategoria == "0") {
-            Debug.Log("Error aqui");
-            return 0;
+        var categoriaData = webServiceCategoria.getCategoriaByDescripcionSqLite(paquete.descripcionCategoria);
+        if (categoriaData != null) {
+            var idCategoria = categoriaData.id;
+            if (idCategoria == "0") {
+                return 0;
+            }
+            string query = "INSERT INTO paquete (clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer) VALUES ('" + paquete.clave + "','" + paquete.descripcion + "', dateTime(), '" + paquete.fechaModificacion + "','" + paquete.urlImagen + "','" + idCategoria + "','" + paquete.id + "');";
+            var result = conexionDB.alterGeneral(query);
+            if (result == 1) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
-        string query = "INSERT INTO paquete (clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer) VALUES ('" + paquete.clave + "','" + paquete.descripcion + "', dateTime(), '" + paquete.fechaModificacion + "','" + paquete.urlImagen + "','" + idCategoria + "','" + paquete.id + "');";
-        var result = conexionDB.alterGeneral(query);
-        if (result == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return 0;
     }
 
 

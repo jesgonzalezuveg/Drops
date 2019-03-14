@@ -28,8 +28,8 @@ public class webServiceDescarga : MonoBehaviour {
         string query = "SELECT * FROM descarga WHERE idPaquete = '" + idPaquete + "' ORDER BY fechaDescarga DESC LIMIT 1;";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
-            descargaData categoria = JsonUtility.FromJson<descargaData>(result);
-            return categoria;
+            descargaData descarga = JsonUtility.FromJson<descargaData>(result);
+            return descarga;
         } else {
             return null;
         }

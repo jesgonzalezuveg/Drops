@@ -35,10 +35,19 @@ public class paquetesManager : MonoBehaviour {
         scrollBar.GetComponent<Slider>().value = manager.numeroPreguntas;
         setVisibleModal(false);
         manager.setBanderas(true);
-        StartCoroutine(webServiceCategoria.getCategorias());
-        StartCoroutine(webServicePaquetes.getPaquetes());
-        StartCoroutine(webServiceAcciones.getAcciones());
-        StartCoroutine(webServiceEjercicio.getEjercicios());
+        if (manager.isOnline) {
+            StartCoroutine(webServiceCategoria.getCategorias());
+            StartCoroutine(webServicePaquetes.getPaquetes());
+            StartCoroutine(webServiceAcciones.getAcciones());
+            StartCoroutine(webServiceEjercicio.getEjercicios());
+        } else {
+            var paquetesLocales = webServicePaquetes.getPaquetesSqLite();
+            if (paquetesLocales != null) {
+                manager.setPaquetes(paquetesLocales.paquete);
+            } else {
+                fillEmpty();
+            }
+        }
     }
 
 
@@ -65,24 +74,26 @@ public class paquetesManager : MonoBehaviour {
      * no importa si inicio con Facebook o es usuario UVEG
      */
     IEnumerator getUserImg() {
-        if (manager.GetComponent<appManager>().getImagen() != "") {
-            string path = manager.GetComponent<appManager>().getImagen().Split('/')[manager.GetComponent<appManager>().getImagen().Split('/').Length - 1];
-            if (File.Exists(Application.persistentDataPath + path)) {
-                byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-                Texture2D texture = new Texture2D(8, 8);
-                texture.LoadImage(byteArray);
-                Rect rec = new Rect(0, 0, texture.width, texture.height);
-                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-                imagen.sprite = sprite;
-            } else {
-                WWW www = new WWW(manager.GetComponent<appManager>().getImagen());
-                yield return www;
-                Texture2D texture = www.texture;
-                byte[] bytes = texture.EncodeToPNG();
-                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-                Rect rec = new Rect(0, 0, texture.width, texture.height);
-                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-                imagen.sprite = sprite;
+        if (manager.isOnline) {
+            if (manager.GetComponent<appManager>().getImagen() != "") {
+                string path = manager.GetComponent<appManager>().getImagen().Split('/')[manager.GetComponent<appManager>().getImagen().Split('/').Length - 1];
+                if (File.Exists(Application.persistentDataPath + path)) {
+                    byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
+                    Texture2D texture = new Texture2D(8, 8);
+                    texture.LoadImage(byteArray);
+                    Rect rec = new Rect(0, 0, texture.width, texture.height);
+                    var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                    imagen.sprite = sprite;
+                } else {
+                    WWW www = new WWW(manager.GetComponent<appManager>().getImagen());
+                    yield return www;
+                    Texture2D texture = www.texture;
+                    byte[] bytes = texture.EncodeToPNG();
+                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                    Rect rec = new Rect(0, 0, texture.width, texture.height);
+                    var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                    imagen.sprite = sprite;
+                }
             }
         }
     }

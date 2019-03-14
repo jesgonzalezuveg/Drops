@@ -61,9 +61,9 @@ public class packManager : MonoBehaviour {
         foreach (var k in GetComponentsInChildren<Button>()) {
             k.interactable = false;
         }
+        manager.packToPlay = paquete;
         StartCoroutine(webServicePreguntas.getPreguntasOfPack(paquete.descripcion));
         StartCoroutine(webServiceRespuestas.getRespuestasByPack(paquete.descripcion));
-        webServiceDescarga.insertarDescargaSqLite(paquete.id, webServiceUsuario.consultarIdUsuarioSqLite(manager.getUsuario()));
     }
 
 }

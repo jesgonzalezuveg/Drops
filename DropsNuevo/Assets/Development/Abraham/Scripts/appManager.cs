@@ -29,8 +29,9 @@ public class appManager : MonoBehaviour {
     private bool bandera = true;                                    ///< bandera verifica si ya se mostro la imagen de usuario
 
     public webServicePreguntas.preguntaData[] preguntasCategoria = null;    ///< preguntasCategoria arreglo de preguntas correspondientes al paquete que se selecciono para jugar
-    public float numeroPreguntas = 5;       ///< numeroPreguntas numero de preguntas que tendra el curso, el usuario puede modificarlo inGame
-    public bool isOnline = false;           ///< isOnline bandera que sirve para validar si se encuentra conectado a internet o no
+    public float numeroPreguntas = 5;                       ///< numeroPreguntas numero de preguntas que tendra el curso, el usuario puede modificarlo inGame
+    public bool isOnline = false;                           ///< isOnline bandera que sirve para validar si se encuentra conectado a internet o no
+    public webServicePaquetes.paqueteData packToPlay;       ///< packToPlay estructura del paquete que se va a jugar, descargar o actualizar
 
     #region setter y getters
     /**
@@ -154,10 +155,8 @@ public class appManager : MonoBehaviour {
     public void Awake() {
         DontDestroyOnLoad(this.gameObject);
         if (Application.internetReachability == NetworkReachability.NotReachable) {
-            Debug.Log("No hay conexion");
             isOnline = false;
         } else {
-            Debug.Log("Si hay conexion");
             isOnline = true;
         }
     }
@@ -203,11 +202,18 @@ public class appManager : MonoBehaviour {
      */
     public void Update() {
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje2(true, myLog);
-        if (Usuario != "" && bandera) {
-            if (Imagen == "") {
-                StartCoroutine(webServiceUsuario.getUserData(Usuario));
-                bandera = false;
+        if (isOnline) {
+            if (Usuario != "" && bandera) {
+                if (Imagen == "") {
+                    StartCoroutine(webServiceUsuario.getUserData(Usuario));
+                    bandera = false;
+                }
             }
+        } else {
+            setUsuario("Invitado");
+            setNombre("Invitado");
+            setCorreo("");
+            setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
         }
         validarCategorias();
         validarPaquetes();
@@ -232,13 +238,20 @@ public class appManager : MonoBehaviour {
                         pack.id = local.id;
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
                         if (descargaLocal == null) {
-                            paquetesManager.newCardDescarga(pack);
-                        } else {
-                            //GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "fechaDescarga: \n" + descargaLocal.fechaDescarga + "\nFecha modificacion: \n" + pack.fechaModificacion);
-                            if (isActualized(descargaLocal, pack)) {
-                                paquetesManager.newCardJugar(pack);
+                            if (isOnline) {
+                                paquetesManager.newCardDescarga(pack);
                             } else {
-                                paquetesManager.newCardActualizar(pack);
+
+                            }
+                        } else {
+                            if (isOnline) {
+                                if (isActualized(descargaLocal.fechaDescarga, pack.fechaModificacion)) {
+                                    paquetesManager.newCardJugar(pack);
+                                } else {
+                                    paquetesManager.newCardActualizar(pack);
+                                }
+                            } else {
+                                paquetesManager.newCardJugar(pack);
                             }
                         }
                     } else {
@@ -323,6 +336,7 @@ public class appManager : MonoBehaviour {
                     webServicePreguntas.updatePreguntaSqLite(pregunta, local.idServer);
                 } else {
                     string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
+                    //Error Aqui
                     string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
                     webServicePreguntas.insertarPreguntaSqLite(pregunta.descripcion, pregunta.status, pregunta.fechaRegistro, pregunta.fechaModificacion, idTipoEjercicio, idPaquete, pregunta.id);
                 }
@@ -362,17 +376,33 @@ public class appManager : MonoBehaviour {
      * descarga anterior y comienza la descarga.
      * Aqui se oculta el mensaje "Descargando paquete"
      * y se encarga de actulizar los paquetes en pantalla
-     */ 
+     */
     public IEnumerator descargarImagenesPaquete() {
         foreach (var respuesta in respuestas) {
+            var descarga = webServiceDescarga.getDescargaByPaquete(packToPlay.id);
             //Validar si fecha modificacion respuesta es diferente a la fecha de descarga que se tenia
-            //String hoy = DateTime.Now + "";
-            if (respuesta != null) {
+            if (descarga != null) {
+                if (respuesta != null) {
+                    if (!isActualized(descarga.fechaDescarga, respuesta.fechaModificacion)) {
+                        var pathArray = respuesta.urlImagen.Split('/');
+                        var path = pathArray[pathArray.Length - 1];
+                        WWW www = new WWW(respuesta.urlImagen);
+                        yield return www;
+                        if (www.texture != null) {
+                            Texture2D texture = www.texture;
+                            byte[] bytes = texture.EncodeToPNG();
+                            File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                        } else {
+
+                        }
+                    } else {
+                    }
+                } else {
+
+                }
+            } else {
                 var pathArray = respuesta.urlImagen.Split('/');
                 var path = pathArray[pathArray.Length - 1];
-                /*if (File.Exists(Application.persistentDataPath + path)) {
-                    byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-                } else {*/
                 WWW www = new WWW(respuesta.urlImagen);
                 yield return www;
                 if (www.texture != null) {
@@ -380,9 +410,11 @@ public class appManager : MonoBehaviour {
                     byte[] bytes = texture.EncodeToPNG();
                     File.WriteAllBytes(Application.persistentDataPath + path, bytes);
                 } else {
+
                 }
             }
         }
+        webServiceDescarga.insertarDescargaSqLite(packToPlay.id, webServiceUsuario.consultarIdUsuarioSqLite(Usuario));
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Paquete descargado");
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
 
@@ -412,7 +444,7 @@ public class appManager : MonoBehaviour {
      * @descargalocal descargaData estructura que almacena los datos de la descarga anterior
      * @pack paqueteData estructura que almacena los datos del paquete que viene desde BD del SII
      */
-    bool isActualized(webServiceDescarga.descargaData descargaLocal, webServicePaquetes.paqueteData pack) {
+    bool isActualized(string fechaDescarga, string fechaModificacion) {
         //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss "PC"
         //Formato de fechaDescarga = MM/dd/yyyy HH:mm:ss "Android"
         var dia = 1;
@@ -423,11 +455,11 @@ public class appManager : MonoBehaviour {
             mes = 1;
             año = 2;
         }
-        descargaLocal.fechaDescarga = descargaLocal.fechaDescarga.Remove(10, descargaLocal.fechaDescarga.Length - 10);
-        string[] splitDateDescarga = descargaLocal.fechaDescarga.Split('/');
+        fechaDescarga = fechaDescarga.Remove(10, fechaDescarga.Length - 10);
+        string[] splitDateDescarga = fechaDescarga.Split('/');
         //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
-        pack.fechaModificacion = pack.fechaModificacion.Remove(10, pack.fechaModificacion.Length - 10);
-        string[] splitDatePack = pack.fechaModificacion.Split('-');
+        fechaModificacion = fechaModificacion.Remove(10, fechaModificacion.Length - 10);
+        string[] splitDatePack = fechaModificacion.Split('-');
         if (Int32.Parse(splitDateDescarga[año]) >= Int32.Parse(splitDatePack[0])) {
             if (Int32.Parse(splitDateDescarga[mes]) >= Int32.Parse(splitDatePack[1])) {
                 if (Int32.Parse(splitDateDescarga[mes]) == Int32.Parse(splitDatePack[1])) {
