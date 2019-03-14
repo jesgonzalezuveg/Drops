@@ -5,12 +5,13 @@ using UnityEngine;
 public class SyncroManager : MonoBehaviour
 {
     appManager manager;
-    string jsonGeneral;
+    public string jsonGeneral;
     webServiceUsuario.userDataSqLite dataUser = null;
     webServiceLog.logData[] logs = null;
     webServiceRegistro.registroData[] registros = null;
     webServiceIntento.intentoDataSqLite[] intentos = null;
     webServiceDetalleIntento.detalleIntentoDataSqLite[] detalleIntento = null;
+    public static string respuestaWsSincro = "0";
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,7 @@ public class SyncroManager : MonoBehaviour
         jsonGeneral = "";
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
         Sincronizacion();
+        StartCoroutine(webServiceSincronizacion.SincroData(jsonGeneral));
     }
 
     public void Sincronizacion() {
