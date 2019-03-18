@@ -33,6 +33,7 @@ public class appManager : MonoBehaviour {
     public bool isOnline = false;                           ///< isOnline bandera que sirve para validar si se encuentra conectado a internet o no
     public webServicePaquetes.paqueteData packToPlay;       ///< packToPlay estructura del paquete que se va a jugar, descargar o actualizar
     public bool isFirstLogin = true;
+    public float sizeCamera = 60;
 
     #region setter y getters
     /**
@@ -202,6 +203,9 @@ public class appManager : MonoBehaviour {
      * se encarga de llamar las validaciones de los datos de la BD
      */
     public void Update() {
+        if (GameObject.Find("Main Camera").GetComponent<Camera>().fieldOfView != sizeCamera) {
+            GameObject.Find("Main Camera").GetComponent<Camera>().fieldOfView = sizeCamera;
+        }
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje2(true, myLog);
         if (isOnline) {
             if (Usuario != "" && bandera) {

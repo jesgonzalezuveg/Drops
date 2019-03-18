@@ -15,6 +15,7 @@ public class paquetesManager : MonoBehaviour {
     public GameObject listaPaquetesNuevos;  ///< listaPaquetesNuevos referencia al objeto que contiene los paquetes nuevos por descargar
     public GameObject configuracionModal;   ///< configuracionModal referencia al modal de configuracion de curso
     public GameObject scrollBar;            ///< scrollBar referencia al scrollbar para seleccionar el numero maximo de preguntas por curso
+    public GameObject scrollBarCamara;      ///< scrollBar referencia al scrollbar para seleccionar el campo visual
     private bool bandera = true;            ///< bandera bandera que valida si ya se obtuo la imagen del usuario
 
     /**
@@ -36,6 +37,7 @@ public class paquetesManager : MonoBehaviour {
             manager.isFirstLogin = false;
         }
         scrollBar.GetComponent<Slider>().value = manager.numeroPreguntas;
+        scrollBarCamara.GetComponent<Slider>().value = manager.sizeCamera;
         setVisibleModal(false);
         manager.setBanderas(true);
         if (manager.isOnline) {
@@ -64,7 +66,9 @@ public class paquetesManager : MonoBehaviour {
             StartCoroutine(getUserImg());
             bandera = false;
         }
-
+        if (GameObject.Find("Main Camera").GetComponent<Camera>().fieldOfView != scrollBarCamara.GetComponent<Slider>().value) {
+            GameObject.Find("Main Camera").GetComponent<Camera>().fieldOfView = scrollBarCamara.GetComponent<Slider>().value;
+        }
         if (listaPaquetesNuevos.transform.childCount <= 0) {
             GameObject.Find("ListaPaquetes").GetComponent<paquetesManager>().textoPaquetes.SetActive(true);
         } else {
@@ -164,15 +168,9 @@ public class paquetesManager : MonoBehaviour {
             obj.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
             obj.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
             fillEmpty();
-        }else if (hijos.Length % 2 == 1) {
-            Debug.Log("Insertar otro");
-            var obj = Instantiate(Resources.Load("placeHolder")) as GameObject;
-            obj.transform.position = new Vector3(0, 0, 0);
-            obj.transform.SetParent(listaPaquetes.transform);
-            obj.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            obj.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
         }
         listaPaquetes.GetComponent<gridScrollLayout>().bandera = true;
+        listaPaquetes.GetComponent<gridScrollLayout>().estaAjustado = false;
         listaPaquetesNuevos.GetComponent<gridScrollLayout>().bandera = true;
     }
 
@@ -187,6 +185,7 @@ public class paquetesManager : MonoBehaviour {
         if (isVisible == false) {
             gameObject.GetComponent<GraphicRaycaster>().enabled = true;
             manager.GetComponent<appManager>().numeroPreguntas = scrollBar.GetComponent<Slider>().value;
+            manager.GetComponent<appManager>().sizeCamera = scrollBarCamara.GetComponent<Slider>().value;
         } else {
             gameObject.GetComponent<GraphicRaycaster>().enabled = false;
         }
@@ -244,6 +243,19 @@ public class paquetesManager : MonoBehaviour {
             var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
             ficha.GetComponent<Image>().sprite = sprite;
         }
+    }
+
+    /**
+     * Funcion que se manda llamar al hacer click en el boton salir
+     * Cierra la aplicacion de manera segura.
+     */
+    public void logOut() {
+        manager.setUsuario(null);
+        manager.setNombre(null);
+        manager.setCorreo(null);
+        manager.setImagen(null);
+        webServiceRegistro.validarAccionSqlite("Logout", manager.getUsuario(), "Cerrar sesión");
+        SceneManager.LoadScene("mainMenu");
     }
 
     /**
