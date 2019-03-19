@@ -42,7 +42,7 @@ public class webServiceRespuestas : MonoBehaviour {
     }
 
     public static Data getRespuestasByPreguntaSqLite(string idPregunta) {
-        string query = "SELECT * FROM respuesta WHERE idPregunta = '" + idPregunta + "';";
+        string query = "SELECT * FROM respuesta WHERE idPregunta = '" + idPregunta + "' ORDER BY RANDOM();";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             result = "{\"respuestas\":" + "[" + result + "]}";

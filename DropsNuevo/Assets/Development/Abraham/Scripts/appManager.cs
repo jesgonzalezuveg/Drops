@@ -33,8 +33,10 @@ public class appManager : MonoBehaviour {
     public bool isOnline = false;                           ///< isOnline bandera que sirve para validar si se encuentra conectado a internet o no
     public webServicePaquetes.paqueteData packToPlay;       ///< packToPlay estructura del paquete que se va a jugar, descargar o actualizar
     public bool isFirstLogin = true;
+
     public string lastIdLog = "0";
     public string lastIdLogServer = "0";
+    public float sizeCamera = 60;
 
     #region setter y getters
     /**
@@ -204,6 +206,9 @@ public class appManager : MonoBehaviour {
      * se encarga de llamar las validaciones de los datos de la BD
      */
     public void Update() {
+        if (GameObject.Find("Main Camera").GetComponent<Camera>().fieldOfView != sizeCamera) {
+            GameObject.Find("Main Camera").GetComponent<Camera>().fieldOfView = sizeCamera;
+        }
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje2(true, myLog);
         if (isOnline) {
             if (Usuario != "" && bandera) {
@@ -387,34 +392,40 @@ public class appManager : MonoBehaviour {
             if (descarga != null) {
                 if (respuesta != null) {
                     if (!isActualized(descarga.fechaDescarga, respuesta.fechaModificacion)) {
-                        var pathArray = respuesta.urlImagen.Split('/');
-                        var path = pathArray[pathArray.Length - 1];
-                        WWW www = new WWW(respuesta.urlImagen);
-                        yield return www;
-                        if (www.texture != null) {
-                            Texture2D texture = www.texture;
-                            byte[] bytes = texture.EncodeToPNG();
-                            File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-                        } else {
+                        //Debug.Log(respuesta.urlImagen);
+                        //if (respuesta.urlImagen != "") {
+                            var pathArray = respuesta.urlImagen.Split('/');
+                            var path = pathArray[pathArray.Length - 1];
+                            WWW www = new WWW(respuesta.urlImagen);
+                            yield return www;
+                            if (www.texture != null) {
+                                Texture2D texture = www.texture;
+                                byte[] bytes = texture.EncodeToPNG();
+                                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                            } else {
 
-                        }
+                            }
+                        //}
                     } else {
                     }
                 } else {
 
                 }
             } else {
-                var pathArray = respuesta.urlImagen.Split('/');
-                var path = pathArray[pathArray.Length - 1];
-                WWW www = new WWW(respuesta.urlImagen);
-                yield return www;
-                if (www.texture != null) {
-                    Texture2D texture = www.texture;
-                    byte[] bytes = texture.EncodeToPNG();
-                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-                } else {
+                //Debug.Log(respuesta.urlImagen);
+                //if (respuesta.urlImagen != "") {
+                    var pathArray = respuesta.urlImagen.Split('/');
+                    var path = pathArray[pathArray.Length - 1];
+                    WWW www = new WWW(respuesta.urlImagen);
+                    yield return www;
+                    if (www.texture != null) {
+                        Texture2D texture = www.texture;
+                        byte[] bytes = texture.EncodeToPNG();
+                        File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                    } else {
 
-                }
+                    }
+                //}
             }
         }
         webServiceDescarga.insertarDescargaSqLite(webServicePaquetes.getPaquetesByDescripcionSqLite(packToPlay.descripcion).id, webServiceUsuario.consultarIdUsuarioSqLite(Usuario));

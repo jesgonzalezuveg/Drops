@@ -12,7 +12,10 @@ public class gridScrollLayout : MonoBehaviour {
     private GridLayoutGroup layout;     ///< layout layout que acomoda las tarjetas en forma de cuadricula
     private packManager[] hijos;        ///< hijos tarjetas dentro del layout
     private int count = 0;              ///< count valor inicial del hijo que debe mostrar, va desde 0 hasta (hijos.lenght - maxHorizontalTags)
+    public bool isVertical;
+    public bool estaAjustado = false;
 
+    
 
     /**
      * Funcion que se manda llamar al inicio de la scena(frame 1)
@@ -26,13 +29,31 @@ public class gridScrollLayout : MonoBehaviour {
      * Funcion que se llama cada frame
      * Verifica si la cantidad de hijos es mayor al valor maximo de 
      */
-    void Update() {
-        hijos = gameObject.GetComponentsInChildren<packManager>(true);
-        if (hijos.Length > maxHorizontalTags && bandera) {
-            activarHijos();
-            bandera = false;
+    private void Update() {
+        if (isVertical) {
+            if (!estaAjustado) {
+                float hijosLength = gameObject.GetComponentsInChildren<packManager>().Length;
+                float columnasCount = layout.constraintCount;
+                int rowCount = (int)Math.Ceiling(hijosLength / columnasCount);
+                if (rowCount <= 2) {
+                    rowCount = 2;
+                } else {
+                    gameObject.GetComponent<RectTransform>().localPosition += new Vector3(0, (rowCount - 2) * -3.4f, 0);
+                    gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(gameObject.GetComponent<RectTransform>().sizeDelta.x, (rowCount) * 6.58f);
+                    estaAjustado = true;
+                }
+            }
+        } else {
+            hijos = gameObject.GetComponentsInChildren<packManager>(true);
+            if (hijos.Length > maxHorizontalTags && bandera) {
+                activarHijos();
+                bandera = false;
+            }
         }
     }
+
+
+    #region Scroll horizontal
 
     /**
      * Funcion que se manda llamar cuando el usuario da click en el boton de scroll anterior
@@ -66,7 +87,7 @@ public class gridScrollLayout : MonoBehaviour {
         for (int i = 0; i < hijos.Length; i++) {
             if (i < count) {
                 ocultos.Add(hijos[i].gameObject);
-            }else if (i > count + (maxHorizontalTags - 1)) {
+            } else if (i > count + (maxHorizontalTags - 1)) {
                 ocultos.Add(hijos[i].gameObject);
             } else {
                 visibles.Add(hijos[i].gameObject);
@@ -79,4 +100,5 @@ public class gridScrollLayout : MonoBehaviour {
             oculto.SetActive(false);
         }
     }
+    #endregion
 }
