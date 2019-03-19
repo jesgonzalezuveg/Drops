@@ -21,58 +21,51 @@ public class SyncroManager : MonoBehaviour
     void Awake()
     {
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
-        if (manager.isFirstLogin) {
+        if (manager.isFirstLogin == true && manager.isOnline == true) {
+            string user = manager.getUsuario();
+            if (getDataUser(user)) {
+                manager.lastIdLog = webServiceLog.getLastLogSqLite(dataUser.id);
+            }
+            Debug.Log(manager.lastIdLog);
             Debug.Log("No sincronizar antes del primer login");
             sincronizacionUsuarios();
             validarJson(jsonGeneral);
-            manager.lastIdLog ="0";
             return;
         }
-
-        jsonGeneral = "";
-        // sincronizacionUsuarioActual();
-        //if (manager.lastIdLogServer != "0") {
-
-        //}
-        //if (manager.lastIdLog != "0") {
-
-        //}
-        
-        //StartCoroutine(webServiceSincronizacion.SincroData(jsonGeneral));
     }
 
     public void validarJson(string json) {
         if (json!=null && json != "{\"Usuarios\":[]}") {
             Debug.Log("Json generado " + json);
-            //StartCoroutine(webServiceSincronizacion.SincroData(json));
+            StartCoroutine(webServiceSincronizacion.SincroData(json));
         } else {
             Debug.Log("El json no continen ningun dato");
         }
     }
 
-    public void sincronizacionUsuarioActual() {
-        //Obtenemos los datos del usuario
-        string user = manager.getUsuario();
-        if (getDataUser(user)) {
-            //Comenzamos a generar el json con los datos del usuario
-            usuarioActual = dataUser.usuario;
-            idUsuarioActual = dataUser.id;
-            jsonGeneral += "{\"Usuarios\":[";
-            jsonGeneral += "{\"id\": \"" + validateData(dataUser.id) + "\",";
-            jsonGeneral += "\"usuario\": \"" + validateData(dataUser.usuario) + "\",";
-            jsonGeneral += "\"nombre\": \"" + validateData(dataUser.nombre) + "\",";
-            jsonGeneral += "\"rol\": \"" + validateData(dataUser.rol) + "\",";
-            jsonGeneral += "\"gradoEstudios\": \"" + validateData(dataUser.gradoEstudios) + "\",";
-            jsonGeneral += "\"programa\": \"" + validateData(dataUser.programa) + "\",";
-            jsonGeneral += "\"fechaRegistro\": \"" + validateData(dataUser.fechaRegistro) + "\",";
-            jsonGeneral += "\"status\": \"" + validateData(dataUser.status) + "\",";
-            //Obtenemos los logs del usuario
-            getLogsUser();
-            jsonGeneral += jsonPerUser + "}]}";
-            Debug.Log(jsonGeneral);
-            //Comenzar sincronizacion con el SII
-        }
-    }
+    //public void sincronizacionUsuarioActual() {
+    //    //Obtenemos los datos del usuario
+    //    string user = manager.getUsuario();
+    //    if (getDataUser(user)) {
+    //        //Comenzamos a generar el json con los datos del usuario
+    //        usuarioActual = dataUser.usuario;
+    //        idUsuarioActual = dataUser.id;
+    //        jsonGeneral += "{\"Usuarios\":[";
+    //        jsonGeneral += "{\"id\": \"" + validateData(dataUser.id) + "\",";
+    //        jsonGeneral += "\"usuario\": \"" + validateData(dataUser.usuario) + "\",";
+    //        jsonGeneral += "\"nombre\": \"" + validateData(dataUser.nombre) + "\",";
+    //        jsonGeneral += "\"rol\": \"" + validateData(dataUser.rol) + "\",";
+    //        jsonGeneral += "\"gradoEstudios\": \"" + validateData(dataUser.gradoEstudios) + "\",";
+    //        jsonGeneral += "\"programa\": \"" + validateData(dataUser.programa) + "\",";
+    //        jsonGeneral += "\"fechaRegistro\": \"" + validateData(dataUser.fechaRegistro) + "\",";
+    //        jsonGeneral += "\"status\": \"" + validateData(dataUser.status) + "\",";
+    //        //Obtenemos los logs del usuario
+    //        getLogsUser();
+    //        jsonGeneral += jsonPerUser + "}]}";
+    //        Debug.Log(jsonGeneral);
+    //        //Comenzar sincronizacion con el SII
+    //    }
+    //}
 
     public bool getDataUser(string user) {
         string data = webServiceUsuario.consultarUsuarioSqLite(user);
@@ -86,8 +79,8 @@ public class SyncroManager : MonoBehaviour
     }
 
     public void sincronizacionUsuarios() {
-        string user = manager.getUsuario();
-        dataUsers = webServiceUsuario.consultarUsuariosSqLite(user);
+        //string user = manager.getUsuario();
+        dataUsers = webServiceUsuario.consultarUsuariosSqLite();
         if (dataUsers != null) {
             //Continuamos generando el json agregando los logs del usuario
             jsonGeneral += "{\"Usuarios\":[";
@@ -122,7 +115,7 @@ public class SyncroManager : MonoBehaviour
 
     public void getLogsUser() {
         //Obtenemos logs del usuario
-        logs = webServiceLog.getLogsByUser(idUsuarioActual);
+        logs = webServiceLog.getLogsByUser(idUsuarioActual, manager.lastIdLog);
         if (logs!=null){
             //Continuamos generando el json agregando los logs del usuario
             jsonPerUser += "\"logs\":[";
