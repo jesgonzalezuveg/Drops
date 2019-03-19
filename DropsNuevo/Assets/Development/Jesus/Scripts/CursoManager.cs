@@ -17,6 +17,7 @@ public class CursoManager : MonoBehaviour {
     public Text preguntaText;
 
     public GameObject butonToInstantiate;
+    public GameObject butonToInstantiateText;
     public GameObject canvasParentOfAnswers;
 
     webServicePreguntas.preguntaData[] preguntas = null;
@@ -242,26 +243,39 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void crearBoton(webServiceRespuestas.respuestaData respuesta, float angle, float radius) {
-        Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
-        var x = Instantiate(butonToInstantiate, pos, Quaternion.Euler(new Vector3(0, 0, 0)));
-        x.transform.SetParent(canvasParentOfAnswers.transform, false);
-        x.transform.LookAt(GameObject.Find("Main Camera").transform);
-        var rotation = x.transform.localRotation.eulerAngles;
-        rotation += new Vector3(-21, 180, 0);
-        x.transform.localRotation = Quaternion.Euler(rotation);
-        var splitUrk = respuesta.urlImagen.Split('/');
-        var path = splitUrk[splitUrk.Length - 1];
-        byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-        Texture2D texture = new Texture2D(8, 8);
-        texture.LoadImage(byteArray);
-        Rect rec = new Rect(0, 0, texture.width, texture.height);
-        var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-        x.GetComponentInChildren<Button>().gameObject.GetComponent<Image>().sprite = sprite;
+        GameObject x;
+        if (descripcionTipoEjercicio != "Seleccion simple texto") {
+            x = crearObjeto(angle, radius, butonToInstantiate);
+            var splitUrk = respuesta.urlImagen.Split('/');
+            var path = splitUrk[splitUrk.Length - 1];
+            byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
+            Texture2D texture = new Texture2D(8, 8);
+            texture.LoadImage(byteArray);
+            Rect rec = new Rect(0, 0, texture.width, texture.height);
+            var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+            x.GetComponentInChildren<Button>().gameObject.GetComponent<Image>().sprite = sprite;
+        } else {
+            x = crearObjeto(angle, radius, butonToInstantiateText);
+            x.GetComponentInChildren<Text>().text = respuesta.descripcion;
+            //llenar texto en base a la respuesta
+        }
         if (descripcionTipoEjercicio == "Relacionar") {
             addEventPares(x, respuesta);
         } else {
             addEvent(x, respuesta);
         }
+    }
+
+    public GameObject crearObjeto(float angle, float radius, GameObject boton) {
+        GameObject x;
+        Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
+        x = Instantiate(boton, pos, Quaternion.Euler(new Vector3(0, 0, 0)));
+        x.transform.SetParent(canvasParentOfAnswers.transform, false);
+        x.transform.LookAt(GameObject.Find("Main Camera").transform);
+        var rotation = x.transform.localRotation.eulerAngles;
+        rotation += new Vector3(-21, 180, 0);
+        x.transform.localRotation = Quaternion.Euler(rotation);
+        return x;
     }
 
     void addEvent(GameObject obj, char caracter) {
@@ -284,7 +298,7 @@ public class CursoManager : MonoBehaviour {
                 webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idPregunta, respuesta.id, idIntento);
                 correctas++;
             } else {
-                
+                correctas = -1;
             }
             Destroy(obj);
         });

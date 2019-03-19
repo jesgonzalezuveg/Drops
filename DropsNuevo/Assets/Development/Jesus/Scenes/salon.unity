@@ -1449,6 +1449,8 @@ MonoBehaviour:
   preguntaText: {fileID: 801150713}
   butonToInstantiate: {fileID: 4339901093229283546, guid: 96f7cc0b4a93a6a4fbe98eec4b9f5b5a,
     type: 3}
+  butonToInstantiateText: {fileID: 4339901093229283546, guid: 794b959abf824584ba7a5c61a15e538f,
+    type: 3}
   canvasParentOfAnswers: {fileID: 1522930750}
 --- !u!4 &1522930752
 Transform:

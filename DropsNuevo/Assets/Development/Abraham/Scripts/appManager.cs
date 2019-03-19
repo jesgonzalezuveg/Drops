@@ -389,34 +389,40 @@ public class appManager : MonoBehaviour {
             if (descarga != null) {
                 if (respuesta != null) {
                     if (!isActualized(descarga.fechaDescarga, respuesta.fechaModificacion)) {
-                        var pathArray = respuesta.urlImagen.Split('/');
-                        var path = pathArray[pathArray.Length - 1];
-                        WWW www = new WWW(respuesta.urlImagen);
-                        yield return www;
-                        if (www.texture != null) {
-                            Texture2D texture = www.texture;
-                            byte[] bytes = texture.EncodeToPNG();
-                            File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-                        } else {
+                        //Debug.Log(respuesta.urlImagen);
+                        //if (respuesta.urlImagen != "") {
+                            var pathArray = respuesta.urlImagen.Split('/');
+                            var path = pathArray[pathArray.Length - 1];
+                            WWW www = new WWW(respuesta.urlImagen);
+                            yield return www;
+                            if (www.texture != null) {
+                                Texture2D texture = www.texture;
+                                byte[] bytes = texture.EncodeToPNG();
+                                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                            } else {
 
-                        }
+                            }
+                        //}
                     } else {
                     }
                 } else {
 
                 }
             } else {
-                var pathArray = respuesta.urlImagen.Split('/');
-                var path = pathArray[pathArray.Length - 1];
-                WWW www = new WWW(respuesta.urlImagen);
-                yield return www;
-                if (www.texture != null) {
-                    Texture2D texture = www.texture;
-                    byte[] bytes = texture.EncodeToPNG();
-                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-                } else {
+                //Debug.Log(respuesta.urlImagen);
+                //if (respuesta.urlImagen != "") {
+                    var pathArray = respuesta.urlImagen.Split('/');
+                    var path = pathArray[pathArray.Length - 1];
+                    WWW www = new WWW(respuesta.urlImagen);
+                    yield return www;
+                    if (www.texture != null) {
+                        Texture2D texture = www.texture;
+                        byte[] bytes = texture.EncodeToPNG();
+                        File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                    } else {
 
-                }
+                    }
+                //}
             }
         }
         webServiceDescarga.insertarDescargaSqLite(webServicePaquetes.getPaquetesByDescripcionSqLite(packToPlay.descripcion).id, webServiceUsuario.consultarIdUsuarioSqLite(Usuario));
