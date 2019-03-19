@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
+using System.Text;
 
 public class webServiceUsuario : MonoBehaviour {
 
@@ -38,6 +39,11 @@ public class webServiceUsuario : MonoBehaviour {
         public string fechaRegistro = "";
         public string status = "";
         public string syncroStatus = "";
+    }
+
+    [Serializable]
+    public class usersAllDataSqLite {
+        public userDataSqLite[] usuarios;
     }
 
     /** Estructura que almacena los datos del usuario y en caso de ser necesario los datos de inicio de sesión 
@@ -93,6 +99,20 @@ public class webServiceUsuario : MonoBehaviour {
         string query = "SELECT * FROM usuario WHERE usuario = '" + usuario + "';";
         var result = conexionDB.selectGeneral(query);
         return result;
+    }
+
+    public static userDataSqLite[] consultarUsuariosSqLite(string usuario) {
+        string query = "SELECT * FROM usuario WHERE usuario <> '" + usuario + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            byte[] bytes = Encoding.Default.GetBytes(result);
+            result = Encoding.UTF8.GetString(bytes);
+            result = "{\"usuarios\":[" + result + "]}";
+            usersAllDataSqLite data = JsonUtility.FromJson<usersAllDataSqLite>(result);
+            return data.usuarios;
+        } else {
+            return null;
+        }
     }
 
     /** Función que consulta el id del usuario

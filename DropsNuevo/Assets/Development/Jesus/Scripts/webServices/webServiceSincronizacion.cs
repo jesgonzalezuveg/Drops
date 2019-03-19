@@ -6,7 +6,7 @@ using System;
 
 public class webServiceSincronizacion : MonoBehaviour
 {
-    //URL de webservice del SII para los procesos del pairing code
+    //URL de webservice del SII para los procesos de la sincronizacion
     private const string URL = "http://sii.uveg.edu.mx/unity/dropsV2/controllers/webServiceSincronizacion.php";
     private const string API_KEY = "AJFFF-ASFFF-GWEGG-WEGERG-ERGEG-EGERG-ERGEG";//KEY falsa, remplazar por autentica
 
@@ -124,7 +124,10 @@ public class webServiceSincronizacion : MonoBehaviour
                 text = text.Replace("]", "");
                 Debug.Log(text);
                 Debug.Log("Respuesta json");
-                if (text == "1") {
+                if (text != "0") {
+                    appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                    manager.lastIdLog = text;
+                    Debug.Log("ESTE ES EL ULTIMO LOG: " + manager.lastIdLog);
                     SyncroManager.respuestaWsSincro = "1";
                     Debug.Log("Sincronizacion realizada");
                     int resultado = changeSyncroStatus(data);

@@ -49,6 +49,7 @@ public class wsParingCode : MonoBehaviour
                     pairingCode.status = text;
                     pairingCode.valCodigoSii = 0;
                 } else {
+                    Debug.Log(text);
                     Data data = JsonUtility.FromJson<Data>(text);
                     pairingCode pairingObj = GameObject.Find("bd").GetComponent<pairingCode>();
                     pairingObj.setLog(data.log); 

@@ -6,47 +6,57 @@ public class SyncroManager : MonoBehaviour
 {
     appManager manager;
     public string jsonGeneral;
+    public string jsonPerUser;
     webServiceUsuario.userDataSqLite dataUser = null;
+    webServiceUsuario.userDataSqLite[] dataUsers = null;
     webServiceLog.logData[] logs = null;
     webServiceRegistro.registroData[] registros = null;
     webServiceIntento.intentoDataSqLite[] intentos = null;
     webServiceDetalleIntento.detalleIntentoDataSqLite[] detalleIntento = null;
     public static string respuestaWsSincro = "0";
+    string usuarioActual;
+    string idUsuarioActual;
 
     // Start is called before the first frame update
     void Awake()
     {
-        Debug.Log(GameObject.Find("AppManager").GetComponent<appManager>().isFirstLogin);
-        if (GameObject.Find("AppManager").GetComponent<appManager>().isFirstLogin) {
+        manager = GameObject.Find("AppManager").GetComponent<appManager>();
+        if (manager.isFirstLogin) {
             Debug.Log("No sincronizar antes del primer login");
+            sincronizacionUsuarios();
+            validarJson(jsonGeneral);
+            manager.lastIdLog ="0";
             return;
         }
+
         jsonGeneral = "";
-        manager = GameObject.Find("AppManager").GetComponent<appManager>();
-        Sincronizacion();
-        StartCoroutine(webServiceSincronizacion.SincroData(jsonGeneral));
-        //sincronizacionLocal();
+        // sincronizacionUsuarioActual();
+        //if (manager.lastIdLogServer != "0") {
+
+        //}
+        //if (manager.lastIdLog != "0") {
+
+        //}
+        
+        //StartCoroutine(webServiceSincronizacion.SincroData(jsonGeneral));
     }
 
-    public void sincronizacionLocal() {
-        if (respuestaWsSincro == "1") {
-            int resultado = webServiceSincronizacion.changeSyncroStatus(jsonGeneral);
-            if (resultado == 1) {
-                Debug.Log("respuesta local: termino sincronizacion");
-            } else {
-                Debug.Log("respuesta local: error al sincronizar");
-            }
+    public void validarJson(string json) {
+        if (json!=null && json != "{\"Usuarios\":[]}") {
+            Debug.Log("Json generado " + json);
+            //StartCoroutine(webServiceSincronizacion.SincroData(json));
         } else {
-            Debug.Log("respuesta =  0");
-            //sincronizacionLocal();
+            Debug.Log("El json no continen ningun dato");
         }
     }
 
-    public void Sincronizacion() {
+    public void sincronizacionUsuarioActual() {
         //Obtenemos los datos del usuario
         string user = manager.getUsuario();
         if (getDataUser(user)) {
             //Comenzamos a generar el json con los datos del usuario
+            usuarioActual = dataUser.usuario;
+            idUsuarioActual = dataUser.id;
             jsonGeneral += "{\"Usuarios\":[";
             jsonGeneral += "{\"id\": \"" + validateData(dataUser.id) + "\",";
             jsonGeneral += "\"usuario\": \"" + validateData(dataUser.usuario) + "\",";
@@ -58,7 +68,7 @@ public class SyncroManager : MonoBehaviour
             jsonGeneral += "\"status\": \"" + validateData(dataUser.status) + "\",";
             //Obtenemos los logs del usuario
             getLogsUser();
-            jsonGeneral += "}]}";
+            jsonGeneral += jsonPerUser + "}]}";
             Debug.Log(jsonGeneral);
             //Comenzar sincronizacion con el SII
         }
@@ -75,33 +85,67 @@ public class SyncroManager : MonoBehaviour
         }
     }
 
+    public void sincronizacionUsuarios() {
+        string user = manager.getUsuario();
+        dataUsers = webServiceUsuario.consultarUsuariosSqLite(user);
+        if (dataUsers != null) {
+            //Continuamos generando el json agregando los logs del usuario
+            jsonGeneral += "{\"Usuarios\":[";
+            for (var i = 0; i < dataUsers.Length; i++) {
+                usuarioActual = dataUsers[i].usuario;
+                idUsuarioActual = dataUsers[i].id;
+                jsonPerUser += "{\"id\": \"" + validateData(dataUsers[i].id) + "\",";
+                jsonPerUser += "\"usuario\": \"" + validateData(dataUsers[i].usuario) + "\",";
+                jsonPerUser += "\"nombre\": \"" + validateData(dataUsers[i].nombre) + "\",";
+                jsonPerUser += "\"rol\": \"" + validateData(dataUsers[i].rol) + "\",";
+                jsonPerUser += "\"gradoEstudios\": \"" + validateData(dataUsers[i].gradoEstudios) + "\",";
+                jsonPerUser += "\"programa\": \"" + validateData(dataUsers[i].programa) + "\",";
+                jsonPerUser += "\"fechaRegistro\": \"" + validateData(dataUsers[i].fechaRegistro) + "\",";
+                jsonPerUser += "\"status\": \"" + validateData(dataUsers[i].status) + "\",";
+                //Obtenemos los logs pertenecientes al usuario en turno
+                getLogsUser();
+                if (jsonPerUser != null) {
+                    if ((dataUsers.Length - i) != 1) {
+                        jsonPerUser += "},";
+                    } else {
+                        jsonPerUser += "}";
+                    }
+                }
+            }
+
+            jsonGeneral += jsonPerUser + "]}";
+        } else {
+            jsonGeneral = null;
+            Debug.Log("No se encontraron usuarios");
+        }
+    }
+
     public void getLogsUser() {
         //Obtenemos logs del usuario
-        logs = webServiceLog.getLogsByUser(dataUser.id);
+        logs = webServiceLog.getLogsByUser(idUsuarioActual);
         if (logs!=null){
             //Continuamos generando el json agregando los logs del usuario
-            jsonGeneral += "\"logs\":[";
+            jsonPerUser += "\"logs\":[";
             for (var i = 0; i < logs.Length; i++) {
-                jsonGeneral += "{\"id\": \""+ validateData(logs[i].id) + "\",";
-                jsonGeneral += "\"fechaInicio\": \""+ validateData(logs[i].fechaInicio) + "\",";
-                jsonGeneral += "\"fechaTermino\": \"" + validateData(logs[i].fechaTermino) + "\",";
-                jsonGeneral += "\"dispositivo\": \"" + validateData(logs[i].dispositivo) + "\",";
-                jsonGeneral += "\"idCodigo\": \"" + validateData(logs[i].idCodigo) + "\",";
-                jsonGeneral += "\"idUsuario\": \"" + validateData(dataUser.usuario) + "\",";
+                jsonPerUser += "{\"id\": \""+ validateData(logs[i].id) + "\",";
+                jsonPerUser += "\"fechaInicio\": \""+ validateData(logs[i].fechaInicio) + "\",";
+                jsonPerUser += "\"fechaTermino\": \"" + validateData(logs[i].fechaTermino) + "\",";
+                jsonPerUser += "\"dispositivo\": \"" + validateData(logs[i].dispositivo) + "\",";
+                jsonPerUser += "\"idCodigo\": \"" + validateData(logs[i].idCodigo) + "\",";
+                jsonPerUser += "\"idUsuario\": \"" + validateData(idUsuarioActual) + "\",";
                 //Obtenemos los registros pertenecientes al log en turno
                 getRegistrosUser(logs[i].id);
                 //Obtenemos los intentos pertenecientes al log en turno
                 getIntentosUser(logs[i].id);
                 if ((logs.Length-i)!=1) {
-                    jsonGeneral += "},";
+                    jsonPerUser += "},";
                 } else {
-                    jsonGeneral += "}";
+                    jsonPerUser += "}";
                 }
             }
-            jsonGeneral += "]";
+            jsonPerUser += "]";
         } else {
-            //jsonGeneral = "";
-            jsonGeneral += "\"logs\":[]";
+            jsonPerUser = null;
             Debug.Log("No se encontraron logs");
         }
     }
@@ -111,30 +155,30 @@ public class SyncroManager : MonoBehaviour
         registros = webServiceRegistro.getRegistrossByLog(idLog);
         if (registros!=null) {
             //Continuamos generando el json agregando los registros del log
-            jsonGeneral += "\"registros\":[";
+            jsonPerUser += "\"registros\":[";
             for (var i = 0; i < registros.Length; i++) {
                 //Obtenemos la descripcion de la accion para ponerla en lugar del id
                 string descripcionAccion = webServiceAcciones.consultarDescripcionAccionSqLite(registros[i].idAccion);
-                jsonGeneral += "{\"id\": \"" + validateData(registros[i].id) + "\",";
-                jsonGeneral += "\"detalle\": \"" + validateData(registros[i].detalle) + "\",";
-                jsonGeneral += "\"fechaRegistro\": \"" + validateData(registros[i].fechaRegistro) + "\",";
-                jsonGeneral += "\"idLog\": \"" + validateData(registros[i].idLog) + "\",";
-                jsonGeneral += "\"idUsuario\": \"" + validateData(dataUser.usuario) + "\",";
+                jsonPerUser += "{\"id\": \"" + validateData(registros[i].id) + "\",";
+                jsonPerUser += "\"detalle\": \"" + validateData(registros[i].detalle) + "\",";
+                jsonPerUser += "\"fechaRegistro\": \"" + validateData(registros[i].fechaRegistro) + "\",";
+                jsonPerUser += "\"idLog\": \"" + validateData(registros[i].idLog) + "\",";
+                jsonPerUser += "\"idUsuario\": \"" + validateData(usuarioActual) + "\",";
                 if (descripcionAccion != "0") {
-                    jsonGeneral += "\"idAccion\": \"" + validateData(descripcionAccion) + "\"";
+                    jsonPerUser += "\"idAccion\": \"" + validateData(descripcionAccion) + "\"";
                 } else {
-                    jsonGeneral += "\"idAccion\": \"" + validateData(descripcionAccion) + "\"";
+                    jsonPerUser += "\"idAccion\": \"" + validateData(descripcionAccion) + "\"";
                     Debug.Log("No se encontro la accion con id: "+registros[i].idAccion);
                 }
                 if ((registros.Length - i) != 1) {
-                    jsonGeneral += "},";
+                    jsonPerUser += "},";
                 } else {
-                    jsonGeneral += "}";
+                    jsonPerUser += "}";
                 }
             }
-            jsonGeneral += "],";
+            jsonPerUser += "],";
         } else {
-            jsonGeneral += "\"registros\":[],";
+            jsonPerUser += "\"registros\":[],";
             Debug.Log("No se encontraron registros");
         }
     }
@@ -144,24 +188,24 @@ public class SyncroManager : MonoBehaviour
         intentos = webServiceIntento.getIntentosByLog(idLog);
         if (intentos != null) {
             //Continuamos generando el json agregando los intentos del log
-            jsonGeneral += "\"intentos\":[";
+            jsonPerUser += "\"intentos\":[";
             for (var i = 0; i < intentos.Length; i++) {
-                jsonGeneral += "{\"id\": \"" + validateData(intentos[i].id) + "\",";
-                jsonGeneral += "\"puntaje\": \"" + validateData(intentos[i].puntaje) + "\",";
-                jsonGeneral += "\"fechaRegistro\": \"" + validateData(intentos[i].fechaRegistro) + "\",";
-                jsonGeneral += "\"fechaModificacion\": \"" + validateData(intentos[i].fechaModificacion) + "\",";
-                jsonGeneral += "\"idLog\": \"" + validateData(intentos[i].idLog) + "\",";
+                jsonPerUser += "{\"id\": \"" + validateData(intentos[i].id) + "\",";
+                jsonPerUser += "\"puntaje\": \"" + validateData(intentos[i].puntaje) + "\",";
+                jsonPerUser += "\"fechaRegistro\": \"" + validateData(intentos[i].fechaRegistro) + "\",";
+                jsonPerUser += "\"fechaModificacion\": \"" + validateData(intentos[i].fechaModificacion) + "\",";
+                jsonPerUser += "\"idLog\": \"" + validateData(intentos[i].idLog) + "\",";
                 //Obtenemos el detalle del intento
                 getDetalleIntentoUser(intentos[i].id);
                 if ((intentos.Length - i) != 1) {
-                    jsonGeneral += "},";
+                    jsonPerUser += "},";
                 } else {
-                    jsonGeneral += "}";
+                    jsonPerUser += "}";
                 }
             }
-            jsonGeneral += "]";
+            jsonPerUser += "]";
         } else {
-            jsonGeneral += "\"intentos\":[]";
+            jsonPerUser += "\"intentos\":[]";
             Debug.Log("No se encontraron intentos");
         }
     }
@@ -169,39 +213,39 @@ public class SyncroManager : MonoBehaviour
     public void getDetalleIntentoUser(string idIntento) {
         //Obtenemos el detalle del intento
         detalleIntento = webServiceDetalleIntento.getDetalleIntentosByIntento(idIntento);
-        if (detalleIntento != null) { 
+        if (detalleIntento != null) {
             //Continuamos generando el json agregando el detalle del intento al intento correspondiente
-            jsonGeneral += "\"detalleIntento\":[";
+            jsonPerUser += "\"detalleIntento\":[";
             for (var i = 0; i < detalleIntento.Length; i++) {
-                jsonGeneral += "{\"id\": \"" + validateData(detalleIntento[i].id) + "\",";
-                jsonGeneral += "\"correcto\": \"" + validateData(detalleIntento[i].correcto) + "\",";
+                jsonPerUser += "{\"id\": \"" + validateData(detalleIntento[i].id) + "\",";
+                jsonPerUser += "\"correcto\": \"" + validateData(detalleIntento[i].correcto) + "\",";
 
                 string idServerPregunta = webServicePreguntas.consultarIdServerPreguntaSqLiteById(detalleIntento[i].idPregunta);
                 string idServerRespuesta = webServiceRespuestas.consultarIdServerRespuestaSqLiteById(detalleIntento[i].idRespuesta);
                 if (idServerPregunta != "0") {
-                    jsonGeneral += "\"idPregunta\": \"" + idServerPregunta + "\",";
+                    jsonPerUser += "\"idPregunta\": \"" + idServerPregunta + "\",";
                 } else {
-                    jsonGeneral += "\"idPregunta\": \""+ detalleIntento[i].idPregunta + "\",";
+                    jsonPerUser += "\"idPregunta\": \""+ detalleIntento[i].idPregunta + "\",";
                     Debug.Log("No se encontro la pregunta con id: " + detalleIntento[i].idPregunta);
                 }
 
                 if (idServerRespuesta != "0") {
-                    jsonGeneral += "\"idRespuesta\": \"" + idServerRespuesta + "\",";
+                    jsonPerUser += "\"idRespuesta\": \"" + idServerRespuesta + "\",";
                 } else {
-                    jsonGeneral += "\"idRespuesta\": \"" + detalleIntento[i].idRespuesta + "\",";
+                    jsonPerUser += "\"idRespuesta\": \"" + detalleIntento[i].idRespuesta + "\",";
                     Debug.Log("No se encontro la respuesta con id: " + detalleIntento[i].idRespuesta);
                 }
 
-                jsonGeneral += "\"idIntento\": \"" + validateData(detalleIntento[i].idIntento) + "\"";
+                jsonPerUser += "\"idIntento\": \"" + validateData(detalleIntento[i].idIntento) + "\"";
                 if ((detalleIntento.Length - i) != 1) {
-                    jsonGeneral += "},";
+                    jsonPerUser += "},";
                 } else {
-                    jsonGeneral += "}";
+                    jsonPerUser += "}";
                 }
             }
-            jsonGeneral += "]";
+            jsonPerUser += "]";
         } else {
-            jsonGeneral += "\"detalleIntento\":[]";
+            jsonPerUser += "\"detalleIntento\":[]";
             Debug.Log("No se encontro el detalle del intento");
         }
     }

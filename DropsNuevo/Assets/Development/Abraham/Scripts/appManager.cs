@@ -33,6 +33,8 @@ public class appManager : MonoBehaviour {
     public bool isOnline = false;                           ///< isOnline bandera que sirve para validar si se encuentra conectado a internet o no
     public webServicePaquetes.paqueteData packToPlay;       ///< packToPlay estructura del paquete que se va a jugar, descargar o actualizar
     public bool isFirstLogin = true;
+    public string lastIdLog = "0";
+    public string lastIdLogServer = "0";
 
     #region setter y getters
     /**

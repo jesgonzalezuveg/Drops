@@ -8,7 +8,9 @@ using System.Text;
 
 public class webServiceLog : MonoBehaviour {
 
-
+    //URL de webservice del SII para los procesos de log
+    private const string URL = "http://sii.uveg.edu.mx/unity/dropsV2/controllers/webServiceLog.php";
+    private const string API_KEY = "AJFFF-ASFFF-GWEGG-WEGERG-ERGEG-EGERG-ERGEG";//KEY falsa, remplazar por autentica
     /** 
      * Estructura que almacena los datos de un log
      */
@@ -18,6 +20,8 @@ public class webServiceLog : MonoBehaviour {
         public string fechaInicio = "";
         public string fechaTermino = "";
         public string dispositivo = "";
+        public string idServer = "";
+        public string syncroStatus = "";
         public string idCodigo = "";
         public string idUsuario = "";
     }
@@ -38,8 +42,19 @@ public class webServiceLog : MonoBehaviour {
         }
     }
 
+    public static int updateIdServerSqlite(string id, string idServer) {
+        string query = "UPDATE log SET idServer = '" + idServer + "' WHERE id = '" + id + "'";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public static logData[] getLogsByUser(string idUsuario) {
-        string query = "SELECT * FROM log WHERE syncroStatus = 0 OR syncroStatus = 1 AND idUsuario = " + idUsuario + ";";
+        string query = "SELECT * FROM log WHERE syncroStatus <> 2 AND idUsuario = " + idUsuario + ";";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             byte[] bytes = Encoding.Default.GetBytes(result);
@@ -57,7 +72,7 @@ public class webServiceLog : MonoBehaviour {
      */
     public static int insertarLogSqLite(string usuario) {
         string id = webServiceUsuario.consultarIdUsuarioSqLite(usuario);
-        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idCodigo, idUsuario) VALUES (dateTime(), dateTime(), '" + SystemInfo.deviceModel + "',0,0,'" + id + "');";
+        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idServer, idCodigo, idUsuario) VALUES (dateTime(), dateTime(), '" + SystemInfo.deviceModel + "',0,0,0,'" + id + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -74,8 +89,8 @@ public class webServiceLog : MonoBehaviour {
      * @param idCodigo id del codigo guardado en la db del servidor
      * @param idUsuario id del usuario generado en la db local
      */
-    public static int insertarLogSqLite(string fechaInicio, string fechaTermino, string dispositivo, int syncroStatus, string idCodigo, string idUsuario) {
-        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idCodigo, idUsuario) VALUES (dateTime(), dateTime(), '" + SystemInfo.deviceModel + "', " + syncroStatus + ", " + idCodigo + ", " + idUsuario + ")";
+    public static int insertarLogSqLite(string fechaInicio, string fechaTermino, string dispositivo, int syncroStatus, string idServer, string idCodigo, string idUsuario) {
+        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idServer, idCodigo, idUsuario) VALUES (dateTime(), dateTime(), '" + SystemInfo.deviceModel + "', " + syncroStatus + ", " + idServer + ", " + idCodigo + ", " + idUsuario + ")";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -111,6 +126,41 @@ public class webServiceLog : MonoBehaviour {
             return 1;
         } else {
             return 0;
+        }
+    }
+
+    public static IEnumerator getIdLastLog(string idUsuario) {
+        //Start the fading process
+        WWWForm form = new WWWForm();
+        //Debug.Log(idCodigo);
+        Dictionary<string, string> headers = form.headers;
+        headers["Authorization"] = API_KEY;
+
+        form.AddField("metodo", "getLastLogByUser");
+        form.AddField("idUsuario", idUsuario);
+        //byte[] rawFormData = form.data;
+        using (UnityWebRequest www = UnityWebRequest.Post(URL, form)) {
+            //www.chunkedTransfer = false;
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError) {
+                Debug.Log(www.error);
+            } else {
+                string text;
+                text = www.downloadHandler.text;
+                text = text.Replace("[", "");
+                text = text.Replace("]", "");
+                Debug.Log(text);
+                Debug.Log("Respuesta json");
+                if (text != "0") {
+                    appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                    manager.lastIdLog = text;
+                    Debug.Log("ESTE ES EL ULTIMO LOG: " + manager.lastIdLog);
+                } else {
+                    SyncroManager.respuestaWsSincro = "0";
+                    Debug.Log("Fallo la sincronizacion");
+                }
+            }
         }
     }
 

@@ -128,7 +128,7 @@ public class pairingCode : MonoBehaviour {
                                 appManager.setUsuario(data.usuario);
                                 //Guardar el log del usuario en la db local
                                 Debug.Log("El usuario se guardo correctamente");
-                                var resSaveLog = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 1, log.idCodigo, data.id);
+                                var resSaveLog = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 1, log.idServer , log.idCodigo, data.id);
                                 if (resSaveLog == 1) {
                                     Debug.Log("El log se inserto correctamente");
                                     //Cambiar estado del codigo a 3 tanto en local
@@ -159,7 +159,7 @@ public class pairingCode : MonoBehaviour {
                             var appManager = GameObject.Find("AppManager").GetComponent<appManager>();
                             appManager.setUsuario(data.usuario);
                             //Guardar el log del usuario en la db local
-                            var resSaveLogSqlite = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 1, log.idCodigo, data.id);
+                            var resSaveLogSqlite = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 1, log.idServer, log.idCodigo, data.id);
                             if (resSaveLogSqlite == 1) {
                                 Debug.Log("El log se inserto correctamente");
                                 //Cambiar estado del codigo a 3 tanto en local
