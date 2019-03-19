@@ -36,6 +36,8 @@ public class CursoManager : MonoBehaviour {
     string fraseCompletada = "";
 
     string idIntento = "";
+    string idPregunta = "";
+    string idRespuesta = "";
 
     void Start() {
         scoreFinal.SetActive(false);
@@ -54,16 +56,19 @@ public class CursoManager : MonoBehaviour {
             switch (descripcionTipoEjercicio) {
                 case "Seleccion simple":
                     if (correctas >= correctasAContestar) {
+                        webServiceRegistro.validarAccionSqlite("Respondió correctamente(Simple)", manager.getUsuario(), "Respondió pregunta");
                         countPreguntas++;
                         correctas = 0;
                         score++;
                         textoPuntaje.text = score + "";
                         StartCoroutine(activaObjeto(correctoimg));
+                        webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
                     }
                     break;
                 case "Completar palabra":
                     textoCompletado.text = fraseCompletada;
                     if (fraseCompletada == fraseACompletar) {
+                        webServiceRegistro.validarAccionSqlite("Respondió correctamente(Completar palabra): " + fraseCompletada, manager.getUsuario(), "Respondió pregunta");
                         fraseCompletada = "";
                         fraseACompletar = "l";
                         countPreguntas++;
@@ -71,21 +76,26 @@ public class CursoManager : MonoBehaviour {
                         score++;
                         textoPuntaje.text = score + "";
                         StartCoroutine(activaObjeto(correctoimg));
+                        webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
+                        webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idPregunta, idRespuesta, idIntento);
                     }
                     break;
                 case "Seleccion Multiple":
                     if (correctas >= correctasAContestar) {
+                        webServiceRegistro.validarAccionSqlite("Respondió correctamente(Seleccion Multiple)", manager.getUsuario(), "Respondió pregunta");
                         countPreguntas++;
                         correctas = 0;
                         score++;
                         textoPuntaje.text = score + "";
                         StartCoroutine(activaObjeto(correctoimg));
+                        webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
                     }
                     break;
                 case "Relacionar":
                     if (seleccion) {
                         if (parDos != "") {
                             if (parUno == parDos) {
+                                webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idPregunta, idRespuesta, idIntento);
                                 correctas++;
                                 parUno = "a";
                                 parDos = "";
@@ -98,22 +108,26 @@ public class CursoManager : MonoBehaviour {
                             }
                         }
                         if (correctas >= 3) {
+                            webServiceRegistro.validarAccionSqlite("Respondió correctamente(Relacionar)", manager.getUsuario(), "Respondió pregunta");
                             countPreguntas++;
                             seleccion = false;
                             correctas = 0;
                             score++;
                             textoPuntaje.text = score + "";
                             StartCoroutine(activaObjeto(correctoimg));
+                            webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
                         }
                     }
                     break;
                 case "Seleccion simple texto":
                     if (correctas >= correctasAContestar) {
+                        webServiceRegistro.validarAccionSqlite("Respondió correctamente(Seleccion simple texto)", manager.getUsuario(), "Respondió pregunta");
                         countPreguntas++;
                         correctas = 0;
                         score++;
                         textoPuntaje.text = score + "";
                         StartCoroutine(activaObjeto(correctoimg));
+                        webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
                     }
                     break;
                 default:
@@ -121,16 +135,20 @@ public class CursoManager : MonoBehaviour {
                     break;
             }
         } else if(correctas < 0){
+            webServiceRegistro.validarAccionSqlite("Respondió incorrectamente(" + descripcionTipoEjercicio + ")", manager.getUsuario(), "Respondió pregunta");
             countPreguntas++;
             correctas = 0;
             StartCoroutine(activaObjeto(incorrectoimg));
+            webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
+            webServiceDetalleIntento.insertarDetalleIntentoSqLite("False", idPregunta, idRespuesta, idIntento);
         }
     }
 
     public void llamarPreguntas() {
         if (countPreguntas < preguntas.Length) {
-            webServiceRegistro.validarAccionSqlite("Pregunta: " + preguntas[countPreguntas].descripcion, manager.getUsuario(), "Entró a pregunta");
+            idPregunta = preguntas[countPreguntas].id;
             descripcionTipoEjercicio = preguntas[countPreguntas].descripcionEjercicio;
+            webServiceRegistro.validarAccionSqlite("Pregunta: " + preguntas[countPreguntas].descripcion, manager.getUsuario(), "Entró a pregunta");
             switch (descripcionTipoEjercicio) {
                 case "Seleccion simple":
                     imprimePregunta();
@@ -154,6 +172,8 @@ public class CursoManager : MonoBehaviour {
         } else {
             destroyChildrens();
             textoPuntajeMarcador.text = score + "";
+            webServiceRegistro.validarAccionSqlite("Puntaje obtenido: " + score, manager.getUsuario(), "Puntaje obtenido");
+            webServiceRegistro.validarAccionSqlite("Terminó ejercicio", manager.getUsuario(), "Terminó ejercicio");
             scoreFinal.SetActive(true);
         }
     }
@@ -161,8 +181,9 @@ public class CursoManager : MonoBehaviour {
     public void imprimePregunta() {
         preguntaText.text = preguntas[countPreguntas].descripcion;
         if (descripcionTipoEjercicio == "Completar palabra") {
-            var respuestasOfQuestion = webServiceRespuestas.getRespuestasByPreguntaSqLite(preguntas[countPreguntas].id);
-            var palabra = respuestasOfQuestion.respuestas[0].descripcion;
+            var respuestasOfQuestion = webServiceRespuestas.getRespuestasByPreguntaSqLite(preguntas[countPreguntas].id).respuestas[0];
+            idRespuesta = respuestasOfQuestion.id;
+            var palabra = respuestasOfQuestion.descripcion;
             llenarLetras(palabra);
             fraseACompletar = palabra;
         } else {
@@ -191,8 +212,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void llenarLetras(string palabra) {
-        var letras = palabra.ToCharArray();
-        Array.Sort(letras);
+        var letras = shuffleArray(palabra);
         var numberOfObjects = palabra.Length;
         var radius = 4f;
         int p = 1;
@@ -248,7 +268,9 @@ public class CursoManager : MonoBehaviour {
         obj.GetComponentInChildren<Button>().onClick.AddListener(delegate {
             fraseCompletada += caracter;
             if (fraseCompletada[fraseCompletada.Length - 1] == fraseACompletar[fraseCompletada.Length - 1]) {
+
             } else {
+                webServiceRegistro.validarAccionSqlite("Respondió incorrectamente: " + fraseCompletada, manager.getUsuario(), "Respondió pregunta");
                 correctas = -1;
             }
             Destroy(obj);
@@ -257,28 +279,28 @@ public class CursoManager : MonoBehaviour {
 
     void addEvent(GameObject obj, webServiceRespuestas.respuestaData respuesta) {
         obj.GetComponentInChildren<Button>().onClick.AddListener(delegate {
+            idRespuesta = respuesta.id;
             if (respuesta.correcto == "True") {
+                webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idPregunta, respuesta.id, idIntento);
                 correctas++;
             } else {
-                correctas = -1;
+                
             }
-            string idI = idIntento;
-            string idR = respuesta.id;
-            string idP = respuesta.idPregunta;
-            string correcto = respuesta.correcto;
-            webServiceDetalleIntento.insertarDetalleIntentoSqLite(correcto, idP, idR, idI);
             Destroy(obj);
         });
     }
 
     void addEventPares(GameObject obj, webServiceRespuestas.respuestaData respuesta) {
         obj.GetComponentInChildren<Button>().onClick.AddListener(delegate {
+            idRespuesta = respuesta.id;
             if (seleccion) {
                 parDos = respuesta.relacion;
             } else {
                 parUno = respuesta.relacion;
+                webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idPregunta, idRespuesta, idIntento);
                 seleccion = true;
             }
+            idRespuesta = respuesta.id;
             Destroy(obj);
         });
     }
@@ -313,6 +335,27 @@ public class CursoManager : MonoBehaviour {
 
     public void salir() {
         SceneManager.LoadScene("menuCategorias");
+    }
+
+    public webServicePreguntas.preguntaData[] shuffleArray(webServicePreguntas.preguntaData[] preguntas) {
+        for (int t = 0; t < preguntas.Length; t++) {
+            var tmp = preguntas[t];
+            int r = UnityEngine.Random.Range(t, preguntas.Length);
+            preguntas[t] = preguntas[r];
+            preguntas[r] = tmp;
+        }
+        return preguntas;
+    }
+
+    public char[] shuffleArray(string palabra) {
+        char[] palabraChar = palabra.ToCharArray();
+        for (int t = 0; t < palabraChar.Length; t++) {
+            var tmp = palabraChar[t];
+            int r = UnityEngine.Random.Range(t, palabraChar.Length);
+            palabraChar[t] = palabraChar[r];
+            palabraChar[r] = tmp;
+        }
+        return palabraChar;
     }
 
     void OnApplicationQuit() {

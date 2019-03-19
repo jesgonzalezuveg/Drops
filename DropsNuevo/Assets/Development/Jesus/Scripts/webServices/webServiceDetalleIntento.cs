@@ -74,6 +74,7 @@ public class webServiceDetalleIntento : MonoBehaviour
                 correctoP = "0";
             }
             string query = "INSERT INTO detalleIntento (correcto, syncroStatus, idPregunta, idRespuesta, idIntento) VALUES (" + correctoP + ", 0, " + idPreguntaP + ", " + idRespuestaP + ", " + idIntentoP + ");";
+            Debug.Log(query);
             var result = conexionDB.alterGeneral(query);
             if (result == 1) {
                 return 1;
