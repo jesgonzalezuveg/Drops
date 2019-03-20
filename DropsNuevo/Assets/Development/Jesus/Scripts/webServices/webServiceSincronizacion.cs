@@ -125,9 +125,9 @@ public class webServiceSincronizacion : MonoBehaviour
                 Debug.Log(text);
                 Debug.Log("Respuesta json");
                 if (text != "0") {
-                    appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
-                    manager.lastIdLog = text;
-                    Debug.Log("ESTE ES EL ULTIMO LOG: " + manager.lastIdLog);
+                    //appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                    //manager.lastIdLog = text;
+                    //Debug.Log("ESTE ES EL ULTIMO LOG: " + manager.lastIdLog);
                     SyncroManager.respuestaWsSincro = "1";
                     Debug.Log("Sincronizacion realizada");
                     int resultado = changeSyncroStatus(data);

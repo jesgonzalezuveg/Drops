@@ -35,7 +35,6 @@ public class appManager : MonoBehaviour {
     public bool isFirstLogin = true;
 
     public string lastIdLog = "0";
-    public string lastIdLogServer = "0";
     public float sizeCamera = 60;
 
     #region setter y getters
@@ -74,6 +73,13 @@ public class appManager : MonoBehaviour {
         banderaPaquetes = valor;
         banderaPreguntas = valor;
         banderaRespuestas = valor;
+    }
+    /**
+     * Regresa los datos del usuario correspondiente al usuario
+     * 
+     */
+    public string getIdUsuario() {
+        return idUsuario;
     }
     /**
      * Regresa los datos del usuario correspondiente al usuario

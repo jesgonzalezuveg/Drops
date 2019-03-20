@@ -101,8 +101,8 @@ public class webServiceUsuario : MonoBehaviour {
         return result;
     }
 
-    public static userDataSqLite[] consultarUsuariosSqLite(string usuario) {
-        string query = "SELECT * FROM usuario WHERE usuario <> '" + usuario + "';";
+    public static userDataSqLite[] consultarUsuariosSqLite() {
+        string query = "SELECT * FROM usuario;";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             byte[] bytes = Encoding.Default.GetBytes(result);

@@ -53,8 +53,8 @@ public class webServiceLog : MonoBehaviour {
         }
     }
 
-    public static logData[] getLogsByUser(string idUsuario) {
-        string query = "SELECT * FROM log WHERE syncroStatus <> 2 AND idUsuario = " + idUsuario + ";";
+    public static logData[] getLogsByUser(string idUsuario, string lastIdLog) {
+        string query = "SELECT * FROM log WHERE syncroStatus <> 2 AND id <> "+lastIdLog+" AND idUsuario = " + idUsuario + ";";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             byte[] bytes = Encoding.Default.GetBytes(result);
