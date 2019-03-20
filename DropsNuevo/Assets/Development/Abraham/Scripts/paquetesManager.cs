@@ -18,6 +18,13 @@ public class paquetesManager : MonoBehaviour {
     public GameObject scrollBarCamara;      ///< scrollBar referencia al scrollbar para seleccionar el campo visual
     private bool bandera = true;            ///< bandera bandera que valida si ya se obtuo la imagen del usuario
 
+    public GameObject tabToInstantiate;
+    public GameObject panelTabs;
+
+    public GameObject tabContent;
+
+    GameObject tabActivo;
+
     /**
      * Funcion que se manda llamar al inicio de la escena (frame 0)
      * Inicializa la referencia del appManager
@@ -53,8 +60,86 @@ public class paquetesManager : MonoBehaviour {
                 fillEmpty();
             }
         }
+        tabActivo = GameObject.Find("tabContentTodos");
+        fillPackTabs();
     }
 
+    void fillPackTabs() {
+        foreach (var categoria in webServiceCategoria.getCategoriasSql()) {
+            var tab = Instantiate(tabToInstantiate) as GameObject;
+            tab.name = categoria.descripcion + "Tab";
+            tab.transform.SetParent(panelTabs.transform);
+            tab.transform.localPosition = new Vector3(0, 0, 0);
+            tab.GetComponentInChildren<Text>().text = categoria.descripcion;
+            tab.transform.localScale = new Vector3(1, 1, 1);
+            addTabEvent(tab, categoria);
+        }
+    }
+
+    void addTabEvent(GameObject tab, webServiceCategoria.categoriaData categoria) {
+        var contentTab = Instantiate(tabContent) as GameObject;
+        contentTab.name = "tabContent" + categoria.descripcion;
+        contentTab.transform.SetParent(GameObject.Find("PanelPaquetes").transform);
+        contentTab.transform.localScale = new Vector3(1, 1, 1);
+        contentTab.transform.localPosition = new Vector3(-0.154f, -0.5398f, 0);
+        fillTabContent(contentTab, categoria);
+        contentTab.SetActive(false);
+        tab.GetComponentInChildren<Button>().onClick.AddListener(delegate {
+            tabActivo.SetActive(false);
+            contentTab.SetActive(true);
+            tabActivo = contentTab;
+        });
+    }
+
+    void fillTabContent(GameObject content, webServiceCategoria.categoriaData categoria) {
+        var paquetes = webServicePaquetes.getPaquetesByCategoriaSqLite(categoria.id);
+        if (paquetes != null) {
+            foreach (var paquete in paquetes) {
+                var descarga = webServiceDescarga.getDescargaByPaquete(paquete.id);
+                if (descarga != null) {
+                    if (isActualized(descarga.fechaDescarga, paquete.fechaModificacion)) {
+                        newCardJugar(paquete, content.GetComponentInChildren<gridScrollLayout>().gameObject);
+                    } else {
+                        newCardActualizar(paquete, content.GetComponentInChildren<gridScrollLayout>().gameObject);
+                    }
+                }
+            }
+        }
+    }
+
+    public bool isActualized(string fechaDescarga, string fechaModificacion) {
+        //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss "PC"
+        //Formato de fechaDescarga = MM/dd/yyyy HH:mm:ss "Android"
+        var dia = 1;
+        var mes = 0;
+        var año = 2;
+        if (Application.isEditor) {
+            dia = 0;
+            mes = 1;
+            año = 2;
+        }
+        fechaDescarga = fechaDescarga.Remove(10, fechaDescarga.Length - 10);
+        string[] splitDateDescarga = fechaDescarga.Split('/');
+        //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
+        fechaModificacion = fechaModificacion.Remove(10, fechaModificacion.Length - 10);
+        string[] splitDatePack = fechaModificacion.Split('/');
+        if (Int32.Parse(splitDateDescarga[año]) >= Int32.Parse(splitDatePack[año])) {
+            if (Int32.Parse(splitDateDescarga[mes]) >= Int32.Parse(splitDatePack[mes])) {
+                if (Int32.Parse(splitDateDescarga[mes]) == Int32.Parse(splitDatePack[mes])) {
+                    if (Int32.Parse(splitDateDescarga[dia]) >= Int32.Parse(splitDatePack[dia])) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Funcion que se manda llamar cada frame
@@ -110,11 +195,15 @@ public class paquetesManager : MonoBehaviour {
      * Inserta la tarjeta fichaPaqueteJugar en listaPaquetes
      * @pack paqueteData estructura que tiene los datos del paquete a jugar
      */
-    public void newCardJugar(webServicePaquetes.paqueteData pack) {
+    public void newCardJugar(webServicePaquetes.paqueteData pack, GameObject lista) {
         var fichaPaquete = Instantiate(Resources.Load("fichaPaqueteJugar") as GameObject);
         fichaPaquete.name = "fichaPack" + pack.id;
         StartCoroutine(llenarFicha(fichaPaquete, pack.urlImagen));
-        fichaPaquete.transform.SetParent(listaPaquetes.transform);
+        if (lista == null) {
+            fichaPaquete.transform.SetParent(listaPaquetes.transform);
+        } else {
+            fichaPaquete.transform.SetParent(lista.transform);
+        }
         fichaPaquete.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
         fichaPaquete.GetComponent<RectTransform>().localScale = new Vector3(1.33f, 1.33f, 1.33f);
@@ -126,11 +215,15 @@ public class paquetesManager : MonoBehaviour {
      * Inserta la tarjeta fichaPaqueteActualizar en listaPaquetes
      * @pack paqueteData estructura que tiene los datos del paquete a jugar
      */
-    public void newCardActualizar(webServicePaquetes.paqueteData pack) {
+    public void newCardActualizar(webServicePaquetes.paqueteData pack, GameObject lista) {
         var fichaPaquete = Instantiate(Resources.Load("fichaPaqueteActualizar") as GameObject);
         fichaPaquete.name = "fichaPack" + pack.id;
         StartCoroutine(llenarFicha(fichaPaquete, pack.urlImagen));
-        fichaPaquete.transform.SetParent(listaPaquetes.transform);
+        if (lista == null) {
+            fichaPaquete.transform.SetParent(listaPaquetes.transform);
+        } else {
+            fichaPaquete.transform.SetParent(lista.transform);
+        }
         fichaPaquete.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         fichaPaquete.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
         fichaPaquete.GetComponent<RectTransform>().localScale = new Vector3(1.33f, 1.33f, 1.33f);
@@ -243,6 +336,12 @@ public class paquetesManager : MonoBehaviour {
             var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
             ficha.GetComponent<Image>().sprite = sprite;
         }
+    }
+
+    public void activarTodos(GameObject todos) {
+        tabActivo.SetActive(false);
+        tabActivo = todos;
+        tabActivo.SetActive(true);
     }
 
     /**

@@ -58,12 +58,7 @@ public class CursoManager : MonoBehaviour {
                 case "Seleccion simple":
                     if (correctas >= correctasAContestar) {
                         webServiceRegistro.validarAccionSqlite("Respondió correctamente(Simple)", manager.getUsuario(), "Respondió pregunta");
-                        countPreguntas++;
-                        correctas = 0;
-                        score++;
-                        textoPuntaje.text = score + "";
-                        StartCoroutine(activaObjeto(correctoimg));
-                        webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
+                        respuestaCorrecta();
                     }
                     break;
                 case "Completar palabra":
@@ -72,24 +67,14 @@ public class CursoManager : MonoBehaviour {
                         webServiceRegistro.validarAccionSqlite("Respondió correctamente(Completar palabra): " + fraseCompletada, manager.getUsuario(), "Respondió pregunta");
                         fraseCompletada = "";
                         fraseACompletar = "l";
-                        countPreguntas++;
-                        correctas = 0;
-                        score++;
-                        textoPuntaje.text = score + "";
-                        StartCoroutine(activaObjeto(correctoimg));
-                        webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
                         webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idPregunta, idRespuesta, idIntento);
+                        respuestaCorrecta();
                     }
                     break;
                 case "Seleccion Multiple":
                     if (correctas >= correctasAContestar) {
                         webServiceRegistro.validarAccionSqlite("Respondió correctamente(Seleccion Multiple)", manager.getUsuario(), "Respondió pregunta");
-                        countPreguntas++;
-                        correctas = 0;
-                        score++;
-                        textoPuntaje.text = score + "";
-                        StartCoroutine(activaObjeto(correctoimg));
-                        webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
+                        respuestaCorrecta();
                     }
                     break;
                 case "Relacionar":
@@ -110,25 +95,15 @@ public class CursoManager : MonoBehaviour {
                         }
                         if (correctas >= 3) {
                             webServiceRegistro.validarAccionSqlite("Respondió correctamente(Relacionar)", manager.getUsuario(), "Respondió pregunta");
-                            countPreguntas++;
                             seleccion = false;
-                            correctas = 0;
-                            score++;
-                            textoPuntaje.text = score + "";
-                            StartCoroutine(activaObjeto(correctoimg));
-                            webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
+                            respuestaCorrecta();
                         }
                     }
                     break;
                 case "Seleccion simple texto":
                     if (correctas >= correctasAContestar) {
                         webServiceRegistro.validarAccionSqlite("Respondió correctamente(Seleccion simple texto)", manager.getUsuario(), "Respondió pregunta");
-                        countPreguntas++;
-                        correctas = 0;
-                        score++;
-                        textoPuntaje.text = score + "";
-                        StartCoroutine(activaObjeto(correctoimg));
-                        webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
+                        respuestaCorrecta();
                     }
                     break;
                 default:
@@ -143,6 +118,15 @@ public class CursoManager : MonoBehaviour {
             webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
             webServiceDetalleIntento.insertarDetalleIntentoSqLite("False", idPregunta, idRespuesta, idIntento);
         }
+    }
+
+    public void respuestaCorrecta() {
+        countPreguntas++;
+        correctas = 0;
+        score++;
+        textoPuntaje.text = score + "";
+        StartCoroutine(activaObjeto(correctoimg));
+        webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
     }
 
     public void llamarPreguntas() {

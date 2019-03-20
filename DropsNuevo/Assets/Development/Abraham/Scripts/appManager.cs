@@ -260,12 +260,12 @@ public class appManager : MonoBehaviour {
                         } else {
                             if (isOnline) {
                                 if (isActualized(descargaLocal.fechaDescarga, pack.fechaModificacion)) {
-                                    paquetesManager.newCardJugar(pack);
+                                    paquetesManager.newCardJugar(pack, null);
                                 } else {
-                                    paquetesManager.newCardActualizar(pack);
+                                    paquetesManager.newCardActualizar(pack, null);
                                 }
                             } else {
-                                paquetesManager.newCardJugar(pack);
+                                paquetesManager.newCardJugar(pack, null);
                             }
                         }
                     } else {
@@ -464,7 +464,7 @@ public class appManager : MonoBehaviour {
      * @descargalocal descargaData estructura que almacena los datos de la descarga anterior
      * @pack paqueteData estructura que almacena los datos del paquete que viene desde BD del SII
      */
-    bool isActualized(string fechaDescarga, string fechaModificacion) {
+    public bool isActualized(string fechaDescarga, string fechaModificacion) {
         //Formato de fechaDescarga = dd/MM/yyyy HH:mm:ss "PC"
         //Formato de fechaDescarga = MM/dd/yyyy HH:mm:ss "Android"
         var dia = 1;

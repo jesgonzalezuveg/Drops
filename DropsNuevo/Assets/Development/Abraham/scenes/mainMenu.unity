@@ -702,7 +702,6 @@ MonoBehaviour:
     descripcionCategoria: 
   isFirstLogin: 1
   lastIdLog: 0
-  lastIdLogServer: 0
   sizeCamera: 60
 --- !u!4 &727020621
 Transform:
@@ -1706,6 +1705,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816562206489833580, guid: 4a737784791f4054fb712b2352a069ae,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 71.88515
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a737784791f4054fb712b2352a069ae, type: 3}

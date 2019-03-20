@@ -64,6 +64,18 @@ public class webServiceCategoria : MonoBehaviour {
         }
     }
 
+    public static categoriaData[] getCategoriasSql() {
+        string query = "SELECT * FROM catalogoCatgoriaPaquete;";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            result = "{\"categoria\":[" + result + "]}";
+            Data categoria = JsonUtility.FromJson<Data>(result);
+            return categoria.categoria;
+        } else {
+            return null;
+        }
+    }
+
     public static int insertarCategoriaSqLite(categoriaData categoria) {
         string query = "INSERT INTO catalogoCatgoriaPaquete (descripcion, status,fechaRegistro, fechaModificacion) VALUES ('" + categoria.descripcion + "', '" + categoria.status + "', '" + categoria.fechaRegistro + "','" + categoria.fechaModificacion + "');";
         var result = conexionDB.alterGeneral(query);
