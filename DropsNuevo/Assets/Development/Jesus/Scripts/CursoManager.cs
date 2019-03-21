@@ -93,7 +93,7 @@ public class CursoManager : MonoBehaviour {
                                 correctas = -1;
                             }
                         }
-                        if (correctas >= 3) {
+                        if (correctas >= correctasAContestar / 2) {
                             webServiceRegistro.validarAccionSqlite("Respondió correctamente(Relacionar)", manager.getUsuario(), "Respondió pregunta");
                             seleccion = false;
                             respuestaCorrecta();

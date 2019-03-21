@@ -17,7 +17,7 @@ public class paquetesManager : MonoBehaviour {
     public GameObject scrollBar;            ///< scrollBar referencia al scrollbar para seleccionar el numero maximo de preguntas por curso
     public GameObject scrollBarCamara;      ///< scrollBar referencia al scrollbar para seleccionar el campo visual
     private bool bandera = true;            ///< bandera bandera que valida si ya se obtuo la imagen del usuario
-
+    private bool banderaTabs = false;
     public GameObject tabToInstantiate;
     public GameObject panelTabs;
 
@@ -57,22 +57,30 @@ public class paquetesManager : MonoBehaviour {
             if (paquetesLocales != null) {
                 manager.setPaquetes(paquetesLocales.paquete);
             } else {
-                fillEmpty();
+                fillEmpty(listaPaquetes);
             }
         }
         tabActivo = GameObject.Find("tabContentTodos");
         fillPackTabs();
     }
 
-    void fillPackTabs() {
-        foreach (var categoria in webServiceCategoria.getCategoriasSql()) {
-            var tab = Instantiate(tabToInstantiate) as GameObject;
-            tab.name = categoria.descripcion + "Tab";
-            tab.transform.SetParent(panelTabs.transform);
-            tab.transform.localPosition = new Vector3(0, 0, 0);
-            tab.GetComponentInChildren<Text>().text = categoria.descripcion;
-            tab.transform.localScale = new Vector3(1, 1, 1);
-            addTabEvent(tab, categoria);
+    public void fillPackTabs() {
+        if (banderaTabs == false) {
+            var categorias = webServiceCategoria.getCategoriasSql();
+            if (categorias != null) {
+                foreach (var categoria in categorias) {
+                    var tab = Instantiate(tabToInstantiate) as GameObject;
+                    tab.name = categoria.descripcion + "Tab";
+                    tab.transform.SetParent(panelTabs.transform);
+                    tab.transform.localPosition = new Vector3(0, 0, 0);
+                    tab.GetComponentInChildren<Text>().text = categoria.descripcion;
+                    tab.transform.localScale = new Vector3(1, 1, 1);
+                    addTabEvent(tab, categoria);
+                }
+                banderaTabs = true;
+            } else {
+                Debug.Log("CategoriasVacio");
+            }
         }
     }
 
@@ -82,9 +90,9 @@ public class paquetesManager : MonoBehaviour {
         contentTab.transform.SetParent(GameObject.Find("PanelPaquetes").transform);
         contentTab.transform.localScale = new Vector3(1, 1, 1);
         contentTab.transform.localPosition = new Vector3(-0.154f, -0.5398f, 0);
-        fillTabContent(contentTab, categoria);
         contentTab.SetActive(false);
         tab.GetComponentInChildren<Button>().onClick.AddListener(delegate {
+            fillTabContent(contentTab, categoria);
             tabActivo.SetActive(false);
             contentTab.SetActive(true);
             tabActivo = contentTab;
@@ -92,6 +100,7 @@ public class paquetesManager : MonoBehaviour {
     }
 
     void fillTabContent(GameObject content, webServiceCategoria.categoriaData categoria) {
+        destruirObjetos(content.GetComponentInChildren<gridScrollLayout>().gameObject);
         var paquetes = webServicePaquetes.getPaquetesByCategoriaSqLite(categoria.id);
         if (paquetes != null) {
             foreach (var paquete in paquetes) {
@@ -104,6 +113,7 @@ public class paquetesManager : MonoBehaviour {
                     }
                 }
             }
+            fillEmpty(content.GetComponentInChildren<gridScrollLayout>().gameObject);
         }
     }
 
@@ -252,18 +262,21 @@ public class paquetesManager : MonoBehaviour {
      * Llena los espacios vacios con placeHoldrs para que la cuadricula se vea bien.
      * (Solo se utiliza en en objeto listaPaquetes)
      */
-    public void fillEmpty() {
-        var hijos = listaPaquetes.GetComponentsInChildren<packManager>(true);
+    public void fillEmpty(GameObject contentTab) {
+        if (contentTab == null) {
+            contentTab = listaPaquetes;
+        }
+        var hijos = contentTab.GetComponentsInChildren<packManager>(true);
         if (hijos.Length <= 5) {
             var obj = Instantiate(Resources.Load("placeHolder")) as GameObject;
             obj.transform.position = new Vector3(0, 0, 0);
-            obj.transform.SetParent(listaPaquetes.transform);
+            obj.transform.SetParent(contentTab.transform);
             obj.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
             obj.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
-            fillEmpty();
+            fillEmpty(contentTab);
         }
-        listaPaquetes.GetComponent<gridScrollLayout>().bandera = true;
-        listaPaquetes.GetComponent<gridScrollLayout>().estaAjustado = false;
+        contentTab.GetComponent<gridScrollLayout>().bandera = true;
+        contentTab.GetComponent<gridScrollLayout>().estaAjustado = false;
         listaPaquetesNuevos.GetComponent<gridScrollLayout>().bandera = true;
     }
 
@@ -344,11 +357,28 @@ public class paquetesManager : MonoBehaviour {
         tabActivo.SetActive(true);
     }
 
+    public void destruirObjetos(GameObject contentTab) {
+        if (contentTab == null) {
+            contentTab = listaPaquetes;
+        }
+        if (contentTab.transform.childCount > 0) {
+            for (var i = 0; i < contentTab.transform.childCount; i++) {
+                var objeto = contentTab.transform.GetChild(i);
+                DestroyImmediate(objeto.gameObject);
+            }
+            destruirObjetos(contentTab);
+        } else {
+            return;
+        }
+    }
+
+
     /**
-     * Funcion que se manda llamar al hacer click en el boton salir
-     * Cierra la aplicacion de manera segura.
-     */
+    * Funcion que se manda llamar al hacer click en el boton salir
+    * Cierra la aplicacion de manera segura.
+    */
     public void logOut() {
+        manager.isFirstLogin = true;
         manager.setUsuario(null);
         manager.setNombre(null);
         manager.setCorreo(null);

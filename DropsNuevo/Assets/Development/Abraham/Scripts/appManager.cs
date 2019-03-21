@@ -245,6 +245,7 @@ public class appManager : MonoBehaviour {
         if (GameObject.Find("ListaPaquetes")) {
             var paquetesManager = GameObject.Find("ListaPaquetes").GetComponent<paquetesManager>();
             if (paquetes != null && banderaPaquetes) {
+                paquetesManager.destruirObjetos(null);
                 destruirObjetos();
                 foreach (var pack in paquetes) {
                     var local = webServicePaquetes.getPaquetesByDescripcionSqLite(pack.descripcion);
@@ -273,7 +274,7 @@ public class appManager : MonoBehaviour {
                         paquetesManager.newCardDescarga(pack);
                     }
                 }
-                paquetesManager.fillEmpty();
+                paquetesManager.fillEmpty(null);
                 banderaPaquetes = false;
             }
         }
@@ -504,15 +505,6 @@ public class appManager : MonoBehaviour {
      * para despues llenarlos de nuevo con la informacion actualizada
      */
     void destruirObjetos() {
-        if (GameObject.Find("PanelPaquetesDescargados").transform.childCount > 0) {
-            for (var i = 0; i < GameObject.Find("PanelPaquetesDescargados").transform.childCount; i++) {
-                var objeto = GameObject.Find("PanelPaquetesDescargados").transform.GetChild(i);
-                DestroyImmediate(objeto.gameObject);
-            }
-            destruirObjetos();
-        } else {
-            return;
-        }
         if (GameObject.Find("PanelNuevosPaquetes").transform.childCount > 0) {
             for (var i = 0; i < GameObject.Find("PanelNuevosPaquetes").transform.childCount; i++) {
                 var objeto = GameObject.Find("PanelNuevosPaquetes").transform.GetChild(i);
