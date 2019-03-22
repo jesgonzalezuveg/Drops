@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlayerManager : MonoBehaviour {
 
     public GameObject pantallaCargando;     ///< pantallaCargando Referencia al canvas del mensaje cargando
-    public GameObject consola;              ///< consola Refenrencia al canvas que muetra la consola inGame
+    //public GameObject consola;              ///< consola Refenrencia al canvas que muetra la consola inGame
     bool isInMesagge = false;               ///< isInMesagge bandera que valida si se encuentra activa o no la pantalla cargando
     Quaternion rotationLock;                ///< rotationLock quaternion que contiene la rotacion de la camara en el momento que la pantallaCarga se activa
 
@@ -33,8 +33,8 @@ public class PlayerManager : MonoBehaviour {
      * Funcion que llena la consola
      */
     public void setMensaje2(bool active, string mensaje) {
-        consola.SetActive(active);
-        consola.GetComponentInChildren<Text>().text = mensaje;
+        //consola.SetActive(active);
+        //consola.GetComponentInChildren<Text>().text = mensaje;
     }
 
     /**

@@ -213,10 +213,13 @@ public class CursoManager : MonoBehaviour {
         Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
         var x = Instantiate(butonToInstantiate, pos, Quaternion.Euler(new Vector3(0, 0, 0)));
         x.transform.SetParent(canvasParentOfAnswers.transform, false);
-        x.transform.LookAt(GameObject.Find("Main Camera").transform);
+        x.transform.LookAt(GameObject.Find("CenterEyeAnchor").transform);
         var rotation = x.transform.localRotation.eulerAngles;
         rotation += new Vector3(-21, 180, 0);
         x.transform.localRotation = Quaternion.Euler(rotation);
+        if (!x.GetComponent<OVRRaycaster>()) {
+            x.AddComponent<OVRRaycaster>();
+        }
         var spriteObj = Resources.Load("Letras/letra-" + respuesta);
         var imagen = x.GetComponentInChildren<Button>().gameObject.GetComponent<Image>();
         Texture2D tex = spriteObj as Texture2D;
@@ -255,10 +258,13 @@ public class CursoManager : MonoBehaviour {
         Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
         x = Instantiate(boton, pos, Quaternion.Euler(new Vector3(0, 0, 0)));
         x.transform.SetParent(canvasParentOfAnswers.transform, false);
-        x.transform.LookAt(GameObject.Find("Main Camera").transform);
+        x.transform.LookAt(GameObject.Find("CenterEyeAnchor").transform);
         var rotation = x.transform.localRotation.eulerAngles;
         rotation += new Vector3(-21, 180, 0);
         x.transform.localRotation = Quaternion.Euler(rotation);
+        if (!x.GetComponent<OVRRaycaster>()) {
+            x.AddComponent<OVRRaycaster>();
+        }
         return x;
     }
 

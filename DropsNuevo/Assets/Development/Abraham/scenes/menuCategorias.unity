@@ -385,8 +385,8 @@ GameObject:
   - component: {fileID: 110690223}
   - component: {fileID: 110690222}
   - component: {fileID: 110690221}
-  - component: {fileID: 110690220}
   - component: {fileID: 110690224}
+  - component: {fileID: 110690220}
   m_Layer: 5
   m_Name: ListaPaquetes
   m_TagString: Untagged
@@ -403,7 +403,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 110690219}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7aaf960227867044282d921171d2d7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -411,6 +411,8 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  pointer: {fileID: 0}
+  sortOrder: 0
 --- !u!114 &110690221
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -950,6 +950,7 @@ GameObject:
   - component: {fileID: 1240694974}
   - component: {fileID: 1240694973}
   - component: {fileID: 1240694972}
+  - component: {fileID: 1240694975}
   m_Layer: 5
   m_Name: Invitado
   m_TagString: Untagged
@@ -1045,6 +1046,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240694970}
   m_CullTransparentMesh: 0
+--- !u!114 &1240694975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240694970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1273187409
 PrefabInstance:
   m_ObjectHideFlags: 0

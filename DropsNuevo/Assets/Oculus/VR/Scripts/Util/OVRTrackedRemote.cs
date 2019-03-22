@@ -49,19 +49,19 @@ public class OVRTrackedRemote : MonoBehaviour
 	void Update()
 	{
 		bool controllerConnected = OVRInput.IsControllerConnected(m_controller);
-
+        controllerConnected = true;//linea agregada para manipular y que aparesca el controlador aunque no este conectado
 		if ((controllerConnected != m_prevControllerConnected) || !m_prevControllerConnectedCached)
 		{
-			m_modelOculusGoController.SetActive(controllerConnected && m_isOculusGo);
-			m_modelGearVrController.SetActive(controllerConnected && !m_isOculusGo);
+            m_modelOculusGoController.SetActive(controllerConnected && m_isOculusGo);
+            m_modelGearVrController.SetActive(controllerConnected && !m_isOculusGo);
 
-			m_prevControllerConnected = controllerConnected;
+            m_prevControllerConnected = controllerConnected;
 			m_prevControllerConnectedCached = true;
 		}
 
 		if (!controllerConnected)
 		{
-			return;
-		}
+            return;
+        }
 	}
 }
