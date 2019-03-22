@@ -161,8 +161,8 @@ public class paquetesManager : MonoBehaviour {
             StartCoroutine(getUserImg());
             bandera = false;
         }
-        if (GameObject.Find("Main Camera").GetComponent<Camera>().fieldOfView != scrollBarCamara.GetComponent<Slider>().value) {
-            GameObject.Find("Main Camera").GetComponent<Camera>().fieldOfView = scrollBarCamara.GetComponent<Slider>().value;
+        if (GameObject.Find("CenterEyeAnchor").GetComponent<Camera>().fieldOfView != scrollBarCamara.GetComponent<Slider>().value) {
+            GameObject.Find("CenterEyeAnchor").GetComponent<Camera>().fieldOfView = scrollBarCamara.GetComponent<Slider>().value;
         }
         if (listaPaquetesNuevos.transform.childCount <= 0) {
             GameObject.Find("ListaPaquetes").GetComponent<paquetesManager>().textoPaquetes.SetActive(true);

@@ -212,8 +212,8 @@ public class appManager : MonoBehaviour {
      * se encarga de llamar las validaciones de los datos de la BD
      */
     public void Update() {
-        if (GameObject.Find("Main Camera").GetComponent<Camera>().fieldOfView != sizeCamera) {
-            GameObject.Find("Main Camera").GetComponent<Camera>().fieldOfView = sizeCamera;
+        if (GameObject.Find("CenterEyeAnchor").GetComponent<Camera>().fieldOfView != sizeCamera) {
+            GameObject.Find("CenterEyeAnchor").GetComponent<Camera>().fieldOfView = sizeCamera;
         }
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje2(true, myLog);
         if (isOnline) {

@@ -16,6 +16,11 @@ public class clickManager : MonoBehaviour {
      * obtiene de la carpeta resources los clips de audio de click y hover
      */
     void Start() {
+        if (!this.GetComponent<OVRRaycaster>()) {
+            gameObject.AddComponent<OVRRaycaster>();
+        } else {
+            gameObject.GetComponent<OVRRaycaster>();
+        }
         click = Resources.Load("Sounds/click") as AudioClip;
         hover = Resources.Load("Sounds/hover") as AudioClip;
         if (!this.GetComponent<AudioSource>()) {
