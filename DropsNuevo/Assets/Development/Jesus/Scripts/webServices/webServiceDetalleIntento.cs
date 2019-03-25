@@ -149,4 +149,15 @@ public class webServiceDetalleIntento : MonoBehaviour
             return 0;
         }
     }
+
+    public static int deleteDetalleIntentoSqlite(string id) {
+        string query = "DELETE FROM detalleIntento WHERE id = " + id + "";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

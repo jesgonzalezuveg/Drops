@@ -47,6 +47,17 @@ public class webServiceIntento : MonoBehaviour {
         }
     }
 
+    public static int deleteIntentoSqlite(string id) {
+        string query = "DELETE FROM intento WHERE id = " + id + "";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public static intentoDataSqLite[] getIntentosByLog(string idLog) {
         string query = "SELECT * FROM intento WHERE idLog = " + idLog + " AND syncroStatus = 0;";
         var result = conexionDB.selectGeneral(query);

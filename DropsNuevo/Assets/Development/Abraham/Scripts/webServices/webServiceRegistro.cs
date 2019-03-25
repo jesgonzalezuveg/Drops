@@ -37,6 +37,17 @@ public class webServiceRegistro : MonoBehaviour {
         }
     }
 
+    public static int deleteRegistroSqlite(string id) {
+        string query = "DELETE FROM registros WHERE id = " + id + "";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public static registroData[] getRegistrossByLog(string idLog) {
         string query = "SELECT * FROM registros WHERE idLog = " + idLog + " AND syncroStatus = 0;";
         var result = conexionDB.selectGeneral(query);
