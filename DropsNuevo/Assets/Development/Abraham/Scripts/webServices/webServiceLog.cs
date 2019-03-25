@@ -42,6 +42,17 @@ public class webServiceLog : MonoBehaviour {
         }
     }
 
+    public static int deleteLogSqlite(string id) {
+        string query = "DELETE FROM log WHERE id = " + id + "";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public static int updateIdServerSqlite(string id, string idServer) {
         string query = "UPDATE log SET idServer = '" + idServer + "' WHERE id = '" + id + "'";
         var result = conexionDB.alterGeneral(query);

@@ -79,6 +79,7 @@ public class webServiceSincronizacion : MonoBehaviour
                         if (myObject.Usuarios[i].logs[j].registros.Length>0) {
                             for (int k = 0; k < myObject.Usuarios[i].logs[j].registros.Length; k++) {
                                 webServiceRegistro.updateSyncroStatusSqlite(myObject.Usuarios[i].logs[j].registros[k].id, 2);
+                                webServiceRegistro.deleteRegistroSqlite(myObject.Usuarios[i].logs[j].registros[k].id);
                             }
                         }
 
@@ -88,11 +89,14 @@ public class webServiceSincronizacion : MonoBehaviour
                                     if (myObject.Usuarios[i].logs[j].intentos[l].detalleIntento.Length > 0) {
                                         for (int m = 0; m < myObject.Usuarios[i].logs[j].intentos[l].detalleIntento.Length; m++) {
                                             webServiceDetalleIntento.updateSyncroStatusSqlite(myObject.Usuarios[i].logs[j].intentos[l].detalleIntento[m].id, 2);
+                                            webServiceDetalleIntento.deleteDetalleIntentoSqlite(myObject.Usuarios[i].logs[j].intentos[l].detalleIntento[m].id);
                                         }
+                                        webServiceIntento.deleteIntentoSqlite(myObject.Usuarios[i].logs[j].intentos[l].id);
                                     }
                                 }
                             }
                         }
+                        webServiceLog.deleteLogSqlite(myObject.Usuarios[i].logs[j].id);
                     }
                 }
             }
