@@ -53,7 +53,8 @@ public class PlayerManager : MonoBehaviour {
      */
     private void Update() {
         if (isInMesagge) {
-            GameObject.Find("CenterEyeAnchor").GetComponent<Camera>().gameObject.transform.localRotation = rotationLock;
+            GameObject.Find("RightEyeAnchor").GetComponent<Camera>().gameObject.transform.localRotation = rotationLock;
+            GameObject.Find("LeftEyeAnchor").GetComponent<Camera>().gameObject.transform.localRotation = rotationLock;
         }
     }
 

@@ -1850,7 +1850,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8859313550537825890
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2834,11 +2834,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.12789592
       objectReference: {fileID: 0}
-    - target: {fileID: 2167008893962175654, guid: ba9c88b10dce3f64c9682cfe9fc5b45f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2167008893962175649, guid: ba9c88b10dce3f64c9682cfe9fc5b45f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2879,6 +2874,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 389.7
       objectReference: {fileID: 0}
+    - target: {fileID: 2167008893962175654, guid: ba9c88b10dce3f64c9682cfe9fc5b45f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2167008894245428743, guid: ba9c88b10dce3f64c9682cfe9fc5b45f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2904,16 +2904,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2167008895239911636, guid: ba9c88b10dce3f64c9682cfe9fc5b45f,
-        type: 3}
-      propertyPath: m_Value
-      value: 0.9999815
-      objectReference: {fileID: 0}
-    - target: {fileID: 2167008895239911636, guid: ba9c88b10dce3f64c9682cfe9fc5b45f,
-        type: 3}
-      propertyPath: m_Size
-      value: 0.037806824
-      objectReference: {fileID: 0}
     - target: {fileID: 2167008894245428740, guid: ba9c88b10dce3f64c9682cfe9fc5b45f,
         type: 3}
       propertyPath: m_IsActive
@@ -2923,6 +2913,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2167008895239911636, guid: ba9c88b10dce3f64c9682cfe9fc5b45f,
+        type: 3}
+      propertyPath: m_Value
+      value: 0.9999815
+      objectReference: {fileID: 0}
+    - target: {fileID: 2167008895239911636, guid: ba9c88b10dce3f64c9682cfe9fc5b45f,
+        type: 3}
+      propertyPath: m_Size
+      value: 0.037806824
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba9c88b10dce3f64c9682cfe9fc5b45f, type: 3}
