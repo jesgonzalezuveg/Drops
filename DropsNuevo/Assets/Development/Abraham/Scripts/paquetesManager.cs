@@ -42,24 +42,24 @@ public class paquetesManager : MonoBehaviour {
     private void Start() {
         if (manager.isFirstLogin) {
             manager.isFirstLogin = false;
+            if (manager.isOnline) {
+                StartCoroutine(webServiceCategoria.getCategorias());
+                StartCoroutine(webServicePaquetes.getPaquetes());
+                StartCoroutine(webServiceAcciones.getAcciones());
+                StartCoroutine(webServiceEjercicio.getEjercicios());
+            } else {
+                var paquetesLocales = webServicePaquetes.getPaquetesSqLite();
+                if (paquetesLocales != null) {
+                    manager.setPaquetes(paquetesLocales.paquete);
+                } else {
+                    fillEmpty(listaPaquetes);
+                }
+            }
         }
         scrollBar.GetComponent<Slider>().value = manager.numeroPreguntas;
         scrollBarCamara.GetComponent<Slider>().value = manager.sizeCamera;
         setVisibleModal(false);
         manager.setBanderas(true);
-        if (manager.isOnline) {
-            StartCoroutine(webServiceCategoria.getCategorias());
-            StartCoroutine(webServicePaquetes.getPaquetes());
-            StartCoroutine(webServiceAcciones.getAcciones());
-            StartCoroutine(webServiceEjercicio.getEjercicios());
-        } else {
-            var paquetesLocales = webServicePaquetes.getPaquetesSqLite();
-            if (paquetesLocales != null) {
-                manager.setPaquetes(paquetesLocales.paquete);
-            } else {
-                fillEmpty(listaPaquetes);
-            }
-        }
         tabActivo = GameObject.Find("tabContentTodos");
         fillPackTabs();
     }

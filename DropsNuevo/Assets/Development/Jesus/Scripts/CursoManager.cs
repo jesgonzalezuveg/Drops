@@ -217,9 +217,7 @@ public class CursoManager : MonoBehaviour {
         var rotation = x.transform.localRotation.eulerAngles;
         rotation += new Vector3(-21, 180, 0);
         x.transform.localRotation = Quaternion.Euler(rotation);
-        if (!x.GetComponent<OVRRaycaster>()) {
-            x.AddComponent<OVRRaycaster>();
-        }
+        x.AddComponent<clickManager>();
         var spriteObj = Resources.Load("Letras/letra-" + respuesta);
         var imagen = x.GetComponentInChildren<Button>().gameObject.GetComponent<Image>();
         Texture2D tex = spriteObj as Texture2D;
