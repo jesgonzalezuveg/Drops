@@ -289,10 +289,16 @@ public class paquetesManager : MonoBehaviour {
     public void setVisibleModal(bool isVisible) {
         configuracionModal.SetActive(isVisible);
         if (isVisible == false) {
+            foreach (var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)) {
+                ray.enabled = true;
+            }
             gameObject.GetComponent<GraphicRaycaster>().enabled = true;
             manager.GetComponent<appManager>().numeroPreguntas = scrollBar.GetComponent<Slider>().value;
             manager.GetComponent<appManager>().sizeCamera = scrollBarCamara.GetComponent<Slider>().value;
         } else {
+            foreach(var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)){
+                ray.enabled = false;
+            }
             gameObject.GetComponent<GraphicRaycaster>().enabled = false;
         }
     }
