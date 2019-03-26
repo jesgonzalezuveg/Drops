@@ -53,7 +53,7 @@ public class webServiceRespuestas : MonoBehaviour {
         }
     }
 
-    public static respuestaData getRespuestaByDescripcionSqLite(string descripcion) {
+    /*public static respuestaData getRespuestaByDescripcionSqLite(string descripcion) {
         string query = "SELECT * FROM respuesta WHERE descripcion = '" + descripcion + "';";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
@@ -73,7 +73,7 @@ public class webServiceRespuestas : MonoBehaviour {
         } else {
             return null;
         }
-    }
+    }*/
 
     public static respuestaData getRespuestaByIdServerAndPreguntaSquLite(string idServer, string idPregunta) {
         string query = "SELECT * FROM respuesta WHERE idServer = '" + idServer + "' AND idPregunta = '" + idPregunta + "';";
