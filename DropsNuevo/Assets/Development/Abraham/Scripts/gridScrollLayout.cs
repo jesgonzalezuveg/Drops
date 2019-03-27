@@ -15,6 +15,8 @@ public class gridScrollLayout : MonoBehaviour {
     public bool isVertical;
     public bool estaAjustado = false;
 
+    public bool rayCastersOn = true;
+
     
 
     /**
@@ -32,9 +34,9 @@ public class gridScrollLayout : MonoBehaviour {
     private void Update() {
         if (isVertical) {
             if (!estaAjustado) {
-                float hijosLength = gameObject.GetComponentsInChildren<packManager>().Length;
+                hijos = gameObject.GetComponentsInChildren<packManager>();
                 float columnasCount = layout.constraintCount;
-                int rowCount = (int)Math.Ceiling(hijosLength / columnasCount);
+                int rowCount = (int)Math.Ceiling(hijos.Length / columnasCount);
                 if (rowCount <= 2) {
                     rowCount = 2;
                 } else {
@@ -44,61 +46,16 @@ public class gridScrollLayout : MonoBehaviour {
                 }
             }
         } else {
-            hijos = gameObject.GetComponentsInChildren<packManager>(true);
-            if (hijos.Length > maxHorizontalTags && bandera) {
-                activarHijos();
-                bandera = false;
+            if (!estaAjustado) {
+                hijos = gameObject.GetComponentsInChildren<packManager>();
+                gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2((hijos.Length) * 5.30f, gameObject.GetComponent<RectTransform>().sizeDelta.y);
+                if (hijos.Length <= 5) {
+                    
+                } else {
+                    gameObject.GetComponent<RectTransform>().localPosition += new Vector3((hijos.Length - 5) * 2.65f, 0, 0);
+                    estaAjustado = true;
+                }
             }
         }
     }
-
-
-    #region Scroll horizontal
-
-    /**
-     * Funcion que se manda llamar cuando el usuario da click en el boton de scroll anterior
-     * resta el numero de saltos al count en caso que sea diferente a 0
-     */
-    public void anterior() {
-        if (count > 0) {
-            count -= scrollCount;
-        }
-        activarHijos();
-    }
-
-    /**
-     * Funcion que se manda llamar cuando el usuario da click en el boton de scroll siguiente
-     * suma el numero de saltos al count en caso que sea diferente a (hijos.Length - maxHorizontalTags)
-     */
-    public void siguiente() {
-        if (count < hijos.Length - maxHorizontalTags) {
-            count += scrollCount;
-        }
-        activarHijos();
-    }
-
-    /**
-     * Funcion que se manda llamar cada que se da click en un boton del scroll
-     * Activa los objetos desde count hasta (count + maxHorizontalTags) y desactiva los restantes
-     */
-    void activarHijos() {
-        List<GameObject> visibles = new List<GameObject>();
-        List<GameObject> ocultos = new List<GameObject>();
-        for (int i = 0; i < hijos.Length; i++) {
-            if (i < count) {
-                ocultos.Add(hijos[i].gameObject);
-            } else if (i > count + (maxHorizontalTags - 1)) {
-                ocultos.Add(hijos[i].gameObject);
-            } else {
-                visibles.Add(hijos[i].gameObject);
-            }
-        }
-        foreach (var visible in visibles) {
-            visible.SetActive(true);
-        }
-        foreach (var oculto in ocultos) {
-            oculto.SetActive(false);
-        }
-    }
-    #endregion
 }

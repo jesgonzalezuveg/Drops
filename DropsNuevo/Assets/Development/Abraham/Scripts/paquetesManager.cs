@@ -92,6 +92,9 @@ public class paquetesManager : MonoBehaviour {
         contentTab.transform.localPosition = new Vector3(-0.154f, -0.5398f, 0);
         contentTab.SetActive(false);
         tab.GetComponentInChildren<Button>().onClick.AddListener(delegate {
+            if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+                return;
+            }
             fillTabContent(contentTab, categoria);
             tabActivo.SetActive(false);
             contentTab.SetActive(true);
@@ -190,7 +193,12 @@ public class paquetesManager : MonoBehaviour {
                     WWW www = new WWW(manager.GetComponent<appManager>().getImagen());
                     yield return www;
                     Texture2D texture = www.texture;
-                    byte[] bytes = texture.EncodeToPNG();
+                    byte[] bytes;
+                    if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
+                        bytes = texture.EncodeToJPG();
+                    } else {
+                        bytes = texture.EncodeToPNG();
+                    }
                     File.WriteAllBytes(Application.persistentDataPath + path, bytes);
                     Rect rec = new Rect(0, 0, texture.width, texture.height);
                     var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
@@ -287,19 +295,22 @@ public class paquetesManager : MonoBehaviour {
      * @isVisible bool que se encarga de activar o desactivar el modal
      */
     public void setVisibleModal(bool isVisible) {
+        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+            return;
+        }
         configuracionModal.SetActive(isVisible);
         if (isVisible == false) {
             foreach (var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)) {
                 ray.enabled = true;
             }
-            gameObject.GetComponent<GraphicRaycaster>().enabled = true;
+            //gameObject.GetComponent<GraphicRaycaster>().enabled = true;
             manager.GetComponent<appManager>().numeroPreguntas = scrollBar.GetComponent<Slider>().value;
             manager.GetComponent<appManager>().sizeCamera = scrollBarCamara.GetComponent<Slider>().value;
         } else {
             foreach(var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)){
                 ray.enabled = false;
             }
-            gameObject.GetComponent<GraphicRaycaster>().enabled = false;
+            //gameObject.GetComponent<GraphicRaycaster>().enabled = false;
         }
     }
 
@@ -323,7 +334,12 @@ public class paquetesManager : MonoBehaviour {
             WWW www = new WWW(urlImagen);
             yield return www;
             Texture2D texture = www.texture;
-            byte[] bytes = texture.EncodeToPNG();
+            byte[] bytes;
+            if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
+                bytes = texture.EncodeToJPG();
+            } else {
+                bytes = texture.EncodeToPNG();
+            }
             File.WriteAllBytes(Application.persistentDataPath + path, bytes);
             Rect rec = new Rect(0, 0, texture.width, texture.height);
             var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
@@ -349,7 +365,12 @@ public class paquetesManager : MonoBehaviour {
             WWW www = new WWW(urlImagen);
             yield return www;
             Texture2D texture = www.texture;
-            byte[] bytes = texture.EncodeToPNG();
+            byte[] bytes;
+            if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
+                bytes = texture.EncodeToJPG();
+            } else {
+                bytes = texture.EncodeToPNG();
+            }
             File.WriteAllBytes(Application.persistentDataPath + path, bytes);
             Rect rec = new Rect(0, 0, texture.width, texture.height);
             var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
@@ -384,6 +405,9 @@ public class paquetesManager : MonoBehaviour {
     * Cierra la aplicacion de manera segura.
     */
     public void logOut() {
+        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+            return;
+        }
         manager.isFirstLogin = true;
         manager.setUsuario(null);
         manager.setNombre(null);
@@ -398,6 +422,9 @@ public class paquetesManager : MonoBehaviour {
      * Cierra la aplicacion de manera segura.
      */
     public void salir() {
+        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+            return;
+        }
         Application.Quit();
     }
 }

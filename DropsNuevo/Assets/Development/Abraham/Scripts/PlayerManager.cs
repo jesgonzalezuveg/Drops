@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour {
     public GameObject consola;              ///< consola Refenrencia al canvas que muetra la consola inGame
     bool isInMesagge = false;               ///< isInMesagge bandera que valida si se encuentra activa o no la pantalla cargando
     Quaternion rotationLock;                ///< rotationLock quaternion que contiene la rotacion de la camara en el momento que la pantallaCarga se activa
+    public GameObject appManager;
 
     /**
      * Funcion que activa o desactiva la pantallaCargando
@@ -35,6 +36,13 @@ public class PlayerManager : MonoBehaviour {
     public void setMensaje2(bool active, string mensaje) {
         consola.SetActive(active);
         consola.GetComponentInChildren<Text>().text = mensaje;
+    }
+
+    private void Awake() {
+        if (GameObject.FindObjectOfType<appManager>() == null ) {
+            appManager = Instantiate(appManager);
+            appManager.name = "AppManager";
+        }
     }
 
     /**
@@ -64,6 +72,9 @@ public class PlayerManager : MonoBehaviour {
      * @escenaAnterior escena que se desea cargar
      */
     public void regresar(string escenaAnterior) {
+        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+            return;
+        }
         SceneManager.LoadScene(escenaAnterior);
     }
 }

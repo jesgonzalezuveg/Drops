@@ -179,7 +179,7 @@ public class appManager : MonoBehaviour {
     #region funciones para consola in game
     string myLog;
     Queue myLogQueue = new Queue();
-    /*void OnEnable() {
+    void OnEnable() {
         Application.logMessageReceived += HandleLog;
     }
 
@@ -188,11 +188,15 @@ public class appManager : MonoBehaviour {
     }
 
     void HandleLog(string logString, string stackTrace, LogType type) {
+        if (type == LogType.Warning) {
+            return;
+        }
         myLog = logString;
         string newString = "";
         if (type == LogType.Error || type == LogType.Exception) {
             newString += "\n*****************";
         }
+
         newString += "\n [" + type + "] : " + myLog;
         myLogQueue.Enqueue(newString);
         if (type == LogType.Exception) {
@@ -203,7 +207,7 @@ public class appManager : MonoBehaviour {
         foreach (string mylog in myLogQueue) {
             myLog += mylog;
         }
-    }*/
+    }
     #endregion
 
     /**
@@ -212,11 +216,8 @@ public class appManager : MonoBehaviour {
      * se encarga de llamar las validaciones de los datos de la BD
      */
     public void Update() {
-        if (GameObject.Find("LeftEyeAnchor").GetComponent<Camera>().fieldOfView != sizeCamera) {
-            GameObject.Find("LeftEyeAnchor").GetComponent<Camera>().fieldOfView = sizeCamera;
-        }
-        if (GameObject.Find("RightEyeAnchor").GetComponent<Camera>().fieldOfView != sizeCamera) {
-            GameObject.Find("RightEyeAnchor").GetComponent<Camera>().fieldOfView = sizeCamera;
+        foreach (var camara in GameObject.Find("Player").GetComponentsInChildren<Camera>()) {
+            camara.fieldOfView = sizeCamera;
         }
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje2(true, myLog);
         if (isOnline) {
@@ -404,17 +405,22 @@ public class appManager : MonoBehaviour {
                     if (!isActualized(descarga.fechaDescarga, respuesta.fechaModificacion)) {
                         //Debug.Log(respuesta.urlImagen);
                         //if (respuesta.urlImagen != "") {
-                            var pathArray = respuesta.urlImagen.Split('/');
-                            var path = pathArray[pathArray.Length - 1];
-                            WWW www = new WWW(respuesta.urlImagen);
-                            yield return www;
-                            if (www.texture != null) {
-                                Texture2D texture = www.texture;
-                                byte[] bytes = texture.EncodeToPNG();
-                                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                        var pathArray = respuesta.urlImagen.Split('/');
+                        var path = pathArray[pathArray.Length - 1];
+                        WWW www = new WWW(respuesta.urlImagen);
+                        yield return www;
+                        if (www.texture != null) {
+                            Texture2D texture = www.texture;
+                            byte[] bytes;
+                            if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
+                                bytes = texture.EncodeToJPG();
                             } else {
-
+                                bytes = texture.EncodeToPNG();
                             }
+                            File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                        } else {
+
+                        }
                         //}
                     } else {
                     }
@@ -424,17 +430,22 @@ public class appManager : MonoBehaviour {
             } else {
                 //Debug.Log(respuesta.urlImagen);
                 //if (respuesta.urlImagen != "") {
-                    var pathArray = respuesta.urlImagen.Split('/');
-                    var path = pathArray[pathArray.Length - 1];
-                    WWW www = new WWW(respuesta.urlImagen);
-                    yield return www;
-                    if (www.texture != null) {
-                        Texture2D texture = www.texture;
-                        byte[] bytes = texture.EncodeToPNG();
-                        File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                var pathArray = respuesta.urlImagen.Split('/');
+                var path = pathArray[pathArray.Length - 1];
+                WWW www = new WWW(respuesta.urlImagen);
+                yield return www;
+                if (www.texture != null) {
+                    Texture2D texture = www.texture;
+                    byte[] bytes;
+                    if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
+                        bytes = texture.EncodeToJPG();
                     } else {
-
+                        bytes = texture.EncodeToPNG();
                     }
+                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                } else {
+
+                }
                 //}
             }
         }

@@ -27,6 +27,9 @@ public class mainMenuManager : MonoBehaviour {
      * 
      */
     public void pairCode() {
+        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+            return;
+        }
         this.GetComponent<AudioSource>().Play();
         StartCoroutine(loadScene("sampleScene"));
     }
@@ -36,6 +39,9 @@ public class mainMenuManager : MonoBehaviour {
      * 
      */
     public void login() {
+        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+            return;
+        }
         this.GetComponent<AudioSource>().Play();
         StartCoroutine(loadScene("login"));
     }
@@ -45,6 +51,9 @@ public class mainMenuManager : MonoBehaviour {
      * 
      */
     public void invitado() {
+        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+            return;
+        }
         this.GetComponent<AudioSource>().Play();
         StartCoroutine(loadScene("menuCategorias"));
     }

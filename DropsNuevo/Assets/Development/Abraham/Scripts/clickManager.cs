@@ -21,8 +21,10 @@ public class clickManager : MonoBehaviour {
         } else {
             gameObject.GetComponent<OVRRaycaster>();
         }
+
         click = Resources.Load("Sounds/click") as AudioClip;
         hover = Resources.Load("Sounds/hover") as AudioClip;
+
         if (!this.GetComponent<AudioSource>()) {
             source = gameObject.AddComponent<AudioSource>();
         } else {
@@ -33,9 +35,14 @@ public class clickManager : MonoBehaviour {
         } else {
             trigger = gameObject.GetComponent<EventTrigger>();
         }
+
+
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerDown;
         entry.callback.AddListener((data) => {
+            if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+                return;
+            }
             source.clip = click;
             source.Play();
         });

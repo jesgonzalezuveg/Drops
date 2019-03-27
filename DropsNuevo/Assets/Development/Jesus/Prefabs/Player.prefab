@@ -1703,6 +1703,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pantallaCargando: {fileID: 6561837985681241745}
   consola: {fileID: 2782376329893905058}
+  appManager: {fileID: 7778476757188929597, guid: e2dceeb2f2ba8a0429b4cef25e09968f,
+    type: 3}
 --- !u!1 &5420221790520224630
 GameObject:
   m_ObjectHideFlags: 0
@@ -2314,7 +2316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   queueAhead: 1
-  useRecommendedMSAALevel: 0
+  useRecommendedMSAALevel: 1
   _monoscopic: 0
   enableAdaptiveResolution: 0
   minRenderScale: 0.7

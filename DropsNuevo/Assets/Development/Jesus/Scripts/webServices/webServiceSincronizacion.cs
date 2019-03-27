@@ -120,14 +120,12 @@ public class webServiceSincronizacion : MonoBehaviour
             yield return www.SendWebRequest();
 
             if (www.isNetworkError || www.isHttpError) {
-                Debug.Log(www.error);
+
             } else {
                 string text;
                 text = www.downloadHandler.text;
                 text = text.Replace("[", "");
                 text = text.Replace("]", "");
-                Debug.Log(text);
-                Debug.Log("Respuesta json");
                 if (text != "0") {
                     //appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
                     //manager.lastIdLog = text;
