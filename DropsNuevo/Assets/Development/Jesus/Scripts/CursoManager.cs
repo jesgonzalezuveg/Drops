@@ -170,7 +170,7 @@ public class CursoManager : MonoBehaviour {
             idRespuesta = respuestasOfQuestion.id;
             var palabra = respuestasOfQuestion.descripcion;
             llenarLetras(palabra);
-            fraseACompletar = palabra;
+            fraseACompletar = palabra.ToUpper();
         } else {
             var respuestasOfQuestion = webServiceRespuestas.getRespuestasByPreguntaSqLite(preguntas[countPreguntas].id);
             llenarRespuestas(respuestasOfQuestion.respuestas);
