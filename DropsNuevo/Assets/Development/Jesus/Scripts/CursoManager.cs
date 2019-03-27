@@ -211,7 +211,7 @@ public class CursoManager : MonoBehaviour {
 
     public void crearBotonLetra(string respuesta, float angle, float radius) {
         if (respuesta == "Ñ") {
-            respuesta = "gñ";
+            respuesta = "GÑ";
         }
         Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
         var x = Instantiate(butonToInstantiate, pos, Quaternion.Euler(new Vector3(0, 0, 0)));
