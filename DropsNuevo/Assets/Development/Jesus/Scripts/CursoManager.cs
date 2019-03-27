@@ -211,7 +211,7 @@ public class CursoManager : MonoBehaviour {
 
     public void crearBotonLetra(string respuesta, float angle, float radius) {
         if (respuesta == "Ñ") {
-            respuesta = "GÑ";
+            respuesta = "GN";
         }
         Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
         var x = Instantiate(butonToInstantiate, pos, Quaternion.Euler(new Vector3(0, 0, 0)));
@@ -221,6 +221,7 @@ public class CursoManager : MonoBehaviour {
         rotation += new Vector3(-21, 180, 0);
         x.transform.localRotation = Quaternion.Euler(rotation);
         x.AddComponent<clickManager>();
+        Debug.Log("Letras/letra-" + respuesta);
         var spriteObj = Resources.Load("Letras/letra-" + respuesta);
         var imagen = x.GetComponentInChildren<Button>().gameObject.GetComponent<Image>();
         Texture2D tex = spriteObj as Texture2D;
