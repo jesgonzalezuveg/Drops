@@ -197,6 +197,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void llenarLetras(string palabra) {
+        palabra = palabra.ToUpper();
         var letras = shuffleArray(palabra);
         var numberOfObjects = palabra.Length;
         var radius = 4f;
@@ -204,15 +205,14 @@ public class CursoManager : MonoBehaviour {
         int i = 0;
         foreach (char caratcter in letras) {
             float angle = i * Mathf.PI * 2 / numberOfObjects;
-            crearBotonLetra(caratcter+"", angle, radius);
+            crearBotonLetra(caratcter, angle, radius);
             i++;
         }
     }
 
-    public void crearBotonLetra(string respuesta, float angle, float radius) {
-        if (respuesta == "Ñ") {
-            respuesta = "GN";
-        }
+    public void crearBotonLetra(char respuesta, float angle, float radius) {
+        //Validar la ñ o caracteres especiales
+
         Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
         var x = Instantiate(butonToInstantiate, pos, Quaternion.Euler(new Vector3(0, 0, 0)));
         x.transform.SetParent(canvasParentOfAnswers.transform, false);
@@ -270,7 +270,7 @@ public class CursoManager : MonoBehaviour {
         return x;
     }
 
-    void addEvent(GameObject obj, string caracter) {
+    void addEvent(GameObject obj, char caracter) {
         obj.GetComponentInChildren<Button>().onClick.AddListener(delegate {
             fraseCompletada += caracter;
             if (fraseCompletada[fraseCompletada.Length - 1] == fraseACompletar[fraseCompletada.Length - 1]) {
