@@ -491,10 +491,14 @@ public class appManager : MonoBehaviour {
             mes = 1;
             año = 2;
         }
-        fechaDescarga = fechaDescarga.Remove(19, fechaDescarga.Length - 19);
         fechaDescarga = fechaDescarga.Replace('/', ' ');
         fechaDescarga = fechaDescarga.Replace(':', ' ');
         string[] splitDateDescarga = fechaDescarga.Split(' ');
+        if (fechaDescarga.Contains("p")) {
+            splitDateDescarga[3] = Int32.Parse(splitDateDescarga[3]) + 12 + "";
+        }
+        Debug.Log(splitDateDescarga[3] + "");
+        fechaDescarga = fechaDescarga.Remove(19, fechaDescarga.Length - 19);
         //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
         fechaModificacion = fechaModificacion.Replace('-',' ');
         fechaModificacion = fechaModificacion.Replace(':', ' ');
