@@ -136,7 +136,7 @@ public class WebServiceCodigo : MonoBehaviour {
      * @param codigo codigo generado por la aplicacion
      */
     public static int guardarCodigoSqlite(string codigo) {
-        string query = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('" + codigo + "', 1, datetime(), datetime())";
+        string query = "INSERT INTO codigo (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('" + codigo + "', 1, dateTime('now','localtime'), dateTime('now','localtime'))";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -151,7 +151,7 @@ public class WebServiceCodigo : MonoBehaviour {
      * @param status estado en el que se encuentra el codigo antes de la modificacion
      */
     public static int editarCodigoSqlite(string codigo, int status) {
-        string query = "UPDATE codigo SET status = " + status + ", fechaModificacion = datetime() WHERE descripcion = '" + codigo + "' AND status = " + (status - 1) + "";
+        string query = "UPDATE codigo SET status = " + status + ", fechaModificacion = dateTime('now','localtime') WHERE descripcion = '" + codigo + "' AND status = " + (status - 1) + "";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {

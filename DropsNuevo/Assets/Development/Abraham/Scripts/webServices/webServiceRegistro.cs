@@ -70,7 +70,7 @@ public class webServiceRegistro : MonoBehaviour {
         try {
             string id = webServiceUsuario.consultarIdUsuarioSqLite(usuario);
             string idLog = webServiceLog.getLastLogSqLite(id);
-            string query = "INSERT INTO registros (detalle, fechaRegistro, syncroStatus, idAccion, idLog, idUsuario) VALUES ('" + detalle + "',dateTime(), '0', " + idAccion + ", " + idLog + ", " + id + " );";
+            string query = "INSERT INTO registros (detalle, fechaRegistro, syncroStatus, idAccion, idLog, idUsuario) VALUES ('" + detalle + "',dateTime('now','localtime'), '0', " + idAccion + ", " + idLog + ", " + id + " );";
             var result = conexionDB.alterGeneral(query);
             if (result == 1) {
                 return 1;

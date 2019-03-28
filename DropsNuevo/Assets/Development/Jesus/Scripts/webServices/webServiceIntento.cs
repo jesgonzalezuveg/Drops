@@ -80,7 +80,7 @@ public class webServiceIntento : MonoBehaviour {
         try {
             string id = webServiceUsuario.consultarIdUsuarioSqLite(usuario);
             string idLog = webServiceLog.getLastLogSqLite(id);
-            string query = "INSERT INTO intento (puntaje, fechaRegistro, fechaModificacion, syncroStatus, idLog) VALUES (" + puntaje + ", datetime(), datetime(), 0, " + idLog + ");";
+            string query = "INSERT INTO intento (puntaje, fechaRegistro, fechaModificacion, syncroStatus, idLog) VALUES (" + puntaje + ", dateTime('now','localtime'), dateTime('now','localtime'), 0, " + idLog + ");";
             var result = conexionDB.alterGeneral(query);
             if (result == 1) {
                 return 1;
@@ -131,7 +131,7 @@ public class webServiceIntento : MonoBehaviour {
      * @param idServer id de la accion en el servidor
      */
     public static int updateIntentoSqlite(string id, string puntaje) {
-        string query = "UPDATE intento SET puntaje = " + puntaje + ", fechaModificacion =  datetime() WHERE id = " + id + "";
+        string query = "UPDATE intento SET puntaje = " + puntaje + ", fechaModificacion =  dateTime('now','localtime') WHERE id = " + id + "";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -147,7 +147,7 @@ public class webServiceIntento : MonoBehaviour {
      * @param idServer id de la accion en el servidor
      */
     public static int updateSyncroStarusIntentoSqlite(string id, int status) {
-        string query = "UPDATE intento SET syncroStatus = " + status + ", fechaModificacion =  datetime() WHERE id = " + id + "";
+        string query = "UPDATE intento SET syncroStatus = " + status + ", fechaModificacion =  dateTime('now','localtime') WHERE id = " + id + "";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {

@@ -9,11 +9,11 @@ using System.IO;
 
 public class appManager : MonoBehaviour {
 
-    private string Usuario = "";            ///< Usuario almacena el usuario que utiliza la aplicación
-    private string idUsuario = "";          ///< idUsuario almacena el id del usuario que utiliza la aplicación
-    private string Nombre = "";             ///< Nombre almacena el nombre del usuario que utiliza la aplicación
-    private string Correo = "";             ///< Correo almacena el correo con el cual la cuenta esta vinculada
-    private string Imagen = "";             ///< Imagen almacena la imagen, ya sea de facebook o bien de UVEG de la persona que utiliza la aplicación
+    private string Usuario = null;            ///< Usuario almacena el usuario que utiliza la aplicación
+    private string idUsuario = null;          ///< idUsuario almacena el id del usuario que utiliza la aplicación
+    private string Nombre = null;             ///< Nombre almacena el nombre del usuario que utiliza la aplicación
+    private string Correo = null;             ///< Correo almacena el correo con el cual la cuenta esta vinculada
+    private string Imagen = null;             ///< Imagen almacena la imagen, ya sea de facebook o bien de UVEG de la persona que utiliza la aplicación
     private webServicePaquetes.paqueteData[] paquetes = null;       ///< paquetes arreglo de estructura paqueteData, almacena los paquetes que existen en la BD del SII
     private bool banderaPaquetes = true;                            ///< banderaPaquetes verifica si ya se recorrio el arreglo paquetes
     private webServiceCategoria.categoriaData[] categorias = null;  ///< categorias arreglo de estructura categoriasData, almacena las categorias que existen en la BD del SII
@@ -298,6 +298,7 @@ public class appManager : MonoBehaviour {
                     webServiceCategoria.insertarCategoriaSqLite(categoria);
                 }
             }
+            GameObject.FindObjectOfType<paquetesManager>().GetComponent<paquetesManager>().fillPackTabs();
             banderaCategorias = false;
         }
     }
@@ -490,27 +491,26 @@ public class appManager : MonoBehaviour {
             mes = 1;
             año = 2;
         }
-        fechaDescarga = fechaDescarga.Remove(10, fechaDescarga.Length - 10);
-        string[] splitDateDescarga = fechaDescarga.Split('/');
+        fechaDescarga = fechaDescarga.Remove(19, fechaDescarga.Length - 19);
+        fechaDescarga = fechaDescarga.Replace('/', ' ');
+        fechaDescarga = fechaDescarga.Replace(':', ' ');
+        string[] splitDateDescarga = fechaDescarga.Split(' ');
         //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
-        fechaModificacion = fechaModificacion.Remove(10, fechaModificacion.Length - 10);
-        string[] splitDatePack = fechaModificacion.Split('-');
-        if (Int32.Parse(splitDateDescarga[año]) >= Int32.Parse(splitDatePack[0])) {
-            if (Int32.Parse(splitDateDescarga[mes]) >= Int32.Parse(splitDatePack[1])) {
-                if (Int32.Parse(splitDateDescarga[mes]) == Int32.Parse(splitDatePack[1])) {
-                    if (Int32.Parse(splitDateDescarga[dia]) >= Int32.Parse(splitDatePack[2])) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            } else {
-                return false;
-            }
-        } else {
+        fechaModificacion = fechaModificacion.Replace('-',' ');
+        fechaModificacion = fechaModificacion.Replace(':', ' ');
+        string[] splitDatePack = fechaModificacion.Split(' ');
+
+
+        //public DateTime(int year, int month, int day, int hour, int minute, int second);
+        DateTime descarga = new DateTime(Int32.Parse(splitDateDescarga[año]), Int32.Parse(splitDateDescarga[mes]), Int32.Parse(splitDateDescarga[dia]), Int32.Parse(splitDateDescarga[3]), Int32.Parse(splitDateDescarga[4]), Int32.Parse(splitDateDescarga[5]));
+        DateTime modificacion = new DateTime(Int32.Parse(splitDatePack[0]), Int32.Parse(splitDatePack[1]), Int32.Parse(splitDatePack[2]), Int32.Parse(splitDatePack[3]), Int32.Parse(splitDatePack[4]), Int32.Parse(splitDatePack[5]));
+        Debug.Log("Descarga: " + descarga);
+        Debug.Log("Modificacion: " + modificacion);
+        if (descarga < modificacion) {
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
     /**

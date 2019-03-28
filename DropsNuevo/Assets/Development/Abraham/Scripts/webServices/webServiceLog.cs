@@ -83,7 +83,7 @@ public class webServiceLog : MonoBehaviour {
      */
     public static int insertarLogSqLite(string usuario) {
         string id = webServiceUsuario.consultarIdUsuarioSqLite(usuario);
-        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idServer, idCodigo, idUsuario) VALUES (dateTime(), dateTime(), '" + SystemInfo.deviceModel + "',0,0,0,'" + id + "');";
+        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idServer, idCodigo, idUsuario) VALUES (dateTime('now','localtime'), dateTime('now','localtime'), '" + SystemInfo.deviceModel + "',0,0,0,'" + id + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -101,7 +101,7 @@ public class webServiceLog : MonoBehaviour {
      * @param idUsuario id del usuario generado en la db local
      */
     public static int insertarLogSqLite(string fechaInicio, string fechaTermino, string dispositivo, int syncroStatus, string idServer, string idCodigo, string idUsuario) {
-        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idServer, idCodigo, idUsuario) VALUES (dateTime(), dateTime(), '" + SystemInfo.deviceModel + "', " + syncroStatus + ", " + idServer + ", " + idCodigo + ", " + idUsuario + ")";
+        string query = "INSERT INTO log (fechaInicio, fechaTermino, dispositivo, syncroStatus, idServer, idCodigo, idUsuario) VALUES (dateTime('now','localtime'), dateTime('now','localtime'), '" + SystemInfo.deviceModel + "', " + syncroStatus + ", " + idServer + ", " + idCodigo + ", " + idUsuario + ")";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -131,7 +131,7 @@ public class webServiceLog : MonoBehaviour {
     public static int cerrarLog(string usuario) {
         string id = webServiceUsuario.consultarIdUsuarioSqLite(usuario);
         var lastLog = getLastLogSqLite(id);
-        string query = "UPDATE log SET fechaTermino = datetime() WHERE id = " + lastLog + ";";
+        string query = "UPDATE log SET fechaTermino = dateTime('now','localtime') WHERE id = " + lastLog + ";";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;

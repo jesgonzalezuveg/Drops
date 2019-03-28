@@ -65,7 +65,7 @@ public class webServiceUsuario : MonoBehaviour {
      * @param programa puede ser nulo, en caso de ser alumno uveg insertará el programa al cual esta inscrito
      */
     public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa) {
-        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, SyncroStatus) VALUES ('" + usuario + "','" + nombre + "','" + rol + "','" + gradoEstudios + "','" + programa + "', datetime(), 1, 0);";
+        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, SyncroStatus) VALUES ('" + usuario + "','" + nombre + "','" + rol + "','" + gradoEstudios + "','" + programa + "', dateTime('now','localtime'), 1, 0);";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -82,7 +82,7 @@ public class webServiceUsuario : MonoBehaviour {
      * @param programa puede ser nulo, en caso de ser alumno uveg insertará el programa al cual esta inscrito
      */
     public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string fechaRegistro, int status) {
-        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, syncroStatus) VALUES ('" + usuario + "', '" + nombre + "', '" + rol + "', '" + gradoEstudios + "', '" + programa + "',  dateTime(), " + status + ", 2)";
+        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, syncroStatus) VALUES ('" + usuario + "', '" + nombre + "', '" + rol + "', '" + gradoEstudios + "', '" + programa + "',  dateTime('now','localtime'), " + status + ", 2)";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {

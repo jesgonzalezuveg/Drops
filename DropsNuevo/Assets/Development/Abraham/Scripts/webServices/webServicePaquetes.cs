@@ -80,7 +80,7 @@ public class webServicePaquetes : MonoBehaviour{
             if (idCategoria == "0") {
                 return 0;
             }
-            string query = "INSERT INTO paquete (clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer) VALUES ('" + paquete.clave + "','" + paquete.descripcion + "', dateTime(), '" + paquete.fechaModificacion + "','" + paquete.urlImagen + "','" + idCategoria + "','" + paquete.id + "');";
+            string query = "INSERT INTO paquete (clave, descripcion, fechaRegistro, fechaModificacion, urlImagen, idCategoria, idServer) VALUES ('" + paquete.clave + "','" + paquete.descripcion + "', dateTime('now','localtime'), '" + paquete.fechaModificacion + "','" + paquete.urlImagen + "','" + idCategoria + "','" + paquete.id + "');";
             var result = conexionDB.alterGeneral(query);
             if (result == 1) {
                 return 1;

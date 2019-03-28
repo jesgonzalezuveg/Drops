@@ -57,7 +57,7 @@ public class webServicePreguntas : MonoBehaviour {
     public static int updatePreguntaSqLite(preguntaData pregunta, string idServer) {
         string idTipoEjercicio = webServiceEjercicio.getEjercicioByDescripcionSqLite(pregunta.descripcionEjercicio).id;
         string idPaquete = webServicePaquetes.getPaquetesByDescripcionSqLite(pregunta.descripcionPaquete).id;
-        string query = "UPDATE  pregunta SET  `descripcion` =  '" + pregunta.descripcion + "',`status` = '" + pregunta.status + "', `fechaRegistro` = '" + pregunta.fechaRegistro + "', `fechaModificacion` = datetime(), `idTipoEjercicio` = '" + idTipoEjercicio + "', `idPaquete` = '" + idPaquete + "' WHERE  idServer = " + idServer + "; ";
+        string query = "UPDATE  pregunta SET  `descripcion` =  '" + pregunta.descripcion + "',`status` = '" + pregunta.status + "', `fechaRegistro` = '" + pregunta.fechaRegistro + "', `fechaModificacion` = dateTime('now','localtime'), `idTipoEjercicio` = '" + idTipoEjercicio + "', `idPaquete` = '" + idPaquete + "' WHERE  idServer = " + idServer + "; ";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;

@@ -87,7 +87,7 @@ public class webServiceRespuestas : MonoBehaviour {
     }
 
     public static int insertarRespuestaSqLite(string descripcion, string urlImagen, string correcto, string relacion, string status, string fechaRegistro, string fechaModificacion, string idPregunta, string idServer) {
-        string query = "INSERT INTO respuesta (descripcion, urlImagen, correcto, relacion, status, fechaRegistro, fechaModificacion, idPregunta, idServer) VALUES ('" + descripcion + "', '" + urlImagen + "', '" + correcto + "', '" + relacion + "', '" + status + "', datetime(), datetime(), '" + idPregunta + "', '" + idServer + "'); ";
+        string query = "INSERT INTO respuesta (descripcion, urlImagen, correcto, relacion, status, fechaRegistro, fechaModificacion, idPregunta, idServer) VALUES ('" + descripcion + "', '" + urlImagen + "', '" + correcto + "', '" + relacion + "', '" + status + "', dateTime('now','localtime'), dateTime('now','localtime'), '" + idPregunta + "', '" + idServer + "'); ";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -97,7 +97,7 @@ public class webServiceRespuestas : MonoBehaviour {
     }
 
     public static int updateRespuestaSqLite(string descripcion, string urlImagen, string correcto, string relacion, string status, string fechaRegistro, string fechaModificacion, string idPregunta, string idServer) {
-        string query = "UPDATE  respuesta SET  descripcion =  '" + descripcion + "', urlImagen =  '" + urlImagen + "', correcto =  '" + correcto + "', relacion = '" + relacion + "', status =  '" + status + "', fechaRegistro =  datetime(), fechaModificacion =  datetime(), idPregunta =  '" + idPregunta +  "' WHERE  idServer = '" + idServer + "';";
+        string query = "UPDATE  respuesta SET  descripcion =  '" + descripcion + "', urlImagen =  '" + urlImagen + "', correcto =  '" + correcto + "', relacion = '" + relacion + "', status =  '" + status + "', fechaRegistro =  dateTime('now','localtime'), fechaModificacion =  dateTime('now','localtime'), idPregunta =  '" + idPregunta +  "' WHERE  idServer = '" + idServer + "';";
         Debug.Log("Updateando");
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
@@ -138,6 +138,7 @@ public class webServiceRespuestas : MonoBehaviour {
     }
 
     public static IEnumerator getRespuestasByPack(string descripcionPack) {
+        Debug.Log("Consultando respuestas de pack: " + descripcionPack);
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;

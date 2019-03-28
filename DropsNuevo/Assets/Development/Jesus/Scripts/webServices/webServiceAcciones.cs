@@ -33,7 +33,7 @@ public class webServiceAcciones : MonoBehaviour {
      * @param status estado de la accion (activa o inanctiva)
      */
     public static int insertarAccionSqLite(string descripcion, string status) {
-        string query = "INSERT INTO catalogoAcciones (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('" + descripcion + "'," + status + ", datetime(), datetime());";
+        string query = "INSERT INTO catalogoAcciones (descripcion, status, fechaRegistro, fechaModificacion) VALUES ('" + descripcion + "'," + status + ", dateTime('now','localtime'), dateTime('now','localtime'));";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -82,7 +82,7 @@ public class webServiceAcciones : MonoBehaviour {
      * @param idServer id de la accion en el servidor
      */
     public static int updateAccionSqlite(string accion, string status, string idServer) {
-        string query = "UPDATE catalogoAcciones SET descripcion = '" + accion + "', status = " + status + ", fechaModificacion =  datetime() WHERE idServer = " + idServer + "";
+        string query = "UPDATE catalogoAcciones SET descripcion = '" + accion + "', status = " + status + ", fechaModificacion =  dateTime('now','localtime') WHERE idServer = " + idServer + "";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {

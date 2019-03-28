@@ -2151,7 +2151,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   pointer: {fileID: 0}
-  sortOrder: 0
+  sortOrder: -1
 --- !u!1 &8568237782936986984
 GameObject:
   m_ObjectHideFlags: 0

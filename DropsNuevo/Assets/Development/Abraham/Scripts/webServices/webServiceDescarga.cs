@@ -36,7 +36,7 @@ public class webServiceDescarga : MonoBehaviour {
     }
 
     public static int insertarDescargaSqLite(string idPaquete, string idUsuario) {
-        string query = "INSERT INTO descarga (equipo, fechaDescarga, idPaquete, idUsuario) VALUES ('" + SystemInfo.deviceModel + "', dateTime(), '" + idPaquete +"', '" + idUsuario +"');";
+        string query = "INSERT INTO descarga (equipo, fechaDescarga, idPaquete, idUsuario) VALUES ('" + SystemInfo.deviceModel + "', dateTime('now','localtime'), '" + idPaquete +"', '" + idUsuario +"');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;

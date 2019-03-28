@@ -61,7 +61,6 @@ public class paquetesManager : MonoBehaviour {
         setVisibleModal(false);
         manager.setBanderas(true);
         tabActivo = GameObject.Find("tabContentTodos");
-        fillPackTabs();
     }
 
     public void fillPackTabs() {
@@ -180,7 +179,7 @@ public class paquetesManager : MonoBehaviour {
      */
     IEnumerator getUserImg() {
         if (manager.isOnline) {
-            if (manager.GetComponent<appManager>().getImagen() != "") {
+            if (manager.GetComponent<appManager>().getImagen() != null) {
                 string path = manager.GetComponent<appManager>().getImagen().Split('/')[manager.GetComponent<appManager>().getImagen().Split('/').Length - 1];
                 if (File.Exists(Application.persistentDataPath + path)) {
                     byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
