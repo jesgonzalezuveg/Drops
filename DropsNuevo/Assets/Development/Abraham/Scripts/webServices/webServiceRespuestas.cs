@@ -158,6 +158,7 @@ public class webServiceRespuestas : MonoBehaviour {
                 text = www.downloadHandler.text;
                 if (text == "0") {
                     Debug.Log("No se encontraron respuestas");
+                    GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
                 } else {
                     text = "{\"respuestas\":" + text + "}";
                     Data myObject = JsonUtility.FromJson<Data>(text);

@@ -504,8 +504,6 @@ public class appManager : MonoBehaviour {
         fechaModificacion = fechaModificacion.Replace(':', ' ');
         string[] splitDatePack = fechaModificacion.Split(' ');
 
-
-        //public DateTime(int year, int month, int day, int hour, int minute, int second);
         DateTime descarga = new DateTime(Int32.Parse(splitDateDescarga[año]), Int32.Parse(splitDateDescarga[mes]), Int32.Parse(splitDateDescarga[dia]), Int32.Parse(splitDateDescarga[3]), Int32.Parse(splitDateDescarga[4]), Int32.Parse(splitDateDescarga[5]));
         DateTime modificacion = new DateTime(Int32.Parse(splitDatePack[0]), Int32.Parse(splitDatePack[1]), Int32.Parse(splitDatePack[2]), Int32.Parse(splitDatePack[3]), Int32.Parse(splitDatePack[4]), Int32.Parse(splitDatePack[5]));
         Debug.Log("Descarga: " + descarga);

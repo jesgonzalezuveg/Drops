@@ -59,6 +59,17 @@ public class webServicePaquetes : MonoBehaviour{
         }
     }
 
+    public static paqueteData getPaquetesByIdServerSqLite(string id) {
+        string query = "SELECT * FROM paquete WHERE idServer = '" + id + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            paqueteData paquete = JsonUtility.FromJson<paqueteData>(result);
+            return paquete;
+        } else {
+            return null;
+        }
+    }
+
     public static paqueteData[] getPaquetesByCategoriaSqLite(string categoriaId) {
         string query = "SELECT * FROM paquete WHERE idCategoria = '" + categoriaId + "';";
         Debug.Log(query);

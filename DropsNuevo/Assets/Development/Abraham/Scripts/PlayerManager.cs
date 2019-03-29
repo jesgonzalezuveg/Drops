@@ -34,7 +34,6 @@ public class PlayerManager : MonoBehaviour {
      * Funcion que llena la consola
      */
     public void setMensaje2(bool active, string mensaje) {
-        consola.SetActive(active);
         consola.GetComponentInChildren<Text>().text = mensaje;
     }
 

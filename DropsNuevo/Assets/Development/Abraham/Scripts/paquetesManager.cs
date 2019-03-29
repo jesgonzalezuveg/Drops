@@ -42,20 +42,22 @@ public class paquetesManager : MonoBehaviour {
     private void Start() {
         if (manager.isFirstLogin) {
             manager.isFirstLogin = false;
-            if (manager.isOnline) {
-                StartCoroutine(webServiceCategoria.getCategorias());
-                StartCoroutine(webServicePaquetes.getPaquetes());
-                StartCoroutine(webServiceAcciones.getAcciones());
-                StartCoroutine(webServiceEjercicio.getEjercicios());
+            StartCoroutine(webServiceCategoria.getCategorias());
+            StartCoroutine(webServiceAcciones.getAcciones());
+            StartCoroutine(webServiceEjercicio.getEjercicios());
+        }
+
+        if (manager.isOnline) {
+            StartCoroutine(webServicePaquetes.getPaquetes());
+        } else {
+            var paquetesLocales = webServicePaquetes.getPaquetesSqLite();
+            if (paquetesLocales != null) {
+                manager.setPaquetes(paquetesLocales.paquete);
             } else {
-                var paquetesLocales = webServicePaquetes.getPaquetesSqLite();
-                if (paquetesLocales != null) {
-                    manager.setPaquetes(paquetesLocales.paquete);
-                } else {
-                    fillEmpty(listaPaquetes);
-                }
+                fillEmpty(listaPaquetes);
             }
         }
+
         scrollBar.GetComponent<Slider>().value = manager.numeroPreguntas;
         scrollBarCamara.GetComponent<Slider>().value = manager.sizeCamera;
         setVisibleModal(false);
