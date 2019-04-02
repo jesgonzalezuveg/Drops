@@ -8,6 +8,8 @@ using System;
 
 public class CursoManager : MonoBehaviour {
 
+    public GameObject animPuntajeObtenido;
+
     public Text textoRacha;
     public Text textoMultiplicador;
     public Text textoPuntajeObtenido;
@@ -53,6 +55,7 @@ public class CursoManager : MonoBehaviour {
 
     void Start() {
         multiplicador = 1;
+        animPuntajeObtenido.SetActive(false);
         scoreFinal.SetActive(false);
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
         preguntas = manager.preguntasCategoria;
@@ -133,6 +136,7 @@ public class CursoManager : MonoBehaviour {
             StartCoroutine(activaObjeto(incorrectoimg));
             webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
             webServiceDetalleIntento.insertarDetalleIntentoSqLite("False", idPregunta, idRespuesta, idIntento);
+            textoCompletado.text = "";
         }
     }
 
@@ -143,6 +147,7 @@ public class CursoManager : MonoBehaviour {
         textoPuntaje.text = score + "";
         StartCoroutine(activaObjeto(correctoimg));
         webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
+        textoCompletado.text = "";
     }
 
     public void verificarRacha(){
@@ -151,7 +156,8 @@ public class CursoManager : MonoBehaviour {
         textoRacha.text = racha + "";
         if (racha >= 2) {
             puntajePregunta = 100 * multiplicador;
-            textoPuntajeObtenido.text = puntajePregunta + "";
+            animPuntajeObtenido.SetActive(true);
+            textoPuntajeObtenido.text = "+" + puntajePregunta + "";
             score = score + puntajePregunta;
             if (multiplicador < 4) {
                 multiplicador++;
@@ -159,7 +165,8 @@ public class CursoManager : MonoBehaviour {
             textoMultiplicador.text = "X" + multiplicador;
         } else {
             puntajePregunta = 100;
-            textoPuntajeObtenido.text = puntajePregunta + "";
+            animPuntajeObtenido.SetActive(true);
+            textoPuntajeObtenido.text = "+" + puntajePregunta + "";
             score = score + puntajePregunta;
         }
     }
@@ -378,10 +385,13 @@ public class CursoManager : MonoBehaviour {
         objeto.SetActive(true);
         valAudio(objeto);
         objeto.GetComponentInChildren<AudioSource>().Play();
+        //animPuntajeObtenido.GetComponent<Animation>().Play();
+        //yield return new WaitUntil(() => animPuntajeObtenido.GetComponent<Animation>().isPlaying == false);
         yield return new WaitUntil(() => objeto.GetComponentInChildren<AudioSource>().isPlaying == false);
         objeto.SetActive(false);
         correctasAContestar = 0;
         textoPuntajeObtenido.text = "";
+        animPuntajeObtenido.SetActive(false);
         llamarPreguntas();
     }
 
