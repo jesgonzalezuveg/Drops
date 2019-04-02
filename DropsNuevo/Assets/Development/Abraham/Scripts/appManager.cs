@@ -165,6 +165,12 @@ public class appManager : MonoBehaviour {
      */
     public void Awake() {
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    /// <summary>
+    /// Valida la conexion a internet
+    /// </summary>
+    public void validarConexion() {
         if (Application.internetReachability == NetworkReachability.NotReachable) {
             isOnline = false;
         } else {
@@ -178,7 +184,7 @@ public class appManager : MonoBehaviour {
      */
     #region funciones para consola in game
     string myLog;
-    Queue myLogQueue = new Queue();
+    /*Queue myLogQueue = new Queue();
     void OnEnable() {
         Application.logMessageReceived += HandleLog;
     }
@@ -207,7 +213,7 @@ public class appManager : MonoBehaviour {
         foreach (string mylog in myLogQueue) {
             myLog += mylog;
         }
-    }
+    }*/
     #endregion
 
     /**
