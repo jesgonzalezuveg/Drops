@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class clickManager : MonoBehaviour {
+
+    public bool cambiarDialogoMascota;
+    public string mensaje;
 
     private AudioClip click;        ///< click audioClip que almacena el audio de click 
     private AudioClip hover;        ///< hover audioClip que almacena el audio de hover
@@ -50,6 +54,9 @@ public class clickManager : MonoBehaviour {
         EventTrigger.Entry entry2 = new EventTrigger.Entry();
         entry2.eventID = EventTriggerType.PointerEnter;
         entry2.callback.AddListener((data) => {
+            if (cambiarDialogoMascota) {
+                GameObject.Find("Mascota").GetComponentInChildren<Text>().text = mensaje;
+            }
             source.clip = hover;
             source.Play();
         });

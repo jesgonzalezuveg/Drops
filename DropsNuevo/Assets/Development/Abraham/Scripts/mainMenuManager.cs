@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class mainMenuManager : MonoBehaviour {
-
-    public GameObject facebookButon;    ///< facebookButon boton de login con facebook
 
 
     /**
@@ -14,11 +13,17 @@ public class mainMenuManager : MonoBehaviour {
      * en caso que si oculta el boton de login con facebook
      */
     private void Start() {
+        GameObject.FindObjectOfType<appManager>().validarConexion();
         var cadenas = SystemInfo.deviceModel.Split(' ');
         Debug.Log(cadenas[0]);
+        if (!GameObject.FindObjectOfType<appManager>().isOnline) {
+            GameObject.Find("Facebook").GetComponent<Button>().interactable = false;
+            GameObject.Find("PairCode").GetComponent<Button>().interactable = false;
+            GameObject.Find("Logn").GetComponent<Button>().interactable = false;
+        }
         if (cadenas[0] == "Oculus") {
             Debug.Log("Hiding Facebook login");
-            facebookButon.SetActive(false);
+            GameObject.Find("Facebook").SetActive(false);
         }
     }
 
@@ -31,7 +36,7 @@ public class mainMenuManager : MonoBehaviour {
             return;
         }
         this.GetComponent<AudioSource>().Play();
-        StartCoroutine(loadScene("sampleScene"));
+        StartCoroutine(loadScene("ParingCode"));
     }
 
     /**

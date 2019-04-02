@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 42749205667941247}
   - component: {fileID: 5914211151288216940}
   - component: {fileID: 3262924115802654704}
+  - component: {fileID: 703083795}
   m_Layer: 5
   m_Name: inputMatricula
   m_TagString: Untagged
@@ -129,6 +130,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &703083795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230829203477686906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 1
+  mensaje: Ingresa tu matricula o usuario UVEG
 --- !u!1 &830139090638718060
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,6 +309,7 @@ GameObject:
   - component: {fileID: 436933703424014038}
   - component: {fileID: 5896005487703032718}
   - component: {fileID: 3798845867843926839}
+  - component: {fileID: 703083794}
   m_Layer: 5
   m_Name: "inputCotrase\xF1a"
   m_TagString: Untagged
@@ -411,6 +427,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &703083794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513296539295220166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 1
+  mensaje: "Ingresa tu contrase\xF1a UVEG"
 --- !u!1 &3483224309670925124
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,6 +611,7 @@ GameObject:
   - component: {fileID: 3483224309693765195}
   - component: {fileID: 3483224309693765194}
   - component: {fileID: 3483224309693765189}
+  - component: {fileID: 1215785201}
   m_Layer: 5
   m_Name: Button_*
   m_TagString: Untagged
@@ -698,6 +729,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1215785201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309693765191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224309717956269
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,6 +834,7 @@ GameObject:
   - component: {fileID: 3483224309726858898}
   - component: {fileID: 3483224309726858989}
   - component: {fileID: 3483224309726858988}
+  - component: {fileID: 1861539766}
   m_Layer: 5
   m_Name: Button_2
   m_TagString: Untagged
@@ -906,6 +952,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1861539766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309726858990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224309792260140
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,6 +978,7 @@ GameObject:
   - component: {fileID: 3483224309792260560}
   - component: {fileID: 3483224309792260563}
   - component: {fileID: 3483224309792260562}
+  - component: {fileID: 667796051}
   m_Layer: 5
   m_Name: Button__
   m_TagString: Untagged
@@ -1035,6 +1096,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &667796051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309792260140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224309794494416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,6 +1201,7 @@ GameObject:
   - component: {fileID: 3483224309812349509}
   - component: {fileID: 3483224309812349508}
   - component: {fileID: 3483224309812349511}
+  - component: {fileID: 232396654}
   m_Layer: 5
   m_Name: Button_M
   m_TagString: Untagged
@@ -1243,6 +1319,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &232396654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309812349505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224309818765934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1255,6 +1345,7 @@ GameObject:
   - component: {fileID: 3483224309818765842}
   - component: {fileID: 3483224309818765933}
   - component: {fileID: 3483224309818765932}
+  - component: {fileID: 2129564184}
   m_Layer: 5
   m_Name: 'Button_:'
   m_TagString: Untagged
@@ -1372,6 +1463,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &2129564184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309818765934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224309818998434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,6 +1489,7 @@ GameObject:
   - component: {fileID: 3483224309818998438}
   - component: {fileID: 3483224309818998433}
   - component: {fileID: 3483224309818998432}
+  - component: {fileID: 431303321}
   m_Layer: 5
   m_Name: Button_5
   m_TagString: Untagged
@@ -1501,6 +1607,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &431303321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309818998434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224309819924475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1513,6 +1633,7 @@ GameObject:
   - component: {fileID: 3483224309819924479}
   - component: {fileID: 3483224309819924478}
   - component: {fileID: 3483224309819924473}
+  - component: {fileID: 345489772}
   m_Layer: 5
   m_Name: Button_K
   m_TagString: Untagged
@@ -1630,6 +1751,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &345489772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309819924475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224309821925034
 GameObject:
   m_ObjectHideFlags: 0
@@ -1800,6 +1935,7 @@ GameObject:
   - component: {fileID: 3483224309843400295}
   - component: {fileID: 3483224309843400294}
   - component: {fileID: 3483224309843400289}
+  - component: {fileID: 1393779006}
   m_Layer: 5
   m_Name: Button_^
   m_TagString: Untagged
@@ -1917,6 +2053,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1393779006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309843400291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224309844051838
 GameObject:
   m_ObjectHideFlags: 0
@@ -2087,6 +2237,7 @@ GameObject:
   - component: {fileID: 3483224309858404979}
   - component: {fileID: 3483224309858404978}
   - component: {fileID: 3483224309858404941}
+  - component: {fileID: 1884984384}
   m_Layer: 5
   m_Name: Button_E
   m_TagString: Untagged
@@ -2204,6 +2355,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1884984384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309858404943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224309868929687
 GameObject:
   m_ObjectHideFlags: 0
@@ -2596,6 +2761,7 @@ GameObject:
   - component: {fileID: 3483224309974618536}
   - component: {fileID: 3483224309974618539}
   - component: {fileID: 3483224309974618538}
+  - component: {fileID: 955533294}
   m_Layer: 5
   m_Name: Button_N
   m_TagString: Untagged
@@ -2713,6 +2879,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &955533294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309974618532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224309990668132
 GameObject:
   m_ObjectHideFlags: 0
@@ -2804,6 +2984,7 @@ GameObject:
   - component: {fileID: 3483224309991003190}
   - component: {fileID: 3483224309991003185}
   - component: {fileID: 3483224309991003184}
+  - component: {fileID: 1093113746}
   m_Layer: 5
   m_Name: Button_T
   m_TagString: Untagged
@@ -2921,6 +3102,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1093113746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224309991003186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310006092307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2933,6 +3128,7 @@ GameObject:
   - component: {fileID: 3483224310006092311}
   - component: {fileID: 3483224310006092310}
   - component: {fileID: 3483224310006092305}
+  - component: {fileID: 183513383}
   m_Layer: 5
   m_Name: "Button_\xE7"
   m_TagString: Untagged
@@ -3050,6 +3246,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &183513383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310006092307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310022381994
 GameObject:
   m_ObjectHideFlags: 0
@@ -3062,6 +3272,7 @@ GameObject:
   - component: {fileID: 3483224310022381998}
   - component: {fileID: 3483224310022381993}
   - component: {fileID: 3483224310022381992}
+  - component: {fileID: 454976235}
   m_Layer: 5
   m_Name: Button_7
   m_TagString: Untagged
@@ -3179,6 +3390,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &454976235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310022381994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310039825522
 GameObject:
   m_ObjectHideFlags: 0
@@ -3349,6 +3574,7 @@ GameObject:
   - component: {fileID: 3483224310089111113}
   - component: {fileID: 3483224310089111112}
   - component: {fileID: 3483224310089111115}
+  - component: {fileID: 246963919}
   m_Layer: 5
   m_Name: "Button_\xBF"
   m_TagString: Untagged
@@ -3466,6 +3692,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &246963919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310089111109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310095959736
 GameObject:
   m_ObjectHideFlags: 0
@@ -3636,6 +3876,7 @@ GameObject:
   - component: {fileID: 3483224310133544979}
   - component: {fileID: 3483224310133544978}
   - component: {fileID: 3483224310133545069}
+  - component: {fileID: 632743889}
   m_Layer: 5
   m_Name: Button_B
   m_TagString: Untagged
@@ -3753,6 +3994,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &632743889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310133545071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310155182554
 GameObject:
   m_ObjectHideFlags: 0
@@ -3765,6 +4020,7 @@ GameObject:
   - component: {fileID: 3483224310155182558}
   - component: {fileID: 3483224310155182553}
   - component: {fileID: 3483224310155182552}
+  - component: {fileID: 2022170000}
   m_Layer: 5
   m_Name: Button_#
   m_TagString: Untagged
@@ -3882,6 +4138,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &2022170000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310155182554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310165160430
 GameObject:
   m_ObjectHideFlags: 0
@@ -4052,6 +4322,7 @@ GameObject:
   - component: {fileID: 3483224310226299982}
   - component: {fileID: 3483224310226299977}
   - component: {fileID: 3483224310226299976}
+  - component: {fileID: 1718647878}
   m_Layer: 5
   m_Name: Button_O
   m_TagString: Untagged
@@ -4169,6 +4440,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1718647878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310226299978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310240075211
 GameObject:
   m_ObjectHideFlags: 0
@@ -4260,6 +4545,7 @@ GameObject:
   - component: {fileID: 3483224310256275263}
   - component: {fileID: 3483224310256275262}
   - component: {fileID: 3483224310256275257}
+  - component: {fileID: 922007747}
   m_Layer: 5
   m_Name: Button_E
   m_TagString: Untagged
@@ -4377,6 +4663,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &922007747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310256275259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310257440209
 GameObject:
   m_ObjectHideFlags: 0
@@ -4547,6 +4847,7 @@ GameObject:
   - component: {fileID: 3483224310273966186}
   - component: {fileID: 3483224310273966181}
   - component: {fileID: 3483224310273966180}
+  - component: {fileID: 1337606827}
   m_Layer: 5
   m_Name: Button_}
   m_TagString: Untagged
@@ -4664,6 +4965,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1337606827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310273966182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310298680278
 GameObject:
   m_ObjectHideFlags: 0
@@ -4757,6 +5072,7 @@ GameObject:
   - component: {fileID: 3483224310305528654}
   - component: {fileID: 3483224310305528649}
   - component: {fileID: 3483224310305528648}
+  - component: {fileID: 755242731}
   m_Layer: 5
   m_Name: "Button_\xB7"
   m_TagString: Untagged
@@ -4874,6 +5190,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &755242731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310305528650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310312592307
 GameObject:
   m_ObjectHideFlags: 0
@@ -4886,6 +5216,7 @@ GameObject:
   - component: {fileID: 3483224310312592311}
   - component: {fileID: 3483224310312592310}
   - component: {fileID: 3483224310312592305}
+  - component: {fileID: 1707433417}
   m_Layer: 5
   m_Name: Button_]
   m_TagString: Untagged
@@ -5003,6 +5334,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1707433417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310312592307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310316204383
 GameObject:
   m_ObjectHideFlags: 0
@@ -5252,6 +5597,7 @@ GameObject:
   - component: {fileID: 3483224310330081331}
   - component: {fileID: 3483224310330081330}
   - component: {fileID: 3483224310330081293}
+  - component: {fileID: 328056394}
   m_Layer: 5
   m_Name: Button_(
   m_TagString: Untagged
@@ -5369,6 +5715,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &328056394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310330081295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310331362642
 GameObject:
   m_ObjectHideFlags: 0
@@ -5460,6 +5820,7 @@ GameObject:
   - component: {fileID: 3483224310334117511}
   - component: {fileID: 3483224310334117510}
   - component: {fileID: 3483224310334117505}
+  - component: {fileID: 437689982}
   m_Layer: 5
   m_Name: Button_&
   m_TagString: Untagged
@@ -5577,6 +5938,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &437689982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310334117507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310427067505
 GameObject:
   m_ObjectHideFlags: 0
@@ -5668,6 +6043,7 @@ GameObject:
   - component: {fileID: 3483224310427106152}
   - component: {fileID: 3483224310427106155}
   - component: {fileID: 3483224310427106154}
+  - component: {fileID: 379372653}
   m_Layer: 5
   m_Name: Button_L
   m_TagString: Untagged
@@ -5785,6 +6161,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &379372653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310427106148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310438779126
 GameObject:
   m_ObjectHideFlags: 0
@@ -5797,6 +6187,7 @@ GameObject:
   - component: {fileID: 3483224310438779130}
   - component: {fileID: 3483224310438779125}
   - component: {fileID: 3483224310438779124}
+  - component: {fileID: 1380042217}
   m_Layer: 5
   m_Name: Button_;
   m_TagString: Untagged
@@ -5914,6 +6305,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1380042217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310438779126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310444863102
 GameObject:
   m_ObjectHideFlags: 0
@@ -5926,6 +6331,7 @@ GameObject:
   - component: {fileID: 3483224310444863074}
   - component: {fileID: 3483224310444863101}
   - component: {fileID: 3483224310444863100}
+  - component: {fileID: 1559188278}
   m_Layer: 5
   m_Name: Button_%
   m_TagString: Untagged
@@ -6043,6 +6449,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1559188278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310444863102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310464899627
 GameObject:
   m_ObjectHideFlags: 0
@@ -6055,6 +6475,7 @@ GameObject:
   - component: {fileID: 3483224310464899631}
   - component: {fileID: 3483224310464899630}
   - component: {fileID: 3483224310464899625}
+  - component: {fileID: 945959489}
   m_Layer: 5
   m_Name: "Button_\xC1"
   m_TagString: Untagged
@@ -6172,6 +6593,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &945959489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310464899627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310467369172
 GameObject:
   m_ObjectHideFlags: 0
@@ -6263,6 +6698,7 @@ GameObject:
   - component: {fileID: 3483224310482586084}
   - component: {fileID: 3483224310482586087}
   - component: {fileID: 3483224310482586086}
+  - component: {fileID: 2038341164}
   m_Layer: 5
   m_Name: Button_C
   m_TagString: Untagged
@@ -6380,6 +6816,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &2038341164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310482586080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310490804471
 GameObject:
   m_ObjectHideFlags: 0
@@ -6550,6 +7000,7 @@ GameObject:
   - component: {fileID: 3483224310532246785}
   - component: {fileID: 3483224310532246784}
   - component: {fileID: 3483224310532246787}
+  - component: {fileID: 949453601}
   m_Layer: 5
   m_Name: entrarBoton
   m_TagString: Untagged
@@ -6667,6 +7118,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &949453601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310532246813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310535403545
 GameObject:
   m_ObjectHideFlags: 0
@@ -6758,6 +7223,7 @@ GameObject:
   - component: {fileID: 3483224310545621783}
   - component: {fileID: 3483224310545621782}
   - component: {fileID: 3483224310545621777}
+  - component: {fileID: 1143079556}
   m_Layer: 5
   m_Name: Button_?
   m_TagString: Untagged
@@ -6875,6 +7341,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1143079556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310545621779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310574577118
 GameObject:
   m_ObjectHideFlags: 0
@@ -6966,6 +7446,7 @@ GameObject:
   - component: {fileID: 3483224310575496760}
   - component: {fileID: 3483224310575496763}
   - component: {fileID: 3483224310575496762}
+  - component: {fileID: 1728821938}
   m_Layer: 5
   m_Name: Button_R
   m_TagString: Untagged
@@ -7083,6 +7564,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1728821938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310575496756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310584614255
 GameObject:
   m_ObjectHideFlags: 0
@@ -7411,6 +7906,7 @@ GameObject:
   - component: {fileID: 3483224310686127267}
   - component: {fileID: 3483224310686127266}
   - component: {fileID: 3483224310686127293}
+  - component: {fileID: 1652189477}
   m_Layer: 5
   m_Name: "Button_\xD1"
   m_TagString: Untagged
@@ -7528,6 +8024,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1652189477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310686127295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310718887291
 GameObject:
   m_ObjectHideFlags: 0
@@ -7619,6 +8129,7 @@ GameObject:
   - component: {fileID: 3483224310740994279}
   - component: {fileID: 3483224310740994278}
   - component: {fileID: 3483224310740994273}
+  - component: {fileID: 873478584}
   m_Layer: 5
   m_Name: mayusBoton
   m_TagString: Untagged
@@ -7736,6 +8247,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &873478584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310740994274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310747160140
 GameObject:
   m_ObjectHideFlags: 0
@@ -7748,6 +8273,7 @@ GameObject:
   - component: {fileID: 3483224310747160176}
   - component: {fileID: 3483224310747160179}
   - component: {fileID: 3483224310747160178}
+  - component: {fileID: 2098568219}
   m_Layer: 5
   m_Name: Button_A
   m_TagString: Untagged
@@ -7865,6 +8391,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &2098568219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310747160140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310783964085
 GameObject:
   m_ObjectHideFlags: 0
@@ -7956,6 +8496,7 @@ GameObject:
   - component: {fileID: 3483224310840549358}
   - component: {fileID: 3483224310840549353}
   - component: {fileID: 3483224310840549352}
+  - component: {fileID: 115006374}
   m_Layer: 5
   m_Name: Button_!
   m_TagString: Untagged
@@ -8073,6 +8614,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &115006374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310840549354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310848304081
 GameObject:
   m_ObjectHideFlags: 0
@@ -8085,6 +8640,7 @@ GameObject:
   - component: {fileID: 3483224310848304085}
   - component: {fileID: 3483224310848304084}
   - component: {fileID: 3483224310848304087}
+  - component: {fileID: 1401154137}
   m_Layer: 5
   m_Name: Button_"
   m_TagString: Untagged
@@ -8202,6 +8758,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1401154137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310848304081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310863745758
 GameObject:
   m_ObjectHideFlags: 0
@@ -8296,7 +8866,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3483224310869271691
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8355,6 +8925,7 @@ GameObject:
   - component: {fileID: 3483224310879296161}
   - component: {fileID: 3483224310879296160}
   - component: {fileID: 3483224310879296163}
+  - component: {fileID: 1505534902}
   m_Layer: 5
   m_Name: Button_{
   m_TagString: Untagged
@@ -8472,6 +9043,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1505534902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310879296189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224310977695004
 GameObject:
   m_ObjectHideFlags: 0
@@ -8642,6 +9227,7 @@ GameObject:
   - component: {fileID: 3483224310999149070}
   - component: {fileID: 3483224310999149065}
   - component: {fileID: 3483224310999149064}
+  - component: {fileID: 1083501314}
   m_Layer: 5
   m_Name: Button_@
   m_TagString: Untagged
@@ -8759,6 +9345,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1083501314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224310999149066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311021256099
 GameObject:
   m_ObjectHideFlags: 0
@@ -8771,6 +9371,7 @@ GameObject:
   - component: {fileID: 3483224311021256103}
   - component: {fileID: 3483224311021256102}
   - component: {fileID: 3483224311021256097}
+  - component: {fileID: 1976525444}
   m_Layer: 5
   m_Name: Button_0
   m_TagString: Untagged
@@ -8888,6 +9489,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1976525444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311021256099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311032611512
 GameObject:
   m_ObjectHideFlags: 0
@@ -8900,6 +9515,7 @@ GameObject:
   - component: {fileID: 3483224311032611516}
   - component: {fileID: 3483224311032611519}
   - component: {fileID: 3483224311032611518}
+  - component: {fileID: 1885003850}
   m_Layer: 5
   m_Name: Button_Z
   m_TagString: Untagged
@@ -9017,6 +9633,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1885003850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311032611512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311046328657
 GameObject:
   m_ObjectHideFlags: 0
@@ -9029,6 +9659,7 @@ GameObject:
   - component: {fileID: 3483224311046328661}
   - component: {fileID: 3483224311046328660}
   - component: {fileID: 3483224311046328663}
+  - component: {fileID: 810789176}
   m_Layer: 5
   m_Name: Button_6
   m_TagString: Untagged
@@ -9146,6 +9777,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &810789176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311046328657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311049883659
 GameObject:
   m_ObjectHideFlags: 0
@@ -9316,6 +9961,7 @@ GameObject:
   - component: {fileID: 3483224311064417667}
   - component: {fileID: 3483224311064417666}
   - component: {fileID: 3483224311064417693}
+  - component: {fileID: 1419659572}
   m_Layer: 5
   m_Name: Button_$
   m_TagString: Untagged
@@ -9433,6 +10079,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1419659572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311064417695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311085216219
 GameObject:
   m_ObjectHideFlags: 0
@@ -9603,6 +10263,7 @@ GameObject:
   - component: {fileID: 3483224311108470775}
   - component: {fileID: 3483224311108470774}
   - component: {fileID: 3483224311108470769}
+  - component: {fileID: 1368917421}
   m_Layer: 5
   m_Name: Button_1
   m_TagString: Untagged
@@ -9720,6 +10381,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1368917421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311108470771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311123861726
 GameObject:
   m_ObjectHideFlags: 0
@@ -9732,6 +10407,7 @@ GameObject:
   - component: {fileID: 3483224311123861698}
   - component: {fileID: 3483224311123861725}
   - component: {fileID: 3483224311123861724}
+  - component: {fileID: 1051760404}
   m_Layer: 5
   m_Name: Button_U
   m_TagString: Untagged
@@ -9849,6 +10525,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1051760404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311123861726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311127726381
 GameObject:
   m_ObjectHideFlags: 0
@@ -10019,6 +10709,7 @@ GameObject:
   - component: {fileID: 3483224311134027773}
   - component: {fileID: 3483224311134027772}
   - component: {fileID: 3483224311134027775}
+  - component: {fileID: 1486338921}
   m_Layer: 5
   m_Name: Button_W
   m_TagString: Untagged
@@ -10136,6 +10827,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1486338921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311134027769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311138646930
 GameObject:
   m_ObjectHideFlags: 0
@@ -10148,6 +10853,7 @@ GameObject:
   - component: {fileID: 3483224311138646934}
   - component: {fileID: 3483224311138646929}
   - component: {fileID: 3483224311138646928}
+  - component: {fileID: 1893825153}
   m_Layer: 5
   m_Name: Button_9
   m_TagString: Untagged
@@ -10265,6 +10971,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1893825153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311138646930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311141003112
 GameObject:
   m_ObjectHideFlags: 0
@@ -10277,6 +10997,7 @@ GameObject:
   - component: {fileID: 3483224311141003116}
   - component: {fileID: 3483224311141003119}
   - component: {fileID: 3483224311141003118}
+  - component: {fileID: 548305836}
   m_Layer: 5
   m_Name: borrarBoton
   m_TagString: Untagged
@@ -10394,6 +11115,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &548305836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311141003112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311145021129
 GameObject:
   m_ObjectHideFlags: 0
@@ -10406,6 +11141,7 @@ GameObject:
   - component: {fileID: 3483224311145021133}
   - component: {fileID: 3483224311145021132}
   - component: {fileID: 3483224311145021135}
+  - component: {fileID: 1469290878}
   m_Layer: 5
   m_Name: Button_D
   m_TagString: Untagged
@@ -10523,6 +11259,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1469290878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311145021129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311153064791
 GameObject:
   m_ObjectHideFlags: 0
@@ -10772,6 +11522,7 @@ GameObject:
   - component: {fileID: 3483224311195995711}
   - component: {fileID: 3483224311195995710}
   - component: {fileID: 3483224311195995705}
+  - component: {fileID: 1290750846}
   m_Layer: 5
   m_Name: otrosBoton
   m_TagString: Untagged
@@ -10889,6 +11640,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1290750846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311195995706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311196087532
 GameObject:
   m_ObjectHideFlags: 0
@@ -10901,6 +11666,7 @@ GameObject:
   - component: {fileID: 3483224311196087440}
   - component: {fileID: 3483224311196087443}
   - component: {fileID: 3483224311196087442}
+  - component: {fileID: 1850891340}
   m_Layer: 5
   m_Name: Button_J
   m_TagString: Untagged
@@ -11018,6 +11784,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1850891340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311196087532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311241592255
 GameObject:
   m_ObjectHideFlags: 0
@@ -11267,6 +12047,7 @@ GameObject:
   - component: {fileID: 3483224311256910930}
   - component: {fileID: 3483224311256911021}
   - component: {fileID: 3483224311256911020}
+  - component: {fileID: 803071694}
   m_Layer: 5
   m_Name: Button_I
   m_TagString: Untagged
@@ -11384,6 +12165,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &803071694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311256911022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311274835866
 GameObject:
   m_ObjectHideFlags: 0
@@ -11475,6 +12270,7 @@ GameObject:
   - component: {fileID: 3483224311291032800}
   - component: {fileID: 3483224311291032803}
   - component: {fileID: 3483224311291032802}
+  - component: {fileID: 893026598}
   m_Layer: 5
   m_Name: Button_[
   m_TagString: Untagged
@@ -11592,6 +12388,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &893026598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311291032828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311295526049
 GameObject:
   m_ObjectHideFlags: 0
@@ -11683,6 +12493,7 @@ GameObject:
   - component: {fileID: 3483224311307493003}
   - component: {fileID: 3483224311307493002}
   - component: {fileID: 3483224311307492997}
+  - component: {fileID: 1893012260}
   m_Layer: 5
   m_Name: Button_/
   m_TagString: Untagged
@@ -11800,6 +12611,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1893012260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311307492999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311315633739
 GameObject:
   m_ObjectHideFlags: 0
@@ -11812,6 +12637,7 @@ GameObject:
   - component: {fileID: 3483224311315633743}
   - component: {fileID: 3483224311315633742}
   - component: {fileID: 3483224311315633737}
+  - component: {fileID: 1180610678}
   m_Layer: 5
   m_Name: Button_F
   m_TagString: Untagged
@@ -11929,6 +12755,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1180610678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311315633739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311329090844
 GameObject:
   m_ObjectHideFlags: 0
@@ -12020,6 +12860,7 @@ GameObject:
   - component: {fileID: 3483224311355935830}
   - component: {fileID: 3483224311355935825}
   - component: {fileID: 3483224311355935824}
+  - component: {fileID: 533126515}
   m_Layer: 5
   m_Name: Button_Y
   m_TagString: Untagged
@@ -12137,6 +12978,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &533126515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311355935826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311387057206
 GameObject:
   m_ObjectHideFlags: 0
@@ -12149,6 +13004,7 @@ GameObject:
   - component: {fileID: 3483224311387057210}
   - component: {fileID: 3483224311387057205}
   - component: {fileID: 3483224311387057204}
+  - component: {fileID: 1430289538}
   m_Layer: 5
   m_Name: Button_Q
   m_TagString: Untagged
@@ -12266,6 +13122,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1430289538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311387057206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311398377953
 GameObject:
   m_ObjectHideFlags: 0
@@ -12436,6 +13306,7 @@ GameObject:
   - component: {fileID: 3483224311432086455}
   - component: {fileID: 3483224311432086454}
   - component: {fileID: 3483224311432086449}
+  - component: {fileID: 1135843391}
   m_Layer: 5
   m_Name: Button_8
   m_TagString: Untagged
@@ -12553,6 +13424,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1135843391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311432086451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311448533449
 GameObject:
   m_ObjectHideFlags: 0
@@ -12565,6 +13450,7 @@ GameObject:
   - component: {fileID: 3483224311448533453}
   - component: {fileID: 3483224311448533452}
   - component: {fileID: 3483224311448533455}
+  - component: {fileID: 1173781128}
   m_Layer: 5
   m_Name: Button_V
   m_TagString: Untagged
@@ -12682,6 +13568,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1173781128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311448533449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311454652630
 GameObject:
   m_ObjectHideFlags: 0
@@ -12773,6 +13673,7 @@ GameObject:
   - component: {fileID: 3483224311477837829}
   - component: {fileID: 3483224311477837828}
   - component: {fileID: 3483224311477837831}
+  - component: {fileID: 933717137}
   m_Layer: 5
   m_Name: Button_I
   m_TagString: Untagged
@@ -12890,6 +13791,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &933717137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311477837825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311481138725
 GameObject:
   m_ObjectHideFlags: 0
@@ -13221,6 +14136,7 @@ GameObject:
   - component: {fileID: 3483224311546306434}
   - component: {fileID: 3483224311546306461}
   - component: {fileID: 3483224311546306460}
+  - component: {fileID: 687602846}
   m_Layer: 5
   m_Name: Button_)
   m_TagString: Untagged
@@ -13338,6 +14254,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &687602846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311546306462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311549829665
 GameObject:
   m_ObjectHideFlags: 0
@@ -13587,6 +14517,7 @@ GameObject:
   - component: {fileID: 3483224311582752282}
   - component: {fileID: 3483224311582752277}
   - component: {fileID: 3483224311582752276}
+  - component: {fileID: 1671215932}
   m_Layer: 5
   m_Name: Button_G
   m_TagString: Untagged
@@ -13704,6 +14635,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1671215932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311582752278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311599843445
 GameObject:
   m_ObjectHideFlags: 0
@@ -13874,6 +14819,7 @@ GameObject:
   - component: {fileID: 3483224311615664574}
   - component: {fileID: 3483224311615664569}
   - component: {fileID: 3483224311615664568}
+  - component: {fileID: 535827977}
   m_Layer: 5
   m_Name: Button_=
   m_TagString: Untagged
@@ -13991,6 +14937,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &535827977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311615664570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311629086452
 GameObject:
   m_ObjectHideFlags: 0
@@ -14002,7 +14962,6 @@ GameObject:
   - component: {fileID: 3483224311629086456}
   - component: {fileID: 3483224311629086459}
   - component: {fileID: 3483224311629086458}
-  - component: {fileID: 3483224311629086453}
   - component: {fileID: 633933711479886198}
   m_Layer: 5
   m_Name: Teclado
@@ -14031,6 +14990,7 @@ RectTransform:
   - {fileID: 3483224311757959362}
   - {fileID: 3483224311533108613}
   - {fileID: 6303311313119495454}
+  - {fileID: 1120603043}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14082,23 +15042,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &3483224311629086453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3483224311629086452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &633933711479886198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14111,7 +15054,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59af8e9c9882a945a1cfe2c5993cbdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cargando: {fileID: 0}
   mensaje: {fileID: 6834996087614308042}
 --- !u!1 &3483224311653364192
 GameObject:
@@ -14125,6 +15067,7 @@ GameObject:
   - component: {fileID: 3483224311653364196}
   - component: {fileID: 3483224311653364199}
   - component: {fileID: 3483224311653364198}
+  - component: {fileID: 1398839796}
   m_Layer: 5
   m_Name: Button_S
   m_TagString: Untagged
@@ -14242,6 +15185,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1398839796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311653364192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311656929570
 GameObject:
   m_ObjectHideFlags: 0
@@ -14333,6 +15290,7 @@ GameObject:
   - component: {fileID: 3483224311658646736}
   - component: {fileID: 3483224311658646739}
   - component: {fileID: 3483224311658646738}
+  - component: {fileID: 1369321073}
   m_Layer: 5
   m_Name: Button_3
   m_TagString: Untagged
@@ -14450,6 +15408,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1369321073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311658647340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311731097221
 GameObject:
   m_ObjectHideFlags: 0
@@ -14462,6 +15434,7 @@ GameObject:
   - component: {fileID: 3483224311731097225}
   - component: {fileID: 3483224311731097224}
   - component: {fileID: 3483224311731097227}
+  - component: {fileID: 577361167}
   m_Layer: 5
   m_Name: Button_P
   m_TagString: Untagged
@@ -14579,6 +15552,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &577361167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311731097221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311738384650
 GameObject:
   m_ObjectHideFlags: 0
@@ -14670,6 +15657,7 @@ GameObject:
   - component: {fileID: 3483224311757016137}
   - component: {fileID: 3483224311757016136}
   - component: {fileID: 3483224311757016139}
+  - component: {fileID: 2007011135}
   m_Layer: 5
   m_Name: Button_X
   m_TagString: Untagged
@@ -14787,6 +15775,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &2007011135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311757016133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311757959389
 GameObject:
   m_ObjectHideFlags: 0
@@ -14838,6 +15840,7 @@ GameObject:
   - component: {fileID: 3483224311760525378}
   - component: {fileID: 3483224311760525405}
   - component: {fileID: 3483224311760525404}
+  - component: {fileID: 206566908}
   m_Layer: 5
   m_Name: Button_H
   m_TagString: Untagged
@@ -14955,6 +15958,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &206566908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311760525406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &3483224311760590133
 GameObject:
   m_ObjectHideFlags: 0
@@ -14967,6 +15984,7 @@ GameObject:
   - component: {fileID: 3483224311760590137}
   - component: {fileID: 3483224311760590136}
   - component: {fileID: 3483224311760590139}
+  - component: {fileID: 601375668}
   m_Layer: 5
   m_Name: Button_4
   m_TagString: Untagged
@@ -15084,6 +16102,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &601375668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3483224311760590133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  mensaje: 
 --- !u!1 &4844384517466981371
 GameObject:
   m_ObjectHideFlags: 0
@@ -15242,3 +16274,143 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '*****'
+--- !u!1001 &876615822072945056
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3483224311629086456}
+    m_Modifications:
+    - target: {fileID: 876615823126303234, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_Name
+      value: btnRegresar
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -726
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 318
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 252.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 151.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.70616
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.70616
+      objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.70616
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0051894e815d97241ac9cc953d88992b, type: 3}
+--- !u!224 &1120603043 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
+    type: 3}
+  m_PrefabInstance: {fileID: 876615822072945056}
+  m_PrefabAsset: {fileID: 0}
