@@ -10,6 +10,9 @@ public class CursoManager : MonoBehaviour {
 
     public GameObject animPuntajeObtenido;
 
+    public Text textoRachaMax;
+    public Text textoAciertos;
+    public Text textoNotaLetra;
     public Text textoRacha;
     public Text textoMultiplicador;
     public Text textoPuntajeObtenido;
@@ -38,9 +41,13 @@ public class CursoManager : MonoBehaviour {
 
     int countPreguntas = 0;
     int score;
+    int mayorRacha = 0;
     int racha = 0;
+    int aciertos = 0;
     int multiplicador;
 
+    int numPreguntas = 0;
+    int maxPuntosPorPartida = 0;
     int correctasAContestar = 0;
     int correctas = 0;
     string parUno = "";
@@ -54,11 +61,17 @@ public class CursoManager : MonoBehaviour {
     string idRespuesta = "";
 
     void Start() {
+        mayorRacha = 0;
+        racha = 0;
+        aciertos = 0;
+        maxPuntosPorPartida = 0;
         multiplicador = 1;
         animPuntajeObtenido.SetActive(false);
         scoreFinal.SetActive(false);
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
         preguntas = manager.preguntasCategoria;
+        numPreguntas = preguntas.Length;
+        maxPuntosPorPartida = 700 + ((numPreguntas - 4) * 400);
         loadSalonCategoria();
         var idUsuario = webServiceUsuario.consultarIdUsuarioSqLite(manager.getUsuario());
         var idLog = webServiceLog.getLastLogSqLite(idUsuario);
@@ -131,7 +144,7 @@ public class CursoManager : MonoBehaviour {
             correctas = 0;
             racha = 0;
             multiplicador = 1;
-            textoRacha.text ="";
+            textoRacha.text = "";
             textoMultiplicador.text = "";
             StartCoroutine(activaObjeto(incorrectoimg));
             webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
@@ -141,6 +154,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void respuestaCorrecta() {
+        aciertos++;
         countPreguntas++;
         correctas = 0;
         verificarRacha();
@@ -150,9 +164,12 @@ public class CursoManager : MonoBehaviour {
         textoCompletado.text = "";
     }
 
-    public void verificarRacha(){
+    public void verificarRacha() {
         int puntajePregunta;
         racha++;
+        if (racha > mayorRacha) {
+            mayorRacha = racha;
+        }
         textoRacha.text = racha + "";
         if (racha >= 2) {
             puntajePregunta = 100 * multiplicador;
@@ -198,10 +215,40 @@ public class CursoManager : MonoBehaviour {
             }
         } else {
             destroyChildrens();
+            textoPuntaje.text = "";
+            textoMultiplicador.text = "";
             textoPuntajeMarcador.text = score + "";
+            textoRachaMax.text = mayorRacha + "";
+            textoAciertos.text = aciertos + "";
+            getNota();
             webServiceRegistro.validarAccionSqlite("Puntaje obtenido: " + score, manager.getUsuario(), "Puntaje obtenido");
             webServiceRegistro.validarAccionSqlite("Terminó ejercicio", manager.getUsuario(), "Terminó ejercicio");
             scoreFinal.SetActive(true);
+        }
+    }
+
+    public void getNota(){
+        float promedio = (aciertos * 10) / numPreguntas;
+        if (promedio == 10.00) {
+            textoNotaLetra.text = "S";
+        }else if (promedio >= 9.5 && promedio < 10.00) {
+            textoNotaLetra.text = "A+";
+        }else if (promedio >= 9.00 && promedio < 9.5) {
+            textoNotaLetra.text = "A";
+        }else if (promedio >= 8.5 && promedio < 9) {
+            textoNotaLetra.text = "B+";
+        }else if (promedio >= 8.00 && promedio < 8.5) {
+            textoNotaLetra.text = "B";
+        }else if (promedio >= 7.5 && promedio < 8) {
+            textoNotaLetra.text = "C+";
+        }else if (promedio >= 7.00 && promedio < 7.5) {
+            textoNotaLetra.text = "C";
+        }else if (promedio >= 6.5 && promedio < 7.00) {
+            textoNotaLetra.text = "D+";
+        } else if (promedio >= 6.00 && promedio < 6.5) {
+            textoNotaLetra.text = "D";
+        } else if (promedio < 6.00){
+            textoNotaLetra.text = "F " + promedio;
         }
     }
 
