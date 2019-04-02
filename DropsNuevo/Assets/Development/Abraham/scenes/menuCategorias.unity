@@ -625,6 +625,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  isOnlyMesagge: 0
+  mensaje: 
 --- !u!1 &152920796
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,6 +1397,7 @@ GameObject:
   - component: {fileID: 407988670}
   - component: {fileID: 407988669}
   - component: {fileID: 407988672}
+  - component: {fileID: 407988668}
   m_Layer: 5
   m_Name: PanelDescargas
   m_TagString: Untagged
@@ -1421,6 +1425,21 @@ RectTransform:
   m_AnchoredPosition: {x: -0.151, y: -8.548999}
   m_SizeDelta: {x: -1.956, y: -16.762}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &407988668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407988666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 1
+  isOnlyMesagge: 1
+  mensaje: En esta seccion puedes seleccionar cual paquete descargar
 --- !u!114 &407988669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2436,6 +2455,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 1
+  isOnlyMesagge: 0
+  mensaje: "Panel de configuraci\xF3n aqu\xED podr\xE1s desactivarme,  modificar la
+    cantidad de preguntas por partida y mas..."
 --- !u!1 &794536950
 GameObject:
   m_ObjectHideFlags: 0
@@ -3918,6 +3941,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  isOnlyMesagge: 0
+  mensaje: 
 --- !u!1 &1767877125
 GameObject:
   m_ObjectHideFlags: 0
@@ -3954,6 +3980,191 @@ RectTransform:
   m_AnchoredPosition: {x: -0.097, y: 0}
   m_SizeDelta: {x: -10.183, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1773477325
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1800158068465022556, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_Name
+      value: Mascota
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -16.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.34902284
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.93711424
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -40.855003
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.53515214
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.53515214
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.53515214
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068646290021, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068646290021, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068693216502, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068693216502, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068693216502, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068693216502, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068693216502, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000011175871
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068693216502, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068693216502, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068693216502, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.00000023841858
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629182, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629182, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629182, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629182, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629182, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000005122274
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629182, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629182, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629182, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.3470001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629182, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.06699979
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629177, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_Text
+      value: Bienvenido a Drops UVEG, esta es tu ventana principal, en la que puedes
+        seleccionar, descargar y reparar los paquetes que quieras
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 499003c88fdab3f4485ee542db668ba8, type: 3}
 --- !u!1 &1861550289
 GameObject:
   m_ObjectHideFlags: 0
@@ -4096,6 +4307,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 0
+  isOnlyMesagge: 0
+  mensaje: 
 --- !u!1 &1879537017
 GameObject:
   m_ObjectHideFlags: 0
@@ -4537,7 +4751,7 @@ PrefabInstance:
     - target: {fileID: 7204126048029776275, guid: ace3bd29d9569404aa22143182602e0e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: -11.7
       objectReference: {fileID: 0}
     - target: {fileID: 7204126048029776275, guid: ace3bd29d9569404aa22143182602e0e,
         type: 3}
@@ -5110,6 +5324,7 @@ GameObject:
   - component: {fileID: 8857510578497110150}
   - component: {fileID: 8857510578497110152}
   - component: {fileID: 8857510578497110149}
+  - component: {fileID: 8857510578497110153}
   m_Layer: 5
   m_Name: PanelPaquetes
   m_TagString: Untagged
@@ -5205,6 +5420,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &8857510578497110153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8857510578497110148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da3ef70edc895643b68d2cab6e9c66c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cambiarDialogoMascota: 1
+  isOnlyMesagge: 1
+  mensaje: "En esta seccion puedes seleccionar el paquete a jugar, ademas de actualizar
+    y reparar paquetes da\xF1ados"
 --- !u!114 &8857510578498427496
 MonoBehaviour:
   m_ObjectHideFlags: 0

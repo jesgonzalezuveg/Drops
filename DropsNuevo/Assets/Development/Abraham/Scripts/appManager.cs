@@ -501,7 +501,9 @@ public class appManager : MonoBehaviour {
         fechaDescarga = fechaDescarga.Replace(':', ' ');
         string[] splitDateDescarga = fechaDescarga.Split(' ');
         if (fechaDescarga.Contains("p")) {
-            splitDateDescarga[3] = Int32.Parse(splitDateDescarga[3]) + 12 + "";
+            if (splitDateDescarga[3] != "12") {
+                splitDateDescarga[3] = Int32.Parse(splitDateDescarga[3]) + 12 + "";
+            }
         }
         Debug.Log(splitDateDescarga[3] + "");
         fechaDescarga = fechaDescarga.Remove(19, fechaDescarga.Length - 19);

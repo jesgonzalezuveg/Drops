@@ -124,6 +124,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: btnRegresar (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 876615823126303232, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1678051553}
+    - target: {fileID: 876615823126303232, guid: 0051894e815d97241ac9cc953d88992b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: regresar
+      objectReference: {fileID: 0}
     - target: {fileID: 876615823126303235, guid: 0051894e815d97241ac9cc953d88992b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -244,16 +254,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 876615823126303232, guid: 0051894e815d97241ac9cc953d88992b,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1678051553}
-    - target: {fileID: 876615823126303232, guid: 0051894e815d97241ac9cc953d88992b,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: regresar
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0051894e815d97241ac9cc953d88992b, type: 3}
 --- !u!224 &107913899 stripped
@@ -331,6 +331,96 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1001 &200561661
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1800158068465022556, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_Name
+      value: Mascota
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.34431612
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.34431612
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.34431612
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629177, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_Text
+      value: "\"Ingresa este codigo en tu campus UVEG en la seccion VR en la opci\xF3n
+        Pairing Code\""
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 499003c88fdab3f4485ee542db668ba8, type: 3}
 --- !u!1001 &275677190
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -722,7 +812,7 @@ PrefabInstance:
     - target: {fileID: 7204126048029776275, guid: ace3bd29d9569404aa22143182602e0e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.56
+      value: -10.9
       objectReference: {fileID: 0}
     - target: {fileID: 7204126048029776275, guid: ace3bd29d9569404aa22143182602e0e,
         type: 3}

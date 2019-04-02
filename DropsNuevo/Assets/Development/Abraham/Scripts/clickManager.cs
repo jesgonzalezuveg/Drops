@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class clickManager : MonoBehaviour {
 
     public bool cambiarDialogoMascota;
+    public bool isOnlyMesagge = false;
     public string mensaje;
 
     private AudioClip click;        ///< click audioClip que almacena el audio de click 
@@ -40,25 +41,28 @@ public class clickManager : MonoBehaviour {
             trigger = gameObject.GetComponent<EventTrigger>();
         }
 
-
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerDown;
-        entry.callback.AddListener((data) => {
-            if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-                return;
-            }
-            source.clip = click;
-            source.Play();
-        });
-        trigger.triggers.Add(entry);
+        if (!isOnlyMesagge) {
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerDown;
+            entry.callback.AddListener((data) => {
+                if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+                    return;
+                }
+                source.clip = click;
+                source.Play();
+            });
+            trigger.triggers.Add(entry);
+        }
         EventTrigger.Entry entry2 = new EventTrigger.Entry();
         entry2.eventID = EventTriggerType.PointerEnter;
         entry2.callback.AddListener((data) => {
             if (cambiarDialogoMascota) {
                 GameObject.Find("Mascota").GetComponentInChildren<Text>().text = mensaje;
             }
-            source.clip = hover;
-            source.Play();
+            if (!isOnlyMesagge) {
+                source.clip = hover;
+                source.Play();
+            }
         });
         trigger.triggers.Add(entry2);
         source.playOnAwake = false;
