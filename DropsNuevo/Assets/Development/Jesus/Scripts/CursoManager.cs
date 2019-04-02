@@ -8,6 +8,11 @@ using System;
 
 public class CursoManager : MonoBehaviour {
 
+    public GameObject animPuntajeObtenido;
+
+    public Text textoRacha;
+    public Text textoMultiplicador;
+    public Text textoPuntajeObtenido;
     public Text textoPuntaje;
     public Text textoPuntajeMarcador;
     public Text textoCompletado;
@@ -15,6 +20,12 @@ public class CursoManager : MonoBehaviour {
     public GameObject incorrectoimg;
     public GameObject scoreFinal;
     public Text preguntaText;
+
+    public AudioClip good;
+    public AudioClip great;
+    public AudioClip awsome;
+    public AudioClip perfect;
+    public AudioClip ops;
 
     public GameObject butonToInstantiate;
     public GameObject butonToInstantiateText;
@@ -27,6 +38,8 @@ public class CursoManager : MonoBehaviour {
 
     int countPreguntas = 0;
     int score;
+    int racha = 0;
+    int multiplicador;
 
     int correctasAContestar = 0;
     int correctas = 0;
@@ -41,6 +54,8 @@ public class CursoManager : MonoBehaviour {
     string idRespuesta = "";
 
     void Start() {
+        multiplicador = 1;
+        animPuntajeObtenido.SetActive(false);
         scoreFinal.SetActive(false);
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
         preguntas = manager.preguntasCategoria;
@@ -110,23 +125,50 @@ public class CursoManager : MonoBehaviour {
 
                     break;
             }
-        } else if(correctas < 0){
+        } else if (correctas < 0) {
             webServiceRegistro.validarAccionSqlite("Respondió incorrectamente(" + descripcionTipoEjercicio + ")", manager.getUsuario(), "Respondió pregunta");
             countPreguntas++;
             correctas = 0;
+            racha = 0;
+            multiplicador = 1;
+            textoRacha.text ="";
+            textoMultiplicador.text = "";
             StartCoroutine(activaObjeto(incorrectoimg));
             webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
             webServiceDetalleIntento.insertarDetalleIntentoSqLite("False", idPregunta, idRespuesta, idIntento);
+            textoCompletado.text = "";
         }
     }
 
     public void respuestaCorrecta() {
         countPreguntas++;
         correctas = 0;
-        score++;
+        verificarRacha();
         textoPuntaje.text = score + "";
         StartCoroutine(activaObjeto(correctoimg));
         webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
+        textoCompletado.text = "";
+    }
+
+    public void verificarRacha(){
+        int puntajePregunta;
+        racha++;
+        textoRacha.text = racha + "";
+        if (racha >= 2) {
+            puntajePregunta = 100 * multiplicador;
+            animPuntajeObtenido.SetActive(true);
+            textoPuntajeObtenido.text = "+" + puntajePregunta + "";
+            score = score + puntajePregunta;
+            if (multiplicador < 4) {
+                multiplicador++;
+            }
+            textoMultiplicador.text = "X" + multiplicador;
+        } else {
+            puntajePregunta = 100;
+            animPuntajeObtenido.SetActive(true);
+            textoPuntajeObtenido.text = "+" + puntajePregunta + "";
+            score = score + puntajePregunta;
+        }
     }
 
     public void llamarPreguntas() {
@@ -278,6 +320,10 @@ public class CursoManager : MonoBehaviour {
             } else {
                 webServiceRegistro.validarAccionSqlite("Respondió incorrectamente: " + fraseCompletada, manager.getUsuario(), "Respondió pregunta");
                 correctas = -1;
+                racha = 0;
+                multiplicador = 1;
+                textoRacha.text = "";
+                textoMultiplicador.text = "";
             }
             Destroy(obj);
         });
@@ -311,13 +357,41 @@ public class CursoManager : MonoBehaviour {
         });
     }
 
+    void valAudio(GameObject obj) {
+        switch (racha) {
+            case 0:
+                obj.GetComponentInChildren<AudioSource>().clip = ops;
+                break;
+            case 1:
+                obj.GetComponentInChildren<AudioSource>().clip = good;
+                break;
+            case 2:
+                obj.GetComponentInChildren<AudioSource>().clip = good;
+                break;
+            case 3:
+                obj.GetComponentInChildren<AudioSource>().clip = great;
+                break;
+            case 4:
+                obj.GetComponentInChildren<AudioSource>().clip = awsome;
+                break;
+            default:
+                obj.GetComponentInChildren<AudioSource>().clip = perfect;
+                break;
+        }
+    }
+
     IEnumerator activaObjeto(GameObject objeto) {
         destroyChildrens();
         objeto.SetActive(true);
+        valAudio(objeto);
         objeto.GetComponentInChildren<AudioSource>().Play();
+        //animPuntajeObtenido.GetComponent<Animation>().Play();
+        //yield return new WaitUntil(() => animPuntajeObtenido.GetComponent<Animation>().isPlaying == false);
         yield return new WaitUntil(() => objeto.GetComponentInChildren<AudioSource>().isPlaying == false);
         objeto.SetActive(false);
         correctasAContestar = 0;
+        textoPuntajeObtenido.text = "";
+        animPuntajeObtenido.SetActive(false);
         llamarPreguntas();
     }
 
