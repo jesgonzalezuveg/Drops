@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System;
 
 public class packManager : MonoBehaviour {
@@ -47,7 +46,7 @@ public class packManager : MonoBehaviour {
         }
         manager.preguntasCategoria = webServicePreguntas.getPreguntasByPackSqLiteCurso(paquete.id, manager.numeroPreguntas);
         webServiceRegistro.validarAccionSqlite("Partida: " + paquete.descripcion, manager.getUsuario(), "Comenzó ejercicio");
-        SceneManager.LoadScene("salon");
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("salon"));
     }
 
     /**

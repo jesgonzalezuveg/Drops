@@ -57,7 +57,9 @@ public class clickManager : MonoBehaviour {
         entry2.eventID = EventTriggerType.PointerEnter;
         entry2.callback.AddListener((data) => {
             if (cambiarDialogoMascota) {
-                GameObject.Find("Mascota").GetComponentInChildren<Text>().text = mensaje;
+                if (GameObject.FindObjectOfType<appManager>().mascotaActive) {
+                    GameObject.Find("Mascota").GetComponentInChildren<Text>().text = mensaje;
+                }
             }
             if (!isOnlyMesagge) {
                 source.clip = hover;

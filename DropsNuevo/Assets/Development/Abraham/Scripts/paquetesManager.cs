@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
-using UnityEngine.SceneManagement;
 
 public class paquetesManager : MonoBehaviour {
 
@@ -15,7 +14,7 @@ public class paquetesManager : MonoBehaviour {
     public GameObject listaPaquetesNuevos;  ///< listaPaquetesNuevos referencia al objeto que contiene los paquetes nuevos por descargar
     public GameObject configuracionModal;   ///< configuracionModal referencia al modal de configuracion de curso
     public GameObject scrollBar;            ///< scrollBar referencia al scrollbar para seleccionar el numero maximo de preguntas por curso
-    public GameObject scrollBarCamara;      ///< scrollBar referencia al scrollbar para seleccionar el campo visual
+    public GameObject mascotaActive;      ///< scrollBar referencia al toggle para activar o desactivar la mascota
     private bool bandera = true;            ///< bandera bandera que valida si ya se obtuo la imagen del usuario
     private bool banderaTabs = false;
     public GameObject tabToInstantiate;
@@ -24,6 +23,7 @@ public class paquetesManager : MonoBehaviour {
     public GameObject tabContent;
 
     GameObject tabActivo;
+    GameObject mascota;
 
     /**
      * Funcion que se manda llamar al inicio de la escena (frame 0)
@@ -40,6 +40,7 @@ public class paquetesManager : MonoBehaviour {
      * obtiene los datos de la BD local
      */
     private void Start() {
+        mascota = GameObject.Find("Mascota");
         if (manager.isFirstLogin) {
             manager.isFirstLogin = false;
             StartCoroutine(webServiceCategoria.getCategorias());
@@ -59,7 +60,7 @@ public class paquetesManager : MonoBehaviour {
         }
 
         scrollBar.GetComponent<Slider>().value = manager.numeroPreguntas;
-        scrollBarCamara.GetComponent<Slider>().value = manager.sizeCamera;
+        mascotaActive.GetComponent<Toggle>().isOn = manager.mascotaActive;
         setVisibleModal(false);
         manager.setBanderas(true);
         tabActivo = GameObject.Find("tabContentTodos");
@@ -165,13 +166,19 @@ public class paquetesManager : MonoBehaviour {
             StartCoroutine(getUserImg());
             bandera = false;
         }
-        if (GameObject.Find("CenterEyeAnchor").GetComponent<Camera>().fieldOfView != scrollBarCamara.GetComponent<Slider>().value) {
-            GameObject.Find("CenterEyeAnchor").GetComponent<Camera>().fieldOfView = scrollBarCamara.GetComponent<Slider>().value;
-        }
         if (listaPaquetesNuevos.transform.childCount <= 0) {
             GameObject.Find("ListaPaquetes").GetComponent<paquetesManager>().textoPaquetes.SetActive(true);
         } else {
             GameObject.Find("ListaPaquetes").GetComponent<paquetesManager>().textoPaquetes.SetActive(false);
+        }
+        if (mascotaActive.GetComponent<Toggle>().isOn) {
+            if (mascotaActive.GetComponentInParent<Text>()) {
+                mascotaActive.GetComponentInParent<Text>().text = "Activado";
+            }
+        } else {
+            if (mascotaActive.GetComponentInParent<Text>()) {
+                mascotaActive.GetComponentInParent<Text>().text = "Desactivado";
+            }
         }
     }
 
@@ -306,9 +313,10 @@ public class paquetesManager : MonoBehaviour {
             }
             //gameObject.GetComponent<GraphicRaycaster>().enabled = true;
             manager.GetComponent<appManager>().numeroPreguntas = scrollBar.GetComponent<Slider>().value;
-            manager.GetComponent<appManager>().sizeCamera = scrollBarCamara.GetComponent<Slider>().value;
+            manager.GetComponent<appManager>().mascotaActive = mascotaActive.GetComponent<Toggle>().isOn;
+            mascota.SetActive(manager.GetComponent<appManager>().mascotaActive);
         } else {
-            foreach(var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)){
+            foreach (var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)) {
                 ray.enabled = false;
             }
             //gameObject.GetComponent<GraphicRaycaster>().enabled = false;
@@ -415,7 +423,7 @@ public class paquetesManager : MonoBehaviour {
         manager.setCorreo(null);
         manager.setImagen(null);
         webServiceRegistro.validarAccionSqlite("Logout", manager.getUsuario(), "Cerrar sesión");
-        SceneManager.LoadScene("mainMenu");
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("mainMenu"));
     }
 
     /**

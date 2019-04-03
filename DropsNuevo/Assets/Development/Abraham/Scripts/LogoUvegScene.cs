@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 
 public class LogoUvegScene : MonoBehaviour {
@@ -22,7 +21,7 @@ public class LogoUvegScene : MonoBehaviour {
 
     public IEnumerator changeScene() {
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("mainMenu");
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("mainMenu"));
     }
 
 }

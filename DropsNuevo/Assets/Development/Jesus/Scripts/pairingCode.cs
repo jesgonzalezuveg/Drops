@@ -5,7 +5,6 @@ using UnityEngine;
 using Random = System.Random;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class pairingCode : MonoBehaviour {
     //Variables que guardan el codigo generado, la segunda con guión en medio de los 6 caracteres
@@ -192,7 +191,7 @@ public class pairingCode : MonoBehaviour {
                 StartCoroutine(WebServiceCodigo.updateCode(codigo.id, 3));
                 if (valCodigoSii == 1) {
                     Debug.Log("Se actualizo codigo en servidor");
-                    SceneManager.LoadScene("menuCategorias");
+                    StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias"));
                 } else if (valCodigoSii == 0) {
                     Debug.Log("No se pudo actualizar codigo en servidor");
                 } else {

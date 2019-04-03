@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 
 public class appManager : MonoBehaviour {
@@ -35,7 +36,6 @@ public class appManager : MonoBehaviour {
     public bool isFirstLogin = true;
 
     public string lastIdLog = "0";
-    public float sizeCamera = 60;
 
     public bool mascotaActive = true;
 
@@ -224,9 +224,6 @@ public class appManager : MonoBehaviour {
      * se encarga de llamar las validaciones de los datos de la BD
      */
     public void Update() {
-        foreach (var camara in GameObject.Find("Player").GetComponentsInChildren<Camera>()) {
-            camara.fieldOfView = sizeCamera;
-        }
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje2(true, myLog);
         if (isOnline) {
             if (Usuario != "" && bandera) {
@@ -540,6 +537,12 @@ public class appManager : MonoBehaviour {
         } else {
             return;
         }
+    }
+
+    public IEnumerator cambiarEscena(string escena) {
+        GameObject.FindObjectOfType<PlayerManager>().fadeOut.SetActive(true);
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(escena);
     }
 
 }

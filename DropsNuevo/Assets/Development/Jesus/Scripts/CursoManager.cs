@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
 using System;
@@ -477,7 +476,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void salir() {
-        SceneManager.LoadScene("menuCategorias");
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias"));
     }
 
     public webServicePreguntas.preguntaData[] shuffleArray(webServicePreguntas.preguntaData[] preguntas) {

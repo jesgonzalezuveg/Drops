@@ -2,7 +2,6 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class mainMenuManager : MonoBehaviour {
 
@@ -69,6 +68,6 @@ public class mainMenuManager : MonoBehaviour {
      */
     IEnumerator loadScene(string scene) {
         yield return new WaitUntil(() => this.GetComponent<AudioSource>().isPlaying == false);
-        SceneManager.LoadScene(scene);
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena(scene));
     }
 }

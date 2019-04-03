@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 public class SalonExitManager : MonoBehaviour {
 
@@ -12,6 +11,6 @@ public class SalonExitManager : MonoBehaviour {
 
     IEnumerator wait() {
         yield return new WaitUntil(() => gameObject.GetComponentInChildren<AudioSource>().isPlaying == false);
-        SceneManager.LoadScene("menuCategorias");
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias"));
     }
 }

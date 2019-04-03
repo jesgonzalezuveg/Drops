@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour {
 
@@ -11,6 +10,9 @@ public class PlayerManager : MonoBehaviour {
     bool isInMesagge = false;               ///< isInMesagge bandera que valida si se encuentra activa o no la pantalla cargando
     Quaternion rotationLock;                ///< rotationLock quaternion que contiene la rotacion de la camara en el momento que la pantallaCarga se activa
     public GameObject appManager;
+
+    public GameObject fadeIn;
+    public GameObject fadeOut;
 
     /**
      * Funcion que activa o desactiva la pantallaCargando
@@ -49,6 +51,7 @@ public class PlayerManager : MonoBehaviour {
      * oculta el mensaje y establece Time.timeScale a 1
      */
     void Start() {
+        fadeIn.SetActive(true);
         setMensaje(false, "");
         Time.timeScale = 1;
     }
@@ -74,6 +77,6 @@ public class PlayerManager : MonoBehaviour {
         if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
             return;
         }
-        SceneManager.LoadScene(escenaAnterior);
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena(escenaAnterior));
     }
 }
