@@ -172,12 +172,12 @@ public class paquetesManager : MonoBehaviour {
             GameObject.Find("ListaPaquetes").GetComponent<paquetesManager>().textoPaquetes.SetActive(false);
         }
         if (mascotaActive.GetComponent<Toggle>().isOn) {
-            if (mascotaActive.GetComponentInParent<Text>()) {
-                mascotaActive.GetComponentInParent<Text>().text = "Activado";
+            if (mascotaActive.GetComponentInChildren<Text>()) {
+                mascotaActive.GetComponentInChildren<Text>().text = "Activado";
             }
         } else {
-            if (mascotaActive.GetComponentInParent<Text>()) {
-                mascotaActive.GetComponentInParent<Text>().text = "Desactivado";
+            if (mascotaActive.GetComponentInChildren<Text>()) {
+                mascotaActive.GetComponentInChildren<Text>().text = "Desactivado";
             }
         }
     }
