@@ -58,6 +58,8 @@ public class clickManager : MonoBehaviour {
         entry2.callback.AddListener((data) => {
             if (cambiarDialogoMascota) {
                 if (GameObject.FindObjectOfType<appManager>().mascotaActive) {
+                    GameObject.Find("Mascota").GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+                    GameObject.Find("Mascota").GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
                     GameObject.Find("Mascota").GetComponentInChildren<Text>().text = mensaje;
                 }
             }

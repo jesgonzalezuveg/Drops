@@ -87,10 +87,16 @@ public class CursoManager : MonoBehaviour {
     IEnumerator mensajesMascota() {
         GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Bienvenido a tu salon de clases. Si quieres salir da click en las luces de SALIDA que se encuentran en cada una de las puertas";
         yield return new WaitForSeconds(4);
+        GameObject.Find("Mascota").GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+        GameObject.Find("Mascota").GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
         GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Contesta las preguntas que se muestran en el pizarron con las imagenes que se encuentran a tu alrededor";
         yield return new WaitForSeconds(4);
+        GameObject.Find("Mascota").GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+        GameObject.Find("Mascota").GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
         GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "¡COMENCEMOS!";
         yield return new WaitForSeconds(3);
+        GameObject.Find("Mascota").GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+        GameObject.Find("Mascota").GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
         GameObject.Find("Mascota").SetActive(false);
         llamarPreguntas();
     }
