@@ -77,6 +77,22 @@ public class CursoManager : MonoBehaviour {
         var idLog = webServiceLog.getLastLogSqLite(idUsuario);
         webServiceIntento.insertarIntentoSqLite("0", manager.getUsuario());
         idIntento = webServiceIntento.consultarUltimoIdIntentoByIdLogSqLite(idLog);
+        if (manager.mascotaActive) {
+            StartCoroutine(mensajesMascota());
+        } else {
+            GameObject.Find("Mascota").SetActive(false);
+            llamarPreguntas();
+        }
+    }
+
+    IEnumerator mensajesMascota() {
+        GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Bienvenido a tu salon de clases. Si quieres salir da click en las luces de SALIDA que se encuentran en cada una de las puertas";
+        yield return new WaitForSeconds(4);
+        GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Contesta las preguntas que se muestran en el pizarron con las imagenes que se encuentran a tu alrededor";
+        yield return new WaitForSeconds(4);
+        GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "¡COMENCEMOS!";
+        yield return new WaitForSeconds(3);
+        GameObject.Find("Mascota").SetActive(false);
         llamarPreguntas();
     }
 

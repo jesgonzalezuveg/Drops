@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -250,6 +250,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: insideOutSphere
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816562206489833576, guid: 4a737784791f4054fb712b2352a069ae,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5816562206489833580, guid: 4a737784791f4054fb712b2352a069ae,
         type: 3}
@@ -1277,7 +1282,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Pregunta elegida
+  m_Text: 
 --- !u!222 &801150714
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1436,7 +1441,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 
 --- !u!222 &836378238
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2707,6 +2712,121 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1629356171
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1800158068465022556, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_Name
+      value: Mascota
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022556, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.821
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.06910503
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.06910503
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.06910503
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068646290021, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068920496844, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068693216502, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068693216502, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158067916629177, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_Text
+      value: Bienvenido a tu salon de clases. Si quieres salir da click en las luces
+        de SALIDA que se encuentran en cada una de las puertas
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 499003c88fdab3f4485ee542db668ba8, type: 3}
 --- !u!1 &1785623479
 GameObject:
   m_ObjectHideFlags: 0

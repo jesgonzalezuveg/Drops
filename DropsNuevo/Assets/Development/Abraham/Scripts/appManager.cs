@@ -37,6 +37,8 @@ public class appManager : MonoBehaviour {
     public string lastIdLog = "0";
     public float sizeCamera = 60;
 
+    public bool mascotaActive = true;
+
     #region setter y getters
     /**
      * Asigna el valor del usuario
