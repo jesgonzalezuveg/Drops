@@ -70,12 +70,13 @@ public class webServiceSincronizacion : MonoBehaviour
         public Usuario[] Usuarios; 
     }
 
-    public static int changeSyncroStatus(string json) {
+    public static int changeSyncroStatus(string json, string idServer) {
+        Debug.Log(json);
         RootObject myObject = JsonUtility.FromJson<RootObject>(json);
         for (int i =0; i < myObject.Usuarios.Length; i++) {
            if(webServiceUsuario.updateSyncroStatusSqlite(myObject.Usuarios[i].id, 2)==1) {
                 for (int j = 0; j < myObject.Usuarios[i].logs.Length; j++) {
-                    if (webServiceLog.updateSyncroStatusSqlite(myObject.Usuarios[i].logs[j].id, 2) == 1) {
+                    if (webServiceLog.updateSyncroStatusSqlite(myObject.Usuarios[i].logs[j].id, 2, idServer) == 1) {
                         if (myObject.Usuarios[i].logs[j].registros.Length>0) {
                             for (int k = 0; k < myObject.Usuarios[i].logs[j].registros.Length; k++) {
                                 webServiceRegistro.updateSyncroStatusSqlite(myObject.Usuarios[i].logs[j].registros[k].id, 2);
@@ -96,7 +97,9 @@ public class webServiceSincronizacion : MonoBehaviour
                                 }
                             }
                         }
-                        webServiceLog.deleteLogSqlite(myObject.Usuarios[i].logs[j].id);
+                        if (idServer == "0") {
+                            webServiceLog.deleteLogSqlite(myObject.Usuarios[i].logs[j].id);
+                        }
                     }
                 }
             }
@@ -105,14 +108,17 @@ public class webServiceSincronizacion : MonoBehaviour
         return 1;
     }
 
-    public static IEnumerator SincroData(string data) {
+    public static IEnumerator SincroData(string data, bool realTime) {
         //Start the fading process
         WWWForm form = new WWWForm();
         //Debug.Log(idCodigo);
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
-
-        form.AddField("metodo", "sincronizar");
+        if (realTime) {
+            form.AddField("metodo", "sincronizarTiempoReal");
+        } else {
+            form.AddField("metodo", "sincronizar");
+        }
         form.AddField("dataSincronizacion", data);
         //byte[] rawFormData = form.data;
         using (UnityWebRequest www = UnityWebRequest.Post(URL, form)) {
@@ -132,7 +138,12 @@ public class webServiceSincronizacion : MonoBehaviour
                     //Debug.Log("ESTE ES EL ULTIMO LOG: " + manager.lastIdLog);
                     SyncroManager.respuestaWsSincro = "1";
                     Debug.Log("Sincronizacion realizada");
-                    int resultado = changeSyncroStatus(data);
+                    int resultado;
+                    if (realTime) {
+                        resultado = changeSyncroStatus(data, text);
+                    } else {
+                        resultado = changeSyncroStatus(data, "0");
+                    }
                     if (resultado == 1) {
                         Debug.Log("respuesta local: termino sincronizacion");
                     } else {
