@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SyncroManager : MonoBehaviour
-{
+public class SyncroManager : MonoBehaviour {
     appManager manager;
     public string jsonGeneral;
     public string jsonPerUser;
@@ -18,8 +17,9 @@ public class SyncroManager : MonoBehaviour
     string idUsuarioActual;
 
     // Start is called before the first frame update
-    void Awake()
-    {
+    void Awake() {
+        
+        return;
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
         if (manager.isFirstLogin == true && manager.isOnline == true) {
             string user = manager.getUsuario();
@@ -27,14 +27,24 @@ public class SyncroManager : MonoBehaviour
                 manager.lastIdLog = webServiceLog.getLastLogSqLite(dataUser.id);
             }
             sincronizacionUsuarios();
-            validarJson(jsonGeneral);
+            validarJson(jsonGeneral, false);
             return;
         }
     }
 
-    public void validarJson(string json) {
+    public void synchronizationInRealTime(){
+        manager = GameObject.Find("AppManager").GetComponent<appManager>();
+        if (manager.isFirstLogin == true && manager.isOnline == true) {
+            sicronizacionUsuarioActual();
+            //validarJson(jsonGeneral, true);
+            Debug.Log(jsonGeneral);
+        }
+    }
+
+
+    public void validarJson(string json, bool realTime) {
         if (json!=null && json != "{\"Usuarios\":[]}") {
-            StartCoroutine(webServiceSincronizacion.SincroData(json));
+            StartCoroutine(webServiceSincronizacion.SincroData(json, realTime));
         } else {
 
         }
@@ -47,6 +57,27 @@ public class SyncroManager : MonoBehaviour
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void sicronizacionUsuarioActual() {
+        if (getDataUser(manager.getUsuario())) {
+            manager.lastIdLog = webServiceLog.getLastLogSqLite(dataUser.id);
+            jsonGeneral += "{\"Usuarios\":[";
+            usuarioActual = dataUser.usuario;
+            idUsuarioActual = dataUser.id;
+            jsonPerUser += "{\"id\": \"" + validateData(dataUser.id) + "\",";
+            jsonPerUser += "\"usuario\": \"" + validateData(dataUser.usuario) + "\",";
+            jsonPerUser += "\"nombre\": \"" + validateData(dataUser.nombre) + "\",";
+            jsonPerUser += "\"rol\": \"" + validateData(dataUser.rol) + "\",";
+            jsonPerUser += "\"gradoEstudios\": \"" + validateData(dataUser.gradoEstudios) + "\",";
+            jsonPerUser += "\"programa\": \"" + validateData(dataUser.programa) + "\",";
+            jsonPerUser += "\"fechaRegistro\": \"" + validateData(dataUser.fechaRegistro) + "\",";
+            jsonPerUser += "\"status\": \"" + validateData(dataUser.status) + "\",";
+            //Obtenemos el ultimo log perteneciente al usuario en turno
+            getLogsUser(true);
+            jsonPerUser += "}";
+            jsonGeneral += jsonPerUser + "]}";
         }
     }
 
@@ -68,7 +99,7 @@ public class SyncroManager : MonoBehaviour
                 jsonPerUser += "\"fechaRegistro\": \"" + validateData(dataUsers[i].fechaRegistro) + "\",";
                 jsonPerUser += "\"status\": \"" + validateData(dataUsers[i].status) + "\",";
                 //Obtenemos los logs pertenecientes al usuario en turno
-                getLogsUser();
+                getLogsUser(false);
                 if (jsonPerUser != null) {
                     if ((dataUsers.Length - i) != 1) {
                         jsonPerUser += "},";
@@ -84,9 +115,13 @@ public class SyncroManager : MonoBehaviour
         }
     }
 
-    public void getLogsUser() {
+    public void getLogsUser(bool last) {
         //Obtenemos logs del usuario
-        logs = webServiceLog.getLogsByUser(idUsuarioActual, manager.lastIdLog);
+        if (last == true) {
+            logs = webServiceLog.getLastLogByUser(idUsuarioActual, manager.lastIdLog);
+        } else {
+            logs = webServiceLog.getLogsByUser(idUsuarioActual, manager.lastIdLog);
+        }
         if (logs!=null){
             //Continuamos generando el json agregando los logs del usuario
             jsonPerUser += "\"logs\":[";
@@ -95,6 +130,7 @@ public class SyncroManager : MonoBehaviour
                 jsonPerUser += "\"fechaInicio\": \""+ validateData(logs[i].fechaInicio) + "\",";
                 jsonPerUser += "\"fechaTermino\": \"" + validateData(logs[i].fechaTermino) + "\",";
                 jsonPerUser += "\"dispositivo\": \"" + validateData(logs[i].dispositivo) + "\",";
+                jsonPerUser += "\"idServer\": \"" + validateData(logs[i].idServer) + "\",";
                 jsonPerUser += "\"idCodigo\": \"" + validateData(logs[i].idCodigo) + "\",";
                 jsonPerUser += "\"idUsuario\": \"" + validateData(idUsuarioActual) + "\",";
                 //Obtenemos los registros pertenecientes al log en turno

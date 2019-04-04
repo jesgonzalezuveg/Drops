@@ -20,8 +20,8 @@ public class webServiceLog : MonoBehaviour {
         public string fechaInicio = "";
         public string fechaTermino = "";
         public string dispositivo = "";
-        public string idServer = "";
         public string syncroStatus = "";
+        public string idServer = "";
         public string idCodigo = "";
         public string idUsuario = "";
     }
@@ -31,8 +31,8 @@ public class webServiceLog : MonoBehaviour {
         public logData[] logs;
     }
 
-    public static int updateSyncroStatusSqlite(string id, int sincroStatus) {
-        string query = "UPDATE log SET syncroStatus = '" + sincroStatus + "' WHERE id = '" + id + "'";
+    public static int updateSyncroStatusSqlite(string id, int sincroStatus, string idServer) {
+        string query = "UPDATE log SET syncroStatus = '" + sincroStatus + "', idServer = " + idServer + " WHERE id = '" + id + "'";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -66,6 +66,20 @@ public class webServiceLog : MonoBehaviour {
 
     public static logData[] getLogsByUser(string idUsuario, string lastIdLog) {
         string query = "SELECT * FROM log WHERE syncroStatus <> 2 AND id <> "+lastIdLog+" AND idUsuario = " + idUsuario + ";";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            byte[] bytes = Encoding.Default.GetBytes(result);
+            result = Encoding.UTF8.GetString(bytes);
+            result = "{\"logs\":[" + result + "]}";
+            dataLog data = JsonUtility.FromJson<dataLog>(result);
+            return data.logs;
+        } else {
+            return null;
+        }
+    }
+
+    public static logData[] getLastLogByUser(string idUsuario, string lastIdLog) {
+        string query = "SELECT * FROM log WHERE syncroStatus <> 2 AND id = " + lastIdLog + " AND idUsuario = " + idUsuario + ";";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
             byte[] bytes = Encoding.Default.GetBytes(result);
