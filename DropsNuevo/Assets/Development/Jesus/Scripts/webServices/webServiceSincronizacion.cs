@@ -71,6 +71,7 @@ public class webServiceSincronizacion : MonoBehaviour
     }
 
     public static int changeSyncroStatus(string json, string idServer) {
+        Debug.Log(json);
         RootObject myObject = JsonUtility.FromJson<RootObject>(json);
         for (int i =0; i < myObject.Usuarios.Length; i++) {
            if(webServiceUsuario.updateSyncroStatusSqlite(myObject.Usuarios[i].id, 2)==1) {

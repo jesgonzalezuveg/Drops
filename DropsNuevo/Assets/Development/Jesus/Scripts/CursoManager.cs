@@ -7,6 +7,7 @@ using System;
 
 public class CursoManager : MonoBehaviour {
 
+    SyncroManager sicroManager;
     public GameObject animPuntajeObtenido;
 
     public Text textoRachaMax;
@@ -245,6 +246,8 @@ public class CursoManager : MonoBehaviour {
             webServiceRegistro.validarAccionSqlite("Puntaje obtenido: " + score, manager.getUsuario(), "Puntaje obtenido");
             webServiceRegistro.validarAccionSqlite("Terminó ejercicio", manager.getUsuario(), "Terminó ejercicio");
             scoreFinal.SetActive(true);
+            sicroManager = GameObject.Find("SincroManager").GetComponent<SyncroManager>();
+            sicroManager.synchronizationInRealTime();
         }
     }
 
@@ -269,7 +272,7 @@ public class CursoManager : MonoBehaviour {
         } else if (promedio >= 6.00 && promedio < 6.5) {
             textoNotaLetra.text = "D";
         } else if (promedio < 6.00){
-            textoNotaLetra.text = "F " + promedio;
+            textoNotaLetra.text = "F";
         }
     }
 

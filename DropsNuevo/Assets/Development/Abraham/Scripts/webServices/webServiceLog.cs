@@ -32,6 +32,10 @@ public class webServiceLog : MonoBehaviour {
     }
 
     public static int updateSyncroStatusSqlite(string id, int sincroStatus, string idServer) {
+        Debug.Log("EL ID SERVER ES: " +idServer);
+        if (idServer != "0") { 
+            sincroStatus = 1;
+        }
         string query = "UPDATE log SET syncroStatus = '" + sincroStatus + "', idServer = " + idServer + " WHERE id = '" + id + "'";
         var result = conexionDB.alterGeneral(query);
 

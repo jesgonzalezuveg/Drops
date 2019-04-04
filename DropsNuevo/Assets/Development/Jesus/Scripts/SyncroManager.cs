@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class SyncroManager : MonoBehaviour {
+    Scene scene;
     appManager manager;
     public string jsonGeneral;
     public string jsonPerUser;
@@ -18,26 +20,29 @@ public class SyncroManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Awake() {
-        
-        return;
-        manager = GameObject.Find("AppManager").GetComponent<appManager>();
-        if (manager.isFirstLogin == true && manager.isOnline == true) {
-            string user = manager.getUsuario();
-            if (getDataUser(user)) {
-                manager.lastIdLog = webServiceLog.getLastLogSqLite(dataUser.id);
+        scene = SceneManager.GetActiveScene();
+        if (scene.name == "menuCategorias") {
+        //if (scene.name == "prueba") {
+            manager = GameObject.Find("AppManager").GetComponent<appManager>();
+            if (manager.isFirstLogin == true && manager.isOnline == true) {
+                string user = manager.getUsuario();
+                if (getDataUser(user)) {
+                    manager.lastIdLog = webServiceLog.getLastLogSqLite(dataUser.id);
+                }
+                sincronizacionUsuarios();
+                validarJson(jsonGeneral, false);
+                return;
             }
-            sincronizacionUsuarios();
-            validarJson(jsonGeneral, false);
-            return;
         }
     }
 
     public void synchronizationInRealTime(){
+        jsonGeneral = "";
+        jsonPerUser = "";
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
-        if (manager.isFirstLogin == true && manager.isOnline == true) {
+        if (manager.isOnline == true) {
             sicronizacionUsuarioActual();
-            //validarJson(jsonGeneral, true);
-            Debug.Log(jsonGeneral);
+            validarJson(jsonGeneral, true);
         }
     }
 
@@ -46,7 +51,7 @@ public class SyncroManager : MonoBehaviour {
         if (json!=null && json != "{\"Usuarios\":[]}") {
             StartCoroutine(webServiceSincronizacion.SincroData(json, realTime));
         } else {
-
+            Debug.Log("No hay datos para sincronizar");
         }
     }
 
@@ -78,7 +83,10 @@ public class SyncroManager : MonoBehaviour {
             getLogsUser(true);
             jsonPerUser += "}";
             jsonGeneral += jsonPerUser + "]}";
+        } else {
+            jsonGeneral = null;
         }
+        Debug.Log(jsonGeneral);
     }
 
     public void sincronizacionUsuarios() {
