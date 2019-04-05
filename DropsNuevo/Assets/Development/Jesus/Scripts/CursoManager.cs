@@ -8,6 +8,7 @@ using System;
 public class CursoManager : MonoBehaviour {
 
     SyncroManager sicroManager;
+    public Sprite [] phrases;
     public Text textoRachaMax;
     public Text textoAciertos;
     public Text textoNotaLetra;
@@ -443,29 +444,36 @@ public class CursoManager : MonoBehaviour {
         switch (racha) {
             case 0:
                 obj.GetComponentInChildren<AudioSource>().clip = ops;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[0];
                 break;
             case 1:
                 obj.GetComponentInChildren<AudioSource>().clip = good;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[1];
                 break;
             case 2:
                 obj.GetComponentInChildren<AudioSource>().clip = good;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[1];
                 break;
             case 3:
                 obj.GetComponentInChildren<AudioSource>().clip = great;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[2];
                 break;
             case 4:
                 obj.GetComponentInChildren<AudioSource>().clip = awsome;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[3];
                 break;
             default:
                 obj.GetComponentInChildren<AudioSource>().clip = perfect;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[4];
                 break;
         }
     }
 
     IEnumerator activaObjeto(GameObject objeto) {
         destroyChildrens();
-        objeto.SetActive(true);
         valAudio(objeto);
+        objeto.SetActive(true);
+        //valAudio(objeto);
         objeto.GetComponentInChildren<AudioSource>().Play();
         PuntajeObtenido.SetActive(false);
         PuntajeObtenido.SetActive(true);
