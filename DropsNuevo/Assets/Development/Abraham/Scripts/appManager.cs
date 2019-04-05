@@ -15,6 +15,7 @@ public class appManager : MonoBehaviour {
     private string Nombre = null;             ///< Nombre almacena el nombre del usuario que utiliza la aplicación
     private string Correo = null;             ///< Correo almacena el correo con el cual la cuenta esta vinculada
     private string Imagen = null;             ///< Imagen almacena la imagen, ya sea de facebook o bien de UVEG de la persona que utiliza la aplicación
+    private string gradoEstudios = null;      ///< gradoEstudios almacena el grado de estudios de la cuenta esta vinculada
     private webServicePaquetes.paqueteData[] paquetes = null;       ///< paquetes arreglo de estructura paqueteData, almacena los paquetes que existen en la BD del SII
     private bool banderaPaquetes = true;                            ///< banderaPaquetes verifica si ya se recorrio el arreglo paquetes
     private webServiceCategoria.categoriaData[] categorias = null;  ///< categorias arreglo de estructura categoriasData, almacena las categorias que existen en la BD del SII
@@ -38,6 +39,7 @@ public class appManager : MonoBehaviour {
     public string lastIdLog = "0";
 
     public bool mascotaActive = true;
+    public int fondo;
 
     #region setter y getters
     /**
@@ -68,6 +70,11 @@ public class appManager : MonoBehaviour {
     public void setImagen(string Imagen) {
         this.Imagen = Imagen;
     }
+
+    public void setGradoEstudios(string gradoEstudios) {
+        this.gradoEstudios = gradoEstudios;
+    }
+
     public void setBanderas(bool valor) {
         banderaCategorias = valor;
         banderaEjercicios = valor;
@@ -110,6 +117,10 @@ public class appManager : MonoBehaviour {
      */
     public string getImagen() {
         return Imagen;
+    }
+
+    public string getGradoEstudios() {
+        return gradoEstudios;
     }
 
     public void setPaquetes(webServicePaquetes.paqueteData[] pack) {
@@ -166,6 +177,7 @@ public class appManager : MonoBehaviour {
      * Verifica si hay conexion a internet o no
      */
     public void Awake() {
+        fondo = UnityEngine.Random.Range(0,8);
         DontDestroyOnLoad(this.gameObject);
     }
 

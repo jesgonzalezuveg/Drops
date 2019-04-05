@@ -205,6 +205,7 @@ public class webServiceUsuario : MonoBehaviour {
                         manager.setNombre(nombreCompleto);
                         manager.setCorreo(data.data.Correo);
                         manager.setImagen(data.data.Imagen);
+                        manager.setGradoEstudios(data.data.ProgramaEstudio);
                         var idLocal = consultarIdUsuarioSqLite(data.data.Usuario);
                         if (idLocal == "0") {
                             insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio);
@@ -256,6 +257,7 @@ public class webServiceUsuario : MonoBehaviour {
                     manager.setNombre(nombreCompleto);
                     manager.setCorreo(data.data.Correo);
                     manager.setImagen(data.data.Imagen);
+                    manager.setGradoEstudios(data.data.ProgramaEstudio);
                     webServiceRegistro.validarAccionSqlite("Login Pairing Code", data.data.Usuario, "Login");
                     //webServiceRegistro.insertarRegistroSqLite("Login Pairing Code", data.data.Usuario, 1);
                 } else {
@@ -297,6 +299,7 @@ public class webServiceUsuario : MonoBehaviour {
                     manager.setNombre(nombreCompleto);
                     manager.setCorreo(data.data.Correo);
                     manager.setImagen(data.data.Imagen);
+                    manager.setGradoEstudios(data.data.ProgramaEstudio);
                     if (consultarUsuarioSqLite(data.data.Usuario) != "0") {
                         webServiceLog.insertarLogSqLite(data.data.Usuario);
                         webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 1);
@@ -317,6 +320,7 @@ public class webServiceUsuario : MonoBehaviour {
                     manager.setNombre(name);
                     manager.setCorreo(usuario);
                     manager.setImagen(imagen);
+                    manager.setGradoEstudios(data.data.ProgramaEstudio);
                     if (consultarUsuarioSqLite(usuario) != "0") {
                         webServiceLog.insertarLogSqLite(usuario);
                         webServiceRegistro.insertarRegistroSqLite("Login Facebook", usuario, 2);

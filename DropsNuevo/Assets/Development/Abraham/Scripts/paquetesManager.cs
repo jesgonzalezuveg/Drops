@@ -64,6 +64,11 @@ public class paquetesManager : MonoBehaviour {
         setVisibleModal(false);
         manager.setBanderas(true);
         tabActivo = GameObject.Find("tabContentTodos");
+
+        GameObject.Find("Nombre").GetComponent<Text>().text = manager.getNombre();
+        GameObject.Find("Matricula").GetComponent<Text>().text = manager.getUsuario();
+        GameObject.Find("GradoEstudio").GetComponent<Text>().text = manager.getGradoEstudios();
+
     }
 
     public void fillPackTabs() {
@@ -77,6 +82,7 @@ public class paquetesManager : MonoBehaviour {
                     tab.transform.localPosition = new Vector3(0, 0, 0);
                     tab.GetComponentInChildren<Text>().text = categoria.descripcion;
                     tab.transform.localScale = new Vector3(1, 1, 1);
+                    tab.transform.localRotation = Quaternion.Euler(0,0,0);
                     addTabEvent(tab, categoria);
                 }
                 banderaTabs = true;
