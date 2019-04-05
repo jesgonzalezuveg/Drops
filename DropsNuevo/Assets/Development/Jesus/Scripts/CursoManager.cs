@@ -14,7 +14,6 @@ public class CursoManager : MonoBehaviour {
     public Text textoRacha;
     public GameObject Multi;
     public GameObject PuntajeObtenido;
-    public GameObject Puntaje;
     public Text textoMultiplicador;
     public Text textoPuntajeObtenido;
     public Text textoPuntaje;
@@ -470,14 +469,14 @@ public class CursoManager : MonoBehaviour {
         objeto.GetComponentInChildren<AudioSource>().Play();
         PuntajeObtenido.SetActive(false);
         PuntajeObtenido.SetActive(true);
-        //textoPuntajeObtenido.GetComponent<Animation>().Play();
-        //yield return new WaitUntil(() => textoPuntajeObtenido.GetComponent<Animation>().isPlaying == false);
-        yield return new WaitUntil(() => objeto.GetComponentInChildren<AudioSource>().isPlaying == false);
+        //yield return new WaitUntil(() => objeto.GetComponentInChildren<AudioSource>().isPlaying == false);
+        yield return new WaitForSeconds(0.8f);
         textoPuntaje.text = score + "";
         objeto.SetActive(false);
         correctasAContestar = 0;
         textoPuntajeObtenido.text = "";
         PuntajeObtenido.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
         llamarPreguntas();
     }
 
