@@ -8,13 +8,13 @@ using System;
 public class CursoManager : MonoBehaviour {
 
     SyncroManager sicroManager;
+    public Sprite [] phrases;
     public Text textoRachaMax;
     public Text textoAciertos;
     public Text textoNotaLetra;
     public Text textoRacha;
     public GameObject Multi;
     public GameObject PuntajeObtenido;
-    public GameObject Puntaje;
     public Text textoMultiplicador;
     public Text textoPuntajeObtenido;
     public Text textoPuntaje;
@@ -444,40 +444,47 @@ public class CursoManager : MonoBehaviour {
         switch (racha) {
             case 0:
                 obj.GetComponentInChildren<AudioSource>().clip = ops;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[0];
                 break;
             case 1:
                 obj.GetComponentInChildren<AudioSource>().clip = good;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[1];
                 break;
             case 2:
                 obj.GetComponentInChildren<AudioSource>().clip = good;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[1];
                 break;
             case 3:
                 obj.GetComponentInChildren<AudioSource>().clip = great;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[2];
                 break;
             case 4:
                 obj.GetComponentInChildren<AudioSource>().clip = awsome;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[3];
                 break;
             default:
                 obj.GetComponentInChildren<AudioSource>().clip = perfect;
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[4];
                 break;
         }
     }
 
     IEnumerator activaObjeto(GameObject objeto) {
         destroyChildrens();
-        objeto.SetActive(true);
         valAudio(objeto);
+        objeto.SetActive(true);
+        //valAudio(objeto);
         objeto.GetComponentInChildren<AudioSource>().Play();
         PuntajeObtenido.SetActive(false);
         PuntajeObtenido.SetActive(true);
-        //textoPuntajeObtenido.GetComponent<Animation>().Play();
-        //yield return new WaitUntil(() => textoPuntajeObtenido.GetComponent<Animation>().isPlaying == false);
-        yield return new WaitUntil(() => objeto.GetComponentInChildren<AudioSource>().isPlaying == false);
+        //yield return new WaitUntil(() => objeto.GetComponentInChildren<AudioSource>().isPlaying == false);
+        yield return new WaitForSeconds(0.8f);
         textoPuntaje.text = score + "";
         objeto.SetActive(false);
         correctasAContestar = 0;
         textoPuntajeObtenido.text = "";
         PuntajeObtenido.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
         llamarPreguntas();
     }
 
