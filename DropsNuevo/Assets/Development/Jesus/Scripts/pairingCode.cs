@@ -48,6 +48,19 @@ public class pairingCode : MonoBehaviour {
         code = "aLRB52";
     }
 
+    public void regenerarCodigo() {
+
+        Debug.Log("Regenerando codigo");
+        code = "";
+        code2 = "";
+        status = "5";
+        valCodigoSii = 3;
+        countFrames = 0;
+        cargaCodigo = 0;
+        salir = 0;
+        code = "aLRB52";
+    }
+
     // Update is called once per frame
     void Update() {
         if (countFrames >= 30) {

@@ -53,6 +53,7 @@ public class clickManager : MonoBehaviour {
             });
             trigger.triggers.Add(entry);
         }
+
         EventTrigger.Entry entry2 = new EventTrigger.Entry();
         entry2.eventID = EventTriggerType.PointerEnter;
         entry2.callback.AddListener((data) => {
@@ -64,11 +65,22 @@ public class clickManager : MonoBehaviour {
                 }
             }
             if (!isOnlyMesagge) {
+                gameObject.transform.localScale += gameObject.GetComponent<RectTransform>().localScale * .05f;
                 source.clip = hover;
                 source.Play();
             }
         });
         trigger.triggers.Add(entry2);
+
+        EventTrigger.Entry entry3 = new EventTrigger.Entry();
+        entry3.eventID = EventTriggerType.PointerExit;
+        entry3.callback.AddListener((data) => {
+            if (!isOnlyMesagge) {
+                gameObject.GetComponent<RectTransform>().localScale -= gameObject.GetComponent<RectTransform>().localScale * .05f;
+            }
+        });
+        trigger.triggers.Add(entry3);
+
         source.playOnAwake = false;
         source.clip = hover;
     }

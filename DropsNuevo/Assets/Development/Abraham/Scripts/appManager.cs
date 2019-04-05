@@ -408,28 +408,29 @@ public class appManager : MonoBehaviour {
             //Validar si fecha modificacion respuesta es diferente a la fecha de descarga que se tenia
             if (descarga != null) {
                 if (respuesta != null) {
-                    if (!isActualized(descarga.fechaDescarga, respuesta.fechaModificacion)) {
-                        //Debug.Log(respuesta.urlImagen);
-                        //if (respuesta.urlImagen != "") {
+                    //if (!isActualized(descarga.fechaDescarga, respuesta.fechaModificacion)) {
                         var pathArray = respuesta.urlImagen.Split('/');
                         var path = pathArray[pathArray.Length - 1];
-                        WWW www = new WWW(respuesta.urlImagen);
-                        yield return www;
-                        if (www.texture != null) {
-                            Texture2D texture = www.texture;
-                            byte[] bytes;
-                            if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
-                                bytes = texture.EncodeToJPG();
+                        if (!File.Exists(Application.persistentDataPath + path)) {
+                            WWW www = new WWW(respuesta.urlImagen);
+                            yield return www;
+                            if (www.texture != null) {
+                                Texture2D texture = www.texture;
+                                byte[] bytes;
+                                if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
+                                    bytes = texture.EncodeToJPG();
+                                } else {
+                                    bytes = texture.EncodeToPNG();
+                                }
+                                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
                             } else {
-                                bytes = texture.EncodeToPNG();
-                            }
-                            File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-                        } else {
 
+                            }
                         }
                         //}
-                    } else {
-                    }
+                    //} else {
+
+                    //}
                 } else {
 
                 }
@@ -507,7 +508,7 @@ public class appManager : MonoBehaviour {
         Debug.Log(splitDateDescarga[3] + "");
         fechaDescarga = fechaDescarga.Remove(19, fechaDescarga.Length - 19);
         //Formato de fechaModificacion paquete = yyyy-MM-dd HH:mm:ss
-        fechaModificacion = fechaModificacion.Replace('-',' ');
+        fechaModificacion = fechaModificacion.Replace('-', ' ');
         fechaModificacion = fechaModificacion.Replace(':', ' ');
         string[] splitDatePack = fechaModificacion.Split(' ');
 

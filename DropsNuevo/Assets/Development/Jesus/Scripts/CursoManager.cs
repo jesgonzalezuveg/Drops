@@ -253,23 +253,23 @@ public class CursoManager : MonoBehaviour {
         }
     }
 
-    public void getNota(){
+    public void getNota() {
         float promedio = (aciertos * 10) / numPreguntas;
         if (promedio == 10.00) {
             textoNotaLetra.text = "S";
-        }else if (promedio >= 9.5 && promedio < 10.00) {
+        } else if (promedio >= 9.5 && promedio < 10.00) {
             textoNotaLetra.text = "A+";
-        }else if (promedio >= 9.00 && promedio < 9.5) {
+        } else if (promedio >= 9.00 && promedio < 9.5) {
             textoNotaLetra.text = "A";
-        }else if (promedio >= 8.5 && promedio < 9) {
+        } else if (promedio >= 8.5 && promedio < 9) {
             textoNotaLetra.text = "B+";
-        }else if (promedio >= 8.00 && promedio < 8.5) {
+        } else if (promedio >= 8.00 && promedio < 8.5) {
             textoNotaLetra.text = "B";
-        }else if (promedio >= 7.5 && promedio < 8) {
+        } else if (promedio >= 7.5 && promedio < 8) {
             textoNotaLetra.text = "C+";
-        }else if (promedio >= 7.00 && promedio < 7.5) {
+        } else if (promedio >= 7.00 && promedio < 7.5) {
             textoNotaLetra.text = "C";
-        }else if (promedio >= 6.5 && promedio < 7.00) {
+        } else if (promedio >= 6.5 && promedio < 7.00) {
             textoNotaLetra.text = "D+";
         } else if (promedio >= 6.00 && promedio < 6.5) {
             textoNotaLetra.text = "D";
@@ -280,15 +280,21 @@ public class CursoManager : MonoBehaviour {
 
     public void imprimePregunta() {
         preguntaText.text = preguntas[countPreguntas].descripcion;
-        if (descripcionTipoEjercicio == "Completar palabra") {
-            var respuestasOfQuestion = webServiceRespuestas.getRespuestasByPreguntaSqLite(preguntas[countPreguntas].id).respuestas[0];
-            idRespuesta = respuestasOfQuestion.id;
-            var palabra = respuestasOfQuestion.descripcion;
-            llenarLetras(palabra);
-            fraseACompletar = palabra.ToUpper();
+        if (webServiceRespuestas.getRespuestasByPreguntaSqLite(preguntas[countPreguntas].id) != null) {
+            if (descripcionTipoEjercicio == "Completar palabra") {
+                var respuestasOfQuestion = webServiceRespuestas.getRespuestasByPreguntaSqLite(preguntas[countPreguntas].id).respuestas[0];
+                idRespuesta = respuestasOfQuestion.id;
+                var palabra = respuestasOfQuestion.descripcion;
+                llenarLetras(palabra);
+                fraseACompletar = palabra.ToUpper();
+            } else {
+                var respuestasOfQuestion = webServiceRespuestas.getRespuestasByPreguntaSqLite(preguntas[countPreguntas].id);
+                llenarRespuestas(respuestasOfQuestion.respuestas);
+            }
         } else {
-            var respuestasOfQuestion = webServiceRespuestas.getRespuestasByPreguntaSqLite(preguntas[countPreguntas].id);
-            llenarRespuestas(respuestasOfQuestion.respuestas);
+            Debug.Log("No hay respuestas");
+            countPreguntas = preguntas.Length;
+            manager.cambiarEscena("menuCategorias");
         }
     }
 
@@ -348,25 +354,29 @@ public class CursoManager : MonoBehaviour {
 
     public void crearBoton(webServiceRespuestas.respuestaData respuesta, float angle, float radius) {
         GameObject x;
-        if (descripcionTipoEjercicio != "Seleccion simple texto") {
-            x = crearObjeto(angle, radius, butonToInstantiate);
-            var splitUrk = respuesta.urlImagen.Split('/');
-            var path = splitUrk[splitUrk.Length - 1];
-            byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-            Texture2D texture = new Texture2D(8, 8);
-            texture.LoadImage(byteArray);
-            Rect rec = new Rect(0, 0, texture.width, texture.height);
-            var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-            x.GetComponentInChildren<Button>().gameObject.GetComponent<Image>().sprite = sprite;
-        } else {
-            x = crearObjeto(angle, radius, butonToInstantiateText);
-            x.GetComponentInChildren<Text>().text = respuesta.descripcion;
-            //llenar texto en base a la respuesta
-        }
-        if (descripcionTipoEjercicio == "Relacionar") {
-            addEventPares(x, respuesta);
-        } else {
-            addEvent(x, respuesta);
+        try {
+            if (descripcionTipoEjercicio != "Seleccion simple texto") {
+                x = crearObjeto(angle, radius, butonToInstantiate);
+                var splitUrk = respuesta.urlImagen.Split('/');
+                var path = splitUrk[splitUrk.Length - 1];
+                byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
+                Texture2D texture = new Texture2D(8, 8);
+                texture.LoadImage(byteArray);
+                Rect rec = new Rect(0, 0, texture.width, texture.height);
+                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                x.GetComponentInChildren<Button>().gameObject.GetComponent<Image>().sprite = sprite;
+            } else {
+                x = crearObjeto(angle, radius, butonToInstantiateText);
+                x.GetComponentInChildren<Text>().text = respuesta.descripcion;
+                //llenar texto en base a la respuesta
+            }
+            if (descripcionTipoEjercicio == "Relacionar") {
+                addEventPares(x, respuesta);
+            } else {
+                addEvent(x, respuesta);
+            }
+        } catch (Exception ex) {
+            Debug.Log("No se encontro la imagen: " + ex);
         }
     }
 
