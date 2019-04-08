@@ -177,7 +177,7 @@ public class appManager : MonoBehaviour {
      * Verifica si hay conexion a internet o no
      */
     public void Awake() {
-        fondo = UnityEngine.Random.Range(0,8);
+        fondo = UnityEngine.Random.Range(0,7);
         DontDestroyOnLoad(this.gameObject);
     }
 

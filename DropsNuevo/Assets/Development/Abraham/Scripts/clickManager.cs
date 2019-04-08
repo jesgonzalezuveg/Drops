@@ -21,10 +21,10 @@ public class clickManager : MonoBehaviour {
      * obtiene de la carpeta resources los clips de audio de click y hover
      */
     void Start() {
-        if (!this.GetComponent<OVRRaycaster>()) {
-            gameObject.AddComponent<OVRRaycaster>();
+        if (!this.GetComponent<GraphicRaycaster>()) {
+            gameObject.AddComponent<GraphicRaycaster>();
         } else {
-            gameObject.GetComponent<OVRRaycaster>();
+            gameObject.GetComponent<GraphicRaycaster>();
         }
 
         click = Resources.Load("Sounds/click") as AudioClip;
@@ -45,9 +45,9 @@ public class clickManager : MonoBehaviour {
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerDown;
             entry.callback.AddListener((data) => {
-                if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-                    return;
-                }
+                //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+                //    return;
+                //}
                 source.clip = click;
                 source.Play();
             });

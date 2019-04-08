@@ -100,9 +100,9 @@ public class paquetesManager : MonoBehaviour {
         contentTab.transform.localPosition = new Vector3(-0.154f, -0.5398f, 0);
         contentTab.SetActive(false);
         tab.GetComponentInChildren<Button>().onClick.AddListener(delegate {
-            if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-                return;
-            }
+            //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+            //    return;
+            //}
             fillTabContent(contentTab, categoria);
             tabActivo.SetActive(false);
             contentTab.SetActive(true);
@@ -309,12 +309,12 @@ public class paquetesManager : MonoBehaviour {
      * @isVisible bool que se encarga de activar o desactivar el modal
      */
     public void setVisibleModal(bool isVisible) {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         configuracionModal.SetActive(isVisible);
         if (isVisible == false) {
-            foreach (var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)) {
+            foreach (var ray in gameObject.GetComponentsInChildren<GraphicRaycaster>(true)) {
                 ray.enabled = true;
             }
             //gameObject.GetComponent<GraphicRaycaster>().enabled = true;
@@ -322,7 +322,7 @@ public class paquetesManager : MonoBehaviour {
             manager.GetComponent<appManager>().mascotaActive = mascotaActive.GetComponent<Toggle>().isOn;
             mascota.SetActive(manager.GetComponent<appManager>().mascotaActive);
         } else {
-            foreach (var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)) {
+            foreach (var ray in gameObject.GetComponentsInChildren<GraphicRaycaster>(true)) {
                 ray.enabled = false;
             }
             //gameObject.GetComponent<GraphicRaycaster>().enabled = false;
@@ -420,9 +420,9 @@ public class paquetesManager : MonoBehaviour {
     * Cierra la aplicacion de manera segura.
     */
     public void logOut() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         manager.isFirstLogin = true;
         manager.setUsuario(null);
         manager.setNombre(null);
@@ -437,9 +437,9 @@ public class paquetesManager : MonoBehaviour {
      * Cierra la aplicacion de manera segura.
      */
     public void salir() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         Application.Quit();
     }
 }

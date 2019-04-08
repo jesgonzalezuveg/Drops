@@ -26,9 +26,9 @@ public class packManager : MonoBehaviour {
      * Enciende el mensaje descargando paquete y inserta el registro de descarga
      */
     public void descargaPaquete() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         gameObject.GetComponentInParent<gridScrollLayout>().estaAjustado = false;
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Descargando paquete");
         webServiceRegistro.validarAccionSqlite("Descarga: " + paquete.descripcion, manager.getUsuario(), "Descargar paquete");
@@ -41,9 +41,9 @@ public class packManager : MonoBehaviour {
      * cambia de escena e inserta el registro de inicio de juego
      */
     public void jugarPaquete() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         manager.preguntasCategoria = webServicePreguntas.getPreguntasByPackSqLiteCurso(paquete.id, manager.numeroPreguntas);
         webServiceRegistro.validarAccionSqlite("Partida: " + paquete.descripcion, manager.getUsuario(), "Comenzó ejercicio");
         StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("salon"));
@@ -54,9 +54,9 @@ public class packManager : MonoBehaviour {
      * Enciende el mensaje descargando paquete y inserta el registro de actualizar
      */
     public void actualizarPaquete() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Actualizando paquete");
         webServiceRegistro.validarAccionSqlite("Actualización : " + paquete.descripcion, manager.getUsuario(), "Actualizar paquete");
         consultarDatos();

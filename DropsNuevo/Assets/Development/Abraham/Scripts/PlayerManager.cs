@@ -63,8 +63,8 @@ public class PlayerManager : MonoBehaviour {
      */
     private void Update() {
         if (isInMesagge) {
-            GameObject.Find("RightEyeAnchor").GetComponent<Camera>().gameObject.transform.localRotation = rotationLock;
-            GameObject.Find("LeftEyeAnchor").GetComponent<Camera>().gameObject.transform.localRotation = rotationLock;
+            GameObject.Find("Main Camera").GetComponent<Camera>().gameObject.transform.localRotation = rotationLock;
+            //GameObject.Find("LeftEyeAnchor").GetComponent<Camera>().gameObject.transform.localRotation = rotationLock;
         }
     }
 
@@ -74,9 +74,9 @@ public class PlayerManager : MonoBehaviour {
      * @escenaAnterior escena que se desea cargar
      */
     public void regresar(string escenaAnterior) {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena(escenaAnterior));
     }
 }

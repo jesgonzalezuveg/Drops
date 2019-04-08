@@ -34,9 +34,9 @@ public class keyboardManager : MonoBehaviour {
      * @param key, caracter que escribira en el input que se tenga seleccionado
      */
     public void GetKeyboardInput(string key) {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         if (isMinusculas) {
             key = key.ToLower();
         }
@@ -52,9 +52,9 @@ public class keyboardManager : MonoBehaviour {
      * @param
      */
     public void DeleteChar() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         if (focusTxtUsuario) {
             if (userInput.GetComponent<Text>().text != "") {
                 userInput.GetComponent<Text>().text = userInput.GetComponent<Text>().text.Remove(userInput.GetComponent<Text>().text.Length - 1); ;
@@ -71,9 +71,9 @@ public class keyboardManager : MonoBehaviour {
      * @param
      */
     public void BtnMinusculas() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         isMinusculas = !isMinusculas;
 
         if (isMinusculas) {
@@ -91,9 +91,9 @@ public class keyboardManager : MonoBehaviour {
      * @param
      */
     public void BtnOtros() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         btnOtros = !btnOtros;
         teclasOtros.SetActive(!btnOtros);
     }
@@ -103,9 +103,9 @@ public class keyboardManager : MonoBehaviour {
      * @param
      */
     public void ClickTxtUsuario() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         focusTxtUsuario = true;
         userInput.GetComponentInParent<Image>().color = new Color(1, 1, 0.8f);
         passInput.GetComponentInParent<Image>().color = Color.white;
@@ -115,9 +115,9 @@ public class keyboardManager : MonoBehaviour {
      * @param
      */
     public void ClickTxtPass() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         focusTxtUsuario = false;
         userInput.GetComponentInParent<Image>().color = Color.white;
         passInput.GetComponentInParent<Image>().color = new Color(1, 1, 0.8f);
@@ -128,9 +128,9 @@ public class keyboardManager : MonoBehaviour {
      * @param
      */
     public void login() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
+        //if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
+        //    return;
+        //}
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Cargando....");
         StartCoroutine(webServiceUsuario.getUserData(userInput.GetComponentInChildren<Text>().text, password));
     }

@@ -343,7 +343,7 @@ public class CursoManager : MonoBehaviour {
         Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
         var x = Instantiate(butonToInstantiate, pos, Quaternion.Euler(new Vector3(0, 0, 0)));
         x.transform.SetParent(canvasParentOfAnswers.transform, false);
-        x.transform.LookAt(GameObject.Find("CenterEyeAnchor").transform);
+        x.transform.LookAt(GameObject.Find("Main Camera").transform);
         var rotation = x.transform.localRotation.eulerAngles;
         rotation += new Vector3(-21, 180, 0);
         x.transform.localRotation = Quaternion.Euler(rotation);
@@ -391,12 +391,12 @@ public class CursoManager : MonoBehaviour {
         Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
         x = Instantiate(boton, pos, Quaternion.Euler(new Vector3(0, 0, 0)));
         x.transform.SetParent(canvasParentOfAnswers.transform, false);
-        x.transform.LookAt(GameObject.Find("CenterEyeAnchor").transform);
+        x.transform.LookAt(GameObject.Find("Main Camera").transform);
         var rotation = x.transform.localRotation.eulerAngles;
         rotation += new Vector3(-21, 180, 0);
         x.transform.localRotation = Quaternion.Euler(rotation);
-        if (!x.GetComponent<OVRRaycaster>()) {
-            x.AddComponent<OVRRaycaster>();
+        if (!x.GetComponent<GraphicRaycaster>()) {
+            x.AddComponent<GraphicRaycaster>();
         }
         return x;
     }
@@ -476,8 +476,6 @@ public class CursoManager : MonoBehaviour {
     }
 
     IEnumerator activaObjeto(GameObject objeto) {
-        textoPuntajeObtenido.text = "";
-        PuntajeObtenido.SetActive(false);
         destroyChildrens();
         valAudio(objeto);
         objeto.SetActive(true);
@@ -490,6 +488,8 @@ public class CursoManager : MonoBehaviour {
         textoPuntaje.text = score + "";
         objeto.SetActive(false);
         correctasAContestar = 0;
+        textoPuntajeObtenido.text = "";
+        PuntajeObtenido.SetActive(false);
         llamarPreguntas();
     }
 
