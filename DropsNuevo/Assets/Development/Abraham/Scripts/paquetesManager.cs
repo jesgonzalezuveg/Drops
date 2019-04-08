@@ -31,6 +31,18 @@ public class paquetesManager : MonoBehaviour {
      */
     private void Awake() {
         manager = GameObject.Find("AppManager").GetComponent<appManager>();
+        var preferencias = webServicePreferencias.getPreferenciaSqLite(manager.getUsuario());
+        if (preferencias == null) {
+            webServicePreferencias.insertarPreferenciaSqLite(manager.getUsuario());
+        } else {
+            if (preferencias.mascota == "1") {
+                manager.mascotaActive = true;
+            } else {
+                manager.mascotaActive = false;
+            }
+            manager.fondo = Int32.Parse(preferencias.fondo);
+            manager.numeroPreguntas = Int32.Parse(preferencias.numeroPreguntas);
+        }
     }
 
     /**
@@ -318,9 +330,10 @@ public class paquetesManager : MonoBehaviour {
                 ray.enabled = true;
             }
             //gameObject.GetComponent<GraphicRaycaster>().enabled = true;
-            manager.GetComponent<appManager>().numeroPreguntas = scrollBar.GetComponent<Slider>().value;
-            manager.GetComponent<appManager>().mascotaActive = mascotaActive.GetComponent<Toggle>().isOn;
-            mascota.SetActive(manager.GetComponent<appManager>().mascotaActive);
+            manager.numeroPreguntas = scrollBar.GetComponent<Slider>().value;
+            manager.mascotaActive = mascotaActive.GetComponent<Toggle>().isOn;
+            mascota.SetActive(manager.mascotaActive);
+            webServicePreferencias.updatePreferenciaSqlite(manager.getUsuario(), manager.numeroPreguntas, manager.mascotaActive,manager.fondo);
         } else {
             foreach (var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)) {
                 ray.enabled = false;
@@ -412,6 +425,11 @@ public class paquetesManager : MonoBehaviour {
         } else {
             return;
         }
+    }
+
+    public void setFondo(int fondo) {
+        manager.fondo = fondo;
+        GameObject.FindObjectOfType<fondoManager>().cambiarFondo();
     }
 
 

@@ -59,7 +59,12 @@ MonoBehaviour:
     descripcionCategoria: 
   isFirstLogin: 1
   lastIdLog: 0
-  sizeCamera: 60
+  mascotaActive: 1
+  fondo: 0
+  musica:
+  - {fileID: 8300000, guid: 49c6332223d49134b8b72deb8e37fb1f, type: 3}
+  - {fileID: 8300000, guid: 97a265e8fcd77f24f9f810e77d8343c8, type: 3}
+  - {fileID: 8300000, guid: e6ea6f5e473e0dc468ae5054cceb5968, type: 3}
 --- !u!82 &1006487022833317865
 AudioSource:
   m_ObjectHideFlags: 0
@@ -70,7 +75,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: af32149947fa8154bbffcfdebb617534, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 3fe11d755e0ac0349b2e3aea7e28ee55, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.155
   m_Pitch: 1

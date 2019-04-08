@@ -41,6 +41,8 @@ public class appManager : MonoBehaviour {
     public bool mascotaActive = true;
     public int fondo;
 
+    public AudioClip[] musica;
+
     #region setter y getters
     /**
      * Asigna el valor del usuario
@@ -83,6 +85,12 @@ public class appManager : MonoBehaviour {
         banderaPreguntas = valor;
         banderaRespuestas = valor;
     }
+
+    public void setMusica(int valor) {
+        gameObject.GetComponent<AudioSource>().clip = musica[valor];
+        gameObject.GetComponent<AudioSource>().Play();
+    }
+
     /**
      * Regresa los datos del usuario correspondiente al usuario
      * 
@@ -177,8 +185,12 @@ public class appManager : MonoBehaviour {
      * Verifica si hay conexion a internet o no
      */
     public void Awake() {
-        fondo = UnityEngine.Random.Range(0,8);
+        fondo = UnityEngine.Random.Range(0,7);
         DontDestroyOnLoad(this.gameObject);
+    }
+    public void Start() {
+        gameObject.GetComponent<AudioSource>().clip = musica[UnityEngine.Random.Range(0, musica.Length)];
+        gameObject.GetComponent<AudioSource>().Play();
     }
 
     /// <summary>
