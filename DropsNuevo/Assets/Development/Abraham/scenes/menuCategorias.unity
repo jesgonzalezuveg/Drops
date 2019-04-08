@@ -2895,7 +2895,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Jes\xFAsAbraham Gonzalez Flores"
+  m_Text: 
 --- !u!222 &1230269735
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3206,7 +3206,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10002080
+  m_Text: 
 --- !u!222 &1308369606
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4148,7 +4148,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Maestria en desarrollo de negocios
+  m_Text: 
 --- !u!222 &1917501740
 CanvasRenderer:
   m_ObjectHideFlags: 0
