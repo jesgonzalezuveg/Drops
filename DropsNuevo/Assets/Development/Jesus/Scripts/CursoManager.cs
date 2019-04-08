@@ -8,6 +8,7 @@ using System;
 public class CursoManager : MonoBehaviour {
 
     SyncroManager sicroManager;
+    public GameObject panelCompletarPalabra;
     public Sprite [] phrases;
     public Text textoRachaMax;
     public Text textoAciertos;
@@ -62,6 +63,7 @@ public class CursoManager : MonoBehaviour {
     string idRespuesta = "";
 
     void Start() {
+        panelCompletarPalabra.SetActive(false);
         mayorRacha = 0;
         racha = 0;
         aciertos = 0;
@@ -113,6 +115,7 @@ public class CursoManager : MonoBehaviour {
                     }
                     break;
                 case "Completar palabra":
+                    panelCompletarPalabra.SetActive(true);
                     textoCompletado.text = fraseCompletada;
                     if (fraseCompletada == fraseACompletar) {
                         webServiceRegistro.validarAccionSqlite("Respondió correctamente(Completar palabra): " + fraseCompletada, manager.getUsuario(), "Respondió pregunta");
@@ -172,6 +175,7 @@ public class CursoManager : MonoBehaviour {
             StartCoroutine(activaObjeto(incorrectoimg));
             webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
             webServiceDetalleIntento.insertarDetalleIntentoSqLite("False", idPregunta, idRespuesta, idIntento);
+            panelCompletarPalabra.SetActive(false);
             textoCompletado.text = "";
         }
     }
@@ -183,6 +187,7 @@ public class CursoManager : MonoBehaviour {
         verificarRacha();
         StartCoroutine(activaObjeto(correctoimg));
         webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
+        panelCompletarPalabra.SetActive(false);
         textoCompletado.text = "";
     }
 
@@ -213,6 +218,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void llamarPreguntas() {
+        panelCompletarPalabra.SetActive(false);
         if (countPreguntas < preguntas.Length) {
             idPregunta = preguntas[countPreguntas].id;
             descripcionTipoEjercicio = preguntas[countPreguntas].descripcionEjercicio;
@@ -470,6 +476,8 @@ public class CursoManager : MonoBehaviour {
     }
 
     IEnumerator activaObjeto(GameObject objeto) {
+        textoPuntajeObtenido.text = "";
+        PuntajeObtenido.SetActive(false);
         destroyChildrens();
         valAudio(objeto);
         objeto.SetActive(true);
@@ -482,9 +490,6 @@ public class CursoManager : MonoBehaviour {
         textoPuntaje.text = score + "";
         objeto.SetActive(false);
         correctasAContestar = 0;
-        textoPuntajeObtenido.text = "";
-        PuntajeObtenido.SetActive(false);
-        yield return new WaitForSeconds(0.2f);
         llamarPreguntas();
     }
 
