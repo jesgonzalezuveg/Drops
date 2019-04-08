@@ -476,8 +476,6 @@ public class CursoManager : MonoBehaviour {
     }
 
     IEnumerator activaObjeto(GameObject objeto) {
-        textoPuntajeObtenido.text = "";
-        PuntajeObtenido.SetActive(false);
         destroyChildrens();
         valAudio(objeto);
         objeto.SetActive(true);
@@ -490,6 +488,8 @@ public class CursoManager : MonoBehaviour {
         textoPuntaje.text = score + "";
         objeto.SetActive(false);
         correctasAContestar = 0;
+        textoPuntajeObtenido.text = "";
+        PuntajeObtenido.SetActive(false);
         llamarPreguntas();
     }
 
