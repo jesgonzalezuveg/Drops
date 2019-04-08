@@ -2569,11 +2569,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelCompletarPalabra: {fileID: 53777449}
   phrases:
-  - {fileID: 21300000, guid: e05012bce45f3b14ca831933dc36743f, type: 3}
-  - {fileID: 21300000, guid: 2f5630b4a0257b44b95055b148ec82ea, type: 3}
-  - {fileID: 21300000, guid: 3833849b4565384499eeb188604687ca, type: 3}
-  - {fileID: 21300000, guid: a886df22eeb2ce945801cff86c1a3114, type: 3}
-  - {fileID: 21300000, guid: 99792b579b5d5ba47add59125218c792, type: 3}
+  - {fileID: 21300000, guid: f537060f32c7fd9458130abe84d0b922, type: 3}
+  - {fileID: 21300000, guid: 59325f13b4e36d042aad90ea3afebd0d, type: 3}
+  - {fileID: 21300000, guid: b8a8626439d91874e8956393019037d4, type: 3}
+  - {fileID: 21300000, guid: 2324645388dc9db4e9aba0ac853581f2, type: 3}
+  - {fileID: 21300000, guid: b3497be8ea200614691154a2a58bbdec, type: 3}
   textoRachaMax: {fileID: 354887738}
   textoAciertos: {fileID: 1057715807}
   textoNotaLetra: {fileID: 1579108007}
