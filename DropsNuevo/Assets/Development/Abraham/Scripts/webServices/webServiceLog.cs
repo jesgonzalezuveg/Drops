@@ -32,7 +32,7 @@ public class webServiceLog : MonoBehaviour {
     }
 
     public static int updateSyncroStatusSqlite(string id, int sincroStatus, string idServer) {
-        Debug.Log("EL ID SERVER ES: " +idServer);
+        //Debug.Log("EL ID SERVER ES: " +idServer);
         if (idServer != "0") { 
             sincroStatus = 1;
         }

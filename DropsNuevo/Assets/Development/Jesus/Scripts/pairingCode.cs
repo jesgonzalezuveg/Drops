@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
@@ -38,114 +37,140 @@ public class pairingCode : MonoBehaviour {
 
     // Start is called before the first frame update
     void Awake() {
-        code = "";
+        code = generateCode();
         code2 = "";
         status = "5";
         valCodigoSii = 3;
         countFrames = 0;
         cargaCodigo = 0;
         salir = 0;
-        code = "aLRB52";
     }
 
     public void regenerarCodigo() {
 
         Debug.Log("Regenerando codigo");
-        code = "";
+        code = generateCode();
         code2 = "";
         status = "5";
         valCodigoSii = 3;
         countFrames = 0;
         cargaCodigo = 0;
         salir = 0;
-        code = "aLRB52";
     }
 
     // Update is called once per frame
     void Update() {
         if (countFrames >= 30) {
-
-            //Paso 1 de pairing code: generara el codigo y guardarlo en el servidor
-            if (salir == 0) {
-                StartCoroutine(WebServiceCodigo.obtenerCodigo(code, 1));
-                if (valCodigoSii == 1) {
-                    pairingCode.valCodigoSii = 3;
-                    Debug.Log("El código ya exixte");
-                    code = generateCode();
-                } else if (valCodigoSii == 0) {
-                    pairingCode.valCodigoSii = 3;
-                    Debug.Log("El código no exixte");
-                    WebServiceCodigo.guardarCodigoSqlite(code);
-                    StartCoroutine(WebServiceCodigo.insertarCodigo(code));
-                    foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
-                        objeto.GetComponent<Text>().text = code2;
-                    }
-                    listenerCode.AddListener(emparejarCodigo);
-                    salir = 1;
-                } else {
-                    Debug.Log("Esperando Respuesta del Web Service 1");
-                }
-            }
-
-            //Paso 2 de pairing code: verificar si el codio es tomado por algun usuario para emparejarlo y generar la sesión
-            // Iniciar Listener
-            if (salir == 1) {
-                if (status == "2") {
-                    Debug.Log("Quitting");
-                    int res = WebServiceCodigo.editarCodigoSqlite(code, 2);
-                    if (res == 1) {
-                        Debug.Log("Se modifico el status");
-                        listenerCode.RemoveListener(emparejarCodigo);
-                        salir = 2;
-                        foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
-                            objeto.GetComponent<Text>().text = "Codigo emparejado";
-                        }
-                        Debug.Log("Emparejando datos de sesion generados");
-                        salir = 3;
-                        pairingCode.valCodigoSii = 3;
-                    } else {
-                        Debug.Log("No se modifico el status");
-                    }
-                } else {
-                    listenerCode.Invoke();
+            if (code != "" || code != null) {
+                code2 = "" + code[0] + code[1] + code[2] + "-" + code[3]+ code[4] + code[5];
+                //Paso 1 de pairing code: generara el codigo y guardarlo en el servidor
+                if (salir == 0) {
+                    StartCoroutine(WebServiceCodigo.obtenerCodigo(code, 1));
                     if (valCodigoSii == 1) {
                         pairingCode.valCodigoSii = 3;
+                        Debug.Log("El código ya exixte");
+                        code = generateCode();
                     } else if (valCodigoSii == 0) {
                         pairingCode.valCodigoSii = 3;
+                        Debug.Log("El código no exixte");
+                        WebServiceCodigo.guardarCodigoSqlite(code);
+                        StartCoroutine(WebServiceCodigo.insertarCodigo(code));
+                        foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
+                            objeto.GetComponent<Text>().text = code2;
+                        }
+                        listenerCode.AddListener(emparejarCodigo);
+                        salir = 1;
                     } else {
-                        Debug.Log("Esperando Respuesta del Web Service 2");
+                        Debug.Log("Esperando Respuesta del Web Service 1");
                     }
                 }
-            }
 
-            //Paso 3 de pairing code: sincronizar los datos de la sesion generada en el servidor con la db local
-            if (salir == 3) {
-                StartCoroutine(wsParingCode.getDataSesionByCode(idCodigoServer));
-                if (valCodigoSii == 1) {
-                    pairingCode.valCodigoSii = 3;
-                    Debug.Log("Se obtuvieron los datos de sesion para emparejarlos");
-                    //Validar si el usuario ya existe en la db local
-                    var res = webServiceUsuario.existUserSqlite(usuario.usuario);
-                    if (res != 1) {
-                        //Guardar el registro del usuario en la db local
-                        var resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status));
-                        if (resSaveUser == 1) {
-                            Debug.Log("El usuario se guardo correctamente");
-                            //Obtener datos del usuario que se acaba de registrar de la db local
+                //Paso 2 de pairing code: verificar si el codio es tomado por algun usuario para emparejarlo y generar la sesión
+                // Iniciar Listener
+                if (salir == 1) {
+                    if (status == "2") {
+                        Debug.Log("Quitting");
+                        int res = WebServiceCodigo.editarCodigoSqlite(code, 2);
+                        if (res == 1) {
+                            Debug.Log("Se modifico el status");
+                            listenerCode.RemoveListener(emparejarCodigo);
+                            salir = 2;
+                            foreach (var objeto in GameObject.FindGameObjectsWithTag("codigo")) {
+                                objeto.GetComponent<Text>().text = "Codigo emparejado";
+                            }
+                            Debug.Log("Emparejando datos de sesion generados");
+                            salir = 3;
+                            pairingCode.valCodigoSii = 3;
+                        } else {
+                            Debug.Log("No se modifico el status");
+                        }
+                    } else {
+                        listenerCode.Invoke();
+                        if (valCodigoSii == 1) {
+                            pairingCode.valCodigoSii = 3;
+                        } else if (valCodigoSii == 0) {
+                            pairingCode.valCodigoSii = 3;
+                        } else {
+                            Debug.Log("Esperando Respuesta del Web Service 2");
+                        }
+                    }
+                }
+
+                //Paso 3 de pairing code: sincronizar los datos de la sesion generada en el servidor con la db local
+                if (salir == 3) {
+                    StartCoroutine(wsParingCode.getDataSesionByCode(idCodigoServer));
+                    if (valCodigoSii == 1) {
+                        pairingCode.valCodigoSii = 3;
+                        Debug.Log("Se obtuvieron los datos de sesion para emparejarlos");
+                        //Validar si el usuario ya existe en la db local
+                        var res = webServiceUsuario.existUserSqlite(usuario.usuario);
+                        if (res != 1) {
+                            //Guardar el registro del usuario en la db local
+                            var resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status));
+                            if (resSaveUser == 1) {
+                                Debug.Log("El usuario se guardo correctamente");
+                                //Obtener datos del usuario que se acaba de registrar de la db local
+                                var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
+                                if (resultado != "0") {
+                                    webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
+                                    StartCoroutine(webServiceUsuario.getUserData(data.usuario));
+                                    //Guardar el log del usuario en la db local
+                                    Debug.Log("El usuario se guardo correctamente");
+                                    var resSaveLog = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 1, log.idServer, log.idCodigo, data.id);
+                                    if (resSaveLog == 1) {
+                                        Debug.Log("El log se inserto correctamente");
+                                        //Cambiar estado del codigo a 3 tanto en local
+                                        var resEditCode = WebServiceCodigo.editarCodigoSqlite(codigo.descripcion, 3);
+                                        if (resEditCode == 1) {
+                                            Debug.Log("El estado del codigo local se cambio correctammente");
+                                            salir = 4;
+                                        } else {
+                                            Debug.Log("No se pudo realizar el combio del estado");
+                                            salir = 5;
+                                        }
+                                    } else {
+                                        Debug.Log("El log no se inserto correctamente");
+                                    }
+                                } else {
+                                    Debug.Log("El log no se inserto correctamente");
+                                }
+                            } else {
+                                Debug.Log("No se encontro el usuario que se acaba de registrar");
+                            }
+                        } else {
+                            Debug.Log("El usuario ya existe");
+                            //Obtener datos del usuario ya registrado en la db local
                             var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
                             if (resultado != "0") {
                                 webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
-                                //////////
-                                var appManager = GameObject.Find("AppManager").GetComponent<appManager>();
-                                appManager.setUsuario(data.usuario);
+                                StartCoroutine(webServiceUsuario.getUserData(data.usuario));
                                 //Guardar el log del usuario en la db local
-                                Debug.Log("El usuario se guardo correctamente");
-                                var resSaveLog = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 1, log.idServer , log.idCodigo, data.id);
-                                if (resSaveLog == 1) {
+                                var resSaveLogSqlite = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 1, log.idServer, log.idCodigo, data.id);
+                                if (resSaveLogSqlite == 1) {
                                     Debug.Log("El log se inserto correctamente");
                                     //Cambiar estado del codigo a 3 tanto en local
-                                    var resEditCode = WebServiceCodigo.editarCodigoSqlite(codigo.descripcion, 3);
-                                    if (resEditCode == 1) {
+                                    var resEditSQLite = WebServiceCodigo.editarCodigoSqlite(codigo.descripcion, 3);
+                                    if (resEditSQLite == 1) {
                                         Debug.Log("El estado del codigo local se cambio correctammente");
                                         salir = 4;
                                     } else {
@@ -156,60 +181,32 @@ public class pairingCode : MonoBehaviour {
                                     Debug.Log("El log no se inserto correctamente");
                                 }
                             } else {
-                                Debug.Log("El log no se inserto correctamente");
+                                Debug.Log("No se encontro el usuario ya registrado");
                             }
-                        } else {
-                            Debug.Log("No se encontro el usuario que se acaba de registrar");
                         }
+                    } else if (valCodigoSii == 0) {
+                        //pairingCode.valCodigoSii = 3;
+                        Debug.Log(valCodigoSii);
+                        Debug.Log("No obtuvieron los datos de sesion para emparejarlos");
                     } else {
-                        Debug.Log("El usuario ya existe");
-                        //Obtener datos del usuario ya registrado en la db local
-                        var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
-                        if (resultado != "0") {
-                            webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
-                            ///////////
-                            var appManager = GameObject.Find("AppManager").GetComponent<appManager>();
-                            appManager.setUsuario(data.usuario);
-                            //Guardar el log del usuario en la db local
-                            var resSaveLogSqlite = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 1, log.idServer, log.idCodigo, data.id);
-                            if (resSaveLogSqlite == 1) {
-                                Debug.Log("El log se inserto correctamente");
-                                //Cambiar estado del codigo a 3 tanto en local
-                                var resEditSQLite = WebServiceCodigo.editarCodigoSqlite(codigo.descripcion, 3);
-                                if (resEditSQLite == 1) {
-                                    Debug.Log("El estado del codigo local se cambio correctammente");
-                                    salir = 4;
-                                } else {
-                                    Debug.Log("No se pudo realizar el combio del estado");
-                                    salir = 5;
-                                }
-                            } else {
-                                Debug.Log("El log no se inserto correctamente");
-                            }
-                        } else {
-                            Debug.Log("No se encontro el usuario ya registrado");
-                        }
+                        Debug.Log("Esperando Respuesta del Web Service 3");
                     }
-                } else if (valCodigoSii == 0) {
-                    //pairingCode.valCodigoSii = 3;
-                    Debug.Log(valCodigoSii);
-                    Debug.Log("No obtuvieron los datos de sesion para emparejarlos");
-                } else {
-                    Debug.Log("Esperando Respuesta del Web Service 3");
                 }
-            }
 
-            //Paso 4 de pairing code: cambiar el estado del codigo del servidor a 3
-            if (salir == 4) {
-                StartCoroutine(WebServiceCodigo.updateCode(codigo.id, 3));
-                if (valCodigoSii == 1) {
-                    Debug.Log("Se actualizo codigo en servidor");
-                    StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias"));
-                } else if (valCodigoSii == 0) {
-                    Debug.Log("No se pudo actualizar codigo en servidor");
-                } else {
-                    Debug.Log("Esperando Respuesta del Web Service 4");
+                //Paso 4 de pairing code: cambiar el estado del codigo del servidor a 3
+                if (salir == 4) {
+                    StartCoroutine(WebServiceCodigo.updateCode(codigo.id, 3));
+                    if (valCodigoSii == 1) {
+                        Debug.Log("Se actualizo codigo en servidor");
+                        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias"));
+                    } else if (valCodigoSii == 0) {
+                        Debug.Log("No se pudo actualizar codigo en servidor");
+                    } else {
+                        Debug.Log("Esperando Respuesta del Web Service 4");
+                    }
                 }
+            } else {
+                code = generateCode();
             }
 
             countFrames = 0;
@@ -263,21 +260,20 @@ public class pairingCode : MonoBehaviour {
    **/
     public string generateCode() {
         code2 = "";
-        var chars = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var chars = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         var stringChars = new char[6];
-        var random = new Random();
-
+      
         for (int i = 0; i < stringChars.Length; i++) {
-            stringChars[i] = chars[random.Next(chars.Length)];
+            stringChars[i] = chars[UnityEngine.Random.Range(0, 62)];
             if (i == 2) {
                 code2 = code2 + stringChars[i] + "-";
             } else {
                 code2 = code2 + stringChars[i];
             }
         }
+        Debug.Log("MI CODIGO2 ES ANTES DEL IF: " + code2);
 
         var finalString = new string(stringChars);
-
         return finalString;
     }
 }

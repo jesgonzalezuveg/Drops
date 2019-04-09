@@ -8,7 +8,7 @@ using System.Text;
 
 public class webServiceUsuario : MonoBehaviour {
 
-    private const string USUARIO_DATA = "http://siid.uveg.edu.mx/core/api/apiUsuarios.php";     ///< URL del API que se utilizará
+    private const string USUARIO_DATA = "http://sii.uveg.edu.mx/core/api/apiUsuarios.php";     ///< URL del API que se utilizará
     private const string API_KEY = "AJFFF-ASFFF-GWEGG-WEGERG-ERGEG-EGERG-ERGEG";                ///< API_KEY KEY que se necesitará para la conexión
 
     /** Estructura que almacena los datos del usuario desde SII
@@ -235,7 +235,8 @@ public class webServiceUsuario : MonoBehaviour {
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
-        form.AddField("data", "{\"usuario\": \"" + usuario + "\", \"contrasena\": \"" + usuario + "\"}");
+        Debug.Log("{\"usuario\": \"" + usuario + "\", \"contrasena\": \"\"}");
+        form.AddField("data", "{\"usuario\": \"" + usuario + "\", \"contrasena\": \"\"}");
         using (UnityWebRequest www = UnityWebRequest.Post(USUARIO_DATA, form)) {
             AsyncOperation asyncLoad = www.SendWebRequest();
             // Wait until fully loads
@@ -257,7 +258,12 @@ public class webServiceUsuario : MonoBehaviour {
                     manager.setNombre(nombreCompleto);
                     manager.setCorreo(data.data.Correo);
                     manager.setImagen(data.data.Imagen);
-                    manager.setGradoEstudios(data.data.ProgramaEstudio);
+                    if (data.data.ProgramaEstudio != null && data.data.ProgramaEstudio != "") {
+                        manager.setGradoEstudios(data.data.ProgramaEstudio);
+                    } else {
+                        manager.setGradoEstudios("Usuario UVEG");
+                    }
+
                     webServiceRegistro.validarAccionSqlite("Login Pairing Code", data.data.Usuario, "Login");
                     //webServiceRegistro.insertarRegistroSqLite("Login Pairing Code", data.data.Usuario, 1);
                 } else {

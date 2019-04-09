@@ -71,7 +71,7 @@ public class webServiceSincronizacion : MonoBehaviour
     }
 
     public static int changeSyncroStatus(string json, string idServer) {
-        Debug.Log(json);
+        //Debug.Log(json);
         RootObject myObject = JsonUtility.FromJson<RootObject>(json);
         for (int i =0; i < myObject.Usuarios.Length; i++) {
            if(webServiceUsuario.updateSyncroStatusSqlite(myObject.Usuarios[i].id, 2)==1) {
@@ -137,7 +137,7 @@ public class webServiceSincronizacion : MonoBehaviour
                     //manager.lastIdLog = text;
                     //Debug.Log("ESTE ES EL ULTIMO LOG: " + manager.lastIdLog);
                     SyncroManager.respuestaWsSincro = "1";
-                    Debug.Log("Sincronizacion realizada");
+                    //Debug.Log("Sincronizacion realizada");
                     int resultado;
                     if (realTime) {
                         resultado = changeSyncroStatus(data, text);
