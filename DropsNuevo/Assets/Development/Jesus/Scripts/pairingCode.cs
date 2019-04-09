@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
@@ -45,7 +44,6 @@ public class pairingCode : MonoBehaviour {
         countFrames = 0;
         cargaCodigo = 0;
         salir = 0;
-        code = "aLRB52";
     }
 
     public void regenerarCodigo() {
@@ -58,7 +56,6 @@ public class pairingCode : MonoBehaviour {
         countFrames = 0;
         cargaCodigo = 0;
         salir = 0;
-        code = "aLRB52";
     }
 
     // Update is called once per frame
@@ -263,12 +260,14 @@ public class pairingCode : MonoBehaviour {
    **/
     public string generateCode() {
         code2 = "";
-        var chars = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var chars = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         var stringChars = new char[6];
-        var random = new Random();
-
+        //var random = new Random();
+        var random = UnityEngine.Random.Range(0,62);
+        Debug.Log(chars[0]);
         for (int i = 0; i < stringChars.Length; i++) {
-            stringChars[i] = chars[random.Next(chars.Length)];
+            //stringChars[i] = chars[random.Next(chars.Length)];
+            stringChars[i] = chars[UnityEngine.Random.Range(0, 63)];
             if (i == 2) {
                 code2 = code2 + stringChars[i] + "-";
             } else {

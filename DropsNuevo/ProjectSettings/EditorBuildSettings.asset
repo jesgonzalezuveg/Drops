@@ -5,19 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Development/Abraham/scenes/LogoUvegStudio.unity
     guid: 7331a803f4baaec4390a9ccb7c8d1f4c
-  - enabled: 0
+  - enabled: 1
     path: Assets/Development/Abraham/scenes/mainMenu.unity
     guid: 9d39fa2de49ac844facbea16c622e93a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Development/Jesus/Scenes/ParingCode.unity
     guid: b2fa5ea6a66884f4f9a9968a56f8d370
-  - enabled: 0
+  - enabled: 1
     path: Assets/Development/Abraham/scenes/login.unity
     guid: 7326f6df50c1df740adc207b03f3b35c
-  - enabled: 0
+  - enabled: 1
     path: Assets/Development/Abraham/scenes/menuCategorias.unity
     guid: 88d63eb425a462840bcfd4b2cbe828c0
   - enabled: 1

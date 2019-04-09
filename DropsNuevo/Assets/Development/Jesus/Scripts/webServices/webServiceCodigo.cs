@@ -85,6 +85,7 @@ public class WebServiceCodigo : MonoBehaviour {
                     pairingCode.status = text;
                     pairingCode.valCodigoSii = 0;
                 } else {
+                    Debug.Log(text);
                     //Debug.Log("Se encontro el código");
                     Data data = JsonUtility.FromJson<Data>(text);
                     pairingCode.status = data.status;
