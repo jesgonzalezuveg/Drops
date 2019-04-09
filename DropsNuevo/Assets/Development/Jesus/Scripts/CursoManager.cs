@@ -483,8 +483,8 @@ public class CursoManager : MonoBehaviour {
         objeto.GetComponentInChildren<AudioSource>().Play();
         PuntajeObtenido.SetActive(false);
         PuntajeObtenido.SetActive(true);
-        //yield return new WaitUntil(() => objeto.GetComponentInChildren<AudioSource>().isPlaying == false);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitUntil(() => objeto.GetComponentInChildren<AudioSource>().isPlaying == false);
+        //yield return new WaitForSeconds(0.8f);
         textoPuntaje.text = score + "";
         objeto.SetActive(false);
         correctasAContestar = 0;
