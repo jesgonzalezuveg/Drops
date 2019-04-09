@@ -8,7 +8,7 @@ using System;
 public class CursoManager : MonoBehaviour {
 
     SyncroManager sicroManager;
-    public GameObject panelCompletarPalabra;
+   // public GameObject panelCompletarPalabra;
     public Sprite [] phrases;
     public Text textoRachaMax;
     public Text textoAciertos;
@@ -63,7 +63,7 @@ public class CursoManager : MonoBehaviour {
     string idRespuesta = "";
 
     void Start() {
-        panelCompletarPalabra.SetActive(false);
+        //panelCompletarPalabra.SetActive(false);
         mayorRacha = 0;
         racha = 0;
         aciertos = 0;
@@ -115,13 +115,14 @@ public class CursoManager : MonoBehaviour {
                     }
                     break;
                 case "Completar palabra":
-                    panelCompletarPalabra.SetActive(true);
+                    //panelCompletarPalabra.SetActive(true);
                     textoCompletado.text = fraseCompletada;
                     if (fraseCompletada == fraseACompletar) {
                         webServiceRegistro.validarAccionSqlite("Respondió correctamente(Completar palabra): " + fraseCompletada, manager.getUsuario(), "Respondió pregunta");
                         fraseCompletada = "";
                         fraseACompletar = "l";
                         webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idPregunta, idRespuesta, idIntento);
+                        textoCompletado.text = "";
                         respuestaCorrecta();
                     }
                     break;
@@ -165,6 +166,7 @@ public class CursoManager : MonoBehaviour {
                     break;
             }
         } else if (correctas < 0) {
+            textoCompletado.text = "";
             webServiceRegistro.validarAccionSqlite("Respondió incorrectamente(" + descripcionTipoEjercicio + ")", manager.getUsuario(), "Respondió pregunta");
             countPreguntas++;
             correctas = 0;
@@ -175,7 +177,7 @@ public class CursoManager : MonoBehaviour {
             StartCoroutine(activaObjeto(incorrectoimg));
             webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
             webServiceDetalleIntento.insertarDetalleIntentoSqLite("False", idPregunta, idRespuesta, idIntento);
-            panelCompletarPalabra.SetActive(false);
+            //panelCompletarPalabra.SetActive(false);
             textoCompletado.text = "";
         }
     }
@@ -187,7 +189,7 @@ public class CursoManager : MonoBehaviour {
         verificarRacha();
         StartCoroutine(activaObjeto(correctoimg));
         webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
-        panelCompletarPalabra.SetActive(false);
+        //panelCompletarPalabra.SetActive(false);
         textoCompletado.text = "";
     }
 
@@ -218,7 +220,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void llamarPreguntas() {
-        panelCompletarPalabra.SetActive(false);
+        //panelCompletarPalabra.SetActive(false);
         if (countPreguntas < preguntas.Length) {
             idPregunta = preguntas[countPreguntas].id;
             descripcionTipoEjercicio = preguntas[countPreguntas].descripcionEjercicio;
