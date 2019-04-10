@@ -21,11 +21,9 @@ public class PlayerManager : MonoBehaviour {
      */
     public void setMensaje(bool active, string mensaje) {
         if (active == true) {
-            Time.timeScale = 0;
             isInMesagge = true;
             rotationLock = gameObject.GetComponentInChildren<Camera>().gameObject.transform.localRotation;
         } else {
-            Time.timeScale = 1;
             isInMesagge = false;
         }
         pantallaCargando.SetActive(active);

@@ -262,28 +262,62 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void getNota() {
-        float promedio = (aciertos * 10) / numPreguntas;
-        if (promedio == 10.00) {
+        float promedio = (aciertos * 10.0f) / numPreguntas;
+        Debug.Log(promedio);
+        string nota = "";
+        string modificador = null;
+        if (promedio == 10.0f) {
             textoNotaLetra.text = "S";
-        } else if (promedio >= 9.5 && promedio < 10.00) {
+            nota = "S";
+        } else if (promedio >= 9.5f && promedio < 10.0f) {
             textoNotaLetra.text = "A+";
-        } else if (promedio >= 9.00 && promedio < 9.5) {
+            nota = "A";
+            modificador = "+";
+        } else if (promedio >= 9.0f && promedio < 9.5f) {
             textoNotaLetra.text = "A";
-        } else if (promedio >= 8.5 && promedio < 9) {
+            nota = "A";
+        } else if (promedio >= 8.5f && promedio < 9f) {
             textoNotaLetra.text = "B+";
-        } else if (promedio >= 8.00 && promedio < 8.5) {
+            nota = "B";
+            modificador = "+";
+        } else if (promedio >= 8.0f && promedio < 8.5f) {
             textoNotaLetra.text = "B";
-        } else if (promedio >= 7.5 && promedio < 8) {
+            nota = "B";
+        } else if (promedio >= 7.5f && promedio < 8f) {
             textoNotaLetra.text = "C+";
-        } else if (promedio >= 7.00 && promedio < 7.5) {
+            nota = "C";
+            modificador = "+";
+        } else if (promedio >= 7.0f && promedio < 7.5f) {
             textoNotaLetra.text = "C";
-        } else if (promedio >= 6.5 && promedio < 7.00) {
+            nota = "C";
+        } else if (promedio >= 6.5f && promedio < 7.0f) {
             textoNotaLetra.text = "D+";
-        } else if (promedio >= 6.00 && promedio < 6.5) {
+            nota = "D";
+            modificador = "+";
+        } else if (promedio >= 6.0f && promedio < 6.5f) {
             textoNotaLetra.text = "D";
-        } else if (promedio < 6.00){
+            nota = "D";
+        } else if (promedio < 6.0f){
             textoNotaLetra.text = "F";
+            nota = "F";
         }
+        scoreFinal.SetActive(true);
+        var imagenNota = GameObject.Find("letraNota").GetComponent<Image>();
+        var spriteObjNota = Resources.Load("Letras/letra-" + nota);
+        Texture2D texNota = spriteObjNota as Texture2D;
+        Rect recNota = new Rect(0, 0, texNota.width, texNota.height);
+        var spriteNota = Sprite.Create(texNota, recNota, new Vector2(0.5f, 0.5f), 100);
+        imagenNota.sprite = spriteNota;
+
+        if (modificador != null) {
+            var imagenModificador = GameObject.Find("modificadorNota").GetComponent<Image>();
+            var spriteObjModificador = Resources.Load("Letras/letra-" + modificador);
+            Texture2D texModificador = spriteObjModificador as Texture2D;
+            Rect recModificador = new Rect(0, 0, texModificador.width, texModificador.height);
+            var spriteModificador = Sprite.Create(texModificador, recModificador, new Vector2(0.5f, 0.5f), 100);
+            imagenModificador.sprite = spriteModificador;
+        }
+
     }
 
     public void imprimePregunta() {
