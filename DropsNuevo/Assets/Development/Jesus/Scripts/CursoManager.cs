@@ -363,14 +363,26 @@ public class CursoManager : MonoBehaviour {
         try {
             if (descripcionTipoEjercicio != "Seleccion simple texto") {
                 x = crearObjeto(angle, radius, butonToInstantiate);
-                var splitUrk = respuesta.urlImagen.Split('/');
-                var path = splitUrk[splitUrk.Length - 1];
-                byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-                Texture2D texture = new Texture2D(8, 8);
-                texture.LoadImage(byteArray);
-                Rect rec = new Rect(0, 0, texture.width, texture.height);
-                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-                x.GetComponentInChildren<Button>().gameObject.GetComponent<Image>().sprite = sprite;
+                Debug.Log(preguntas[countPreguntas].idPaquete);
+                if (Int32.Parse(preguntas[countPreguntas].idPaquete) > 2) {
+                    var splitUrk = respuesta.urlImagen.Split('/');
+                    var path = splitUrk[splitUrk.Length - 1];
+                    byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
+                    Texture2D texture = new Texture2D(8, 8);
+                    texture.LoadImage(byteArray);
+                    Rect rec = new Rect(0, 0, texture.width, texture.height);
+                    var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                    x.GetComponentInChildren<Button>().gameObject.GetComponent<Image>().sprite = sprite;
+                } else {
+                    Debug.Log("Carga de preloaded");
+                    var splitUrl = respuesta.urlImagen.Split('.');
+                    var spriteObj = Resources.Load("preloadedPacks/" + splitUrl[0]);
+                    var imagen = x.GetComponentInChildren<Button>().gameObject.GetComponent<Image>();
+                    Texture2D tex = spriteObj as Texture2D;
+                    Rect rec = new Rect(0, 0, tex.width, tex.height);
+                    var sprite = Sprite.Create(tex, rec, new Vector2(0.5f, 0.5f), 100);
+                    imagen.sprite = sprite;
+                }
             } else {
                 x = crearObjeto(angle, radius, butonToInstantiateText);
                 x.GetComponentInChildren<Text>().text = respuesta.descripcion;

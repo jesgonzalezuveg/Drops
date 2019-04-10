@@ -185,7 +185,7 @@ public class appManager : MonoBehaviour {
      * Verifica si hay conexion a internet o no
      */
     public void Awake() {
-        fondo = UnityEngine.Random.Range(0,7);
+        fondo = UnityEngine.Random.Range(0, 7);
         DontDestroyOnLoad(this.gameObject);
     }
     public void Start() {
@@ -287,7 +287,9 @@ public class appManager : MonoBehaviour {
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
                         if (descargaLocal == null) {
                             if (isOnline) {
-                                paquetesManager.newCardDescarga(pack);
+                                if (Int32.Parse(pack.id) > 2) {
+                                    paquetesManager.newCardDescarga(pack);
+                                }
                             } else {
 
                             }
@@ -296,7 +298,9 @@ public class appManager : MonoBehaviour {
                                 if (isActualized(descargaLocal.fechaDescarga, pack.fechaModificacion)) {
                                     paquetesManager.newCardJugar(pack, null);
                                 } else {
-                                    paquetesManager.newCardActualizar(pack, null);
+                                    if (Int32.Parse(pack.id) > 2) {
+                                        paquetesManager.newCardActualizar(pack, null);
+                                    }
                                 }
                             } else {
                                 paquetesManager.newCardJugar(pack, null);
@@ -427,12 +431,11 @@ public class appManager : MonoBehaviour {
      * y se encarga de actulizar los paquetes en pantalla
      */
     public IEnumerator descargarImagenesPaquete() {
-        foreach (var respuesta in respuestas) {
-            var descarga = webServiceDescarga.getDescargaByPaquete(packToPlay.id);
-            //Validar si fecha modificacion respuesta es diferente a la fecha de descarga que se tenia
-            if (descarga != null) {
-                if (respuesta != null) {
-                    //if (!isActualized(descarga.fechaDescarga, respuesta.fechaModificacion)) {
+        if (Int32.Parse(packToPlay.id) > 2) {
+            foreach (var respuesta in respuestas) {
+                var descarga = webServiceDescarga.getDescargaByPaquete(packToPlay.id);
+                if (descarga != null) {
+                    if (respuesta != null) {
                         var pathArray = respuesta.urlImagen.Split('/');
                         var path = pathArray[pathArray.Length - 1];
                         if (!File.Exists(Application.persistentDataPath + path)) {
@@ -451,33 +454,27 @@ public class appManager : MonoBehaviour {
 
                             }
                         }
-                        //}
-                    //} else {
-
-                    //}
-                } else {
-
-                }
-            } else {
-                //Debug.Log(respuesta.urlImagen);
-                //if (respuesta.urlImagen != "") {
-                var pathArray = respuesta.urlImagen.Split('/');
-                var path = pathArray[pathArray.Length - 1];
-                WWW www = new WWW(respuesta.urlImagen);
-                yield return www;
-                if (www.texture != null) {
-                    Texture2D texture = www.texture;
-                    byte[] bytes;
-                    if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
-                        bytes = texture.EncodeToJPG();
                     } else {
-                        bytes = texture.EncodeToPNG();
-                    }
-                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-                } else {
 
+                    }
+                } else {
+                    var pathArray = respuesta.urlImagen.Split('/');
+                    var path = pathArray[pathArray.Length - 1];
+                    WWW www = new WWW(respuesta.urlImagen);
+                    yield return www;
+                    if (www.texture != null) {
+                        Texture2D texture = www.texture;
+                        byte[] bytes;
+                        if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
+                            bytes = texture.EncodeToJPG();
+                        } else {
+                            bytes = texture.EncodeToPNG();
+                        }
+                        File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                    } else {
+
+                    }
                 }
-                //}
             }
         }
         webServiceDescarga.insertarDescargaSqLite(webServicePaquetes.getPaquetesByDescripcionSqLite(packToPlay.descripcion).id, webServiceUsuario.consultarIdUsuarioSqLite(Usuario));
