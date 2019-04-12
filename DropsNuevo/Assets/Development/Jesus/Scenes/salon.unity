@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1467,6 +1467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 815774190}
   - component: {fileID: 815774191}
+  - component: {fileID: 815774192}
   m_Layer: 0
   m_Name: scoreFinal
   m_TagString: Untagged
@@ -1482,7 +1483,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 815774189}
   m_LocalRotation: {x: -0, y: -0.7194117, z: -0, w: 0.694584}
-  m_LocalPosition: {x: 4.9542828, y: 1.7714919, z: -1.5635667}
+  m_LocalPosition: {x: 4.954283, y: 1.7714919, z: -1.563567}
   m_LocalScale: {x: 0.11150417, y: 0.111504085, z: 0.11150417}
   m_Children:
   - {fileID: 1349643304}
@@ -1537,6 +1538,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &815774192
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815774189}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5d8dce43b302f8946948fe2d3df3f2c3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &817124844
 GameObject:
   m_ObjectHideFlags: 0
@@ -2906,7 +2926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.078431375, g: 0.28627452, b: 0.38823533, a: 1}
+  m_Color: {r: 0.078431375, g: 0.28627452, b: 0.38823533, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3528,7 +3548,7 @@ MonoBehaviour:
   savedUp: {x: 0.0000000065604544, y: 0.9911874, z: -0.13246696}
   savedRectSize: {x: 386.52, y: 157.34}
   savedColor: {r: 0.145098, g: 0.8815041, b: 0.93333334, a: 0.18039216}
-  savedTextUV0: {x: 0.00390625, y: 0}
+  savedTextUV0: {x: 0.6269531, y: 0}
   savedFill: 0
 --- !u!1 &1928442146
 GameObject:
@@ -3864,6 +3884,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201963430785183908, guid: ace3bd29d9569404aa22143182602e0e,
+        type: 3}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201963432070466845, guid: ace3bd29d9569404aa22143182602e0e,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201963431447634249, guid: ace3bd29d9569404aa22143182602e0e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7204126048029776275, guid: ace3bd29d9569404aa22143182602e0e,
         type: 3}
@@ -4635,11 +4670,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6201963431447634249, guid: ace3bd29d9569404aa22143182602e0e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 6561837985681241745, guid: ace3bd29d9569404aa22143182602e0e,
         type: 3}
       propertyPath: m_IsActive
@@ -4729,11 +4759,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 0.39215687
-      objectReference: {fileID: 0}
-    - target: {fileID: 6201963430785183908, guid: ace3bd29d9569404aa22143182602e0e,
-        type: 3}
-      propertyPath: m_Text
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6201963430792251868, guid: ace3bd29d9569404aa22143182602e0e,
         type: 3}
@@ -4855,11 +4880,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 0.78431374
-      objectReference: {fileID: 0}
-    - target: {fileID: 6201963432070466845, guid: ace3bd29d9569404aa22143182602e0e,
-        type: 3}
-      propertyPath: m_Text
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6201963430989312675, guid: ace3bd29d9569404aa22143182602e0e,
         type: 3}
@@ -5002,5 +5022,5 @@ MonoBehaviour:
   savedUp: {x: 0.0000000065604544, y: 0.9911874, z: -0.13246696}
   savedRectSize: {x: 9748, y: 4481.2}
   savedColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
-  savedTextUV0: {x: 6.3250305e+28, y: 1.5863221e+10}
+  savedTextUV0: {x: 0, y: -44.011395}
   savedFill: 0
