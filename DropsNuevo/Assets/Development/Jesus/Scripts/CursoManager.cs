@@ -91,9 +91,11 @@ public class CursoManager : MonoBehaviour {
         perfectSp = Resources.Load("UserInterface/perfecto");
 
         woow = Resources.Load("audios/Woow") as AudioClip;
-        woowSp = Resources.Load("UserInterface/woow");
+        woowSp = Resources.Load("UserInterface/wooow");
+
         increible = Resources.Load("audios/Increible") as AudioClip;
         increibleSp = Resources.Load("UserInterface/increible");
+
         sigueAsi = Resources.Load("audios/sigueAsi") as AudioClip;
         sigueAsiSp = Resources.Load("UserInterface/sigueasi");
 
