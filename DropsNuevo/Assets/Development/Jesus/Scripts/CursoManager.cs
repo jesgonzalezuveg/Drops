@@ -8,8 +8,7 @@ using System;
 public class CursoManager : MonoBehaviour {
 
     SyncroManager sicroManager;
-   // public GameObject panelCompletarPalabra;
-    public Sprite [] phrases;
+    // public GameObject panelCompletarPalabra;
     public Text textoRachaMax;
     public Text textoAciertos;
     public Text textoNotaLetra;
@@ -26,11 +25,24 @@ public class CursoManager : MonoBehaviour {
     public GameObject scoreFinal;
     public Text preguntaText;
 
-    public AudioClip good;
-    public AudioClip great;
-    public AudioClip awsome;
-    public AudioClip perfect;
-    public AudioClip ops;
+    private AudioClip bien;
+    private UnityEngine.Object bienSp;
+    private AudioClip genial;
+    private UnityEngine.Object genialSp;
+    private AudioClip asombroso;
+    private UnityEngine.Object asombrosoSp;
+    private AudioClip excelente;
+    private UnityEngine.Object excelenteSp;
+    private AudioClip perfect;
+    private UnityEngine.Object perfectSp;
+    private AudioClip woow;
+    private UnityEngine.Object woowSp;
+    private AudioClip increible;
+    private UnityEngine.Object increibleSp;
+    private AudioClip sigueAsi;
+    private UnityEngine.Object sigueAsiSp;
+    private AudioClip ops;
+    private UnityEngine.Object opsSp;
 
     public GameObject butonToInstantiate;
     public GameObject butonToInstantiateText;
@@ -63,7 +75,31 @@ public class CursoManager : MonoBehaviour {
     string idRespuesta = "";
 
     void Start() {
-        //panelCompletarPalabra.SetActive(false);
+        bien = Resources.Load("audios/Great") as AudioClip;
+        bienSp = Resources.Load("UserInterface/bien");
+
+        genial = Resources.Load("audios/genial") as AudioClip;
+        genialSp = Resources.Load("UserInterface/genial");
+
+        asombroso = Resources.Load("audios/Awesome") as AudioClip;
+        asombrosoSp = Resources.Load("UserInterface/asombroso");
+
+        excelente = Resources.Load("audios/Excellent") as AudioClip;
+        excelenteSp = Resources.Load("UserInterface/excelente");
+
+        perfect = Resources.Load("audios/Perfect") as AudioClip;
+        perfectSp = Resources.Load("UserInterface/perfecto");
+
+        woow = Resources.Load("audios/Woow") as AudioClip;
+        woowSp = Resources.Load("UserInterface/woow");
+        increible = Resources.Load("audios/Increible") as AudioClip;
+        increibleSp = Resources.Load("UserInterface/increible");
+        sigueAsi = Resources.Load("audios/sigueAsi") as AudioClip;
+        sigueAsiSp = Resources.Load("UserInterface/sigueasi");
+
+        ops = Resources.Load("audios/reiniciando") as AudioClip;
+        opsSp = Resources.Load("UserInterface/ops");
+
         mayorRacha = 0;
         racha = 0;
         aciertos = 0;
@@ -297,7 +333,7 @@ public class CursoManager : MonoBehaviour {
         } else if (promedio >= 6.0f && promedio < 6.5f) {
             textoNotaLetra.text = "D";
             nota = "D";
-        } else if (promedio < 6.0f){
+        } else if (promedio < 6.0f) {
             textoNotaLetra.text = "F";
             nota = "F";
         }
@@ -498,27 +534,65 @@ public class CursoManager : MonoBehaviour {
         switch (racha) {
             case 0:
                 obj.GetComponentInChildren<AudioSource>().clip = ops;
-                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[0];
+                Texture2D tex = opsSp as Texture2D;
+                Rect rec = new Rect(0, 0, tex.width, tex.height);
+                var sprite = Sprite.Create(tex, rec, new Vector2(0.5f, 0.5f), 100);
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = sprite;
                 break;
             case 1:
-                obj.GetComponentInChildren<AudioSource>().clip = good;
-                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[1];
-                break;
             case 2:
-                obj.GetComponentInChildren<AudioSource>().clip = good;
-                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[1];
+                obj.GetComponentInChildren<AudioSource>().clip = bien;
+                Texture2D tex2 = bienSp as Texture2D;
+                Rect rec2 = new Rect(0, 0, tex2.width, tex2.height);
+                var sprite2 = Sprite.Create(tex2, rec2, new Vector2(0.5f, 0.5f), 100);
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = sprite2;
                 break;
             case 3:
-                obj.GetComponentInChildren<AudioSource>().clip = great;
-                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[2];
+                obj.GetComponentInChildren<AudioSource>().clip = genial;
+                Texture2D tex3 = genialSp as Texture2D;
+                Rect rec3 = new Rect(0, 0, tex3.width, tex3.height);
+                var sprite3 = Sprite.Create(tex3, rec3, new Vector2(0.5f, 0.5f), 100);
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = sprite3;
                 break;
             case 4:
-                obj.GetComponentInChildren<AudioSource>().clip = awsome;
-                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[3];
+                obj.GetComponentInChildren<AudioSource>().clip = asombroso;
+                Texture2D tex4 = asombrosoSp as Texture2D;
+                Rect rec4 = new Rect(0, 0, tex4.width, tex4.height);
+                var sprite4 = Sprite.Create(tex4, rec4, new Vector2(0.5f, 0.5f), 100);
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = sprite4;
+                break;
+            case 5:
+                obj.GetComponentInChildren<AudioSource>().clip = excelente;
+                Texture2D tex5 = excelenteSp as Texture2D;
+                Rect rec5 = new Rect(0, 0, tex5.width, tex5.height);
+                var sprite5 = Sprite.Create(tex5, rec5, new Vector2(0.5f, 0.5f), 100);
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = sprite5;
                 break;
             default:
-                obj.GetComponentInChildren<AudioSource>().clip = perfect;
-                obj.GetComponentInChildren<SpriteRenderer>().sprite = phrases[4];
+                int random = UnityEngine.Random.Range(0, 4);
+                UnityEngine.Object spriteACargar = null;
+                switch (random) {
+                    case 0:
+                        obj.GetComponentInChildren<AudioSource>().clip = perfect;
+                        spriteACargar = perfectSp;
+                        break;
+                    case 1:
+                        obj.GetComponentInChildren<AudioSource>().clip = woow;
+                        spriteACargar = woowSp;
+                        break;
+                    case 2:
+                        obj.GetComponentInChildren<AudioSource>().clip = sigueAsi;
+                        spriteACargar = sigueAsiSp;
+                        break;
+                    case 3:
+                        obj.GetComponentInChildren<AudioSource>().clip = increible;
+                        spriteACargar = increibleSp;
+                        break;
+                }
+                Texture2D tex6 = spriteACargar as Texture2D;
+                Rect rec6 = new Rect(0, 0, tex6.width, tex6.height);
+                var sprite6 = Sprite.Create(tex6, rec6, new Vector2(0.5f, 0.5f), 100);
+                obj.GetComponentInChildren<SpriteRenderer>().sprite = sprite6;
                 break;
         }
     }
