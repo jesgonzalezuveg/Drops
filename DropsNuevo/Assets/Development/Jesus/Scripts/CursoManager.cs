@@ -214,7 +214,6 @@ public class CursoManager : MonoBehaviour {
             webServiceIntento.updateIntentoSqlite(idIntento, score.ToString());
             webServiceDetalleIntento.insertarDetalleIntentoSqLite("False", idPregunta, idRespuesta, idIntento);
             //panelCompletarPalabra.SetActive(false);
-            textoCompletado.text = "";
         }
     }
 
@@ -258,6 +257,7 @@ public class CursoManager : MonoBehaviour {
     public void llamarPreguntas() {
         //panelCompletarPalabra.SetActive(false);
         if (countPreguntas < preguntas.Length) {
+            textoCompletado.text = "-";
             idPregunta = preguntas[countPreguntas].id;
             descripcionTipoEjercicio = preguntas[countPreguntas].descripcionEjercicio;
             webServiceRegistro.validarAccionSqlite("Pregunta: " + preguntas[countPreguntas].descripcion, manager.getUsuario(), "Entró a pregunta");
@@ -491,6 +491,7 @@ public class CursoManager : MonoBehaviour {
             if (fraseCompletada[fraseCompletada.Length - 1] == fraseACompletar[fraseCompletada.Length - 1]) {
 
             } else {
+                textoCompletado.text = "";
                 webServiceRegistro.validarAccionSqlite("Respondió incorrectamente: " + fraseCompletada, manager.getUsuario(), "Respondió pregunta");
                 correctas = -1;
                 racha = 0;
@@ -598,6 +599,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     IEnumerator activaObjeto(GameObject objeto) {
+        textoCompletado.text = "";
         destroyChildrens();
         valAudio(objeto);
         objeto.SetActive(true);
