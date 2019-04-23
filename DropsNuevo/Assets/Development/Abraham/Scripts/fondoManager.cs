@@ -11,9 +11,14 @@ public class fondoManager : MonoBehaviour {
     public Texture[] dia;*/
 
     appManager manager;
+    int fondo = 0;
 
     public void Start() {
         manager = GameObject.FindObjectOfType<appManager>();
+        fondo = manager.getFondo();
+        if (fondo == -1) {
+            fondo = Random.Range(0, 7);
+        }
         #region cambiar por hora
         /*switch (System.DateTime.Now.TimeOfDay.Hours) {
             case int n when (n >= 20 || n <= 5):
@@ -33,7 +38,7 @@ public class fondoManager : MonoBehaviour {
                 break;
         }*/
         #endregion
-        gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", textures[manager.fondo]);
+        gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", textures[fondo]);
     }
 
     IEnumerator FadeTo(float aValue, float aTime) {
@@ -45,9 +50,9 @@ public class fondoManager : MonoBehaviour {
         }
         yield return new WaitForSeconds(.5f);
         color = gameObject.GetComponent<Renderer>().material.color;
-        gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", textures[manager.fondo]);
+        Debug.Log("Cambiando a fondo #: " + fondo);
+        gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", textures[fondo]);
         for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / (aTime * 2) ) {
-            Debug.Log(t + " Esto es T: ");
             Color newColor = new Color(Mathf.Lerp(color.r, 1.0f, t), Mathf.Lerp(color.g, 1.0f, t), Mathf.Lerp(color.b, 1.0f, t), Mathf.Lerp(color.a, 1.0f, t));
             gameObject.GetComponent<Renderer>().material.color = newColor;
             yield return null;
@@ -55,6 +60,10 @@ public class fondoManager : MonoBehaviour {
     }
 
     public void cambiarFondo() {
+        fondo = manager.getFondo();
+        if (fondo == -1) {
+            fondo = Random.Range(0, 7);
+        }
         StartCoroutine(FadeTo(0.0f, 0.5f));
     }
 

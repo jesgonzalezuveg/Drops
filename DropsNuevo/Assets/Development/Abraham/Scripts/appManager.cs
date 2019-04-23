@@ -39,9 +39,17 @@ public class appManager : MonoBehaviour {
     public string lastIdLog = "0";
 
     public bool mascotaActive = true;
-    public int fondo;
+    private int fondo;
 
     public AudioClip[] musica;
+
+    public void setFondo(int fondo) {
+        this.fondo = fondo;
+    }
+
+    public int getFondo() {
+        return fondo;
+    }
 
     #region setter y getters
     /**
@@ -259,6 +267,7 @@ public class appManager : MonoBehaviour {
         } else {
             setUsuario("Invitado");
             setNombre("Invitado");
+            setGradoEstudios("");
             setCorreo("");
             setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
         }

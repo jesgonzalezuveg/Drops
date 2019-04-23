@@ -59,6 +59,11 @@ public class mainMenuManager : MonoBehaviour {
             return;
         }
         this.GetComponent<AudioSource>().Play();
+        GameObject.FindObjectOfType<appManager>().setUsuario("Invitado");
+        GameObject.FindObjectOfType<appManager>().setNombre("Invitado");
+        GameObject.FindObjectOfType<appManager>().setGradoEstudios("");
+        GameObject.FindObjectOfType<appManager>().setCorreo("");
+        GameObject.FindObjectOfType<appManager>().setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
         StartCoroutine(loadScene("menuCategorias"));
     }
 

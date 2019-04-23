@@ -25,6 +25,10 @@ public class CursoManager : MonoBehaviour {
     public GameObject scoreFinal;
     public Text preguntaText;
 
+    public AudioClip dialogo1;
+    public AudioClip dialogo2;
+    public AudioClip dialogo3;
+
     private AudioClip bien;
     private UnityEngine.Object bienSp;
     private AudioClip genial;
@@ -128,11 +132,17 @@ public class CursoManager : MonoBehaviour {
 
     IEnumerator mensajesMascota() {
         GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Bienvenido a tu salon de clases. Si quieres salir da click en las luces de SALIDA que se encuentran en cada una de las puertas";
-        yield return new WaitForSeconds(4);
+        GameObject.Find("Mascota").GetComponent<AudioSource>().clip = dialogo1;
+        GameObject.Find("Mascota").GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(7);
+        GameObject.Find("Mascota").GetComponent<AudioSource>().clip = dialogo2;
+        GameObject.Find("Mascota").GetComponent<AudioSource>().Play();
         GameObject.Find("Mascota").GetComponentInChildren<Canvas>().gameObject.SetActive(false);
         GameObject.Find("Mascota").GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
         GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Contesta las preguntas que se muestran en el pizarron con las imagenes que se encuentran a tu alrededor";
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(6);
+        GameObject.Find("Mascota").GetComponent<AudioSource>().clip = dialogo3;
+        GameObject.Find("Mascota").GetComponent<AudioSource>().Play();
         GameObject.Find("Mascota").GetComponentInChildren<Canvas>().gameObject.SetActive(false);
         GameObject.Find("Mascota").GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
         GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "¡COMENCEMOS!";
@@ -438,7 +448,7 @@ public class CursoManager : MonoBehaviour {
             if (descripcionTipoEjercicio != "Seleccion simple texto") {
                 x = crearObjeto(angle, radius, butonToInstantiate);
                 Debug.Log(preguntas[countPreguntas].idPaquete);
-                if (Int32.Parse(preguntas[countPreguntas].idPaquete) > 2) {
+                if (Int32.Parse(preguntas[countPreguntas].idPaquete) > 4) {
                     var splitUrk = respuesta.urlImagen.Split('/');
                     var path = splitUrk[splitUrk.Length - 1];
                     byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);

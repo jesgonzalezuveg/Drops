@@ -40,7 +40,7 @@ public class paquetesManager : MonoBehaviour {
             } else {
                 manager.mascotaActive = false;
             }
-            manager.fondo = Int32.Parse(preferencias.fondo);
+            manager.setFondo(Int32.Parse(preferencias.fondo));
             manager.numeroPreguntas = Int32.Parse(preferencias.numeroPreguntas);
         }
     }
@@ -76,9 +76,11 @@ public class paquetesManager : MonoBehaviour {
         setVisibleModal(false);
         manager.setBanderas(true);
         tabActivo = GameObject.Find("tabContentTodos");
-
+        Debug.Log(manager.getNombre());
         GameObject.Find("Nombre").GetComponent<Text>().text = manager.getNombre();
+        Debug.Log(manager.getUsuario());
         GameObject.Find("Matricula").GetComponent<Text>().text = manager.getUsuario();
+        Debug.Log(manager.getGradoEstudios());
         GameObject.Find("GradoEstudio").GetComponent<Text>().text = manager.getGradoEstudios();
 
     }
@@ -333,7 +335,7 @@ public class paquetesManager : MonoBehaviour {
             manager.numeroPreguntas = scrollBar.GetComponent<Slider>().value;
             manager.mascotaActive = mascotaActive.GetComponent<Toggle>().isOn;
             mascota.SetActive(manager.mascotaActive);
-            webServicePreferencias.updatePreferenciaSqlite(manager.getUsuario(), manager.numeroPreguntas, manager.mascotaActive,manager.fondo);
+            webServicePreferencias.updatePreferenciaSqlite(manager.getUsuario(), manager.numeroPreguntas, manager.mascotaActive,manager.getFondo());
         } else {
             foreach (var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)) {
                 ray.enabled = false;
@@ -428,7 +430,7 @@ public class paquetesManager : MonoBehaviour {
     }
 
     public void setFondo(int fondo) {
-        manager.fondo = fondo;
+        manager.setFondo(fondo);
         GameObject.FindObjectOfType<fondoManager>().cambiarFondo();
     }
 
@@ -446,6 +448,7 @@ public class paquetesManager : MonoBehaviour {
         manager.setNombre(null);
         manager.setCorreo(null);
         manager.setImagen(null);
+        manager.setGradoEstudios(null);
         webServiceRegistro.validarAccionSqlite("Logout", manager.getUsuario(), "Cerrar sesión");
         StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("mainMenu"));
     }
