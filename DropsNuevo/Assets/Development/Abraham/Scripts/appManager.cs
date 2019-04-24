@@ -571,6 +571,9 @@ public class appManager : MonoBehaviour {
     }
 
     public IEnumerator cambiarEscena(string escena) {
+        if (GameObject.Find("Mascota")) {
+            GameObject.Find("Mascota").GetComponent<AudioSource>().Pause();
+        }
         GameObject.FindObjectOfType<PlayerManager>().fadeOut.SetActive(true);
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(escena);

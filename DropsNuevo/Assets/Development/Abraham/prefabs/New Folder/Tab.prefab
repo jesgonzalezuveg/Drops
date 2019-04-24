@@ -220,6 +220,8 @@ MonoBehaviour:
   cambiarDialogoMascota: 0
   isOnlyMesagge: 0
   mensaje: 
+  clipDialog: {fileID: 0}
+  wasPlayed: 0
 --- !u!1 &6820796599400278812
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,7 +289,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 6e03e97bfe520b34ba91b994bf3be08c, type: 3}
-    m_FontSize: 53
+    m_FontSize: 45
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1

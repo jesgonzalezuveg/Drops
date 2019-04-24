@@ -304,8 +304,6 @@ public class CursoManager : MonoBehaviour {
             webServiceRegistro.validarAccionSqlite("Puntaje obtenido: " + score, manager.getUsuario(), "Puntaje obtenido");
             webServiceRegistro.validarAccionSqlite("Terminó ejercicio", manager.getUsuario(), "Terminó ejercicio");
             scoreFinal.SetActive(true);
-            sicroManager = GameObject.Find("SincroManager").GetComponent<SyncroManager>();
-            sicroManager.synchronizationInRealTime();
         }
     }
 
@@ -648,6 +646,8 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void salir() {
+        sicroManager = GameObject.Find("SincroManager").GetComponent<SyncroManager>();
+        sicroManager.synchronizationInRealTime();
         StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias"));
     }
 

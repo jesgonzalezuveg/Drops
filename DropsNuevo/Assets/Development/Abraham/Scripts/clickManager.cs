@@ -10,6 +10,7 @@ public class clickManager : MonoBehaviour {
     public bool isOnlyMesagge = false;
     public string mensaje;
     public AudioClip clipDialog;
+    public bool wasPlayed;
 
     private AudioClip click;        ///< click audioClip que almacena el audio de click 
     private AudioClip hover;        ///< hover audioClip que almacena el audio de hover
@@ -28,6 +29,7 @@ public class clickManager : MonoBehaviour {
             gameObject.GetComponent<OVRRaycaster>();
         }
 
+        wasPlayed = false;
         click = Resources.Load("Sounds/click") as AudioClip;
         hover = Resources.Load("Sounds/hover") as AudioClip;
 
@@ -60,14 +62,18 @@ public class clickManager : MonoBehaviour {
         entry2.callback.AddListener((data) => {
             if (cambiarDialogoMascota) {
                 if (GameObject.FindObjectOfType<appManager>().mascotaActive) {
-                    GameObject.Find("Mascota").GetComponentInChildren<Canvas>().gameObject.SetActive(false);
-                    GameObject.Find("Mascota").GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
-                    GameObject.Find("Mascota").GetComponentInChildren<Text>().text = mensaje;
                     if (clipDialog) {
-                        GameObject.Find("Mascota").GetComponent<AudioSource>().clip = clipDialog;
-                        GameObject.Find("Mascota").GetComponent<AudioSource>().Play();
+                        if (GameObject.Find("Mascota").GetComponent<AudioSource>().clip != clipDialog) {
+                            GameObject.Find("Mascota").GetComponent<AudioSource>().clip = clipDialog;
+                            if (!wasPlayed) {
+                                GameObject.Find("Mascota").GetComponent<AudioSource>().Play();
+                                wasPlayed = true;
+                            }
+                            GameObject.Find("Mascota").GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+                            GameObject.Find("Mascota").GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
+                            GameObject.Find("Mascota").GetComponentInChildren<Text>().text = mensaje;
+                        }
                     }
-                    
                 }
             }
             if (!isOnlyMesagge) {
