@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.IO;
 using UnityEngine.SceneManagement;
+using Oculus.Platform;
 
 
 public class appManager : MonoBehaviour {
@@ -195,7 +196,9 @@ public class appManager : MonoBehaviour {
     public void Awake() {
         fondo = UnityEngine.Random.Range(0, 7);
         DontDestroyOnLoad(this.gameObject);
+
     }
+
     public void Start() {
         gameObject.GetComponent<AudioSource>().clip = musica[UnityEngine.Random.Range(0, musica.Length)];
         gameObject.GetComponent<AudioSource>().Play();
@@ -205,7 +208,7 @@ public class appManager : MonoBehaviour {
     /// Valida la conexion a internet
     /// </summary>
     public void validarConexion() {
-        if (Application.internetReachability == NetworkReachability.NotReachable) {
+        if (UnityEngine.Application.internetReachability == NetworkReachability.NotReachable) {
             isOnline = false;
         } else {
             isOnline = true;
@@ -447,7 +450,7 @@ public class appManager : MonoBehaviour {
                     if (respuesta != null) {
                         var pathArray = respuesta.urlImagen.Split('/');
                         var path = pathArray[pathArray.Length - 1];
-                        if (!File.Exists(Application.persistentDataPath + path)) {
+                        if (!File.Exists(UnityEngine.Application.persistentDataPath + path)) {
                             WWW www = new WWW(respuesta.urlImagen);
                             yield return www;
                             if (www.texture != null) {
@@ -458,7 +461,7 @@ public class appManager : MonoBehaviour {
                                 } else {
                                     bytes = texture.EncodeToPNG();
                                 }
-                                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                                File.WriteAllBytes(UnityEngine.Application.persistentDataPath + path, bytes);
                             } else {
 
                             }
@@ -479,7 +482,7 @@ public class appManager : MonoBehaviour {
                         } else {
                             bytes = texture.EncodeToPNG();
                         }
-                        File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                        File.WriteAllBytes(UnityEngine.Application.persistentDataPath + path, bytes);
                     } else {
 
                     }
@@ -522,7 +525,7 @@ public class appManager : MonoBehaviour {
         var dia = 1;
         var mes = 0;
         var año = 2;
-        if (Application.isEditor) {
+        if (UnityEngine.Application.isEditor) {
             dia = 0;
             mes = 1;
             año = 2;
