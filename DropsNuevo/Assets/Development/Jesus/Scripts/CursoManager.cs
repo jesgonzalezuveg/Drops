@@ -382,7 +382,7 @@ public class CursoManager : MonoBehaviour {
         } else {
             Debug.Log("No hay respuestas");
             countPreguntas = preguntas.Length;
-            manager.cambiarEscena("menuCategorias");
+            manager.cambiarEscena("menuCategorias", "menuCategorias");
         }
     }
 
@@ -648,7 +648,7 @@ public class CursoManager : MonoBehaviour {
     public void salir() {
         sicroManager = GameObject.Find("SincroManager").GetComponent<SyncroManager>();
         sicroManager.synchronizationInRealTime();
-        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias"));
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias", "menuCategorias"));
     }
 
     public webServicePreguntas.preguntaData[] shuffleArray(webServicePreguntas.preguntaData[] preguntas) {

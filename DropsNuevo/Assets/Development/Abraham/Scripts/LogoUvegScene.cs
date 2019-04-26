@@ -21,7 +21,7 @@ public class LogoUvegScene : MonoBehaviour {
 
     public IEnumerator changeScene() {
         yield return new WaitForSeconds(2);
-        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("mainMenu"));
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("mainMenu", "mainMenu"));
     }
 
 }

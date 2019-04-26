@@ -198,7 +198,7 @@ public class pairingCode : MonoBehaviour {
                     StartCoroutine(WebServiceCodigo.updateCode(codigo.id, 3));
                     if (valCodigoSii == 1) {
                         Debug.Log("Se actualizo codigo en servidor");
-                        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias"));
+                        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias", "menuCategorias"));
                     } else if (valCodigoSii == 0) {
                         Debug.Log("No se pudo actualizar codigo en servidor");
                     } else {

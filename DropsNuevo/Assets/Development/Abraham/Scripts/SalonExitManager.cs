@@ -11,6 +11,6 @@ public class SalonExitManager : MonoBehaviour {
 
     IEnumerator wait() {
         yield return new WaitUntil(() => gameObject.GetComponentInChildren<AudioSource>().isPlaying == false);
-        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias"));
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias","mainMenu"));
     }
 }

@@ -14,6 +14,8 @@ public class PlayerManager : MonoBehaviour {
     public GameObject fadeIn;
     public GameObject fadeOut;
 
+    public GameObject helmet;
+
     /**
      * Funcion que activa o desactiva la pantallaCargando
      * @active true o false que se encarga de activar/desactivar la pantalla
@@ -23,8 +25,10 @@ public class PlayerManager : MonoBehaviour {
         if (active == true) {
             isInMesagge = true;
             rotationLock = gameObject.GetComponentInChildren<Camera>().gameObject.transform.localRotation;
+            helmet.SetActive(false);
         } else {
             isInMesagge = false;
+            helmet.SetActive(true);
         }
         pantallaCargando.SetActive(active);
         pantallaCargando.GetComponentInChildren<Text>().text = mensaje;
@@ -75,6 +79,6 @@ public class PlayerManager : MonoBehaviour {
         if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
             return;
         }
-        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena(escenaAnterior));
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena(escenaAnterior,appManager.GetComponent<appManager>().actual));
     }
 }

@@ -450,7 +450,7 @@ public class paquetesManager : MonoBehaviour {
         manager.setImagen(null);
         manager.setGradoEstudios(null);
         webServiceRegistro.validarAccionSqlite("Logout", manager.getUsuario(), "Cerrar sesión");
-        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("mainMenu"));
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("mainMenu", "mainMenu"));
     }
 
     /**

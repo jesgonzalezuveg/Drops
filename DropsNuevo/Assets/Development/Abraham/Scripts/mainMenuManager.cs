@@ -73,6 +73,6 @@ public class mainMenuManager : MonoBehaviour {
      */
     IEnumerator loadScene(string scene) {
         yield return new WaitUntil(() => this.GetComponent<AudioSource>().isPlaying == false);
-        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena(scene));
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena(scene,"mainMenu"));
     }
 }

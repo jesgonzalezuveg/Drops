@@ -44,6 +44,12 @@ public class appManager : MonoBehaviour {
 
     public AudioClip[] musica;
 
+    public string anterior;
+    public string actual;
+    
+
+    #region setter y getters
+
     public void setFondo(int fondo) {
         this.fondo = fondo;
     }
@@ -52,7 +58,6 @@ public class appManager : MonoBehaviour {
         return fondo;
     }
 
-    #region setter y getters
     /**
      * Asigna el valor del usuario
      * @param Usuario String que contiene el usuario
@@ -197,6 +202,25 @@ public class appManager : MonoBehaviour {
         fondo = UnityEngine.Random.Range(0, 7);
         DontDestroyOnLoad(this.gameObject);
 
+        try {
+            Core.AsyncInitialize();
+            Entitlements.IsUserEntitledToApplication().OnComplete(EntitlementCallback);
+        } catch (UnityException e) {
+            Debug.LogError("Platform failed to initialize due to exception.");
+            Debug.LogException(e);
+            // Immediately quit the application.
+            UnityEngine.Application.Quit();
+        }
+
+    }
+
+    void EntitlementCallback(Message msg) {
+        if (msg.IsError) {
+            Debug.LogError("You are NOT entitled to use this app.");
+            UnityEngine.Application.Quit();
+        } else {
+            Debug.Log("You are entitled to use this app.");
+        }
     }
 
     public void Start() {
@@ -280,6 +304,11 @@ public class appManager : MonoBehaviour {
         validarEjercicios();
         validarPreguntas();
         validarRespuestas();
+
+        if (OVRInput.Get(OVRInput.Button.Back)) {
+            StartCoroutine(cambiarEscena(anterior,actual));
+        }
+
     }
 
     /**
@@ -573,13 +602,15 @@ public class appManager : MonoBehaviour {
         }
     }
 
-    public IEnumerator cambiarEscena(string escena) {
+    public IEnumerator cambiarEscena(string nueva, string anterior) {
+        actual = nueva;
+        this.anterior = anterior;
         if (GameObject.Find("Mascota")) {
             GameObject.Find("Mascota").GetComponent<AudioSource>().Pause();
         }
         GameObject.FindObjectOfType<PlayerManager>().fadeOut.SetActive(true);
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene(escena);
+        SceneManager.LoadScene(nueva);
     }
 
 }

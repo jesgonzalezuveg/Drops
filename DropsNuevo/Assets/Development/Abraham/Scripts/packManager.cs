@@ -46,7 +46,7 @@ public class packManager : MonoBehaviour {
         }
         manager.preguntasCategoria = webServicePreguntas.getPreguntasByPackSqLiteCurso(paquete.id, manager.numeroPreguntas);
         webServiceRegistro.validarAccionSqlite("Partida: " + paquete.descripcion, manager.getUsuario(), "Comenzó ejercicio");
-        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("salon"));
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("salon",manager.actual));
     }
 
     /**

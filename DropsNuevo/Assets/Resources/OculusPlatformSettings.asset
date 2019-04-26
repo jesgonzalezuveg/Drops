@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ovrAppID: 2200662946621380
   ovrMobileAppID: 2200662946621380
-  ovrUseStandalonePlatform: 0
+  ovrUseStandalonePlatform: 1
   ovrEnableARM64Support: 0
