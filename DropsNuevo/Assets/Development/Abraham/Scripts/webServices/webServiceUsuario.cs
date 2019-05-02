@@ -191,6 +191,8 @@ public class webServiceUsuario : MonoBehaviour {
             }
             if (www.isNetworkError || www.isHttpError) {
                 Debug.Log(www.error);
+                GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
+                GameObject.Find("Teclado").GetComponent<keyboardManager>().mensaje.text = "Sin conexión a internet";
             } else {
                 string text;
                 text = www.downloadHandler.text;

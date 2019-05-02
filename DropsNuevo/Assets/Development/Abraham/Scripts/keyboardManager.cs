@@ -9,7 +9,7 @@ public class keyboardManager : MonoBehaviour {
     GameObject passInput;                   ///< Text almacena los datos de contraseña del usuario
     GameObject teclasLetras;                ///< Conjunto botones que simulan las teclas de un teclado
     GameObject teclasOtros;                 ///< Conjunto botones que simulan las teclas especiales de un teclado
-    string password = "12345";              ///< string que contenera la verdadera contraseña, ya que el texto que aparecera en pantalla solo son asteriscos
+    string password = "";              ///< string que contenera la verdadera contraseña, ya que el texto que aparecera en pantalla solo son asteriscos
 
     bool isMinusculas = false;              ///< Bandera detecta si esta o no en mayusculas el teclado
     bool btnOtros = true;                   ///< Bandera detecta si estan activadas o no las teclas especiales

@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour {
     public GameObject fadeOut;
 
     public GameObject helmet;
+    public GameObject closeApp;
 
     /**
      * Funcion que activa o desactiva la pantallaCargando
@@ -56,6 +57,7 @@ public class PlayerManager : MonoBehaviour {
         fadeIn.SetActive(true);
         setMensaje(false, "");
         Time.timeScale = 1;
+        closeApp.SetActive(false);
     }
 
 
@@ -67,6 +69,14 @@ public class PlayerManager : MonoBehaviour {
         if (isInMesagge) {
             GameObject.Find("RightEyeAnchor").GetComponent<Camera>().gameObject.transform.localRotation = rotationLock;
             GameObject.Find("LeftEyeAnchor").GetComponent<Camera>().gameObject.transform.localRotation = rotationLock;
+        }
+
+        if (OVRInput.Get(OVRInput.Button.Back) || Input.GetKeyDown(KeyCode.A)) {
+            if (closeApp.active == false) {
+                closeApp.SetActive(true);
+            } else {
+                closeApp.SetActive(false);
+            }
         }
     }
 
@@ -80,5 +90,13 @@ public class PlayerManager : MonoBehaviour {
             return;
         }
         StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena(escenaAnterior,appManager.GetComponent<appManager>().actual));
+    }
+
+    public void cerrarModal() {
+        closeApp.SetActive(false);
+    }
+
+    public void cerrarApp() {
+        Application.Quit();
     }
 }

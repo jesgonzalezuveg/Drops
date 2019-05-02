@@ -46,7 +46,7 @@ public class appManager : MonoBehaviour {
 
     public string anterior;
     public string actual;
-    
+
 
     #region setter y getters
 
@@ -201,7 +201,6 @@ public class appManager : MonoBehaviour {
     public void Awake() {
         fondo = UnityEngine.Random.Range(0, 7);
         DontDestroyOnLoad(this.gameObject);
-
         try {
             Core.AsyncInitialize();
             Entitlements.IsUserEntitledToApplication().OnComplete(EntitlementCallback);
@@ -305,9 +304,9 @@ public class appManager : MonoBehaviour {
         validarPreguntas();
         validarRespuestas();
 
-        if (OVRInput.Get(OVRInput.Button.Back)) {
+        /*if (OVRInput.Get(OVRInput.Button.Back)) {
             StartCoroutine(cambiarEscena(anterior,actual));
-        }
+        }*/
 
     }
 
