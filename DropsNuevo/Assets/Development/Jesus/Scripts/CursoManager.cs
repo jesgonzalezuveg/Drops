@@ -64,6 +64,8 @@ public class CursoManager : MonoBehaviour {
     int aciertos = 0;
     int multiplicador;
 
+    int contador = 0;
+
     int numPreguntas = 0;
     int maxPuntosPorPartida = 0;
     int correctasAContestar = 0;
@@ -175,13 +177,24 @@ public class CursoManager : MonoBehaviour {
                     }
                     break;
                 case "Seleccion Multiple":
+                    textoCompletado.text = "Preguntas faltantes " + (correctasAContestar-correctas);
                     if (correctas >= correctasAContestar) {
                         webServiceRegistro.validarAccionSqlite("Respondió correctamente(Seleccion Multiple)", manager.getUsuario(), "Respondió pregunta");
                         respuestaCorrecta();
                     }
                     break;
                 case "Relacionar":
+                    if (contador > 1 && contador <= 60) {
+                        contador++;
+                        textoCompletado.text = "Par encontrado";
+                    } else if(contador == 0 || contador > 60){
+                        contador = 0;
+                        textoCompletado.text = "Selecciona par 1";
+                    }
+
                     if (seleccion) {
+                        contador=1;
+                        textoCompletado.text = "Selecciona par 2";
                         if (parDos != "") {
                             if (parUno == parDos) {
                                 webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idPregunta, idRespuesta, idIntento);
@@ -189,6 +202,7 @@ public class CursoManager : MonoBehaviour {
                                 parUno = "a";
                                 parDos = "";
                                 seleccion = false;
+                                contador=2;
                             } else {
                                 seleccion = false;
                                 parUno = "a";
@@ -285,6 +299,7 @@ public class CursoManager : MonoBehaviour {
                     imprimePregunta();
                     break;
                 case "Relacionar":
+                    contador = 0;
                     imprimePregunta();
                     break;
                 case "Seleccion simple texto":
@@ -649,6 +664,12 @@ public class CursoManager : MonoBehaviour {
         sicroManager = GameObject.Find("SincroManager").GetComponent<SyncroManager>();
         sicroManager.synchronizationInRealTime();
         StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias", "menuCategorias"));
+    }
+
+    public void reiniciar() {
+        sicroManager = GameObject.Find("SincroManager").GetComponent<SyncroManager>();
+        sicroManager.synchronizationInRealTime();
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("salon", "menuCategorias"));
     }
 
     public webServicePreguntas.preguntaData[] shuffleArray(webServicePreguntas.preguntaData[] preguntas) {

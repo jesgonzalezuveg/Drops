@@ -30,7 +30,7 @@ public class clickManager : MonoBehaviour {
         }
 
         wasPlayed = false;
-        click = Resources.Load("Sounds/click") as AudioClip;
+        click = Resources.Load("Sounds/click_2") as AudioClip;
         hover = Resources.Load("Sounds/hover") as AudioClip;
 
         if (!this.GetComponent<AudioSource>()) {
