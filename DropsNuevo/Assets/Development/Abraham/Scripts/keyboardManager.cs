@@ -16,7 +16,7 @@ public class keyboardManager : MonoBehaviour {
     bool focusTxtUsuario = true;            ///< Bandera nos dice cual Input esta usando
 
     public Text mensaje;                    ///< mensaje mensaje que muestra si se ingreso o no el usuario y contraseña de manera correcta
-
+    public GameObject internetNecesario;
 
     /** Función que se llama al inicio de la escena 
      * Inicia las referencias a lo GO
@@ -28,6 +28,10 @@ public class keyboardManager : MonoBehaviour {
         teclasOtros = GameObject.Find("tecladoEspecial");
         teclasOtros.SetActive(false);
         mensaje.text = "";
+        if (Application.internetReachability == NetworkReachability.NotReachable) {
+            StartCoroutine(internetNecesarioActive());
+        }
+        
     }
 
     /** Función que se manda llamar al hacer click en una tecla del teclado
@@ -133,5 +137,11 @@ public class keyboardManager : MonoBehaviour {
         }
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Cargando....");
         StartCoroutine(webServiceUsuario.getUserData(userInput.GetComponentInChildren<Text>().text, password));
+    }
+
+    IEnumerator internetNecesarioActive() {
+        internetNecesario.SetActive(true);
+        yield return new WaitForSeconds(5);
+        internetNecesario.SetActive(false);
     }
 }

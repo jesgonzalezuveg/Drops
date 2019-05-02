@@ -22,6 +22,8 @@ public class pairingCode : MonoBehaviour {
     private webServiceLog.logData log = null;
     private WebServiceCodigo.Data codigo = null;
 
+    public GameObject internetNecesario;
+
     public void setLog(webServiceLog.logData datos) {
         log = datos;
     }
@@ -44,6 +46,9 @@ public class pairingCode : MonoBehaviour {
         countFrames = 0;
         cargaCodigo = 0;
         salir = 0;
+        if (Application.internetReachability == NetworkReachability.NotReachable) {
+            StartCoroutine(internetNecesarioActive());
+        }
     }
 
     public void regenerarCodigo() {
@@ -275,5 +280,11 @@ public class pairingCode : MonoBehaviour {
 
         var finalString = new string(stringChars);
         return finalString;
+    }
+
+    IEnumerator internetNecesarioActive() {
+        internetNecesario.SetActive(true);
+        yield return new WaitForSeconds(5);
+        internetNecesario.SetActive(false);
     }
 }
