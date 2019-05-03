@@ -620,8 +620,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 266840970}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 15.57}
-  m_LocalScale: {x: 0.056036454, y: 0.056036454, z: 0.056036454}
+  m_LocalPosition: {x: 0, y: 0, z: -0.046999156}
+  m_LocalScale: {x: 0.009120493, y: 0.009120493, z: 0.009120493}
   m_Children:
   - {fileID: 1159993184}
   m_Father: {fileID: 0}
@@ -629,7 +629,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.51, y: 0.91}
+  m_AnchoredPosition: {x: -0.19249997, y: 0.10440022}
   m_SizeDelta: {x: 305.36, y: 214.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &409149417
@@ -778,6 +778,7 @@ MonoBehaviour:
   isOnlyMesagge: 0
   mensaje: 
   clipDialog: {fileID: 0}
+  wasPlayed: 0
 --- !u!1 &1101342590
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +926,7 @@ MonoBehaviour:
   mensaje: "Modo \"Usuario UVEG\" Ingresa tu usuario y contrase\xF1a UVEG en el teclado
     virtual"
   clipDialog: {fileID: 8300000, guid: 8be95dc47de17074ab4eaa43354be196, type: 3}
+  wasPlayed: 0
 --- !u!1 &1159993183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,6 +1154,7 @@ MonoBehaviour:
   mensaje: "Modo \"Invitado\" No cuentas con un usuario UVEG... No te preocupes a\xFAn
     puedes jugar."
   clipDialog: {fileID: 8300000, guid: f042296384cd99645a1e7a8326229b54, type: 3}
+  wasPlayed: 0
 --- !u!1 &1263152505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1707,6 +1710,7 @@ MonoBehaviour:
   mensaje: "Modo \"Paring Code\" ingresa el c\xF3digo en t\xFA campus UVEG y en la
     secci\xF3n VR."
   clipDialog: {fileID: 8300000, guid: 8fb89b00f2cffaf43b1ffc3c239c63cf, type: 3}
+  wasPlayed: 0
 --- !u!1001 &1800158069404540885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1722,17 +1726,17 @@ PrefabInstance:
     - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.29
+      value: 0.26
       objectReference: {fileID: 0}
     - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.01
+      value: 1.26
       objectReference: {fileID: 0}
     - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20.1
+      value: 0.69
       objectReference: {fileID: 0}
     - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
         type: 3}
@@ -1773,6 +1777,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.09778747
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.09778747
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800158068465022559, guid: 499003c88fdab3f4485ee542db668ba8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.09778747
       objectReference: {fileID: 0}
     - target: {fileID: 1411254582, guid: 499003c88fdab3f4485ee542db668ba8, type: 3}
       propertyPath: m_audioClip

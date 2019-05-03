@@ -2996,7 +2996,6 @@ GameObject:
   - component: {fileID: 1800158068693216496}
   - component: {fileID: 1800158068693216497}
   - component: {fileID: 1800158068693216498}
-  - component: {fileID: 1800158068693216499}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
@@ -3082,25 +3081,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1800158068693216499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1800158068693216503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7aaf960227867044282d921171d2d7ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  pointer: {fileID: 0}
-  sortOrder: -1
 --- !u!1 &1800158068920496845
 GameObject:
   m_ObjectHideFlags: 0
