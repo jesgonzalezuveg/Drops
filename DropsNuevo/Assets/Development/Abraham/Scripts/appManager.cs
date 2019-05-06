@@ -210,8 +210,8 @@ public class appManager : MonoBehaviour {
             // Immediately quit the application.
             UnityEngine.Application.Quit();
         }
-
     }
+
 
     void EntitlementCallback(Message msg) {
         if (msg.IsError) {

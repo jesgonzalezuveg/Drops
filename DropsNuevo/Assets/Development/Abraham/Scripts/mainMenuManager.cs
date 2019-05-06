@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using Oculus.Platform;
 
 public class mainMenuManager : MonoBehaviour {
 
@@ -48,6 +49,30 @@ public class mainMenuManager : MonoBehaviour {
         }
         this.GetComponent<AudioSource>().Play();
         StartCoroutine(loadScene("login"));
+    }
+
+    public void loginOculus() {
+        Users.GetLoggedInUser().OnComplete(GetLoggedInUserCallback);
+    }
+
+    void GetLoggedInUserCallback(Message msg) {
+        if (!msg.IsError) {
+            var u = msg.GetUser();
+            GameObject.FindObjectOfType<appManager>().setUsuario("" + u.ImageURL);
+            GameObject.FindObjectOfType<appManager>().setNombre(u.OculusID);
+            GameObject.FindObjectOfType<appManager>().setGradoEstudios("");
+            GameObject.FindObjectOfType<appManager>().setCorreo("");
+            GameObject.FindObjectOfType<appManager>().setImagen(u.ImageURL);
+            StartCoroutine(loadScene("menuCategorias"));
+        } else {
+            this.GetComponent<AudioSource>().Play();
+            GameObject.FindObjectOfType<appManager>().setUsuario("Invitado");
+            GameObject.FindObjectOfType<appManager>().setNombre("Invitado");
+            GameObject.FindObjectOfType<appManager>().setGradoEstudios("");
+            GameObject.FindObjectOfType<appManager>().setCorreo("");
+            GameObject.FindObjectOfType<appManager>().setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
+            StartCoroutine(loadScene("menuCategorias"));
+        }
     }
 
     /**

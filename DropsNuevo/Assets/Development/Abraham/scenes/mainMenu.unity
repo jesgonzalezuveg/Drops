@@ -1087,7 +1087,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 266840971}
-          m_MethodName: invitado
+          m_MethodName: loginOculus
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
