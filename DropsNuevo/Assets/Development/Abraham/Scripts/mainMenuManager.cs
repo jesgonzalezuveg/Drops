@@ -23,6 +23,10 @@ public class mainMenuManager : MonoBehaviour {
         vistaActiva = vistas[vista];
     }
 
+    public void pairingCode() {
+        StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("ParingCode", "mainMenu"));
+    }
+
     /**
      * Coroutine que espera a que termine de reprocucir el audio de click de los botones
      * para poder ir a la nueva escena

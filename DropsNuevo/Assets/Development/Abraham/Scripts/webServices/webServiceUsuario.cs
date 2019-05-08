@@ -42,6 +42,22 @@ public class webServiceUsuario : MonoBehaviour {
         public string password = "";
     }
 
+    /**
+     * Estructura que almacena los datos del usuario desde SqLite
+     */
+    [Serializable]
+    public class userDataSqLite2 {
+        public string id = "";
+        public string usuario = "";
+        public string nombre = "";
+        public string rol = "";
+        public string gradoEstudios = "";
+        public string programa = "";
+        public string fechaRegistro = "";
+        public string status = "";
+        public string password = "";
+    }
+
     [Serializable]
     public class usersAllDataSqLite {
         public userDataSqLite[] usuarios;
@@ -130,6 +146,20 @@ public class webServiceUsuario : MonoBehaviour {
         }
     }
 
+    /** Función que consulta el id del usuario
+     * @param usuario matricula o correo electronico del usuario
+     */
+    public static userDataSqLite consultarLoginUsuarioSqLite(string usuario, string password) {
+        string query = "SELECT * FROM usuario WHERE usuario = '" + usuario + "' AND password = '" + password + "';";
+        var result = conexionDB.selectGeneral(query);
+        if (result != "0") {
+            userDataSqLite data = JsonUtility.FromJson<userDataSqLite>(result);
+            return data;
+        } else {
+            return null;
+        }
+    }
+
     /** Función para actualizar los datos del usuario
      * @param usuario matricula o correo electronico del usuario
      * @param nombre nombre completo del usuario
@@ -186,14 +216,12 @@ public class webServiceUsuario : MonoBehaviour {
         form.AddField("data", "{\"usuario\": \"" + usuario + "\", \"contrasena\": \"" + contraseña + "\"}");
         using (UnityWebRequest www = UnityWebRequest.Post(USUARIO_DATA, form)) {
             AsyncOperation asyncLoad = www.SendWebRequest();
-            // Wait until the asynchronous scene fully loads
             while (!asyncLoad.isDone) {
                 yield return null;
             }
             if (www.isNetworkError || www.isHttpError) {
                 Debug.Log(www.error);
                 GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
-                //GameObject.Find("Teclado").GetComponent<keyboardManager>().mensaje.text = "Sin conexión a internet";
             } else {
                 string text;
                 text = www.downloadHandler.text;
@@ -215,18 +243,55 @@ public class webServiceUsuario : MonoBehaviour {
                         }
                         webServiceLog.insertarLogSqLite(data.data.Usuario);
                         webServiceRegistro.validarAccionSqlite("Login teclado", data.data.Usuario, "Login");
-                        //webServiceRegistro.insertarRegistroSqLite("Login teclado", data.data.Usuario, 1);
                         SceneManager.LoadScene("menuCategorias");
                     } else {
                         //Aqui va mensaje de contraseña incorrecta
                         //GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "Contraseña incorrecta";
                         GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
                         Debug.Log("Contraseña incorrecta");
-
                     }
                 } else {
-                    //Aqui va mensaje de usuario incorrecto
-                    //GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "El usuario no existe";
+                    //Preguntas si existe en la BD del SII.unity
+                    WWWForm form2 = new WWWForm();
+                    Dictionary<string, string> headers2 = form2.headers;
+                    form2.AddField("metodo", "consultarUsuario");
+                    form2.AddField("usuario", usuario);
+                    form2.AddField("password", contraseña);
+                    using (UnityWebRequest www2 = UnityWebRequest.Post("http://sii.uveg.edu.mx/unity/dropsV2/controllers/webServiceUsuarios.php", form2)) {
+                        AsyncOperation asyncLoad2 = www2.SendWebRequest();
+                        // Wait until the asynchronous scene fully loads
+                        while (!asyncLoad2.isDone) {
+                            yield return null;
+                        }
+
+                        if (www2.isNetworkError || www2.isHttpError) {
+                            Debug.Log(www2.error);
+                        } else {
+                            string text2;
+                            text2 = www2.downloadHandler.text;
+                            if (text2 == "0") {
+                                Debug.Log("El usuario no existe");
+                            } else {
+                                //text2 = "{\"userDataSqLite2\":" + text2 + "}";
+                                Debug.Log(text2);
+                                text2 = text2.Replace("[", "");
+                                text2 = text2.Replace("]", "");
+                                userDataSqLite2 myObject = JsonUtility.FromJson<userDataSqLite2>(text2);
+                                Debug.Log("***** " + myObject);
+                                appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                                manager.setUsuario(myObject.usuario);
+                                manager.setNombre(myObject.nombre);
+                                manager.setGradoEstudios(myObject.programa);
+                                var idLocal = consultarIdUsuarioSqLite(myObject.usuario);
+                                if (idLocal == "0") {
+                                    insertarUsuarioSqLite(myObject.usuario, myObject.nombre, "usuarioApp", myObject.programa, myObject.programa, myObject.password);
+                                }
+                                webServiceLog.insertarLogSqLite(myObject.usuario);
+                                webServiceRegistro.validarAccionSqlite("Login teclado", myObject.usuario, "Login");
+                                SceneManager.LoadScene("menuCategorias");
+                            }
+                        }
+                    }
                     GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
                     Debug.Log("El usuario no existe");
                 }
@@ -347,5 +412,67 @@ public class webServiceUsuario : MonoBehaviour {
             }
         }
     }
+
+    public static IEnumerator insertUsuario(string usuario, string nombre, string contraseña) {
+        ////////////////////////////
+        WWWForm form = new WWWForm();
+        Dictionary<string, string> headers = form.headers;
+        headers["Authorization"] = API_KEY;
+        Debug.Log("{\"usuario\": \"" + usuario + "\", \"contrasena\": \"\"}");
+        form.AddField("data", "{\"usuario\": \"" + usuario + "\", \"contrasena\": \"\"}");
+        using (UnityWebRequest www = UnityWebRequest.Post(USUARIO_DATA, form)) {
+            AsyncOperation asyncLoad = www.SendWebRequest();
+            // Wait until fully loads
+            while (!asyncLoad.isDone) {
+                yield return null;
+            }
+            if (www.isNetworkError || www.isHttpError) {
+                Debug.Log(www.error);
+            } else {
+                string text;
+                text = www.downloadHandler.text;
+                text = text.Replace("[", "");
+                text = text.Replace("]", "");
+                JsonResponse data = JsonUtility.FromJson<JsonResponse>(text);
+                if (data.data.Nombre != "") {
+                    Debug.Log("El usuario ya existe");
+                } else {
+                    GameObject.FindObjectOfType<PlayerManager>().setMensaje(true, "");
+                    WWWForm form2 = new WWWForm();
+                    Dictionary<string, string> headers2 = form2.headers;
+                    form2.AddField("metodo", "insertarUsuario");
+                    form2.AddField("usuario", usuario);
+                    form2.AddField("nombre", nombre);
+                    form2.AddField("password", contraseña);
+                    using (UnityWebRequest www2 = UnityWebRequest.Post("http://sii.uveg.edu.mx/unity/dropsV2/controllers/webServiceUsuarios.php", form2)) {
+                        AsyncOperation asyncLoad2 = www2.SendWebRequest();
+                        // Wait until the asynchronous scene fully loads
+                        while (!asyncLoad2.isDone) {
+                            yield return null;
+                        }
+
+                        if (www2.isNetworkError || www2.isHttpError) {
+                            Debug.Log(www2.error);
+                        } else {
+                            string text2;
+                            text2 = www2.downloadHandler.text;
+                            if (text2 == "0") {
+                                Debug.Log("Fallo el insert");
+                            } else {
+                                GameObject.FindObjectOfType<keyboardManager>().setUsuario("");
+                                GameObject.FindObjectOfType<keyboardManager>().setNombre("");
+                                GameObject.FindObjectOfType<keyboardManager>().setPassword("");
+                                GameObject.FindObjectOfType<keyboardManager>().setPassword2("");
+                                GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
+                                GameObject.FindObjectOfType<mainMenuManager>().cambiarVista(2);
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 }

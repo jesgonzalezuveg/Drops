@@ -225,6 +225,7 @@ public class appManager : MonoBehaviour {
     public void Start() {
         gameObject.GetComponent<AudioSource>().clip = musica[UnityEngine.Random.Range(0, musica.Length)];
         gameObject.GetComponent<AudioSource>().Play();
+        validarConexion();
     }
 
     /// <summary>
@@ -291,8 +292,8 @@ public class appManager : MonoBehaviour {
                 }
             }
         } else {
-            setUsuario("Invitado");
-            setNombre("Invitado");
+            setUsuario("Invitadoo");
+            setNombre("Invitadoo");
             setGradoEstudios("");
             setCorreo("");
             setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
