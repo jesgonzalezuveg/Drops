@@ -1,95 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
-using UnityEngine.UI;
-using Oculus.Platform;
 
 public class mainMenuManager : MonoBehaviour {
 
+    public GameObject[] vistas;
+    GameObject vistaActiva;
 
-    /**
-     * Funcion que se manda llamar al inicio de la escena (frame 1) 
-     * Verifica si el dispositivo en el que se esta ejecuntando es un oculus.
-     * en caso que si oculta el boton de login con facebook
-     */
-    private void Start() {
-        GameObject.FindObjectOfType<appManager>().validarConexion();
-        var cadenas = SystemInfo.deviceModel.Split(' ');
-        Debug.Log(cadenas[0]);
-        if (!GameObject.FindObjectOfType<appManager>().isOnline) {
-            GameObject.Find("Facebook").GetComponent<Button>().interactable = false;
-            GameObject.Find("PairCode").GetComponent<Button>().interactable = false;
-            GameObject.Find("Logn").GetComponent<Button>().interactable = false;
-        }
-        if (cadenas[0] == "Oculus") {
-            Debug.Log("Hiding Facebook login");
-            GameObject.Find("Facebook").SetActive(false);
-        }
+    public void Start() {
+        vistaActiva = vistas[0];
     }
 
     /**
-     * Función que se ejecuta al pulzar el boton login con pair code
+     * Función que se ejecuta al pulzar el boton Jugar
      * 
      */
-    public void pairCode() {
+    public void cambiarVista(int vista) {
         if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
             return;
         }
-        this.GetComponent<AudioSource>().Play();
-        StartCoroutine(loadScene("ParingCode"));
-    }
-
-    /**
-     * Función que se ejecuta al pulzar el boton login
-     * 
-     */
-    public void login() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
-        this.GetComponent<AudioSource>().Play();
-        StartCoroutine(loadScene("login"));
-    }
-
-    public void loginOculus() {
-        Users.GetLoggedInUser().OnComplete(GetLoggedInUserCallback);
-    }
-
-    void GetLoggedInUserCallback(Message msg) {
-        if (!msg.IsError) {
-            var u = msg.GetUser();
-            GameObject.FindObjectOfType<appManager>().setUsuario("" + u.ImageURL);
-            GameObject.FindObjectOfType<appManager>().setNombre(u.OculusID);
-            GameObject.FindObjectOfType<appManager>().setGradoEstudios("");
-            GameObject.FindObjectOfType<appManager>().setCorreo("");
-            GameObject.FindObjectOfType<appManager>().setImagen(u.ImageURL);
-            StartCoroutine(loadScene("menuCategorias"));
-        } else {
-            this.GetComponent<AudioSource>().Play();
-            GameObject.FindObjectOfType<appManager>().setUsuario("Invitado");
-            GameObject.FindObjectOfType<appManager>().setNombre("Invitado");
-            GameObject.FindObjectOfType<appManager>().setGradoEstudios("");
-            GameObject.FindObjectOfType<appManager>().setCorreo("");
-            GameObject.FindObjectOfType<appManager>().setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
-            StartCoroutine(loadScene("menuCategorias"));
-        }
-    }
-
-    /**
-     * Función que se ejecuta al pulzar el boton login invitado
-     * 
-     */
-    public void invitado() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
-        this.GetComponent<AudioSource>().Play();
-        GameObject.FindObjectOfType<appManager>().setUsuario("Invitado");
-        GameObject.FindObjectOfType<appManager>().setNombre("Invitado");
-        GameObject.FindObjectOfType<appManager>().setGradoEstudios("");
-        GameObject.FindObjectOfType<appManager>().setCorreo("");
-        GameObject.FindObjectOfType<appManager>().setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
-        StartCoroutine(loadScene("menuCategorias"));
+        vistaActiva.SetActive(false);
+        vistas[vista].SetActive(true);
+        vistaActiva = vistas[vista];
     }
 
     /**

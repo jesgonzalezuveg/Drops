@@ -5,33 +5,35 @@ using UnityEngine.UI;
 
 public class keyboardManager : MonoBehaviour {
 
-    GameObject userInput;                   ///< Text almacena los datos de correo o matricula de usuario
-    GameObject passInput;                   ///< Text almacena los datos de contraseña del usuario
     GameObject teclasLetras;                ///< Conjunto botones que simulan las teclas de un teclado
     GameObject teclasOtros;                 ///< Conjunto botones que simulan las teclas especiales de un teclado
-    string password = "";              ///< string que contenera la verdadera contraseña, ya que el texto que aparecera en pantalla solo son asteriscos
+    string password = "";                   ///< string que contenera la verdadera contraseña, ya que el texto que aparecera en pantalla solo son asteriscos
+    string usuario = "";
 
     bool isMinusculas = false;              ///< Bandera detecta si esta o no en mayusculas el teclado
     bool btnOtros = true;                   ///< Bandera detecta si estan activadas o no las teclas especiales
-    bool focusTxtUsuario = true;            ///< Bandera nos dice cual Input esta usando
 
-    public Text mensaje;                    ///< mensaje mensaje que muestra si se ingreso o no el usuario y contraseña de manera correcta
-    public GameObject internetNecesario;
+    public GameObject[] inputs;
+
+    GameObject inputActivo;
+    public bool isPasswordInputActive;
 
     /** Función que se llama al inicio de la escena 
      * Inicia las referencias a lo GO
      */
     void Start() {
-        userInput = GameObject.Find("inputMatricula2");
-        passInput = GameObject.Find("inputContraseña2");
+        inputActivo = inputs[0];
         teclasLetras = GameObject.Find("tecladoLetras");
         teclasOtros = GameObject.Find("tecladoEspecial");
         teclasOtros.SetActive(false);
-        mensaje.text = "";
-        if (Application.internetReachability == NetworkReachability.NotReachable) {
-            StartCoroutine(internetNecesarioActive());
-        }
-        
+    }
+
+    public void setIsPasswordInputActive(bool isPassword) {
+        isPasswordInputActive = isPassword;
+    }
+
+    public void setUsuario(string usuario) {
+        this.usuario = usuario;
     }
 
     /** Función que se manda llamar al hacer click en una tecla del teclado
@@ -44,11 +46,16 @@ public class keyboardManager : MonoBehaviour {
         if (isMinusculas) {
             key = key.ToLower();
         }
-        if (focusTxtUsuario) {
-            userInput.GetComponent<Text>().text += key;
+        if (!isPasswordInputActive) {
+            usuario += key;
+            inputActivo.GetComponentInChildren<Text>().text = "";
+            inputActivo.GetComponentInChildren<Text>().text = usuario;
         } else {
-            passInput.GetComponent<Text>().text += '*';
             password += key;
+            inputActivo.GetComponentInChildren<Text>().text = "";
+            for (int i = 0; i < password.Length;i++) {
+                inputActivo.GetComponentInChildren<Text>().text += "*";
+            }
         }
     }
 
@@ -59,14 +66,12 @@ public class keyboardManager : MonoBehaviour {
         if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
             return;
         }
-        if (focusTxtUsuario) {
-            if (userInput.GetComponent<Text>().text != "") {
-                userInput.GetComponent<Text>().text = userInput.GetComponent<Text>().text.Remove(userInput.GetComponent<Text>().text.Length - 1); ;
-            }
-        } else {
-            if (passInput.GetComponent<Text>().text != "") {
-                passInput.GetComponent<Text>().text = passInput.GetComponent<Text>().text.Remove(passInput.GetComponent<Text>().text.Length - 1);
+        if (inputActivo.GetComponentInChildren<Text>().text != "") {
+            inputActivo.GetComponentInChildren<Text>().text = inputActivo.GetComponentInChildren<Text>().text.Remove(inputActivo.GetComponentInChildren<Text>().text.Length - 1); ;
+            if (isPasswordInputActive) {
                 password = password.Remove(password.Length - 1);
+            } else {
+                usuario = usuario.Remove(usuario.Length - 1);
             }
         }
     }
@@ -106,25 +111,13 @@ public class keyboardManager : MonoBehaviour {
     /** Función que activa el input de matricula o correo usuario
      * @param
      */
-    public void ClickTxtUsuario() {
+    public void clickInput(GameObject input) {
         if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
             return;
         }
-        focusTxtUsuario = true;
-        userInput.GetComponentInParent<Image>().color = new Color(1, 1, 0.8f);
-        passInput.GetComponentInParent<Image>().color = Color.white;
-    }
-
-    /** Función que activa el input de contraseña
-     * @param
-     */
-    public void ClickTxtPass() {
-        if (OVRInput.Get(OVRInput.Touch.PrimaryTouchpad)) {
-            return;
-        }
-        focusTxtUsuario = false;
-        userInput.GetComponentInParent<Image>().color = Color.white;
-        passInput.GetComponentInParent<Image>().color = new Color(1, 1, 0.8f);
+        inputActivo.GetComponent<Image>().color = Color.white;
+        inputActivo = input;
+        inputActivo.GetComponent<Image>().color = new Color(1, 1, 0.8f);
     }
 
 
@@ -136,12 +129,6 @@ public class keyboardManager : MonoBehaviour {
             return;
         }
         GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(true, "Cargando....");
-        StartCoroutine(webServiceUsuario.getUserData(userInput.GetComponentInChildren<Text>().text, password));
-    }
-
-    IEnumerator internetNecesarioActive() {
-        internetNecesario.SetActive(true);
-        yield return new WaitForSeconds(5);
-        internetNecesario.SetActive(false);
+        StartCoroutine(webServiceUsuario.getUserData(inputs[0].GetComponentInChildren<Text>().text, password));
     }
 }

@@ -39,6 +39,7 @@ public class webServiceUsuario : MonoBehaviour {
         public string fechaRegistro = "";
         public string status = "";
         public string syncroStatus = "";
+        public string password = "";
     }
 
     [Serializable]
@@ -64,8 +65,8 @@ public class webServiceUsuario : MonoBehaviour {
      * @param gradoEstudios puede ser nulo, en caso de ser alumno uveg insertará el nivel de estudios que tiene
      * @param programa puede ser nulo, en caso de ser alumno uveg insertará el programa al cual esta inscrito
      */
-    public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa) {
-        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, SyncroStatus) VALUES ('" + usuario + "','" + nombre + "','" + rol + "','" + gradoEstudios + "','" + programa + "', dateTime('now','localtime'), 1, 0);";
+    public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string contraseña) {
+        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, SyncroStatus, password) VALUES ('" + usuario + "','" + nombre + "','" + rol + "','" + gradoEstudios + "','" + programa + "', dateTime('now','localtime'), 1, 0, '"+ contraseña +"');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -81,8 +82,8 @@ public class webServiceUsuario : MonoBehaviour {
      * @param gradoEstudios puede ser nulo, en caso de ser alumno uveg insertará el nivel de estudios que tiene
      * @param programa puede ser nulo, en caso de ser alumno uveg insertará el programa al cual esta inscrito
      */
-    public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string fechaRegistro, int status) {
-        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, syncroStatus) VALUES ('" + usuario + "', '" + nombre + "', '" + rol + "', '" + gradoEstudios + "', '" + programa + "',  dateTime('now','localtime'), " + status + ", 2)";
+    public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string fechaRegistro, int status, string contraseña) {
+        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, syncroStatus, password) VALUES ('" + usuario + "', '" + nombre + "', '" + rol + "', '" + gradoEstudios + "', '" + programa + "',  dateTime('now','localtime'), " + status + ", 2, '" + contraseña + "')";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -192,7 +193,7 @@ public class webServiceUsuario : MonoBehaviour {
             if (www.isNetworkError || www.isHttpError) {
                 Debug.Log(www.error);
                 GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
-                GameObject.Find("Teclado").GetComponent<keyboardManager>().mensaje.text = "Sin conexión a internet";
+                //GameObject.Find("Teclado").GetComponent<keyboardManager>().mensaje.text = "Sin conexión a internet";
             } else {
                 string text;
                 text = www.downloadHandler.text;
@@ -210,7 +211,7 @@ public class webServiceUsuario : MonoBehaviour {
                         manager.setGradoEstudios(data.data.ProgramaEstudio);
                         var idLocal = consultarIdUsuarioSqLite(data.data.Usuario);
                         if (idLocal == "0") {
-                            insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio);
+                            insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio, contraseña);
                         }
                         webServiceLog.insertarLogSqLite(data.data.Usuario);
                         webServiceRegistro.validarAccionSqlite("Login teclado", data.data.Usuario, "Login");
@@ -218,14 +219,14 @@ public class webServiceUsuario : MonoBehaviour {
                         SceneManager.LoadScene("menuCategorias");
                     } else {
                         //Aqui va mensaje de contraseña incorrecta
-                        GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "Contraseña incorrecta";
+                        //GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "Contraseña incorrecta";
                         GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
                         Debug.Log("Contraseña incorrecta");
 
                     }
                 } else {
                     //Aqui va mensaje de usuario incorrecto
-                    GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "El usuario no existe";
+                    //GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "El usuario no existe";
                     GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
                     Debug.Log("El usuario no existe");
                 }
@@ -314,7 +315,7 @@ public class webServiceUsuario : MonoBehaviour {
                         SceneManager.LoadScene("menuCategorias");
 
                     } else {
-                        if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio) == 1) {
+                        if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio, "") == 1) {
                             webServiceLog.insertarLogSqLite(data.data.Usuario);
                             //webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 2);
                             webServiceRegistro.validarAccionSqlite("Login Facebook", data.data.Usuario, "Login");
@@ -334,7 +335,7 @@ public class webServiceUsuario : MonoBehaviour {
                         webServiceRegistro.insertarRegistroSqLite("Login Facebook", usuario, 2);
                         SceneManager.LoadScene("menuCategorias");
                     } else {
-                        if (insertarUsuarioSqLite(usuario, name, "usuarioFacebook", "", "") == 1) {
+                        if (insertarUsuarioSqLite(usuario, name, "usuarioFacebook", "", "","") == 1) {
                             webServiceLog.insertarLogSqLite(data.data.Usuario);
                             webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 2);
                             SceneManager.LoadScene("menuCategorias");

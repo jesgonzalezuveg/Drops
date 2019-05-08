@@ -131,7 +131,7 @@ public class pairingCode : MonoBehaviour {
                         var res = webServiceUsuario.existUserSqlite(usuario.usuario);
                         if (res != 1) {
                             //Guardar el registro del usuario en la db local
-                            var resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status));
+                            var resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status), usuario.password);
                             if (resSaveUser == 1) {
                                 Debug.Log("El usuario se guardo correctamente");
                                 //Obtener datos del usuario que se acaba de registrar de la db local
