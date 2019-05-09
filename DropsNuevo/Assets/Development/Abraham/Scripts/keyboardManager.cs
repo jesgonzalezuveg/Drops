@@ -32,6 +32,28 @@ public class keyboardManager : MonoBehaviour {
         teclasOtros = GameObject.Find("tecladoEspecial");
         teclasOtros.SetActive(false);
     }
+    private void Update() {
+        if (isUsuario) {
+            if (usuario.Length <= 0) {
+                inputActivo.GetComponentInChildren<Text>().text = "Correo o usuario";
+            }
+        }
+        if (isNombre) {
+            if (nombre.Length <= 0) {
+                inputActivo.GetComponentInChildren<Text>().text = "Nombre";
+            }
+        }
+        if (isPasswordInputActive) {
+            if (password.Length <= 0) {
+                inputActivo.GetComponentInChildren<Text>().text = "Ingresa tu contraseña";
+            }
+        }
+        if (isSecondPassword) {
+            if (password2.Length <= 0) {
+                inputActivo.GetComponentInChildren<Text>().text = "Confirma tu contraseña";
+            }
+        }
+    }
 
     public void setUsuario(string usuario) {
         this.usuario = usuario;
@@ -214,16 +236,20 @@ public class keyboardManager : MonoBehaviour {
         // Consultar en BD local (sqlite)
         var usuario = webServiceUsuario.consultarLoginUsuarioSqLite(inputs[0].GetComponentInChildren<Text>().text, password);
         if (usuario != null) {
-            Debug.Log("usuario no es null");
-            GameObject.FindObjectOfType<appManager>().setNombre(usuario.nombre);
-            GameObject.FindObjectOfType<appManager>().setUsuario(usuario.usuario);
-            GameObject.FindObjectOfType<appManager>().setGradoEstudios(usuario.programa);
-            GameObject.FindObjectOfType<appManager>().setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
-            StartCoroutine(GameObject.FindObjectOfType<appManager>().cambiarEscena("menuCategorias", "mainMenu"));
+            if (usuario.password != "") {
+                Debug.Log("usuario no es null");
+                GameObject.FindObjectOfType<appManager>().setNombre(usuario.nombre);
+                GameObject.FindObjectOfType<appManager>().setUsuario(usuario.usuario);
+                GameObject.FindObjectOfType<appManager>().setGradoEstudios(usuario.programa);
+                GameObject.FindObjectOfType<appManager>().setImagen(usuario.imagen);
+                StartCoroutine(GameObject.FindObjectOfType<appManager>().cambiarEscena("menuCategorias", "mainMenu"));
+            } else {
+                GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
+                GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Contraseña incorrecta";
+            }
         } else {
             // Consultar en SII ambas BD
             StartCoroutine(webServiceUsuario.getUserData(inputs[0].GetComponentInChildren<Text>().text, password));
-
         }
     }
 
@@ -256,7 +282,7 @@ public class keyboardManager : MonoBehaviour {
         foreach (var input in inputs) {
             input.GetComponentInChildren<Text>().text = "";
         }
-
+        usuario = usuario.ToLower();
         StartCoroutine(webServiceUsuario.insertUsuario(usuario,nombre,password));
     }
 }

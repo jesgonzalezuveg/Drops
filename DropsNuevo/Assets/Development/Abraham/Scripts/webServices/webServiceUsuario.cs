@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Networking;
 using System.Text;
+using UnityEngine.UI;
 
 public class webServiceUsuario : MonoBehaviour {
 
@@ -40,6 +41,7 @@ public class webServiceUsuario : MonoBehaviour {
         public string status = "";
         public string syncroStatus = "";
         public string password = "";
+        public string imagen = "";
     }
 
     /**
@@ -81,8 +83,8 @@ public class webServiceUsuario : MonoBehaviour {
      * @param gradoEstudios puede ser nulo, en caso de ser alumno uveg insertará el nivel de estudios que tiene
      * @param programa puede ser nulo, en caso de ser alumno uveg insertará el programa al cual esta inscrito
      */
-    public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string contraseña) {
-        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, SyncroStatus, password) VALUES ('" + usuario + "','" + nombre + "','" + rol + "','" + gradoEstudios + "','" + programa + "', dateTime('now','localtime'), 1, 0, '"+ contraseña +"');";
+    public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string contraseña, string imagenUrl) {
+        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, SyncroStatus, password, imagen) VALUES ('" + usuario + "','" + nombre + "','" + rol + "','" + gradoEstudios + "','" + programa + "', dateTime('now','localtime'), 1, 0, '"+ contraseña +"','" + imagenUrl + "');";
         var result = conexionDB.alterGeneral(query);
         if (result == 1) {
             return 1;
@@ -156,7 +158,16 @@ public class webServiceUsuario : MonoBehaviour {
             userDataSqLite data = JsonUtility.FromJson<userDataSqLite>(result);
             return data;
         } else {
-            return null;
+            Debug.Log("161 WSUsu No hay datos en primer consulta");
+            query = "SELECT usuario FROM usuario WHERE usuario = '" + usuario + "';";
+            var result2 = conexionDB.selectGeneral(query);
+            if (result2 != "0") {
+                userDataSqLite data = JsonUtility.FromJson<userDataSqLite>(result2);
+                return data;
+            } else {
+                Debug.Log("168 WSUsu No hay datos en segunda consulta");
+                return null;
+            }
         }
     }
 
@@ -220,7 +231,8 @@ public class webServiceUsuario : MonoBehaviour {
                 yield return null;
             }
             if (www.isNetworkError || www.isHttpError) {
-                Debug.Log(www.error);
+                GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Se requiere conexión a internet";
+                Debug.Log(www.error + " 224 WSUsu");
                 GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje(false, "");
             } else {
                 string text;
@@ -239,7 +251,7 @@ public class webServiceUsuario : MonoBehaviour {
                         manager.setGradoEstudios(data.data.ProgramaEstudio);
                         var idLocal = consultarIdUsuarioSqLite(data.data.Usuario);
                         if (idLocal == "0") {
-                            insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio, contraseña);
+                            insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio, contraseña, data.data.Imagen);
                         }
                         webServiceLog.insertarLogSqLite(data.data.Usuario);
                         webServiceRegistro.validarAccionSqlite("Login teclado", data.data.Usuario, "Login");
@@ -248,7 +260,7 @@ public class webServiceUsuario : MonoBehaviour {
                         //Aqui va mensaje de contraseña incorrecta
                         //GameObject.FindObjectOfType<keyboardManager>().mensaje.text = "Contraseña incorrecta";
                         GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
-                        Debug.Log("Contraseña incorrecta");
+                        Debug.Log("Contraseña incorrecta 252 WSUsu");
                     }
                 } else {
                     //Preguntas si existe en la BD del SII.unity
@@ -265,26 +277,25 @@ public class webServiceUsuario : MonoBehaviour {
                         }
 
                         if (www2.isNetworkError || www2.isHttpError) {
-                            Debug.Log(www2.error);
+                            Debug.Log(www2.error + " 269 WSUsu");
                         } else {
                             string text2;
                             text2 = www2.downloadHandler.text;
                             if (text2 == "0") {
-                                Debug.Log("El usuario no existe");
+                                Debug.Log("El usuario no existe" + " 274 WSUsu");
                             } else {
                                 //text2 = "{\"userDataSqLite2\":" + text2 + "}";
-                                Debug.Log(text2);
+                                Debug.Log(text2 + " 277 WSUsu");
                                 text2 = text2.Replace("[", "");
                                 text2 = text2.Replace("]", "");
                                 userDataSqLite2 myObject = JsonUtility.FromJson<userDataSqLite2>(text2);
-                                Debug.Log("***** " + myObject);
                                 appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
                                 manager.setUsuario(myObject.usuario);
                                 manager.setNombre(myObject.nombre);
                                 manager.setGradoEstudios(myObject.programa);
                                 var idLocal = consultarIdUsuarioSqLite(myObject.usuario);
                                 if (idLocal == "0") {
-                                    insertarUsuarioSqLite(myObject.usuario, myObject.nombre, "usuarioApp", myObject.programa, myObject.programa, myObject.password);
+                                    insertarUsuarioSqLite(myObject.usuario, myObject.nombre, "usuarioApp", myObject.programa, myObject.programa, myObject.password, "http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
                                 }
                                 webServiceLog.insertarLogSqLite(myObject.usuario);
                                 webServiceRegistro.validarAccionSqlite("Login teclado", myObject.usuario, "Login");
@@ -293,7 +304,7 @@ public class webServiceUsuario : MonoBehaviour {
                         }
                     }
                     GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
-                    Debug.Log("El usuario no existe");
+                    Debug.Log("El usuario no existe" + " 296 WSUsu");
                 }
             }
         }
@@ -303,7 +314,6 @@ public class webServiceUsuario : MonoBehaviour {
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = form.headers;
         headers["Authorization"] = API_KEY;
-        Debug.Log("{\"usuario\": \"" + usuario + "\", \"contrasena\": \"\"}");
         form.AddField("data", "{\"usuario\": \"" + usuario + "\", \"contrasena\": \"\"}");
         using (UnityWebRequest www = UnityWebRequest.Post(USUARIO_DATA, form)) {
             AsyncOperation asyncLoad = www.SendWebRequest();
@@ -312,7 +322,8 @@ public class webServiceUsuario : MonoBehaviour {
                 yield return null;
             }
             if (www.isNetworkError || www.isHttpError) {
-                Debug.Log(www.error);
+                GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Se requiere conexión a internet";
+                Debug.Log(www.error + " 314 WSUsu");
             } else {
                 string text;
                 text = www.downloadHandler.text;
@@ -359,7 +370,8 @@ public class webServiceUsuario : MonoBehaviour {
                 yield return null;
             }
             if (www.isNetworkError || www.isHttpError) {
-                Debug.Log(www.error);
+                GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Se requiere conexión a internet";
+                Debug.Log(www.error + " 361 WSUsu");
             } else {
                 string text;
                 text = www.downloadHandler.text;
@@ -380,7 +392,7 @@ public class webServiceUsuario : MonoBehaviour {
                         SceneManager.LoadScene("menuCategorias");
 
                     } else {
-                        if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio, "") == 1) {
+                        if (insertarUsuarioSqLite(data.data.Usuario, nombreCompleto, "usuarioUveg", data.data.ProgramaAcademico, data.data.ProgramaEstudio, "", data.data.Imagen) == 1) {
                             webServiceLog.insertarLogSqLite(data.data.Usuario);
                             //webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 2);
                             webServiceRegistro.validarAccionSqlite("Login Facebook", data.data.Usuario, "Login");
@@ -400,7 +412,7 @@ public class webServiceUsuario : MonoBehaviour {
                         webServiceRegistro.insertarRegistroSqLite("Login Facebook", usuario, 2);
                         SceneManager.LoadScene("menuCategorias");
                     } else {
-                        if (insertarUsuarioSqLite(usuario, name, "usuarioFacebook", "", "","") == 1) {
+                        if (insertarUsuarioSqLite(usuario, name, "usuarioFacebook", "", "","", imagen) == 1) {
                             webServiceLog.insertarLogSqLite(data.data.Usuario);
                             webServiceRegistro.insertarRegistroSqLite("Login Facebook", data.data.Usuario, 2);
                             SceneManager.LoadScene("menuCategorias");
@@ -427,7 +439,14 @@ public class webServiceUsuario : MonoBehaviour {
                 yield return null;
             }
             if (www.isNetworkError || www.isHttpError) {
-                Debug.Log(www.error);
+                GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Se requiere conexión a internet";
+                Debug.Log(www.error + " 429 WSUsu");
+                GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Se requiere conexión a internet";
+                GameObject.FindObjectOfType<keyboardManager>().setUsuario("");
+                GameObject.FindObjectOfType<keyboardManager>().setNombre("");
+                GameObject.FindObjectOfType<keyboardManager>().setPassword("");
+                GameObject.FindObjectOfType<keyboardManager>().setPassword2("");
+
             } else {
                 string text;
                 text = www.downloadHandler.text;
@@ -452,7 +471,7 @@ public class webServiceUsuario : MonoBehaviour {
                         }
 
                         if (www2.isNetworkError || www2.isHttpError) {
-                            Debug.Log(www2.error);
+                            Debug.Log(www2.error + " 460 WSUsu");
                         } else {
                             string text2;
                             text2 = www2.downloadHandler.text;
@@ -465,7 +484,7 @@ public class webServiceUsuario : MonoBehaviour {
                                 GameObject.FindObjectOfType<keyboardManager>().setPassword2("");
                                 GameObject.FindObjectOfType<PlayerManager>().setMensaje(false, "");
                                 GameObject.FindObjectOfType<mainMenuManager>().cambiarVista(2);
-
+                                GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Tu usuario se registro con éxito";
                             }
                         }
                     }

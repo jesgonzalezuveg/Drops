@@ -53,22 +53,27 @@ public class paquetesManager : MonoBehaviour {
      */
     private void Start() {
         mascota = GameObject.Find("Mascota");
-        if (manager.isFirstLogin) {
-            manager.isFirstLogin = false;
-            StartCoroutine(webServiceCategoria.getCategorias());
-            StartCoroutine(webServiceAcciones.getAcciones());
-            StartCoroutine(webServiceEjercicio.getEjercicios());
-        }
-
         if (manager.isOnline) {
+            if (manager.isFirstLogin) {
+                manager.isFirstLogin = false;
+                StartCoroutine(webServiceCategoria.getCategorias());
+                StartCoroutine(webServiceAcciones.getAcciones());
+                StartCoroutine(webServiceEjercicio.getEjercicios());
+            }
             StartCoroutine(webServicePaquetes.getPaquetes());
         } else {
+
             var paquetesLocales = webServicePaquetes.getPaquetesSqLite();
             if (paquetesLocales != null) {
                 manager.setPaquetes(paquetesLocales.paquete);
             } else {
                 fillEmpty(listaPaquetes);
             }
+            var categoriasLocal = webServiceCategoria.getCategoriasSql();
+            if (categoriasLocal != null) {
+                manager.setCategorias(categoriasLocal);
+            }
+            StartCoroutine(getUserImg());
         }
 
         scrollBar.GetComponent<Slider>().value = manager.numeroPreguntas;
@@ -96,7 +101,7 @@ public class paquetesManager : MonoBehaviour {
                     tab.transform.localPosition = new Vector3(0, 0, 0);
                     tab.GetComponentInChildren<Text>().text = categoria.descripcion;
                     tab.transform.localScale = new Vector3(1, 1, 1);
-                    tab.transform.localRotation = Quaternion.Euler(0,0,0);
+                    tab.transform.localRotation = Quaternion.Euler(0, 0, 0);
                     addTabEvent(tab, categoria);
                 }
                 banderaTabs = true;
@@ -207,17 +212,17 @@ public class paquetesManager : MonoBehaviour {
      * no importa si inicio con Facebook o es usuario UVEG
      */
     IEnumerator getUserImg() {
-        if (manager.isOnline) {
-            if (manager.GetComponent<appManager>().getImagen() != null) {
-                string path = manager.GetComponent<appManager>().getImagen().Split('/')[manager.GetComponent<appManager>().getImagen().Split('/').Length - 1];
-                if (File.Exists(Application.persistentDataPath + path)) {
-                    byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-                    Texture2D texture = new Texture2D(8, 8);
-                    texture.LoadImage(byteArray);
-                    Rect rec = new Rect(0, 0, texture.width, texture.height);
-                    var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-                    imagen.sprite = sprite;
-                } else {
+        if (manager.GetComponent<appManager>().getImagen() != null) {
+            string path = manager.GetComponent<appManager>().getImagen().Split('/')[manager.GetComponent<appManager>().getImagen().Split('/').Length - 1];
+            if (File.Exists(Application.persistentDataPath + path)) {
+                byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
+                Texture2D texture = new Texture2D(8, 8);
+                texture.LoadImage(byteArray);
+                Rect rec = new Rect(0, 0, texture.width, texture.height);
+                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                imagen.sprite = sprite;
+            } else {
+                if (manager.isOnline) {
                     WWW www = new WWW(manager.GetComponent<appManager>().getImagen());
                     yield return www;
                     Texture2D texture = www.texture;
@@ -335,7 +340,7 @@ public class paquetesManager : MonoBehaviour {
             manager.numeroPreguntas = scrollBar.GetComponent<Slider>().value;
             manager.mascotaActive = mascotaActive.GetComponent<Toggle>().isOn;
             mascota.SetActive(manager.mascotaActive);
-            webServicePreferencias.updatePreferenciaSqlite(manager.getUsuario(), manager.numeroPreguntas, manager.mascotaActive,manager.getFondo());
+            webServicePreferencias.updatePreferenciaSqlite(manager.getUsuario(), manager.numeroPreguntas, manager.mascotaActive, manager.getFondo());
         } else {
             foreach (var ray in gameObject.GetComponentsInChildren<OVRRaycaster>(true)) {
                 ray.enabled = false;

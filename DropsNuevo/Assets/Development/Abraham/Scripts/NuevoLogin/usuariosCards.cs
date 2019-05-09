@@ -20,8 +20,12 @@ public class usuariosCards : MonoBehaviour {
             card.transform.localPosition = new Vector3(0, 0, 0);
             card.GetComponentsInChildren<Text>()[0].text = usuario.nombre;
             card.GetComponentsInChildren<Text>()[1].text = usuario.usuario;
+            if (usuario.nombre == "Invitado") {
+                card.GetComponentsInChildren<Text>()[0].text = "Nueva partida";
+                card.GetComponentsInChildren<Text>()[1].text = "(No se guardan tus datos)";
+            }
             byte[] b = new byte[4];
-            for (int j = 0; j<4; j++) {
+            for (int j = 0; j < 4; j++) {
                 var i = UnityEngine.Random.Range(0, 255);
                 b[j] = Convert.ToByte(i);
             }
@@ -39,6 +43,10 @@ public class usuariosCards : MonoBehaviour {
             }
             if (usuario.nombre == "Invitado") {
                 Debug.Log("Click en invitado");
+                GameObject.FindObjectOfType<appManager>().setNombre("Invitado");
+                GameObject.FindObjectOfType<appManager>().setUsuario("Invitado");
+                GameObject.FindObjectOfType<appManager>().setGradoEstudios("");
+                GameObject.FindObjectOfType<appManager>().setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
                 StartCoroutine(GameObject.Find("AppManager").GetComponent<appManager>().cambiarEscena("menuCategorias", "mainMenu"));
             } else {
                 GetComponentInParent<mainMenuManager>().cambiarVista(2);

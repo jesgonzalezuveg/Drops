@@ -291,12 +291,6 @@ public class appManager : MonoBehaviour {
                     bandera = false;
                 }
             }
-        } else {
-            setUsuario("Invitadoo");
-            setNombre("Invitadoo");
-            setGradoEstudios("");
-            setCorreo("");
-            setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
         }
         validarCategorias();
         validarPaquetes();

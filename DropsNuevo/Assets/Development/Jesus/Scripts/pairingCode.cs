@@ -283,7 +283,7 @@ public class pairingCode : MonoBehaviour {
 
     IEnumerator internetNecesarioActive() {
         internetNecesario.SetActive(true);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(20);
         internetNecesario.SetActive(false);
     }
 }
