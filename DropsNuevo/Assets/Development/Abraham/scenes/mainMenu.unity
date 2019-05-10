@@ -2028,7 +2028,7 @@ MonoBehaviour:
   cambiarDialogoMascota: 1
   isOnlyMesagge: 0
   mensaje: "Reg\xEDstrate para guardar tus datos de juego y preferencias"
-  clipDialog: {fileID: 8300000, guid: f042296384cd99645a1e7a8326229b54, type: 3}
+  clipDialog: {fileID: 0}
   wasPlayed: 0
 --- !u!114 &159655035
 MonoBehaviour:
@@ -15495,80 +15495,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953045560}
   m_CullTransparentMesh: 0
---- !u!1 &954089384
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 954089385}
-  - component: {fileID: 954089387}
-  - component: {fileID: 954089386}
-  m_Layer: 5
-  m_Name: Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &954089385
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954089384}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.000061816776}
-  m_LocalScale: {x: 0.18668042, y: 0.18668042, z: 0.18668042}
-  m_Children: []
-  m_Father: {fileID: 1833491546}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &954089386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954089384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
---- !u!222 &954089387
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954089384}
-  m_CullTransparentMesh: 0
 --- !u!1 &954160774
 GameObject:
   m_ObjectHideFlags: 0
@@ -15624,7 +15550,7 @@ MonoBehaviour:
   cambiarDialogoMascota: 1
   isOnlyMesagge: 0
   mensaje: "Ingresa tu contrase\xF1a UVEG"
-  clipDialog: {fileID: 8300000, guid: 449a756545b06614198409a5d4657c76, type: 3}
+  clipDialog: {fileID: 0}
   wasPlayed: 0
 --- !u!114 &954160777
 MonoBehaviour:
@@ -20024,7 +19950,7 @@ MonoBehaviour:
   cambiarDialogoMascota: 1
   isOnlyMesagge: 0
   mensaje: Ingresa tu matricula o usuario UVEG
-  clipDialog: {fileID: 8300000, guid: d5e1b640f5578804e964c12e30d0f07f, type: 3}
+  clipDialog: {fileID: 0}
   wasPlayed: 0
 --- !u!114 &1196376827
 MonoBehaviour:
@@ -20635,7 +20561,7 @@ MonoBehaviour:
   cambiarDialogoMascota: 1
   isOnlyMesagge: 0
   mensaje: "Da clic aqu\xED para continuar"
-  clipDialog: {fileID: 8300000, guid: f042296384cd99645a1e7a8326229b54, type: 3}
+  clipDialog: {fileID: 0}
   wasPlayed: 0
 --- !u!1 &1250659481
 GameObject:
@@ -30304,12 +30230,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831858028}
   m_CullTransparentMesh: 0
---- !u!224 &1833491546 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6201963431447634249, guid: ace3bd29d9569404aa22143182602e0e,
-    type: 3}
-  m_PrefabInstance: {fileID: 226558567}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1846000997
 GameObject:
   m_ObjectHideFlags: 0

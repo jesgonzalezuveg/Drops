@@ -151,7 +151,7 @@ PlayerSettings:
     Android: com.Uveg.miAulaUVEG
     Standalone: com.oculus.UnitySample
   buildNumber: {}
-  AndroidBundleVersionCode: 23
+  AndroidBundleVersionCode: 29
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
