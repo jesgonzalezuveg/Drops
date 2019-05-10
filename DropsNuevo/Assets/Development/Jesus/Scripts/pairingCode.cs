@@ -131,7 +131,7 @@ public class pairingCode : MonoBehaviour {
                         if (res != 1) {
                             //Guardar el registro del usuario en la db local
                             int resSaveUser;
-                            if (usuario.rol!="Externo") {
+                            if (usuario.rol!="UsuarioExterno") {
                                  resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status), usuario.password, "");
                             } else {
                                  resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status), usuario.password, "http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
@@ -142,7 +142,7 @@ public class pairingCode : MonoBehaviour {
                                 var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
                                 if (resultado != "0") {
                                     webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
-                                    if (data.rol != "Externo") {
+                                    if (data.rol != "UsuarioExterno") {
                                         StartCoroutine(webServiceUsuario.getUserData(data.usuario));
                                     } else {
                                         appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
@@ -181,7 +181,7 @@ public class pairingCode : MonoBehaviour {
                             var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
                             if (resultado != "0") {
                                 webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
-                                if (data.rol != "Externo") {
+                                if (data.rol != "UsuarioExterno") {
                                     StartCoroutine(webServiceUsuario.getUserData(data.usuario));
                                 } else {
                                     appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
