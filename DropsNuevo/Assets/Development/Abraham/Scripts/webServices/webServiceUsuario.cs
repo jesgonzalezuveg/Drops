@@ -100,8 +100,8 @@ public class webServiceUsuario : MonoBehaviour {
      * @param gradoEstudios puede ser nulo, en caso de ser alumno uveg insertará el nivel de estudios que tiene
      * @param programa puede ser nulo, en caso de ser alumno uveg insertará el programa al cual esta inscrito
      */
-    public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string fechaRegistro, int status, string contraseña) {
-        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, syncroStatus, password) VALUES ('" + usuario + "', '" + nombre + "', '" + rol + "', '" + gradoEstudios + "', '" + programa + "',  dateTime('now','localtime'), " + status + ", 2, '" + contraseña + "')";
+    public static int insertarUsuarioSqLite(string usuario, string nombre, string rol, string gradoEstudios, string programa, string fechaRegistro, int status, string contraseña, string imagenUrl) {
+        string query = "INSERT INTO usuario (usuario, nombre, rol, gradoEstudios, programa, fechaRegistro, status, syncroStatus, password, imagen) VALUES ('" + usuario + "', '" + nombre + "', '" + rol + "', '" + gradoEstudios + "', '" + programa + "',  dateTime('now','localtime'), " + status + ", 2, '" + contraseña + "','" + imagenUrl + "')";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -181,6 +181,17 @@ public class webServiceUsuario : MonoBehaviour {
      */
     public static int updateUserSqlite(string usuario, string nombre, string rol, string gradoEstudios, string programa, int status) {
         string query = "UPDATE usuario SET usuario = '" + usuario + "', nombre = '" + nombre + "', rol = '" + rol + "', gradoEstudios = '" + gradoEstudios + "', programa = '" + programa + "', status = " + status + " WHERE usuario = '" + usuario + "'";
+        var result = conexionDB.alterGeneral(query);
+
+        if (result == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public static int updateUserSqlite(string usuario, string imagen) {
+        string query = "UPDATE usuario SET imagen = '" + imagen + "' WHERE usuario = '" + usuario + "'";
         var result = conexionDB.alterGeneral(query);
 
         if (result == 1) {
@@ -333,6 +344,7 @@ public class webServiceUsuario : MonoBehaviour {
                 if (data.data.Usuario != "") {
                     string nombreCompleto = data.data.Nombre + " " + data.data.PrimerApellido + " " + data.data.SegundoApellido;
                     appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                    var res = updateUserSqlite(data.data.Usuario, data.data.Imagen);
                     manager.setUsuario(data.data.Usuario);
                     manager.setNombre(nombreCompleto);
                     manager.setCorreo(data.data.Correo);

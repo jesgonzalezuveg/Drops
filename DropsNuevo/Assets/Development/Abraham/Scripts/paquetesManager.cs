@@ -212,30 +212,49 @@ public class paquetesManager : MonoBehaviour {
      * no importa si inicio con Facebook o es usuario UVEG
      */
     IEnumerator getUserImg() {
+        Debug.Log("ARCHIVO paquetesManager linea 220");
         if (manager.GetComponent<appManager>().getImagen() != null) {
             string path = manager.GetComponent<appManager>().getImagen().Split('/')[manager.GetComponent<appManager>().getImagen().Split('/').Length - 1];
-            if (File.Exists(Application.persistentDataPath + path)) {
-                byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-                Texture2D texture = new Texture2D(8, 8);
-                texture.LoadImage(byteArray);
-                Rect rec = new Rect(0, 0, texture.width, texture.height);
-                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-                imagen.sprite = sprite;
-            } else {
-                if (manager.isOnline) {
-                    WWW www = new WWW(manager.GetComponent<appManager>().getImagen());
-                    yield return www;
-                    Texture2D texture = www.texture;
-                    byte[] bytes;
-                    if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
-                        bytes = texture.EncodeToJPG();
-                    } else {
-                        bytes = texture.EncodeToPNG();
+            string url = manager.GetComponent<appManager>().getImagen();
+            using (WWW wwwImage = new WWW(url)) {
+                yield return wwwImage;
+
+                if (wwwImage.responseHeaders.Count > 0) {
+                    foreach (KeyValuePair<string, string> entry in wwwImage.responseHeaders) {
+                        if (entry.Key == "STATUS") {
+                            Debug.Log(entry.Value);
+                            if (entry.Value == "HTTP/1.1 404 Not Found") {
+                                Debug.Log("No se encontro la imagen");
+                                manager.GetComponent<appManager>().setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
+                                path = manager.GetComponent<appManager>().getImagen().Split('/')[manager.GetComponent<appManager>().getImagen().Split('/').Length - 1];
+                            }
+                            Debug.Log(path);
+                            if (File.Exists(Application.persistentDataPath + path)) {
+                                byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
+                                Texture2D texture = new Texture2D(8, 8);
+                                texture.LoadImage(byteArray);
+                                Rect rec = new Rect(0, 0, texture.width, texture.height);
+                                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                                imagen.sprite = sprite;
+                            } else {
+                                if (manager.isOnline) {
+                                    WWW www = new WWW(manager.GetComponent<appManager>().getImagen());
+                                    yield return www;
+                                    Texture2D texture = www.texture;
+                                    byte[] bytes;
+                                    if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
+                                        bytes = texture.EncodeToJPG();
+                                    } else {
+                                        bytes = texture.EncodeToPNG();
+                                    }
+                                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                                    Rect rec = new Rect(0, 0, texture.width, texture.height);
+                                    var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                                    imagen.sprite = sprite;
+                                }
+                            }
+                        }
                     }
-                    File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-                    Rect rec = new Rect(0, 0, texture.width, texture.height);
-                    var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-                    imagen.sprite = sprite;
                 }
             }
         }

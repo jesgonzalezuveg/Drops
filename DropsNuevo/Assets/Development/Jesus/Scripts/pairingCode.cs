@@ -36,7 +36,6 @@ public class pairingCode : MonoBehaviour {
         codigo = datos;
     }
 
-
     // Start is called before the first frame update
     void Awake() {
         code = generateCode();
@@ -131,14 +130,28 @@ public class pairingCode : MonoBehaviour {
                         var res = webServiceUsuario.existUserSqlite(usuario.usuario);
                         if (res != 1) {
                             //Guardar el registro del usuario en la db local
-                            var resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status), usuario.password);
+                            int resSaveUser;
+                            if (usuario.rol!="Externo") {
+                                 resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status), usuario.password, "");
+                            } else {
+                                 resSaveUser = webServiceUsuario.insertarUsuarioSqLite(usuario.usuario, usuario.nombre, usuario.rol, usuario.gradoEstudios, usuario.programa, usuario.fechaRegistro, Int32.Parse(usuario.status), usuario.password, "http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
+                            }
                             if (resSaveUser == 1) {
                                 Debug.Log("El usuario se guardo correctamente");
                                 //Obtener datos del usuario que se acaba de registrar de la db local
                                 var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
                                 if (resultado != "0") {
                                     webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
-                                    StartCoroutine(webServiceUsuario.getUserData(data.usuario));
+                                    if (data.rol != "Externo") {
+                                        StartCoroutine(webServiceUsuario.getUserData(data.usuario));
+                                    } else {
+                                        appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                                        manager.setUsuario(data.usuario);
+                                        manager.setNombre(data.nombre);
+                                        manager.setGradoEstudios(data.gradoEstudios);
+                                        manager.setGradoEstudios(data.rol);
+                                        manager.setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
+                                    }
                                     //Guardar el log del usuario en la db local
                                     Debug.Log("El usuario se guardo correctamente");
                                     var resSaveLog = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 1, log.idServer, log.idCodigo, data.id);
@@ -168,7 +181,16 @@ public class pairingCode : MonoBehaviour {
                             var resultado = webServiceUsuario.consultarUsuarioSqLite(usuario.usuario);
                             if (resultado != "0") {
                                 webServiceUsuario.userDataSqLite data = JsonUtility.FromJson<webServiceUsuario.userDataSqLite>(resultado);
-                                StartCoroutine(webServiceUsuario.getUserData(data.usuario));
+                                if (data.rol != "Externo") {
+                                    StartCoroutine(webServiceUsuario.getUserData(data.usuario));
+                                } else {
+                                    appManager manager = GameObject.Find("AppManager").GetComponent<appManager>();
+                                    manager.setUsuario(data.usuario);
+                                    manager.setNombre(data.nombre);
+                                    manager.setGradoEstudios(data.gradoEstudios);
+                                    manager.setGradoEstudios(data.rol);
+                                    manager.setImagen("http://sii.uveg.edu.mx/unity/dropsV2/img/invitado.png");
+                                }
                                 //Guardar el log del usuario en la db local
                                 var resSaveLogSqlite = webServiceLog.insertarLogSqLite(log.fechaInicio, log.fechaTermino, log.dispositivo, 1, log.idServer, log.idCodigo, data.id);
                                 if (resSaveLogSqlite == 1) {
