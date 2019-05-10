@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class mainMenuManager : MonoBehaviour {
@@ -21,6 +22,13 @@ public class mainMenuManager : MonoBehaviour {
         vistaActiva.SetActive(false);
         vistas[vista].SetActive(true);
         vistaActiva = vistas[vista];
+        GameObject.FindObjectOfType<keyboardManager>().setUsuario("");
+        GameObject.FindObjectOfType<keyboardManager>().setNombre("");
+        GameObject.FindObjectOfType<keyboardManager>().setPassword("");
+        GameObject.FindObjectOfType<keyboardManager>().setPassword2("");
+        foreach (var input in GameObject.FindObjectOfType<keyboardManager>().inputs) {
+            input.GetComponentInChildren<Text>().text = "";
+        }
     }
 
     public void pairingCode() {

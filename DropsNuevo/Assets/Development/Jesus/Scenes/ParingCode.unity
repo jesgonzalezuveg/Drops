@@ -572,12 +572,11 @@ PrefabInstance:
     - target: {fileID: 1411254582, guid: 499003c88fdab3f4485ee542db668ba8, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: dc7cd51656b26cf4eb584bbb10302223, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 1800158067916629177, guid: 499003c88fdab3f4485ee542db668ba8,
         type: 3}
       propertyPath: m_Text
-      value: "\"Ingresa este codigo en tu campus UVEG en la seccion VR en la opci\xF3n
-        Pairing Code\""
+      value: "Inicia sesi\xF3n e ingresa el codigo en la siguiente pagina web: https://campus.uveg.edu.mx/vr/views/pairingCode.php"
       objectReference: {fileID: 0}
     - target: {fileID: 1800158067916629177, guid: 499003c88fdab3f4485ee542db668ba8,
         type: 3}
