@@ -282,7 +282,6 @@ public class appManager : MonoBehaviour {
      * se encarga de llamar las validaciones de los datos de la BD
      */
     public void Update() {
-        GameObject.Find("Player").GetComponent<PlayerManager>().setMensaje2(true, myLog);
         if (isOnline) {
             if (Usuario != "" && bandera) {
                 if (Imagen == "") {
@@ -601,7 +600,6 @@ public class appManager : MonoBehaviour {
         if (GameObject.Find("Mascota")) {
             GameObject.Find("Mascota").GetComponent<AudioSource>().Pause();
         }
-        GameObject.FindObjectOfType<PlayerManager>().fadeOut.SetActive(true);
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(nueva);
     }
