@@ -81,6 +81,7 @@ public class webServicePreguntas : MonoBehaviour {
         string query = "SELECT * FROM pregunta WHERE idServer = '" + idServer + "';";
         var result = conexionDB.selectGeneral(query);
         if (result != "0") {
+            Debug.Log(result);
             preguntaData data = JsonUtility.FromJson<preguntaData>(result);
             return data;
         } else {

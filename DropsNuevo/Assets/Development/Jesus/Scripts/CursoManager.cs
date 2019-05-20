@@ -461,7 +461,7 @@ public class CursoManager : MonoBehaviour {
             if (descripcionTipoEjercicio != "Seleccion simple texto") {
                 x = crearObjeto(angle, radius, butonToInstantiate);
                 Debug.Log(preguntas[countPreguntas].idPaquete);
-                if (Int32.Parse(preguntas[countPreguntas].idPaquete) > 4) {
+                if (Int32.Parse(preguntas[countPreguntas].idPaquete) > 11) {
                     var splitUrk = respuesta.urlImagen.Split('/');
                     var path = splitUrk[splitUrk.Length - 1];
                     byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
