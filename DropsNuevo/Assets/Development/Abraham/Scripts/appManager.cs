@@ -201,14 +201,14 @@ public class appManager : MonoBehaviour {
     public void Awake() {
         fondo = UnityEngine.Random.Range(0, 7);
         DontDestroyOnLoad(this.gameObject);
-        /*try {
+        try {
             Core.AsyncInitialize();
             Entitlements.IsUserEntitledToApplication().OnComplete(EntitlementCallback);
         } catch (UnityException e) {
             Debug.LogError("Platform failed to initialize due to exception.");
             Debug.LogException(e);
             UnityEngine.Application.Quit();
-        }*/
+        }
     }
 
 
@@ -321,9 +321,7 @@ public class appManager : MonoBehaviour {
                         var descargaLocal = webServiceDescarga.getDescargaByPaquete(pack.id);
                         if (descargaLocal == null) {
                             if (isOnline) {
-                                if (Int32.Parse(pack.id) > 2) {
-                                    paquetesManager.newCardDescarga(pack);
-                                }
+                                paquetesManager.newCardDescarga(pack);
                             } else {
 
                             }
@@ -332,9 +330,8 @@ public class appManager : MonoBehaviour {
                                 if (isActualized(descargaLocal.fechaDescarga, pack.fechaModificacion)) {
                                     paquetesManager.newCardJugar(pack, null);
                                 } else {
-                                    if (Int32.Parse(pack.id) > 2) {
-                                        paquetesManager.newCardActualizar(pack, null);
-                                    }
+                                    paquetesManager.newCardActualizar(pack, null);
+
                                 }
                             } else {
                                 paquetesManager.newCardJugar(pack, null);
@@ -465,7 +462,7 @@ public class appManager : MonoBehaviour {
      * y se encarga de actulizar los paquetes en pantalla
      */
     public IEnumerator descargarImagenesPaquete() {
-        if (Int32.Parse(packToPlay.id) > 2) {
+        if (Int32.Parse(packToPlay.id) > 10) {
             foreach (var respuesta in respuestas) {
                 var descarga = webServiceDescarga.getDescargaByPaquete(packToPlay.id);
                 if (descarga != null) {
