@@ -1,4 +1,4 @@
-ï»¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -147,7 +147,7 @@ public class CursoManager : MonoBehaviour {
         GameObject.Find("Mascota").GetComponent<AudioSource>().Play();
         GameObject.Find("Mascota").GetComponentInChildren<Canvas>().gameObject.SetActive(false);
         GameObject.Find("Mascota").GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
-        GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "Â¡COMENCEMOS!";
+        GameObject.Find("Mascota").GetComponentInChildren<Text>().text = "¡COMENCEMOS!";
         yield return new WaitForSeconds(3);
         GameObject.Find("Mascota").GetComponentInChildren<Canvas>().gameObject.SetActive(false);
         GameObject.Find("Mascota").GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
@@ -160,7 +160,7 @@ public class CursoManager : MonoBehaviour {
             switch (descripcionTipoEjercicio) {
                 case "Seleccion simple":
                     if (correctas >= correctasAContestar) {
-                        webServiceRegistro.validarAccionSqlite("RespondiÃ³ correctamente(Simple)", manager.getUsuario(), "RespondiÃ³ pregunta");
+                        webServiceRegistro.validarAccionSqlite("Respondió correctamente(Simple)", manager.getUsuario(), "Respondió pregunta");
                         respuestaCorrecta();
                     }
                     break;
@@ -168,7 +168,7 @@ public class CursoManager : MonoBehaviour {
                     //panelCompletarPalabra.SetActive(true);
                     textoCompletado.text = fraseCompletada;
                     if (fraseCompletada == fraseACompletar) {
-                        webServiceRegistro.validarAccionSqlite("RespondiÃ³ correctamente(Completar palabra): " + fraseCompletada, manager.getUsuario(), "RespondiÃ³ pregunta");
+                        webServiceRegistro.validarAccionSqlite("Respondió correctamente(Completar palabra): " + fraseCompletada, manager.getUsuario(), "Respondió pregunta");
                         fraseCompletada = "";
                         fraseACompletar = "l";
                         webServiceDetalleIntento.insertarDetalleIntentoSqLite("True", idPregunta, idRespuesta, idIntento);
@@ -177,9 +177,9 @@ public class CursoManager : MonoBehaviour {
                     }
                     break;
                 case "Seleccion Multiple":
-                    textoCompletado.text = "Preguntas faltantes " + (correctasAContestar-correctas);
+                    textoCompletado.text = "Respuestas faltantes " + (correctasAContestar-correctas);
                     if (correctas >= correctasAContestar) {
-                        webServiceRegistro.validarAccionSqlite("RespondiÃ³ correctamente(Seleccion Multiple)", manager.getUsuario(), "RespondiÃ³ pregunta");
+                        webServiceRegistro.validarAccionSqlite("Respondió correctamente(Seleccion Multiple)", manager.getUsuario(), "Respondió pregunta");
                         respuestaCorrecta();
                     }
                     break;
@@ -211,7 +211,7 @@ public class CursoManager : MonoBehaviour {
                             }
                         }
                         if (correctas >= correctasAContestar / 2) {
-                            webServiceRegistro.validarAccionSqlite("RespondiÃ³ correctamente(Relacionar)", manager.getUsuario(), "RespondiÃ³ pregunta");
+                            webServiceRegistro.validarAccionSqlite("Respondió correctamente(Relacionar)", manager.getUsuario(), "Respondió pregunta");
                             seleccion = false;
                             respuestaCorrecta();
                         }
@@ -219,7 +219,7 @@ public class CursoManager : MonoBehaviour {
                     break;
                 case "Seleccion simple texto":
                     if (correctas >= correctasAContestar) {
-                        webServiceRegistro.validarAccionSqlite("RespondiÃ³ correctamente(Seleccion simple texto)", manager.getUsuario(), "RespondiÃ³ pregunta");
+                        webServiceRegistro.validarAccionSqlite("Respondió correctamente(Seleccion simple texto)", manager.getUsuario(), "Respondió pregunta");
                         respuestaCorrecta();
                     }
                     break;
@@ -229,7 +229,7 @@ public class CursoManager : MonoBehaviour {
             }
         } else if (correctas < 0) {
             textoCompletado.text = "";
-            webServiceRegistro.validarAccionSqlite("RespondiÃ³ incorrectamente(" + descripcionTipoEjercicio + ")", manager.getUsuario(), "RespondiÃ³ pregunta");
+            webServiceRegistro.validarAccionSqlite("Respondió incorrectamente(" + descripcionTipoEjercicio + ")", manager.getUsuario(), "Respondió pregunta");
             countPreguntas++;
             correctas = 0;
             racha = 0;
@@ -286,7 +286,7 @@ public class CursoManager : MonoBehaviour {
             textoCompletado.text = "-";
             idPregunta = preguntas[countPreguntas].id;
             descripcionTipoEjercicio = preguntas[countPreguntas].descripcionEjercicio;
-            webServiceRegistro.validarAccionSqlite("Pregunta: " + preguntas[countPreguntas].descripcion, manager.getUsuario(), "EntrÃ³ a pregunta");
+            webServiceRegistro.validarAccionSqlite("Pregunta: " + preguntas[countPreguntas].descripcion, manager.getUsuario(), "Entró a pregunta");
             switch (descripcionTipoEjercicio) {
                 case "Seleccion simple":
                     imprimePregunta();
@@ -317,7 +317,7 @@ public class CursoManager : MonoBehaviour {
             textoAciertos.text = aciertos + "";
             getNota();
             webServiceRegistro.validarAccionSqlite("Puntaje obtenido: " + score, manager.getUsuario(), "Puntaje obtenido");
-            webServiceRegistro.validarAccionSqlite("TerminÃ³ ejercicio", manager.getUsuario(), "TerminÃ³ ejercicio");
+            webServiceRegistro.validarAccionSqlite("Terminó ejercicio", manager.getUsuario(), "Terminó ejercicio");
             scoreFinal.SetActive(true);
         }
     }
@@ -435,7 +435,7 @@ public class CursoManager : MonoBehaviour {
     }
 
     public void crearBotonLetra(char respuesta, float angle, float radius) {
-        //Validar la Ã± o caracteres especiales
+        //Validar la ñ o caracteres especiales
 
         Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius;
         var x = Instantiate(butonToInstantiate, pos, Quaternion.Euler(new Vector3(0, 0, 0)));
@@ -517,7 +517,7 @@ public class CursoManager : MonoBehaviour {
 
             } else {
                 textoCompletado.text = "";
-                webServiceRegistro.validarAccionSqlite("RespondiÃ³ incorrectamente: " + fraseCompletada, manager.getUsuario(), "RespondiÃ³ pregunta");
+                webServiceRegistro.validarAccionSqlite("Respondió incorrectamente: " + fraseCompletada, manager.getUsuario(), "Respondió pregunta");
                 correctas = -1;
                 racha = 0;
                 multiplicador = 1;
