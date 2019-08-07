@@ -201,14 +201,14 @@ public class appManager : MonoBehaviour {
     public void Awake() {
         fondo = UnityEngine.Random.Range(0, 7);
         DontDestroyOnLoad(this.gameObject);
-        try {
-            Core.AsyncInitialize();
-            Entitlements.IsUserEntitledToApplication().OnComplete(EntitlementCallback);
-        } catch (UnityException e) {
-            Debug.LogError("Platform failed to initialize due to exception.");
-            Debug.LogException(e);
-            UnityEngine.Application.Quit();
-        }
+        //try {
+        //    Core.AsyncInitialize();
+        //    Entitlements.IsUserEntitledToApplication().OnComplete(EntitlementCallback);
+        //} catch (UnityException e) {
+        //    Debug.LogError("Platform failed to initialize due to exception.");
+        //    Debug.LogException(e);
+        //    UnityEngine.Application.Quit();
+        //}
     }
 
 

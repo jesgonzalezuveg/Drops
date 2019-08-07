@@ -375,29 +375,39 @@ public class paquetesManager : MonoBehaviour {
      * @urlImagen imagen del paquete que se inserta
      */
     IEnumerator llenarFicha(GameObject ficha, string descripcion, string urlImagen) {
-        ficha.transform.GetChild(1).GetComponent<Text>().text = descripcion;
-        string path = urlImagen.Split('/')[urlImagen.Split('/').Length - 1];
-        if (File.Exists(Application.persistentDataPath + path)) {
-            byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-            Texture2D texture = new Texture2D(8, 8);
-            texture.LoadImage(byteArray);
-            Rect rec = new Rect(0, 0, texture.width, texture.height);
-            var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-            ficha.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+
+        if (urlImagen.Split('/').Length <= 1) {
+            var splitUrl = urlImagen.Split('.');
+            var spriteObj = Resources.Load("preloadedCoverPacks/" + splitUrl[0]);
+            Texture2D tex = spriteObj as Texture2D;
+            Rect rec = new Rect(0, 0, tex.width, tex.height);
+            var sprite = Sprite.Create(tex, rec, new Vector2(0.5f, 0.5f), 100);
+            ficha.GetComponent<Image>().sprite = sprite;
         } else {
-            WWW www = new WWW(urlImagen);
-            yield return www;
-            Texture2D texture = www.texture;
-            byte[] bytes;
-            if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
-                bytes = texture.EncodeToJPG();
+            ficha.transform.GetChild(1).GetComponent<Text>().text = descripcion;
+            string path = urlImagen.Split('/')[urlImagen.Split('/').Length - 1];
+            if (File.Exists(Application.persistentDataPath + path)) {
+                byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
+                Texture2D texture = new Texture2D(8, 8);
+                texture.LoadImage(byteArray);
+                Rect rec = new Rect(0, 0, texture.width, texture.height);
+                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                ficha.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
             } else {
-                bytes = texture.EncodeToPNG();
+                WWW www = new WWW(urlImagen);
+                yield return www;
+                Texture2D texture = www.texture;
+                byte[] bytes;
+                if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
+                    bytes = texture.EncodeToJPG();
+                } else {
+                    bytes = texture.EncodeToPNG();
+                }
+                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                Rect rec = new Rect(0, 0, texture.width, texture.height);
+                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                ficha.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
             }
-            File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-            Rect rec = new Rect(0, 0, texture.width, texture.height);
-            var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-            ficha.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
         }
     }
 
@@ -407,28 +417,38 @@ public class paquetesManager : MonoBehaviour {
      * @urlImagen imagen del paquete que se inserta
      */
     IEnumerator llenarFicha(GameObject ficha, string urlImagen) {
-        string path = urlImagen.Split('/')[urlImagen.Split('/').Length - 1];
-        if (File.Exists(Application.persistentDataPath + path)) {
-            byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
-            Texture2D texture = new Texture2D(8, 8);
-            texture.LoadImage(byteArray);
-            Rect rec = new Rect(0, 0, texture.width, texture.height);
-            var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+
+        if (urlImagen.Split('/').Length <= 1) {
+            var splitUrl = urlImagen.Split('.');
+            var spriteObj = Resources.Load("preloadedCoverPacks/" + splitUrl[0]);
+            Texture2D tex = spriteObj as Texture2D;
+            Rect rec = new Rect(0, 0, tex.width, tex.height);
+            var sprite = Sprite.Create(tex, rec, new Vector2(0.5f, 0.5f), 100);
             ficha.GetComponent<Image>().sprite = sprite;
         } else {
-            WWW www = new WWW(urlImagen);
-            yield return www;
-            Texture2D texture = www.texture;
-            byte[] bytes;
-            if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
-                bytes = texture.EncodeToJPG();
+            string path = urlImagen.Split('/')[urlImagen.Split('/').Length - 1];
+            if (File.Exists(Application.persistentDataPath + path)) {
+                byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + path);
+                Texture2D texture = new Texture2D(8, 8);
+                texture.LoadImage(byteArray);
+                Rect rec = new Rect(0, 0, texture.width, texture.height);
+                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                ficha.GetComponent<Image>().sprite = sprite;
             } else {
-                bytes = texture.EncodeToPNG();
+                WWW www = new WWW(urlImagen);
+                yield return www;
+                Texture2D texture = www.texture;
+                byte[] bytes;
+                if (path.Split('.')[path.Split('.').Length - 1] == "jpg" || path.Split('.')[path.Split('.').Length - 1] == "jpeg") {
+                    bytes = texture.EncodeToJPG();
+                } else {
+                    bytes = texture.EncodeToPNG();
+                }
+                File.WriteAllBytes(Application.persistentDataPath + path, bytes);
+                Rect rec = new Rect(0, 0, texture.width, texture.height);
+                var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
+                ficha.GetComponent<Image>().sprite = sprite;
             }
-            File.WriteAllBytes(Application.persistentDataPath + path, bytes);
-            Rect rec = new Rect(0, 0, texture.width, texture.height);
-            var sprite = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 100);
-            ficha.GetComponent<Image>().sprite = sprite;
         }
     }
 
